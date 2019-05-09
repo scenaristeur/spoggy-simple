@@ -9,6 +9,7 @@
   <script type="text/javascript" src="./dist/vis-network.min.js"></script>
   <link href="./dist/vis-network.min.css" rel="stylesheet" type="text/css" />
   <link href="./css/main.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="./js/import-export.js"></script>
   <script type="text/javascript" src="./js/network.js"></script>
   <script type="text/javascript" src="./js/spoggy.js"></script>
 
@@ -29,21 +30,44 @@
   </select>
 
 
-  <div id="node-popUp">
+  <div id="node-popUp" class="popUp">
     <span id="node-operation">node</span> <br>
     <table style="margin:auto;">
-      <tr>
-        <td>id</td><td><input id="node-id" value="new value" /></td>
+      <tr style="display:none">
+        <td>id</td><td><input id="node-id" value="" /></td>
       </tr>
       <tr>
-        <td>label</td><td><input id="node-label" value="new value" /></td>
+        <td>label</td><td><input id="node-label" value="" /></td>
       </tr>
     </table>
+    <label for="node-shape">Forme:</label>
+    <select id="node-shape">
+      <optgroup label="Label interne">
+        <option>ellipse</option>
+        <option>circle</option>
+        <option>database</option>
+        <option>box</option>
+        <option>text</option>
+      </optgroup>
+      <optgroup label="Label externe">
+        <option>image</option>
+        <option>circularImage</option>
+        <option>diamond</option>
+        <option>dot</option>
+        <option>star</option>
+        <option>triangle</option>
+        <option>triangleDown</option>
+        <option>hexagon</option>
+        <option>square</option>
+        <option>icon</option>
+      </optgroup>
+      <input style="display:none" id="node-image-url" value="" />
+    </select>
     <input type="button" value="save" id="node-saveButton" />
     <input type="button" value="cancel" id="node-cancelButton" />
   </div>
 
-  <div id="edge-popUp">
+  <div id="edge-popUp" class="popUp">
     <span id="edge-operation">edge</span> <br>
     <table style="margin:auto;">
       <tr>
@@ -53,55 +77,60 @@
       <input type="button" value="cancel" id="edge-cancelButton" />
     </div>
 
-    <br />
+    <div id="import-popUp" class="popUp">
+      <span id="import-operation">Import</span> <br>
+      <table style="margin:auto;">
+        <tr>
+          <td>label</td><td><input id="edge-label" value="new value" /></td>
+        </tr></table>
+        <input type="button" value="save" id="edge-saveButton" />
+        <input type="button" value="cancel" id="edge-cancelButton" />
+
+      </div>
+
+      <br />
 
 
 
 
-    <div style="float:left">
-      <div style="float:left" id="mynetwork"></div>
-      <div style="float:left" style="width:30%">
-        <div>
-          <br>
+      <div style="float:left">
+        <div style="float:left" id="mynetwork"></div>
+        <div style="float:left" style="width:30%">
+          <div>
+            <br>
 
-          <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
-          <button id="valider" onclick="validInput()">Valider</button><br>
-          <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#add0ff"> <label for="bodycolorpicker">Body</label>
-          <input type="color" id="contourcolorpicker" name="contourcolorpicker" value="#e66465"><label for="contourcolorpicker">Contour</label>
-          <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-          <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-          <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+            <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
+            <button id="valider" onclick="validInput()">Valider</button><br>
 
-          <br>
-          Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
-          ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-          ou importer une url (json, ttl, rdf, POD...)<br>
+            <br>
+
+            <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+            <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+
+            <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+            <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+            <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+
+            <br>
+            Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+            ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+            ou importer une url (json, ttl, rdf, POD...)<br>
 
 
+          </div>
         </div>
       </div>
-    </div>
+      <br>
+      <div style="float:left">
+        Réglages<br>
+        <button  onclick="resetColors()">retablir les couleurs</button>
+      </div>
+      <br>
+      <div style="float:left">
+        Historique<br>
+        Historique<br>
+        Historique<br>
+      </div>
 
-    <div style="float:left">
-      Réglages
-    </div>
-
-    <div style="float:left">
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-      Historique<br>
-    </div>
-
-  </body>
-  </html>
+    </body>
+    </html>

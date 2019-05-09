@@ -78,12 +78,23 @@ function draw() {
     edges:{
       arrows: {
         to:     {enabled: true, scaleFactor:1, type:'arrow'}
+      },
+      color:{
+        inherit:'both',
+        highlight: '#000000',
+        color: '#2B7CE9'
+      }
+    },
+    nodes:{
+      color: {
+        highlight: {border: '#000000', background:'#FFFFFF'}
       }
     },
     manipulation: {
       addNode: function (data, callback) {
         // filling in the popup DOM elements
         document.getElementById('node-operation').innerHTML = "Add Node";
+        document.getElementById('node-label').value = "";
         editNode(data, clearNodePopUp, callback);
       },
       editNode: function (data, callback) {
@@ -170,7 +181,17 @@ function draw() {
 }
 
 function editNode(data, cancelAction, callback) {
+  // recup colorpickers
+  var colpicbody = document.getElementById('bodycolorpicker').cloneNode(true);
+  colpicbody.id="colpicbody";
+  var colpicborder = document.getElementById('bordercolorpicker').cloneNode(true);
+  colpicborder.id="colpicborder"
+  document.getElementById('node-operation').appendChild(colpicbody)
+  document.getElementById('node-operation').appendChild(colpicborder)
+
+  document.getElementById('node-id').value = data.id || "";
   document.getElementById('node-label').value = data.label;
+  document.getElementById('node-shape').value = data.shape || "ellipse";
   document.getElementById('node-saveButton').onclick = saveNodeData.bind(this, data, callback);
   document.getElementById('node-cancelButton').onclick = cancelAction.bind(this, callback);
   document.getElementById('node-popUp').style.display = 'block';
@@ -190,6 +211,13 @@ function cancelNodeEdit(callback) {
 
 function saveNodeData(data, callback) {
   data.label = document.getElementById('node-label').value;
+  data.shape = document.getElementById('node-shape').value;
+  data.color = {};
+  data.color.background = document.getElementById('colpicbody').value;
+  data.color.border =  document.getElementById('colpicborder').value;
+  document.getElementById('bodycolorpicker').value = document.getElementById('colpicbody').value;
+  document.getElementById('bordercolorpicker').value = document.getElementById('colpicborder').value;
+  fitAndFocus(data.id)
   clearNodePopUp();
   callback(data);
 }
@@ -219,6 +247,8 @@ function saveEdgeData(data, callback) {
   if (typeof data.from === 'object')
   data.from = data.from.id
   data.label = document.getElementById('edge-label').value;
+  data.color = {};
+  data.color.inherit='both';
   clearEdgePopUp();
   callback(data);
 }
@@ -226,4 +256,30 @@ function saveEdgeData(data, callback) {
 function init() {
   setDefaultLocale();
   draw();
+}
+
+function fitAndFocus(node_id){
+  var network = this.network;
+  var oneStab = true;
+  this.network.on("stabilized", function(params){
+    //http://visjs.org/docs/network/index.html?keywords=fit
+    //  console.log(params)
+    if (oneStab){
+      oneStab = false;
+      autofit.checked? network.fit(): "";
+      var options = {
+        scale: 1,
+        offset: {x:1, y:1},
+        //  locked: true,
+        animation: { // -------------------> can be a boolean too!
+          duration: 1000,
+          easingFunction: "easeInOutQuad"
+        }
+      };
+      autofocus.checked? network.focus(node_id, options): "";
+
+    }else{
+      console.log("other stab")
+    }
+  });
 }

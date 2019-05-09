@@ -2,10 +2,12 @@ var commandHistory = [];
 
 function validInput(){
   var inputValue = document.getElementById('input').value.trim();
-  var inputObject = getInputType(inputValue)
-  console.log("inputObject",inputObject);
-  traiteInput(inputObject);
-  updateInput(inputObject.inputNew);
+  if (inputValue.length > 0){
+    var inputObject = getInputType(inputValue)
+    //  console.log("inputObject",inputObject);
+    traiteInput(inputObject);
+    updateInput(inputObject.inputNew);
+  }
 }
 
 
@@ -148,7 +150,7 @@ function traiteTriplet(message){
     isTriplet = false;
   }
   if (isTriplet){
-    console.log("est Triplet",messageCut)
+    //  console.log("est Triplet",messageCut)
     result.type = "triplet";
     var tripletvalue = {};
     tripletvalue.subject = messageCut[0];
@@ -157,7 +159,7 @@ function traiteTriplet(message){
     result.value = tripletvalue;
     result.inputNew = inputNew;
   }else {
-    console.log("n'est pas triplet")
+    //  console.log("n'est pas triplet")
     result.type = "message";
     result.value = message;
     result.inputNew = inputNew;
@@ -167,7 +169,6 @@ function traiteTriplet(message){
 }
 
 function catchTriplet(triplet){
-  var color = document.getElementById("bodycolorpicker").value;
   //  console.log(triplet)
   var subject = triplet.value.subject;
   var predicate = triplet.value.predicate;
@@ -192,10 +193,18 @@ function catchTriplet(triplet){
   //  console.log(objetNode);
   // sinon, on les créé
   if (sujetNode.length == 0){
-    this.network.body.data.nodes.add({label: subject, color:color });
+    var sub_n = {label: subject, color:{
+      border : document.getElementById("bordercolorpicker").value ,
+      background : document.getElementById("bodycolorpicker").value }
+    };
+    this.network.body.data.nodes.add(sub_n);
   }
   if (objetNode.length == 0){
-    this.network.body.data.nodes.add({ label: object,color:color });
+    var obj_n = {label: object, color:{
+      border : document.getElementById("bordercolorpicker").value ,
+      background : document.getElementById("bodycolorpicker").value }
+    };
+    this.network.body.data.nodes.add(obj_n);
   }
   // maintenant ils doivent exister, pas très po=ropre comme méthode , à revoir
   sujetNode = this.network.body.data.nodes.get({
@@ -213,7 +222,7 @@ function catchTriplet(triplet){
     label: predicate,
     from : sujetNode[0].id,
     to : objetNode[0].id,
-    color:{inherit:'both'}
+
   });
   //on récupère ce edge pour l'envoyer au serveur
   var edge = this.network.body.data.edges.get({
@@ -221,24 +230,9 @@ function catchTriplet(triplet){
       return (edge.from == sujetNode[0].id && edge.to == objetNode[0].id && edge.label == predicate);
     }
   });
-//  console.log("OK",autofit,autofocus)
+  //  console.log("OK",autofit,autofocus)
   //this.network.fit();
-  var network = this.network;
-  this.network.on("stabilized", function(params){
-    //http://visjs.org/docs/network/index.html?keywords=fit
-  //  console.log(params)
-    autofit.checked? network.fit(): "";
-    var options = {
-      scale: 1,
-      offset: {x:1, y:1},
-      locked: true,
-      animation: { // -------------------> can be a boolean too!
-        duration: 1000,
-        easingFunction: "easeInOutQuad"
-      }
-    };
-    autofocus.checked? network.focus(sujetNode[0].id, options): "";
-  });
+fitAndFocus(sujetNode[0].id);
 
 }
 
@@ -257,12 +251,14 @@ function catchCommande(commande){
     case "/export":
     case "/exportJson":
     console.log("exportjson")
+    exportJson(this.network)
     //this.exportJson();
     //  this.agentInput.send('agentGraph', {type: 'exportJson'})
     //this.agentInput.send("agentVis", {type: 'exportJson'});
     break;
     case "/t":
     console.log("exportTtl")
+    exportTtl(this.network)
     //  this.exportTtl(this.network,this);
     //  this.agentInput.send('agentGraph', {type:'exportTtl'}); // , what: 'network', to: 'agentDialogs', where: 'inputTextToSave'
     //    this.agentInput.send('agentDialogs', {type:'toggle', popup: 'popupTtl'})
@@ -324,4 +320,9 @@ function inputChanged(ele) {
     event.preventDefault();
     document.getElementById("valider").click();
   }
+}
+
+function resetColors(){
+  document.getElementById("bodycolorpicker").value = "#D2E5FF";
+  document.getElementById("bordercolorpicker").value = "#2B7CE9";
 }
