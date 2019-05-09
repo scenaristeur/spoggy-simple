@@ -6,6 +6,7 @@ body, select {
   width: 800px;
   height: 600px;
   border: 1px solid lightgray;
+  background: linear-gradient(to bottom, rgba(55, 55, 255, 0.2), rgba(200, 200, 10, 0.2));
 }
 table.legend_table {
   font-size: 11px;

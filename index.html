@@ -54,18 +54,54 @@
     </div>
 
     <br />
-    <div style="float:left" id="mynetwork"></div>
-    <div style="float:left" style="width:30%">
-      <div>
-        <br>
-        <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input><button id="valider" onclick="validInput()">Valider</button>
-        <br>
-        Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret) et 'Validez' <br>
-        ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-        ou importer une url (json, ttl, rdf, POD...)<br>
 
 
+
+
+    <div style="float:left">
+      <div style="float:left" id="mynetwork"></div>
+      <div style="float:left" style="width:30%">
+        <div>
+          <br>
+
+          <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
+          <button id="valider" onclick="validInput()">Valider</button><br>
+          <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#add0ff"> <label for="bodycolorpicker">Body</label>
+          <input type="color" id="contourcolorpicker" name="contourcolorpicker" value="#e66465"><label for="contourcolorpicker">Contour</label>
+          <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+          <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+          <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+
+          <br>
+          Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+          ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+          ou importer une url (json, ttl, rdf, POD...)<br>
+
+
+        </div>
       </div>
     </div>
+
+    <div style="float:left">
+      Réglages
+    </div>
+
+    <div style="float:left">
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+      Historique<br>
+    </div>
+
   </body>
   </html>

@@ -68,6 +68,7 @@ function getInputType(iv){
       default:
       // si le premier charactère n'indique pas une commande, on traite comme un triplet
       inputObject = traiteTriplet(iv);
+      catchTriplet(inputObject)
     }
   }
 
@@ -150,7 +151,7 @@ function traiteTriplet(message){
     console.log("est Triplet",messageCut)
     result.type = "triplet";
     var tripletvalue = {};
-    tripletvalue.sujet = messageCut[0];
+    tripletvalue.subject = messageCut[0];
     tripletvalue.predicate = messageCut[1];
     tripletvalue.object = messageCut[2];
     result.value = tripletvalue;
@@ -165,7 +166,81 @@ function traiteTriplet(message){
   return result;
 }
 
+function catchTriplet(triplet){
+  var color = document.getElementById("bodycolorpicker").value;
+  //  console.log(triplet)
+  var subject = triplet.value.subject;
+  var predicate = triplet.value.predicate;
+  var object = triplet.value.object;
+  // console.log(message.length);
+  //message=message.trim();
+  //var tripletString = message.substring(2).trim().split(" ");
+  // les noeuds existent-ils ?
+  var sujetNode = this.network.body.data.nodes.get({
+    filter: function(node){
+      //    console.log(node);
+      return (node.label == subject );
+    }
+  });
+  var objetNode = this.network.body.data.nodes.get({
+    filter: function(node){
+      //    console.log(node);
+      return (node.label == object);
+    }
+  });
+  //  console.log(sujetNode);
+  //  console.log(objetNode);
+  // sinon, on les créé
+  if (sujetNode.length == 0){
+    this.network.body.data.nodes.add({label: subject, color:color });
+  }
+  if (objetNode.length == 0){
+    this.network.body.data.nodes.add({ label: object,color:color });
+  }
+  // maintenant ils doivent exister, pas très po=ropre comme méthode , à revoir
+  sujetNode = this.network.body.data.nodes.get({
+    filter: function(node){
+      return (node.label == subject );
+    }
+  });
+  objetNode = this.network.body.data.nodes.get({
+    filter: function(node){
+      //  console.log(node);
+      return (node.label == object);
+    }
+  });
+  this.network.body.data.edges.add({
+    label: predicate,
+    from : sujetNode[0].id,
+    to : objetNode[0].id,
+    color:{inherit:'both'}
+  });
+  //on récupère ce edge pour l'envoyer au serveur
+  var edge = this.network.body.data.edges.get({
+    filter: function(edge) {
+      return (edge.from == sujetNode[0].id && edge.to == objetNode[0].id && edge.label == predicate);
+    }
+  });
+//  console.log("OK",autofit,autofocus)
+  //this.network.fit();
+  var network = this.network;
+  this.network.on("stabilized", function(params){
+    //http://visjs.org/docs/network/index.html?keywords=fit
+  //  console.log(params)
+    autofit.checked? network.fit(): "";
+    var options = {
+      scale: 1,
+      offset: {x:1, y:1},
+      locked: true,
+      animation: { // -------------------> can be a boolean too!
+        duration: 1000,
+        easingFunction: "easeInOutQuad"
+      }
+    };
+    autofocus.checked? network.focus(sujetNode[0].id, options): "";
+  });
 
+}
 
 function catchCommande(commande){
   console.log(commande)

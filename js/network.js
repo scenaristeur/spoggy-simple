@@ -1,6 +1,16 @@
 var nodes = null;
 var edges = null;
 var network = null;
+
+
+var centralGravityValueDefault = 0.0001,
+springLengthValueDefault = 127,
+springConstantValueDefault = 0.04, // 0.05
+nodeDistanceValueDefault = 170, //120
+dampingValueDefault = 0.08 // 0,08;
+
+
+
 // randomly create some nodes and edges
 var nodes = new vis.DataSet([
   {id: "Spoggy", label: 'Spoggy'},
@@ -62,7 +72,13 @@ function draw() {
     locale: document.getElementById('locale').value,
     interaction: {
       navigationButtons: true,
-      keyboard: true
+      keyboard: true,
+      multiselect: true
+    },
+    edges:{
+      arrows: {
+        to:     {enabled: true, scaleFactor:1, type:'arrow'}
+      }
     },
     manipulation: {
       addNode: function (data, callback) {
@@ -93,8 +109,64 @@ function draw() {
         }
       }
     }
+    ,
+    physics:{
+      enabled: true,
+      barnesHut: {
+        gravitationalConstant: -1,
+        centralGravity: 0.3,
+        springLength: 95,
+        springConstant: 0.04,
+        damping: 0.09,
+        avoidOverlap: 1
+      },
+      forceAtlas2Based: {
+        gravitationalConstant: -50,
+        centralGravity: 0.01,
+        springConstant: 0.08,
+        springLength: 100,
+        damping: 0.4,
+        avoidOverlap: 0
+      },
+      repulsion: {
+        centralGravity: centralGravityValueDefault,  //0.001, //0.001 ? A quoi sert cette valeur ?
+        springLength: springLengthValueDefault,   // 220, //220 (//200 //300)
+        springConstant: springConstantValueDefault, //0.01, //0.01
+        nodeDistance:  nodeDistanceValueDefault, //150, //100 //350
+        damping: dampingValueDefault, ///0.08
+      },
+      hierarchicalRepulsion: {
+        centralGravity: 0.0,
+        springLength: 100,
+        springConstant: 0.01,
+        nodeDistance: 120,
+        damping: 0.09
+      },
+      maxVelocity: 500, //50
+      minVelocity: 1, //0.1
+      solver: 'repulsion',
+      stabilization: {
+        enabled: true,
+        iterations: 1000,
+        updateInterval: 100,
+        onlyDynamicEdges: false,
+        fit: true
+      },
+      timestep: 0.5,
+      adaptiveTimestep: true
+    }
   };
   network = new vis.Network(container, data, options);
+
+  network.on("selectNode", function (params) {
+    console.log('selectNode Event:', params);
+    if (params.nodes.length == 1) {
+      let id = params.nodes[0];
+      var node = network.body.data.nodes.get(id);
+      console.log(node);
+      document.getElementById("input").value = node.label+" ";
+    }
+  });
 }
 
 function editNode(data, cancelAction, callback) {
