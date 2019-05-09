@@ -10,7 +10,7 @@
   <link href="./dist/vis-network.min.css" rel="stylesheet" type="text/css" />
   <link href="./css/main.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="./js/network.js"></script>
-
+  <script type="text/javascript" src="./js/spoggy.js"></script>
 
 </head>
 
@@ -57,9 +57,15 @@
     <div style="float:left" id="mynetwork"></div>
     <div style="float:left" style="width:30%">
       <div>
-      Ajouter un triplet (3 mots suivis d'un virgule et 'Entrée') ou importer une url (json, ttl, rdf, POD...)<br>
-      <input id="input" style="width:70%" type="text"></input><button id="valider">Valider</button>
-    </div>
+        <br>
+        <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input><button id="valider" onclick="validInput()">Valider</button>
+        <br>
+        Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret) et 'Validez' <br>
+        ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+        ou importer une url (json, ttl, rdf, POD...)<br>
+
+
+      </div>
     </div>
   </body>
   </html>

@@ -1,0 +1,252 @@
+var commandHistory = [];
+
+function validInput(){
+  var inputValue = document.getElementById('input').value.trim();
+  var inputObject = getInputType(inputValue)
+  console.log("inputObject",inputObject);
+  traiteInput(inputObject);
+  updateInput(inputObject.inputNew);
+}
+
+
+
+function traiteInput(io){
+
+  switch(io.type) {
+    case "commande":
+    //this.catchCommande(message, this.network, this);
+    // code block
+    break;
+    case "triplet":
+    // code block
+    break;
+    case "url":
+    // code block
+    break;
+    default:
+    // code block
+  }
+}
+
+function getInputType(iv){
+  var inputObject = {};
+
+  // si commence par http --> type = url
+  if (isValidUrl(iv)){
+    inputObject.type = "url";
+    inputObject.value = iv;
+    inputObject.isFile = isFile(iv)
+  }else{
+    // selon le premier charactère, on detecte une commande
+    let firstChar = iv.charAt(0);
+    switch(firstChar){
+      case '/':
+      //    let commande = rdf.quad(rdf.blankNode(), rdf.namedNode('commande'),rdf.literal(message))
+      //  this.catchCommande(message,this.network,this);
+
+      inputObject.type = "commande";
+      inputObject.value = iv;
+      inputObject.inputNew = "";
+      catchCommande(inputObject)
+      break;
+
+      case '.':
+      var last = commandHistory[commandHistory.length-1];
+      inputObject.inputNew = last.s+" "+last.p+" "+last.o;
+      break;
+
+      case ';':
+      var last = commandHistory[commandHistory.length-1];
+      inputObject.inputNew = last.s+" "+last.p+" ";
+      break;
+
+      case ',':
+      var last = commandHistory[commandHistory.length-1];
+      inputObject.inputNew = last.s+" ";
+      break;
+
+      default:
+      // si le premier charactère n'indique pas une commande, on traite comme un triplet
+      inputObject = traiteTriplet(iv);
+    }
+  }
+
+  //si termine par virgule, point, point-virgule, tiret --> triplet
+
+  return inputObject;
+}
+
+
+function traiteTriplet(message){
+  var result = {}
+  var inputNew = "";
+  let lastChar = message.slice(-1);
+  let messageCut = message.slice(0,-1).split(" ");
+  let isTriplet = true;
+  //  console.log(messageCut);
+
+  let detectLiteral = "";
+  let messageCutTemp = [];
+  messageCut.forEach(function(part){
+    part = part.trim();
+    //  console.log(part);
+    if (part.startsWith('"')){
+      detectLiteral ="debut";
+      //  console.log(detectLiteral);
+      messageCutTemp.push(part.substr(1));
+    }else if (part.endsWith('"')){
+      detectLiteral = "fin";
+      //console.log(detectLiteral);
+      messageCutTemp.push(messageCutTemp.pop()+" "+part.slice(0,-1));
+    }else if (detectLiteral == "debut"){
+      //  console.log("recupere le dernier et lui ajoute part" )
+      messageCutTemp.push(messageCutTemp.pop()+" "+part)
+    }else {
+      messageCutTemp.push(part);
+    }
+  });
+  if (messageCutTemp.length > 0){
+    messageCut = messageCutTemp;
+  }
+  switch(lastChar){
+    case '.':
+    inputNew = "";
+    break;
+    case ';':
+    if (messageCut[0].indexOf(" ") > -1){
+      inputNew = '"'+messageCut[0]+'"'+' ';
+    }else{
+      inputNew = messageCut[0]+' ';
+    }
+    break;
+    case ',':
+    if (messageCut[0].indexOf(" ") > -1){
+      inputNew = '"'+messageCut[0]+'" ';
+    }else{
+      inputNew = messageCut[0]+' ';
+    }
+    if (messageCut[1].indexOf(" ") > -1){
+      inputNew += '"'+messageCut[1]+'" ';
+    }else{
+      inputNew += messageCut[1]+' ';
+    }
+    break;
+    case '-':
+    if (messageCut[2].indexOf(" ") > -1){
+      inputNew = '"'+messageCut[2]+'"'+' ';
+    }else{
+      inputNew = messageCut[2]+' ';
+    }
+    break;
+    default:
+    console.log("message to chat "+message)
+    //this.sendMessage(message);
+    //  this.agentInput.send('agentSocket', {type: "sendMessage", message:message});
+    //  this.catchTriplet(message.slice(0,-1), this.network); // A REMPLACER PAR CATCHTRIPLETS V2
+    inputNew = "";
+    isTriplet = false;
+  }
+  if (isTriplet){
+    console.log("est Triplet",messageCut)
+    result.type = "triplet";
+    var tripletvalue = {};
+    tripletvalue.sujet = messageCut[0];
+    tripletvalue.predicate = messageCut[1];
+    tripletvalue.object = messageCut[2];
+    result.value = tripletvalue;
+    result.inputNew = inputNew;
+  }else {
+    console.log("n'est pas triplet")
+    result.type = "message";
+    result.value = message;
+    result.inputNew = inputNew;
+  }
+
+  return result;
+}
+
+
+
+function catchCommande(commande){
+  console.log(commande)
+  switch(commande.value) {
+    case "/h":
+    case "/help":
+    case "/aide":
+    //console.log(this.$.dialogs)
+    console.log("help")
+    //  this.$.dialogs.$.helpPopUp.toggle();
+    //  this.agentInput.send('agentDialogs', {type:'toggle', popup: 'helpPopUp'})
+    break;
+    case "/e":
+    case "/export":
+    case "/exportJson":
+    console.log("exportjson")
+    //this.exportJson();
+    //  this.agentInput.send('agentGraph', {type: 'exportJson'})
+    //this.agentInput.send("agentVis", {type: 'exportJson'});
+    break;
+    case "/t":
+    console.log("exportTtl")
+    //  this.exportTtl(this.network,this);
+    //  this.agentInput.send('agentGraph', {type:'exportTtl'}); // , what: 'network', to: 'agentDialogs', where: 'inputTextToSave'
+    //    this.agentInput.send('agentDialogs', {type:'toggle', popup: 'popupTtl'})
+    //  this.agentInput.send("agentVis", {type: 'exportTtl'});
+    break;
+    case "/i":
+    case "/import":
+    case "/importJson":
+    console.log("import")
+    //  importJson(network,app);
+    //this.$.dialogs.$.importPopUp.toggle();
+    //this.agentInput.send("agentPopup", {type: 'importJson'})
+    //  this.$.dialogs.$.dialogs.openImport(this.network)
+    break;
+    case "/n":
+    console.log("new graph");
+    //  this.newGraph(this.network, this);
+    //  this.agentInput.send('agentGraph', {type: 'newGraph'})
+    //  this.agentInput.send('agentSparqlUpdate', {type: "newGraph"});
+    //this.agentInput.send("agentVis", {type: 'newGraph'})
+    break;
+    case "/b":
+    console.log("connection a la base levelgraph");
+    //  this.connectBase(this.network,this);
+    break;
+    /*
+    case "/p":
+    case "/t":
+    // non traité ici , mais par le serveur
+    console.log("triplet, predicat ou noeud");
+    break;*/
+    default:
+    console.log("non traite"+ commande);
+    //  return afficheCommandes();
+  }
+}
+
+
+function   updateInput(inputNew){
+  document.getElementById('input').value = inputNew || "";
+}
+
+
+function isFile(pathname) {
+  return pathname.split('/').pop().indexOf('.') > -1;
+}
+
+const isValidUrl = (string) => {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+function inputChanged(ele) {
+  if(event.key === 'Enter') {
+    event.preventDefault();
+    document.getElementById("valider").click();
+  }
+}
