@@ -267,7 +267,8 @@ function catchCommande(commande){
     case "/i":
     case "/import":
     case "/importJson":
-    console.log("import")
+    console.log("import");
+      document.getElementById('import-popUp').style.display = 'block';
     //  importJson(network,app);
     //this.$.dialogs.$.importPopUp.toggle();
     //this.agentInput.send("agentPopup", {type: 'importJson'})

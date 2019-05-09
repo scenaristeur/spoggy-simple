@@ -76,7 +76,7 @@ downloadLink.click();*/
 
 function exportTtl(network) {
   /* source https://github.com/scenaristeur/dreamcatcherAutonome/blob/master/autonome/public/agents/ExportAgent.js */
-//  let network = this.network;
+  //  let network = this.network;
   var nodes = network.body.data.nodes.get();
   var edges = network.body.data.edges.get();
   console.log("exportation");
@@ -253,4 +253,102 @@ function validRdf(network, string){
   }
 
   return string;
+}
+
+function handleFileSelected(evt){
+  console.log(evt);
+  console.log(evt," https://www.html5rocks.com/en/tutorials/file/dndfiles/")
+
+
+  /*var files =  evt.stopPropagation();
+    evt.preventDefault();*/
+
+    var files = evt.files; // FileList object.
+  // files is a FileList of File objects. List some properties.
+  var output = [];
+
+  // TEST NEW IMPORT
+  var params = {}
+  params.files = files;
+  params.remplaceNetwork = remplaceNetwork.checked;
+  //params.partageImport = app.$.partageImport.checked;
+  importer(params)
+//  evt.target.files = null;
+  evt.display = none;
+}
+
+function importer(params){
+  var app = this;
+  console.log("IMPORT")
+  console.log(params)
+  if (params.source != undefined){
+    var url = params.source;
+    var extension = url.split('.').pop();
+    console.log(extension)
+
+    // a revoir , tout passer en this.parseUrl ?
+    if ((extension == "ttl") || (extension == "json") || (extension == "n3") || (extension == "n3t")) {
+      this.parseUrl(url, params);
+    }
+    else if ((extension == "rdf") || (extension == "owl")) {
+      //  sketch.data2Xml(reader.result); //if srdf
+      //rdf2Xml(reader.result, network, remplaceNetwork);
+      //  network.dispatch('addTriplets', network.triplets);
+      console.log("rdf\n\n")
+    }
+    else {
+      //ttl2Xml(reader.result, network, remplaceNetwork);
+      console.log("DEFAULT INCONNU\n\n")
+      this.parseUrl(url, params);
+      //  data2Xml(reader.result, network);
+    }
+    console.log("fichier lu");
+  }else   if (params.files != undefined){
+    var data = {};
+    for (var i = 0; i < params.files.length; i++) {
+      // Code to execute for every file selected
+      var fichier = params.files[i];
+      console.log(fichier);
+      var extension = fichier.name.split('.').pop();
+      console.log(extension)
+
+      var reader = new FileReader(); //https://openclassrooms.com/courses/dynamisez-vos-sites-web-avec-javascript/l-api-file
+      reader.addEventListener('load', function () {
+        var result = reader.result;
+        console.log(typeof result, result);
+        if ((extension == "ttl")  || (extension == "n3") || (extension == "n3t") || (extension == "owl")) {
+
+          let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
+          let mimeType = 'text/turtle'
+          let store = $rdf.graph()
+          $rdf.parse(result, store,base, mimeType)
+          console.log("STORE",store)
+          console.log()
+
+          data = app.statements2vis(store.statements);
+          app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+          console.log("OK")
+        }
+
+        else if ((extension == "json") ) {
+          //  sketch.data2Xml(reader.result); //if srdf
+          //rdf2Xml(reader.result, network, remplaceNetwork);
+          //  network.dispatch('addTriplets', network.triplets);
+          var res = JSON.parse(result)
+          var nodes = res.nodes;
+          var edges = res.edges;
+          data ={nodes: nodes, edges: edges}
+          console.log(data)
+          app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+          console.log("JSON\n\n")
+        }
+
+
+      });
+
+      reader.readAsText(fichier);
+
+    }
+
+  }
 }
