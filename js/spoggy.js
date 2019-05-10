@@ -13,7 +13,7 @@ function validInput(){
 
 
 function traiteInput(io){
-
+console.log(io)
   switch(io.type) {
     case "commande":
     //this.catchCommande(message, this.network, this);
@@ -24,6 +24,10 @@ function traiteInput(io){
     break;
     case "url":
     // code block
+    var params = io;
+    params.source = io.value;
+
+    importer(params,updateGraph)
     break;
     default:
     // code block
@@ -276,6 +280,7 @@ function catchCommande(commande){
     break;
     case "/n":
     console.log("new graph");
+    newGraph();
     //  this.newGraph(this.network, this);
     //  this.agentInput.send('agentGraph', {type: 'newGraph'})
     //  this.agentInput.send('agentSparqlUpdate', {type: "newGraph"});

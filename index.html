@@ -80,85 +80,104 @@
     <div id="import-popUp" class="popUp">
       <!--<span id="import-operation">Import</span> <br>
       <table style="margin:auto;">
-        <tr>
-          <td>label</td><td><input id="import-label" value="new value" /></td>
-        </tr></table>-->
-        <div style="padding-left:20px" vertical start-justified start layout wrap>
-                          <h2 id="importOperation" style="margin: 0;color: #0D578B;">Import JSON (ou ttl) <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+      <tr>
+      <td>label</td><td><input id="import-label" value="new value" /></td>
+    </tr></table>-->
+    <div style="padding-left:20px" vertical start-justified start layout wrap>
+      <h2 id="importOperation" style="margin: 0;color: #0D578B;">Import JSON (ou ttl) <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
 
-                          <p >
-                            <fieldset>
-                              <legend>Paramètres</legend>
-                              <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer Network</input>
-                             <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
-                            </fieldset>
-                          </p>
-                          <p>
-                            <fieldset>
-                              <legend>Fichier</legend>
-                              <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this)"></input>
-                            </fieldset>
-                            <fieldset>
-                              <legend>Url / POD</legend>
-                              <!--  <input id="filepicker" type="file" multiple value="Importer" on-change="handleFileSelected"></input>-->
-                              <input id="importUrl" Label="Url / POD"></input>
-                              <button raised on-tap="importFromSolid" dialog-confirm>Importer</button>
-                            </fieldset>
-                          </p>
-                          <!--<div style="padding-top:10px" horizontal end-justified layout self-stretch>
-                            <paper-button id="importCancelButton" dialog-dismiss raised>Annuler</paper-button>
-                            <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank"> exemples de fichiers spoggy </a>
-                          </div>-->
-                        </div>
+      <p >
+        <fieldset>
+          <legend>Paramètres</legend>
+          <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer Network</input>
+          <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
+        </fieldset>
+      </p>
+      <p>
+        <fieldset>
+          <legend>Fichier</legend>
+          <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this)"></input>
+        </fieldset>
+        <fieldset>
+          <legend>Url / POD</legend>
+          <!--  <input id="filepicker" type="file" multiple value="Importer" on-change="handleFileSelected"></input>-->
+          <input id="importUrl" Label="Url / POD"></input>
+          <button raised on-tap="importFromSolid" dialog-confirm>Importer</button>
+        </fieldset>
+      </p>
+      <!--<div style="padding-top:10px" horizontal end-justified layout self-stretch>
+      <paper-button id="importCancelButton" dialog-dismiss raised>Annuler</paper-button>
+      <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank"> exemples de fichiers spoggy </a>
+    </div>-->
+  </div>
 
-        <input type="button" value="save" id="import-saveButton" />
-        <input type="button" value="cancel" id="import-cancelButton" />
+  <input type="button" value="Fermer"
+onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
+  <!--<input type="button" value="cancel" id="import-cancelButton" />-->
 
-      </div>
+</div>
 
-      <br />
-
-
-
-
-      <div style="float:left">
-        <div style="float:left" id="mynetwork"></div>
-        <div style="float:left" style="width:30%">
-          <div>
-            <br>
-
-            <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
-            <button id="valider" onclick="validInput()">Valider</button><br>
-
-            <br>
-
-            <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
-            <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
-
-            <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-            <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-            <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
-
-            <br>
-            Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
-            ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-            ou importer une url (json, ttl, rdf, POD...)<br>
+<br />
 
 
-          </div>
-        </div>
-      </div>
-      <br>
-      <div style="float:left">
-        Réglages<br>
-        <button  onclick="resetColors()">retablir les couleurs</button>
-      </div>
-      <br>
-      <div style="float:left">
-        Historique<br>
-        Historique<br>
-        Historique<br>
-      </div>
 
-    </body>
-    </html>
+
+  <div style="float:left" id="mynetwork"></div>
+  <div style="float:left">
+    <div>
+      <fieldset>
+        <legend>Input</legend>
+
+        <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
+        <button id="valider" onclick="validInput()">Valider</button><br>
+
+        <br>
+
+        <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+        <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+
+        <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+        <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+        <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+
+        <br>
+        Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+        ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+        ou importer une url (json, ttl, rdf, POD...)<br>
+
+      </fieldset>
+    </div>
+  </div>
+
+
+<div style="float:auto">
+  <fieldset>
+    <legend>Outils</legend>
+    <button id="exporter_ttl" onclick="catchCommande({value:'/n'})">Nouveau Graphe</button> /n
+    <button id="importer_btn" onclick="catchCommande({value:'/i'})">Importer</button> /i
+    <button id="exporter_json" onclick="catchCommande({value:'/e'})">Exporter JSON</button> /e
+    <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
+  </fieldset>
+</div>
+
+<div style="float:auto">
+  <fieldset>
+    <legend>Réglages</legend>
+    <button  onclick="resetColors()">retablir les couleurs</button>
+  </fieldset>
+
+</div>
+
+<div style="float:auto">
+  <fieldset>
+    <legend>Historique</legend>
+    Historique<br>
+    Historique<br>
+    Historique<br>
+  </fieldset>
+</div>
+
+
+
+</body>
+</html>

@@ -283,3 +283,132 @@ function fitAndFocus(node_id){
     }
   });
 }
+
+function updateGraph(message){
+  console.log(message);
+  var app =this;
+  if (message.params.remplaceNetwork){
+    this.network.body.data.nodes.clear();
+    this.network.body.data.edges.clear();
+  }
+  //this.network.body.data.nodes.update(message.data.nodes)
+  //this.network.body.data.edges.update(message.data.edges)
+addResultsToGraph(this.network, message.data)
+  this.network.fit();
+  this.network.redraw();
+  console.log(this.network)
+}
+
+function addResultsToGraph(network, results){
+  var app = this;
+  var nodes = results.nodes;
+  var edges = results.edges;
+  console.log(nodes);
+  console.log(edges);
+
+
+  console.log(app.network)
+  var options = {
+    physics:{
+      stabilization: false
+    },
+    edges: {
+      smooth: {
+        type: "continuous",
+        forceDirection: "none"
+      }
+    }
+  }
+  app.network.setOptions(options);
+  console.log(app.network)
+  nodes.forEach(function(n){
+    app.addNodeIfNotExist(app.network, n);
+  });
+  app.network.body.data.edges.update(edges)
+  console.log("updated")
+  console.log(app.network)
+  /*console.log(app.network)
+  options = {
+  physics:{
+  stabilization: true
+}
+}
+app.network.setOptions(options);
+console.log(app.network)*/
+/*edges.forEach(function(e){
+//  app.addEdgeIfNotExist(app.network, e)
+var existEdge = false;
+//  console.log(e);
+try {
+existEdge = app.network.body.data.edges.get({
+filter: function(edge){
+return (edge.id == e.id) || ((edge.from == e.from) && (edge.to == e.to) && (edge.label == e.label));
+}
+});
+if (existEdge.length == 0){
+app.network.body.data.edges.add(e);
+}else{
+//  this.network.body.data.edges.update({id: data[0].id, label: data[0].label});
+console.log("le lien existe déjà ??? Dois-je augmenter son poids ?")
+}
+}
+catch (err) {
+console.log(err);
+}
+});*/
+}
+
+function addNodeIfNotExist(network, data){
+  var existNode = false;
+  //console.log(data);
+  var nodeId;
+  try{
+    existNode = network.body.data.nodes.get({
+      filter: function(n){
+        return (n.id == data.id || (n.label == data.label)); //  || n.title == data.label
+      }
+    });
+    //console.log(existNode);
+    if (existNode.length == 0){
+      //  console.log("n'existe pas")
+      nodeId =   network.body.data.nodes.add(data)[0];
+    }else{
+      //  console.log("existe")
+      delete data.x;
+      delete data.y
+      nodeId =  network.body.data.nodes.update(data)[0];
+    }
+  }
+  catch (err){
+    console.log(err);
+  }
+}
+
+function newGraph(){
+  let network = this.network;
+
+  var graphname = prompt("Comment nommer ce nouveau graphe ?", "Spoggy-Graph_"+Date.now());
+  var nodeName = {
+    label: graphname,
+    shape: "star",
+    color: "green",
+    type: "node"
+  };
+  var nodeGraph = {
+    label: "Graph",
+    /*    shape: "star",
+    color: "red",*/
+    type: "node"
+  };
+  network.body.data.nodes.clear();
+  network.body.data.edges.clear();
+  var nodes = network.body.data.nodes.add([nodeName, nodeGraph]);
+
+  var edge = {
+    from: nodes[0],
+    to: nodes[1],
+    arrows: "to",
+    label: "type"
+  }
+  network.body.data.edges.add(edge);
+}

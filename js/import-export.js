@@ -261,9 +261,9 @@ function handleFileSelected(evt){
 
 
   /*var files =  evt.stopPropagation();
-    evt.preventDefault();*/
+  evt.preventDefault();*/
 
-    var files = evt.files; // FileList object.
+  var files = evt.files; // FileList object.
   // files is a FileList of File objects. List some properties.
   var output = [];
 
@@ -272,12 +272,12 @@ function handleFileSelected(evt){
   params.files = files;
   params.remplaceNetwork = remplaceNetwork.checked;
   //params.partageImport = app.$.partageImport.checked;
-  importer(params)
-//  evt.target.files = null;
-  evt.display = none;
+  importer(params,updateGraph)
+  //  evt.target.files = null;
+  //  evt.display = none;
 }
 
-function importer(params){
+function importer(params,callback){
   var app = this;
   console.log("IMPORT")
   console.log(params)
@@ -339,7 +339,8 @@ function importer(params){
           var edges = res.edges;
           data ={nodes: nodes, edges: edges}
           console.log(data)
-          app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+          //app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+          callback({data:data,params:params})
           console.log("JSON\n\n")
         }
 
@@ -351,4 +352,178 @@ function importer(params){
     }
 
   }
+}
+
+function parseUrl(url, params){
+  console.log("PARSE\n\n")
+  var data = {};
+  console.log(url, params)
+  console.log("PARSE URL Fileclient",this.fileclient)
+  console.log("fetch & parse")
+  this.fileclient.fetchAndParse(url).then( response => {
+    console.log("RESPONSE",response)
+    console.log("parsing")
+    if(!response)
+    {
+      console.log(this.fileclient.err);
+      alert("HOuston We've got a problem :",this.fileclient.err)
+    }
+    else {
+      console.log( "Response is :",response)
+      if (response.statements != undefined){
+        console.log(response.statements)
+        data = this.statements2vis(response.statements);
+
+      }else if (response.nodes != undefined || response.edges != undefined){
+        //  app.network.body.data.nodes.update(response.nodes)
+        //  app.network.body.data.edges.update(response.edges)
+        /*var data = JSON.parse(response.value);
+        console.log(data)*/
+        data ={nodes: response.nodes, edges: response.edges}
+      }else{
+        console.log("Houston We've got a problem : no statements & no node/edges")
+      }
+      console.log(data)
+      //  this.agentImport.send('agentGraph', {type: 'decortiqueFile', fichier: data, remplaceNetwork: remplaceNetwork});
+      this.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+
+    }
+  });
+  console.log("fin fetch & parse")
+  /*console.log("readfile")
+  this.fileclient.readFile(url).then(  body => {
+  console.log(`File content is : ${body}.`);
+}, err => console.log(err) );
+console.log("fin readfile")*/
+
+
+console.log("readfolder")
+this.fileclient.readFolder(url).then(folder => {
+  console.log(`Read ${folder.name}, it has ${folder.files.length} files.`);
+  //console.log(folder)
+  console.log(" TODO : voir folder2vis de graph-behavior.html")
+}, err => console.log(err) );
+console.log(" fin readfolder")
+
+console.log("parsé")
+
+}
+
+function statements2vis(statements){
+  console.log("statements2vis")
+  var app = this;
+  var data = {nodes:[], edges:[]};
+  //  var i = 0;
+  statements.forEach(function (statement){
+    console.log(statement)
+    //  i++;
+    //  app.agentImport.send('agentApp', {type: 'message', data: statements.length-i});
+    //  console.log("STATEMENT2VIS", statement)
+    var edges = [];
+    var s = statement.subject;
+    var p = statement.predicate;
+    var o = statement.object;
+    var w = statement.why;
+
+    switch(p.value) {
+      case "http://www.w3.org/2000/01/rdf-schema#label":
+      case "http://xmlns.com/foaf/0.1/label":
+      console.log("LABEL")
+      console.log(s.value)
+      console.log(o.value)
+      var nodeAndLabel = {
+        id: s.value,
+        title: o.value,
+        label: o.value,
+        why: w.value,
+        y:2*Math.random(),
+        type: "node"
+      };
+      console.log(nodeAndLabel)
+      //app.addNodeIfNotExist(app.network, nodeAndLabel)
+      data.nodes.push(nodeAndLabel)
+      break;
+      default:
+      console.log("NON LABEL ",p.value);
+      var edges = [];
+      var nodeSujetTemp;
+      console.log("objet",o)
+      if (s.termType != "BlankNode"){
+        var ls = app.localname(s);
+        console.log(ls)
+        nodeSujetTemp = {
+          id: s.value,
+          title: s.value,
+          label: ls,
+          why: w.value,
+          y:2*Math.random(),
+          type: "node"
+        };
+        console.log(nodeSujetTemp)
+        //app.addNodeIfNotExist(app.network, nodeSujetTemp)
+        data.nodes.push(nodeSujetTemp)
+      }/*else{
+        nodeSujetTemp = {
+        id: s.value,
+        type: "node"
+      };
+    }*/
+
+
+    console.log("objet",o)
+    if (o.termType != "BlankNode"){
+      var lo = app.localname(o);
+      console.log(lo)
+      var nodeObjetTemp = {
+        id:  o.value,
+        title: o.value,
+        label: lo,
+        why: w.value,
+        type: "node"
+      };
+      console.log(nodeObjetTemp)
+      //app.addNodeIfNotExist(app.network, nodeObjetTemp)
+      data.edges.push(nodeObjetTemp)
+    }
+
+    /*  let pArray = p.split("#");
+    //  console.log(conceptCut);
+    let labelP = pArray[pArray.length-1];
+    if (labelP == p){
+    pArray = p.split("/");
+    //console.log(conceptCut);
+    labelP = pArray[pArray.length-1];
+  }*/
+
+  data.edges.push({from:s.value, to: o.value, arrows: 'to', label: app.localname(p), uri: p.value});
+  //  app.addEdgeIfNotExist(app.network,{from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
+
+  //app.network.body.data.edges.update(edges)
+}
+});
+console.log(data)
+return data;
+}
+
+function localname(node){
+  console.log("LOCALNAME OF ",node)
+  var value = node.value;
+  if (value.endsWith('/') || value.endsWith('#')){
+    value = value.substring(0,value.length-1);
+  }
+  var labelU = value;
+
+  if (node.termType == "NamedNode"){
+    console.log("namenode")
+    var uLabel = value.split("#");
+    var labelU = uLabel[uLabel.length-1];
+    if (labelU == uLabel){
+      uLabel = value.split("/");
+      labelU = uLabel[uLabel.length-1];
+    }
+  }else{
+    console.log("literal or blanknode ???")
+  }
+  console.log(labelU)
+  return labelU;
 }
