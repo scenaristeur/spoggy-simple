@@ -16,17 +16,22 @@
   <script type="text/javascript" src="./dist/rdflib.min.js"></script>
   <script type="text/javascript" src="./dist/solid-file-client.bundle.js"></script>
   <script type="text/javascript" src="./dist/solid-auth-client.bundle.js"></script>
+  <script type="text/javascript" src="./services/rectangle.js"></script>
+
+  <script type="text/javascript" src="./services/rdf.service.js"></script>
+  <script type="text/javascript" src="./services/solid.auth.service.js"></script>
+  <script type="text/javascript" src="./services/solid.fileClient.service.js"></script>
 
 </head>
 
-<body onload="init();">
+<body onload="init();initSpoggy();">
   <h2>Créez  un graphe en éditant les noeuds et les liens</h2>
 
   <select id="locale" onchange="draw();">
     <option value="en">en</option>
     <option value="de">de</option>
     <option value="es">es</option>
-    <!--<option value="es">fr</option>-->
+    <option value="fr">fr</option>
     <option value="it">it</option>
     <option value="nl">nl</option>
     <option value="pt-br">pt</option>
@@ -106,7 +111,7 @@
           <legend>Url / POD</legend>
           <!--  <input id="filepicker" type="file" multiple value="Importer" on-change="handleFileSelected"></input>-->
           <input id="importUrl" Label="Url / POD"></input>
-          <button raised on-tap="importFromSolid" dialog-confirm>Importer</button>
+          <button onclick="importFromUrl()">Importer</button>
         </fieldset>
       </p>
       <!--<div style="padding-top:10px" horizontal end-justified layout self-stretch>
@@ -116,7 +121,7 @@
   </div>
 
   <input type="button" value="Fermer"
-onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
+  onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
   <!--<input type="button" value="cancel" id="import-cancelButton" />-->
 
 </div>
@@ -126,34 +131,34 @@ onclick="(function(){ document.getElementById('import-popUp').style.display = 'n
 
 
 
-  <div style="float:left" id="mynetwork"></div>
-  <div style="float:left">
-    <div>
-      <fieldset>
-        <legend>Input</legend>
+<div style="float:left" id="mynetwork"></div>
+<div style="float:left">
+  <div>
+    <fieldset>
+      <legend>Input</legend>
 
-        <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
-        <button id="valider" onclick="validInput()">Valider</button><br>
+      <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
+      <button id="valider" onclick="validInput()">Valider</button><br>
 
-        <br>
+      <br>
 
-        <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
-        <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+      <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+      <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
 
-        <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-        <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-        <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+      <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+      <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+      <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
 
-        <br>
-        Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
-        ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-        ou importer une url (json, ttl, rdf, POD...)<br>
-a tester : https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl<br>
-https://smag0.solid.community/public/<br>
-https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json<br>
-      </fieldset>
-    </div>
+      <br>
+      Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+      ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+      ou importer une url (json, ttl, rdf, POD...)<br>
+      a tester : https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl<br>
+      https://smag0.solid.community/public/<br>
+      https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json<br>
+    </fieldset>
   </div>
+</div>
 
 
 <div style="float:auto">
@@ -187,15 +192,16 @@ https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json<br>
 console.log("RDF",$rdf)
 const fileClient = SolidFileClient;
 console.log("FC",fileClient)
+/*const rdfService = new RdfService;
+console.log(rdfService)*/
 </script>
 <script>
-solid.auth.trackSession(session => {
-  if (!session)
-    console.log('The user is not logged in')
-  else
-    console.log(`The user is ${session.webId}`)
-})
+
+//console.log(new Rectangle(5,8).area());
+var authSession = new SolidAuthService();
+console.log("SESSION",authSession.getSession())
 </script>
+
 
 
 

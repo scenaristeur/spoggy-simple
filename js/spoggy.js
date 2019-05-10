@@ -13,7 +13,7 @@ function validInput(){
 
 
 function traiteInput(io){
-console.log(io)
+  console.log(io)
   switch(io.type) {
     case "commande":
     //this.catchCommande(message, this.network, this);
@@ -236,7 +236,7 @@ function catchTriplet(triplet){
   });
   //  console.log("OK",autofit,autofocus)
   //this.network.fit();
-fitAndFocus(sujetNode[0].id);
+  fitAndFocus(sujetNode[0].id);
 
 }
 
@@ -272,7 +272,7 @@ function catchCommande(commande){
     case "/import":
     case "/importJson":
     console.log("import");
-      document.getElementById('import-popUp').style.display = 'block';
+    document.getElementById('import-popUp').style.display = 'block';
     //  importJson(network,app);
     //this.$.dialogs.$.importPopUp.toggle();
     //this.agentInput.send("agentPopup", {type: 'importJson'})
@@ -331,4 +331,17 @@ function inputChanged(ele) {
 function resetColors(){
   document.getElementById("bodycolorpicker").value = "#D2E5FF";
   document.getElementById("bordercolorpicker").value = "#2B7CE9";
+}
+function importFromUrl(){
+  var params={source : document.getElementById('importUrl').value };
+  console.log(params)
+  importer(params,updateGraph);
+}
+
+function initSpoggy(){
+  var params = recupParams();
+  console.log(params)
+  if (params.source!= undefined && params.source.length > 0){
+    importer(params,updateGraph);
+  }
 }
