@@ -1,0 +1,51 @@
+body {
+  margin: 20px;
+}
+
+body, button, input {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11pt;
+}
+
+h1 {
+  font-weight: normal;
+  padding-bottom: 10px;
+}
+
+p {
+  margin: .75em 0;
+}
+
+button {
+  font-weight: bold;
+  border: none;
+  border-radius: 7px;
+  background-color: rgb(61, 109, 211);
+  color: #fff;
+  transition: background-color 0.4s;
+  cursor: pointer;
+}
+button:hover,
+button:focus {
+  background-color: rgb(55, 97, 188);
+}
+
+:focus {
+  outline: none;
+}
+
+#app-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.error {
+  background-color: #ff8e8e;
+  color: #323232;
+  padding: 8px;
+  border-radius: 2px;
+}
+
+.app-name {
+  font-weight: bold;
+}

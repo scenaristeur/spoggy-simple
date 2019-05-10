@@ -1,0 +1,29 @@
+.custom-idp {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin: 0 0 2em;
+}
+.custom-idp input {
+  flex-grow: 2;
+  margin-right: .5em;
+}
+
+.idp-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: -.25em -.5em;
+}
+.idp {
+  flex: 1 100%;
+  margin: .25em;
+  padding: .75em .5em;
+  border-radius: 10px;
+}
+
+@media all and (min-width: 500px) {
+  .idp {
+    flex: 1 200px;
+  }
+}

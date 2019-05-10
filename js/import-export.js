@@ -288,7 +288,7 @@ function importer(params,callback){
 
     // a revoir , tout passer en this.parseUrl ?
     if ((extension == "ttl") || (extension == "json") || (extension == "n3") || (extension == "n3t")) {
-      this.parseUrl(url, params);
+      this.parseUrl(url, params,callback);
     }
     else if ((extension == "rdf") || (extension == "owl")) {
       //  sketch.data2Xml(reader.result); //if srdf
@@ -299,7 +299,7 @@ function importer(params,callback){
     else {
       //ttl2Xml(reader.result, network, remplaceNetwork);
       console.log("DEFAULT INCONNU\n\n")
-      this.parseUrl(url, params);
+      this.parseUrl(url, params,callback);
       //  data2Xml(reader.result, network);
     }
     console.log("fichier lu");
@@ -326,7 +326,8 @@ function importer(params,callback){
           console.log()
 
           data = app.statements2vis(store.statements);
-          app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+          callback({data:data,params:params})
+          //app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
           console.log("OK")
         }
 
@@ -354,19 +355,19 @@ function importer(params,callback){
   }
 }
 
-function parseUrl(url, params){
+function parseUrl(url, params,callback){
   console.log("PARSE\n\n")
   var data = {};
   console.log(url, params)
-  console.log("PARSE URL Fileclient",this.fileclient)
+  console.log("PARSE URL Fileclient",fileClient)
   console.log("fetch & parse")
-  this.fileclient.fetchAndParse(url).then( response => {
+  fileClient.fetchAndParse(url).then( response => {
     console.log("RESPONSE",response)
     console.log("parsing")
     if(!response)
     {
-      console.log(this.fileclient.err);
-      alert("HOuston We've got a problem :",this.fileclient.err)
+      console.log(fileClient.err);
+      alert("HOuston We've got a problem :",fileClient.err)
     }
     else {
       console.log( "Response is :",response)
@@ -385,20 +386,20 @@ function parseUrl(url, params){
       }
       console.log(data)
       //  this.agentImport.send('agentGraph', {type: 'decortiqueFile', fichier: data, remplaceNetwork: remplaceNetwork});
-      this.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
-
+      //this.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+callback({data:data,params:params})
     }
   });
   console.log("fin fetch & parse")
   /*console.log("readfile")
-  this.fileclient.readFile(url).then(  body => {
+  fileClient.readFile(url).then(  body => {
   console.log(`File content is : ${body}.`);
 }, err => console.log(err) );
 console.log("fin readfile")*/
 
 
 console.log("readfolder")
-this.fileclient.readFolder(url).then(folder => {
+fileClient.readFolder(url).then(folder => {
   console.log(`Read ${folder.name}, it has ${folder.files.length} files.`);
   //console.log(folder)
   console.log(" TODO : voir folder2vis de graph-behavior.html")
