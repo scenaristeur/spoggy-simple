@@ -6,7 +6,7 @@
 
   <!--Vendor LIBS -->
   <script type="text/javascript" src="./dist/eve.custom.js"></script>
-  <!--<script type="text/javascript" src="./dist/rdflib.min.js"></script>-->
+  <script type="text/javascript" src="./dist/rdflib.min.js"></script> <!-- pour import ttl local -->
   <!--  <script type="text/javascript" src="./dist/solid-auth-client.bundle.js"></script> -->
   <script type="text/javascript" src="./dist/solid-file-client.bundle.js"></script>
 
@@ -161,8 +161,10 @@
     <div style="float:auto">
       <fieldset>
         <legend>LOGIN</legend>
-        <button  onclick="login()">Login</button><button  onclick="logout()">Logout</button>
-
+        <button id="login-btn" onclick="login()">Login</button>
+        <button id="logout-btn" onclick="logout()">Logout</button>
+        <div id="webId"></div>
+        <div id="current"></div>
       </fieldset>
     </div>
 
@@ -205,10 +207,10 @@
     //rdfAgent.send('historiqueAgent', 'Prêt!');
     fileAgent.send('historiqueAgent', 'Prêt!');
     //authAgent.send('historiqueAgent', 'Prêt!');
-  </script>
+    </script>
 
-  <footer>
-    en savoir plus ? <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">spoggy-simple</a>
-  </footer>
-</body>
-</html>
+    <footer>
+      en savoir plus ? <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">spoggy-simple</a>
+    </footer>
+  </body>
+  </html>

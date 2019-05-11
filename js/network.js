@@ -160,8 +160,8 @@ function draw() {
         enabled: true,
         iterations: 1000,
         updateInterval: 100,
-        onlyDynamicEdges: false,
-        fit: true
+        onlyDynamicEdges: false//,
+      //  fit: true
       },
       timestep: 0.5,
       adaptiveTimestep: true
@@ -329,8 +329,8 @@ function updateGraph(message){
   //this.network.body.data.nodes.update(message.data.nodes)
   //this.network.body.data.edges.update(message.data.edges)
 addResultsToGraph(this.network, message.data)
-  this.network.fit();
-  this.network.redraw();
+//  this.network.fit();
+//  this.network.redraw();
   console.log(this.network)
 }
 
@@ -338,11 +338,7 @@ function addResultsToGraph(network, results){
   var app = this;
   var nodes = results.nodes;
   var edges = results.edges;
-  console.log(nodes);
-  console.log(edges);
-
-
-  console.log(app.network)
+  //DESACTIVATION STABIL POUR PLUS DE FLUIDITE
   var options = {
     physics:{
       stabilization: false
@@ -355,42 +351,18 @@ function addResultsToGraph(network, results){
     }
   }
   app.network.setOptions(options);
-  console.log(app.network)
+
   nodes.forEach(function(n){
     app.addNodeIfNotExist(app.network, n);
   });
   app.network.body.data.edges.update(edges)
-  console.log("updated")
-  console.log(app.network)
-  /*console.log(app.network)
+    //REACTIVATION STABIL POUR PLUS DE FLUIDITE
   options = {
   physics:{
   stabilization: true
 }
 }
 app.network.setOptions(options);
-console.log(app.network)*/
-/*edges.forEach(function(e){
-//  app.addEdgeIfNotExist(app.network, e)
-var existEdge = false;
-//  console.log(e);
-try {
-existEdge = app.network.body.data.edges.get({
-filter: function(edge){
-return (edge.id == e.id) || ((edge.from == e.from) && (edge.to == e.to) && (edge.label == e.label));
-}
-});
-if (existEdge.length == 0){
-app.network.body.data.edges.add(e);
-}else{
-//  this.network.body.data.edges.update({id: data[0].id, label: data[0].label});
-console.log("le lien existe déjà ??? Dois-je augmenter son poids ?")
-}
-}
-catch (err) {
-console.log(err);
-}
-});*/
 }
 
 function addNodeIfNotExist(network, data){
@@ -446,4 +418,5 @@ function newGraph(){
     label: "type"
   }
   network.body.data.edges.add(edge);
+  fitAndFocus(nodes[0].id)
 }

@@ -31,13 +31,15 @@ function handleFileSelected(evt, callback){
           case 'n3':
           case 'n3t':
           case 'owl':
-          let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
-          let mimeType = 'text/turtle'
+        /*  let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
+          let mimeType = 'text/turtle'*/
+          let doc = $rdf.sym("http://smag0.blogspot.fr/spoggy");
           let store = $rdf.graph()
           console.log(store)
-          $rdf.parse(result, store,base, mimeType)
-          console.log("STORE",store)
-          data = app.statements2vis(store.statements);
+          $rdf.parse(result, store, doc.uri, 'text/turtle');
+        /*  $rdf.parse(result, store,base, mimeType)
+          console.log("STORE",store)*/
+          data = statements2vis(store.statements);
           callback({data:data,params:params})
           console.log("OK")
           break;
@@ -600,6 +602,7 @@ function statements2vis(statements){
 }
 });
 console.log(data)
+
 return data;
 }
 
