@@ -62,11 +62,20 @@ function importer(params,callback){
     case 'rdf':
     case 'ttl':
     console.log("fichier TTl ou RDF")
+    fileAgent.fetchAndParse(params.source,"application/json");
+    break;
     default:
     console.log('Sorry, je ne peux pas traiter ',params);
   }
 }else{
   console.log("FOLDER ou WEBID")
+  if (params.source.endsWith("card")){
+    console.log("WEBID")
+    fileAgent.fetchAndParse(params.source+"#me","application/json");
+  }else{
+    fileAgent.readFolder(params.source)
+  }
+
 }
 }
 

@@ -287,7 +287,7 @@ function fitAndFocus(node_id){
 function updateGraph(message){
   console.log(message);
   var app =this;
-  if (message.params.remplaceNetwork){
+  if (message.params!= undefined && message.params.remplaceNetwork){
     this.network.body.data.nodes.clear();
     this.network.body.data.edges.clear();
   }

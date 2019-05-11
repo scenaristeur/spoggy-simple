@@ -42,20 +42,147 @@ FileAgent.prototype.login = async function() {
       console.log( `Logged in as ${webId}.`)
     }, err => console.log(err) );
 
-      }else{
-        //You can find a popup in dist-popup/popup.html.
-        let session = await solid.auth.currentSession();
-        //let popupUri = 'https://solid.community/common/popup.html';
-        let popupUri = './dist/popup.html';
-        if (!session)
-          session = await solid.auth.popupLogin({ popupUri });
-        alert(`Logged in as ${session.webId}`);
-      }
+  }else{
+    alert("connexion impossible en local, essayez la version en ligne https://scenaristeur.github.io/spoggy-simple/");
+    //You can find a popup in dist-popup/popup.html.
+    let session = await solid.auth.currentSession();
+    //let popupUri = 'https://solid.community/common/popup.html';
+    let popupUri = './dist/popup.html';
+    if (!session)
+    session = await solid.auth.popupLogin({ popupUri });
+    alert(`Logged in as ${session.webId}`);
+  }
 }
 
 FileAgent.prototype.logout = function() {
   this.fileClient.logout().then( console.log( `Bye now!` ));
 }
+
+FileAgent.prototype.checkSession = function() {
+  this.fileClient.checkSession().then( session => {
+    console.log("Logged in as "+session.webId)
+  }, err => console.log(err) );
+}
+
+
+
+FileAgent.prototype.createFile = function(url, content) {
+  this.fileClient.createFile(url).then( fileCreated => {
+    console.log(`Created file ${fileCreated}.`);
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.readFile = function(url) {
+  this.fileClient.readFile(url).then(  body => {
+    console.log(`File content is : ${body}.`);
+
+  }, err => console.log(err) );
+}
+
+
+FileAgent.prototype.updateFile = function(url, newContent, contentType) {
+  this.fileClient.updateFile( url, newContent, contentType ).then( success => {
+    console.log( `Updated ${url}.`)
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.deleteFile = function(url) {
+  this.fileClient.deleteFile(url).then(success => {
+    console.log(`Deleted ${url}.`);
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.copyFile = function(old,newFile) {
+  this.fileClient.copyFile(old,newFile).then(success => {
+    console.log(`Copied ${old} to ${newFile}.`);
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.download = function(localPath, url) {
+  //only in console
+  this.fileClient.downloadFile(localPath,url).then(success => {
+    console.log(`Downloaded ${url} to ${localPath}.`);
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.updateFile = function(localPath,url) {
+  //only in console
+  this.fileClient.uploadFile(localPath,url).then(success => {
+    console.log(`Uploaded ${localPath} to ${url}.`);
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.fetchAndParse = function(url,contentType) {
+  this.fileClient.fetchAndParse(url, 'text/turtle').then(graph => {
+    console.log(graph)
+    var data = statements2vis(graph.statements)
+    updateGraph({data:data})
+    //let something = graph.any(someSubject, somePredicate);
+  }, err => console.log(err) );
+}
+
+// FOLDERS
+
+FileAgent.prototype.createFolder = function(url) {
+  this.fileClient.createFolder(url).then(success => {
+    console.log(`Created folder ${url}.`);
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.deleteFolder = function(url) {
+  this.fileClient.deleteFolder(url).then(success => {
+    console.log(`Deleted ${url}.`);
+  }, err => console.log(err) );
+}
+
+
+FileAgent.prototype.readFolder = function(url) {
+  this.fileClient.readFolder(url).then(folder => {
+    console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
+  }, err => console.log(err) );
+}
+
+FileAgent.prototype.createFolder = function(old,newFolder) {
+  this.fileClient.copy(old,newFolder).then(success => {
+    console.log(`Copied ${old} to ${newFolder}.`);
+  }, err => console.log(err) );
+}
+
+
+FileAgent.prototype.fetch = function(url, request) {
+  this.fileClient.fetch( url, request ).then( results => {
+    // do something with results
+    console.log(results)
+  }, err => console.log(err) );;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
 * Send a greeting to an agent
