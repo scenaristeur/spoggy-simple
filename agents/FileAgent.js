@@ -4,29 +4,29 @@
  * @constructor
  * @extend eve.Agent
  */
-function HelloAgent(id) {
+function FileAgent(id) {
   // execute super constructor
   eve.Agent.call(this, id);
   // connect to all transports configured by the system
   this.connect(eve.system.transports.getAll());
 }
 // extend the eve.Agent prototype
-HelloAgent.prototype = Object.create(eve.Agent.prototype);
-HelloAgent.prototype.constructor = HelloAgent;
+FileAgent.prototype = Object.create(eve.Agent.prototype);
+FileAgent.prototype.constructor = FileAgent;
 /**
  * Send a greeting to an agent
  * @param {String} to
  */
-HelloAgent.prototype.sayHello = function(to) {
+FileAgent.prototype.sayHello = function(to) {
   this.send(to, 'Hello ' + to + '!');
 };
 /**
  * Handle incoming greetings. This overloads the default receive,
- * so we can't use HelloAgent.on(pattern, listener) anymore
+ * so we can't use FileAgent.on(pattern, listener) anymore
  * @param {String} from     Id of the sender
  * @param {*} message       Received message, a JSON object (often a string)
  */
-HelloAgent.prototype.receive = function(from, message) {
+FileAgent.prototype.receive = function(from, message) {
   console.log(message,"from",from)
   document.write(from + ' said: ' + JSON.stringify(message) + '<br>');
   if (message.indexOf('Hello') === 0) {
