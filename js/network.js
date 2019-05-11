@@ -178,6 +178,41 @@ function draw() {
       document.getElementById("input").value = node.label+" ";
     }
   });
+
+  network.on("doubleClick", async function (params) {
+     console.log('doubleClick ', params);
+     var id = params.nodes[0];
+     var existNode;
+     try{
+       existNode = network.body.data.nodes.get({
+         filter: function(node){
+           return (node.id == id );
+         }
+       });
+       console.log(existNode);
+       if (existNode.length != 0){
+         console.log("existe", existNode[0])
+         var params = existNode[0];
+         params.source = existNode[0].id;
+         importer(params,updateGraph)
+         fitAndFocus(existNode[0].id)
+         //app.nodeChanged(existNode[0]);
+         //  app.agentVis.send('agentFileeditor', {type: "nodeChanged", node: existNode[0]});
+         //  app.agentVis.send('agentFoldermenu', {type: "nodeChanged", node: existNode[0]});
+         //  network.body.data.nodes.add(data);
+         //  var thing = this.thing;
+       }else{
+         console.log("n'existe pas")
+         //  delete data.x;
+         //  delete data.y
+         //  network.body.data.nodes.update(data);
+       }
+     }
+     catch (err){
+       console.log(err);
+     }
+   });
+
 }
 
 function editNode(data, cancelAction, callback) {

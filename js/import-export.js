@@ -632,3 +632,71 @@ function recupParams(){
 })(window.location.search.substr(1).split('&'));
 return params;
 }
+
+
+function folder2vis(sfolder){
+  var app = this;
+  //  this.clear()
+  console.log('sfolder')
+  console.log(sfolder)
+  var name = sfolder.name;
+  var url = sfolder.url;
+  var parent = sfolder.parent;
+  //  var folders = sfolder.folders||"Folders";
+  //  var files = sfolder.files|| "Files";
+  var nodes = [];
+  var edges = [];
+  nodes.push({id: url, label: name, type: "folder", shape: "image", image: "./assets/folder.png" });
+  //nodes.push({id:'folders', label:"Folder"});
+  //edges.push({from:url, to: 'folders', arrows: 'to', label:"type"});
+  //console.log("PAREnT", parent)
+  if (parent != undefined){
+    //  console.log("undef")
+    nodes.push({id: parent, label: parent, type: "folder", shape: "image", image: "./assets/parentfolder.png" });
+    edges.push({from: url, to: parent, arrows:'to', label: "parent"});
+  }
+  //  {id: "urlNode"+url, label: url},
+  /*,
+  {id: "folderCluster", label: folders},
+  {id: "fileCluster", label: files}*/
+  // create an array with edges
+  //{from: url, to: "urlNode"+url, arrows:'to', label: "url"},
+  /*,
+  {from: url, to: "folderCluster", arrows:'to', label: "folders"},
+  {from: url, to: "fileCluster", arrows:'to', label: "files"},*/
+  if (sfolder.folders && sfolder.folders.length >0){
+    sfolder.folders.forEach(function(fo){
+      if(fo.name != ".."){
+        app.folder2vis(fo)
+        var node = {id:fo.url, label:fo.name, type: 'folder', shape: "image", image: "./assets/folder.png" }
+        //  console.log(node)
+        nodes.push(node);
+        edges.push({from:url, to: fo.url, arrows: 'to', label:"folder"});
+        edges.push({from:fo.url, to: 'folders', arrows: 'to', label:"type"});
+      }
+    })
+  }
+  if (sfolder.files && sfolder.files.length > 0){
+    //  nodes.push({id:'files', label:"File"});
+    sfolder.files.forEach(function(fi){
+      //  console.log(fi)
+      //  app.file2vis(fi)
+      var node = {id:fi.url, label:fi.label, type: 'file' , shape: "image", image: "./assets/document.png" };
+      //  console.log(node)
+      nodes.push(node);
+      edges.push({from:url, to: fi.url, arrows: 'to', label:"file"});
+      //  edges.push({from:fi.url, to: 'files', arrows: 'to', label:"type"});
+    })
+  }
+  var  data = {
+    nodes: nodes,
+    edges: edges
+  };
+  updateGraph({data:data})
+  //  console.log(data)
+  /*this.network.body.data.nodes.clear();
+  this.network.body.data.edges.clear();
+  this.addSolidToGraph(data);
+  this.network.fit();
+  this.network.redraw();*/
+}
