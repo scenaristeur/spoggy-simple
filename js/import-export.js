@@ -20,11 +20,15 @@ function handleFileSelected(evt, callback){
         console.log(typeof result, result);
         switch (extension) {
           case 'json':
-          var res = JSON.parse(result)
-          var nodes = res.nodes;
+          var data = JSON.parse(result)
+        /*  var nodes = res.nodes;
           var edges = res.edges;
-          data ={nodes: nodes, edges: edges}
+          data ={nodes: nodes, edges: edges}*/
           callback({data:data,params:params})
+  //editor.insert("testJK")
+  var text = JSON.stringify(data, null, 2)
+  editor.session.setValue(text)
+          //  editor.insert(JSON.stringify(data, null, 2))
           break;
           case 'rdf':
           case 'ttl':
@@ -96,6 +100,8 @@ function fetchJson(params, callback){
   .then(res => res.json())
   .then((out) => {
     console.log('Checkout this JSON! ', out);
+    var text = JSON.stringify(data, null, 2)
+    editor.session.setValue(out)
     callback({data:out,params:params})
   })
   .catch(err => { throw err });
@@ -103,45 +109,9 @@ function fetchJson(params, callback){
 
 
 
-
-
-
-
 //###############################################################################
 //Sous cette ligne, review de code a faire
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//###############################################################################
 
 
 function exportJson(network) {

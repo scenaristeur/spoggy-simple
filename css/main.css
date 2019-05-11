@@ -58,3 +58,8 @@ textarea {
     border: 1px solid #ccc;
     box-shadow: 1px 1px 1px #999;
 }
+.ace_editor, .toolbar {
+       border: 1px solid lightgray;
+       margin: auto;
+       width: 80%;
+   } 

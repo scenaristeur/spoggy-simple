@@ -194,6 +194,15 @@
       </fieldset>
     </div>
 
+    <div style="float:auto">
+      <fieldset>
+        <legend>Editeur</legend>
+        <pre id="editor"></pre>
+      </fieldset>
+      <!-- load ace -->
+
+    </div>
+
     <script>
     // create agents
     var historiqueAgent = new HistoriqueAgent('historiqueAgent');
@@ -214,3 +223,19 @@
     </footer>
   </body>
   </html>
+  <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
+  <!-- load ace language tools -->
+  <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
+  <script>
+  //https://ace.c9.io/#nav=api&api=editor
+  var editor = ace.edit("editor", {
+    theme: "ace/theme/tomorrow_night_eighties",
+    mode: "ace/mode/turtle",
+    maxLines: 30,
+    wrap: true,
+    autoScrollEditorIntoView: true
+  });
+
+  
+  //editor.insert("test")
+  </script>
