@@ -1,3 +1,124 @@
+//##############################################################################
+function handleFileSelected(evt, callback){
+  //Parcourir pour importer
+  console.log(evt," https://www.html5rocks.com/en/tutorials/file/dndfiles/")
+  var files = evt.files;
+  var output = [];
+
+  var params = {}
+  params.files = files;
+  params.remplaceNetwork = remplaceNetwork.checked;
+  params.partageImport = partageImport.checked;
+  if (params.files != undefined){
+    var data = {};
+    for (var i = 0; i < params.files.length; i++) {
+      var fichier = params.files[i];
+      var extension = fichier.name.split('.').pop();
+      var reader = new FileReader(); //https://openclassrooms.com/courses/dynamisez-vos-sites-web-avec-javascript/l-api-file
+      reader.addEventListener('load', function () {
+        var result = reader.result;
+        console.log(typeof result, result);
+        switch (extension) {
+          case 'json':
+          var res = JSON.parse(result)
+          var nodes = res.nodes;
+          var edges = res.edges;
+          data ={nodes: nodes, edges: edges}
+          callback({data:data,params:params})
+          break;
+          case 'rdf':
+          case 'ttl':
+          case 'n3':
+          case 'n3t':
+          case 'owl':
+          let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
+          let mimeType = 'text/turtle'
+          let store = $rdf.graph()
+          $rdf.parse(result, store,base, mimeType)
+          console.log("STORE",store)
+          data = app.statements2vis(store.statements);
+          callback({data:data,params:params})
+          console.log("OK")
+          break;
+
+          default:
+          console.log('Sorry, je ne peux pas traiter ',fichier);
+        }
+      });
+      reader.readAsText(fichier);
+    }
+  }
+}
+
+function importer(params,callback){
+  var url = params.source;
+  var extension = url.split('.').pop();
+  switch (extension) {
+    case 'json':
+    fetchJson(params,callback)
+    break;
+    case 'rdf':
+    case 'ttl':
+    console.log("fetch TTl")
+    default:
+    console.log('Sorry, je ne peux pas traiter ',params);
+  }
+}
+
+function fetchJson(params, callback){
+  let url = params.source;
+  fetch(url)
+  .then(res => res.json())
+  .then((out) => {
+    console.log('Checkout this JSON! ', out);
+    callback({data:out,params:params})
+  })
+  .catch(err => { throw err });
+}
+
+
+
+
+
+
+
+//###############################################################################
+//Sous cette ligne, review de code a faire
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function exportJson(network) {
   //var network = this.network;
   console.log(network)
@@ -255,132 +376,28 @@ function validRdf(network, string){
   return string;
 }
 
-function handleFileSelected(evt, callback){
-  //console.log(evt);
-  console.log(evt," https://www.html5rocks.com/en/tutorials/file/dndfiles/")
 
-
-  /*var files =  evt.stopPropagation();
-  evt.preventDefault();*/
-
-  var files = evt.files; // FileList object.
-  // files is a FileList of File objects. List some properties.
-  var output = [];
-
-  // TEST NEW IMPORT
-  var params = {}
-  params.files = files;
-  params.remplaceNetwork = remplaceNetwork.checked;
-  //params.partageImport = app.$.partageImport.checked;
-//  importer(params,updateGraph)
-  //  evt.target.files = null;
-  //  evt.display = none;
-  if (params.files != undefined){
-    var data = {};
-    for (var i = 0; i < params.files.length; i++) {
-      // Code to execute for every file selected
-      var fichier = params.files[i];
-      console.log(fichier);
-      var extension = fichier.name.split('.').pop();
-      console.log(extension)
-
-      var reader = new FileReader(); //https://openclassrooms.com/courses/dynamisez-vos-sites-web-avec-javascript/l-api-file
-      reader.addEventListener('load', function () {
-        var result = reader.result;
-        console.log(typeof result, result);
-        if ((extension == "ttl")  || (extension == "n3") || (extension == "n3t") || (extension == "owl")) {
-
-          let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
-          let mimeType = 'text/turtle'
-          let store = $rdf.graph()
-          $rdf.parse(result, store,base, mimeType)
-          console.log("STORE",store)
-          console.log()
-
-          data = app.statements2vis(store.statements);
-          callback({data:data,params:params})
-          //app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
-          console.log("OK")
-        }
-
-        else if ((extension == "json") ) {
-          //  sketch.data2Xml(reader.result); //if srdf
-          //rdf2Xml(reader.result, network, remplaceNetwork);
-          //  network.dispatch('addTriplets', network.triplets);
-          var res = JSON.parse(result)
-          var nodes = res.nodes;
-          var edges = res.edges;
-          data ={nodes: nodes, edges: edges}
-          console.log(data)
-          //app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
-          callback({data:data,params:params})
-          console.log("JSON\n\n")
-        }
-
-
-      });
-
-      reader.readAsText(fichier);
-
-    }
-
-  }
-}
-
-
-
-function importer(params,callback){
-  console.log("IMPORT",params);
-  var url = params.source;
-  var extension = url.split('.').pop();
-  console.log(extension);
-  switch (extension) {
-  case 'json':
-    console.log('JSON');
-    fetchJson(params,callback)
-    break;
-  case 'rdf':
-  case 'ttl':
-  //  console.log('Mangoes and papayas are $2.79 a pound.');
-    // expected output: "Mangoes and papayas are $2.79 a pound."
-  //  break;
-  default:
-    console.log('Sorry, je ne peux pas traiter ' + extension + '.');
-}
-}
-
-function fetchJson(params, callback){
-  let url = params.source;
-
-fetch(url)
-.then(res => res.json())
-.then((out) => {
-  console.log('Checkout this JSON! ', out);
-  callback({data:out,params:params})
-})
-.catch(err => { throw err });
-}
 
 /*function parseJSON(fichier,callback){
-  console.log("fich",fichier)
-  var reader = new FileReader(); //https://openclassrooms.com/courses/dynamisez-vos-sites-web-avec-javascript/l-api-file
-  reader.addEventListener('load', function () {
-    var result = reader.result;
-    console.log(typeof result, result);
-      //  sketch.data2Xml(reader.result); //if srdf
-      //rdf2Xml(reader.result, network, remplaceNetwork);
-      //  network.dispatch('addTriplets', network.triplets);
-      var res = JSON.parse(result)
-      var nodes = res.nodes;
-      var edges = res.edges;
-      data ={nodes: nodes, edges: edges}
-      console.log(data)
-      //app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
-      callback({data:data,params:params})
-      console.log("JSON\n\n")
-  });
+console.log("fich",fichier)
+var reader = new FileReader(); //https://openclassrooms.com/courses/dynamisez-vos-sites-web-avec-javascript/l-api-file
+reader.addEventListener('load', function () {
+var result = reader.result;
+console.log(typeof result, result);
+//  sketch.data2Xml(reader.result); //if srdf
+//rdf2Xml(reader.result, network, remplaceNetwork);
+//  network.dispatch('addTriplets', network.triplets);
+var res = JSON.parse(result)
+var nodes = res.nodes;
+var edges = res.edges;
+data ={nodes: nodes, edges: edges}
+console.log(data)
+//app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+callback({data:data,params:params})
+console.log("JSON\n\n")
+});
 
-  reader.readAsText(fichier);
+reader.readAsText(fichier);
 }*/
 
 function importer1(params,callback){
@@ -444,7 +461,7 @@ function parseUrl(url, params,callback){
       console.log(data)
       //  this.agentImport.send('agentGraph', {type: 'decortiqueFile', fichier: data, remplaceNetwork: remplaceNetwork});
       //this.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
-callback({data:data,params:params})
+      callback({data:data,params:params})
     }
   });
   console.log("fin fetch & parse")
