@@ -41,7 +41,6 @@ function handleFileSelected(evt, callback){
           callback({data:data,params:params})
           console.log("OK")
           break;
-
           default:
           console.log('Sorry, je ne peux pas traiter ',fichier);
         }
@@ -54,29 +53,39 @@ function handleFileSelected(evt, callback){
 function importer(params,callback){
   var url = params.source;
   if(isFile(url)){
-  var extension = url.split('.').pop();
-  switch (extension) {
-    case 'json':
-    fetchJson(params,callback)
-    break;
-    case 'rdf':
-    case 'ttl':
-    console.log("fichier TTl ou RDF")
-    fileAgent.fetchAndParse(params.source,"application/json");
-    break;
-    default:
-    console.log('Sorry, je ne peux pas traiter ',params);
-  }
-}else{
-  console.log("FOLDER ou WEBID")
-  if (params.source.endsWith("card")){
-    console.log("WEBID")
-    fileAgent.fetchAndParse(params.source+"#me","application/json");
+    var extension = url.split('.').pop();
+    switch (extension) {
+      case 'json':
+      fetchJson(params,callback)
+      break;
+      case 'rdf':
+      case 'ttl':
+      console.log("fichier TTl ou RDF")
+      fileAgent.fetchAndParse(params.source,"application/json");
+      break;
+      case 'html':
+      case 'jpg':
+      case 'png':
+    //  console.log('ouverture ',params.source);
+      var win = window.open(params.source, '_blank');
+      win.focus();
+      break;
+      default:
+      console.log('Sorry, je ne peux pas traiter ',params);
+      console.log('tentative ouverture ',params.source);
+      var win = window.open(params.source, '_blank');
+      win.focus();
+    }
   }else{
-    fileAgent.readFolder(params.source)
-  }
+    console.log("FOLDER ou WEBID")
+    if (params.source.endsWith("card")){
+      console.log("WEBID")
+      fileAgent.fetchAndParse(params.source+"#me","application/json");
+    }else{
+      fileAgent.readFolder(params.source)
+    }
 
-}
+  }
 }
 
 function fetchJson(params, callback){
