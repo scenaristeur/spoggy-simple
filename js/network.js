@@ -94,7 +94,7 @@ function draw() {
       addNode: function (data, callback) {
         // filling in the popup DOM elements
         document.getElementById('node-operation').innerHTML = "Add Node";
-        document.getElementById('node-label').value = "";
+        data.label="";
         editNode(data, clearNodePopUp, callback);
       },
       editNode: function (data, callback) {
@@ -224,7 +224,7 @@ function saveNodeData(data, callback) {
 
 function editEdgeWithoutDrag(data, callback) {
   // filling in the popup DOM elements
-  document.getElementById('edge-label').value = data.label;
+  document.getElementById('edge-label').value = data.label || "";
   document.getElementById('edge-saveButton').onclick = saveEdgeData.bind(this, data, callback);
   document.getElementById('edge-cancelButton').onclick = cancelEdgeEdit.bind(this,callback);
   document.getElementById('edge-popUp').style.display = 'block';
