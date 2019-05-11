@@ -1,0 +1,23 @@
+{
+  "name": "spoggy-simple",
+  "version": "1.0.0",
+  "description": "https://scenaristeur.github.io/spoggy-simple/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scenaristeur/spoggy-simple.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scenaristeur/spoggy-simple/issues"
+  },
+  "homepage": "https://github.com/scenaristeur/spoggy-simple#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

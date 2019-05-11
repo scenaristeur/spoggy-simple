@@ -37,12 +37,12 @@ FileAgent.prototype.checkSession = function() {
 }
 
 FileAgent.prototype.login = async function() {
-  if (window.location.hostname.length > 0 && window.location.hostname != "localhost" && window.location.hostname != "127.0.0.1"){
+//  if (window.location.hostname.length > 0 && window.location.hostname != "localhost" && window.location.hostname != "127.0.0.1"){
     this.fileClient.popupLogin().then( webId => {
       console.log( `Logged in as ${webId}.`)
     }, err => console.log(err) );
 
-  }else{
+/*  }else{
     alert("connexion impossible en local, essayez la version en ligne https://scenaristeur.github.io/spoggy-simple/");
     //You can find a popup in dist-popup/popup.html.
     let session = await solid.auth.currentSession();
@@ -51,7 +51,7 @@ FileAgent.prototype.login = async function() {
     if (!session)
     session = await solid.auth.popupLogin({ popupUri });
     alert(`Logged in as ${session.webId}`);
-  }
+  }*/
 }
 
 FileAgent.prototype.logout = function() {
