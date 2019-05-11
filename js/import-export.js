@@ -255,8 +255,8 @@ function validRdf(network, string){
   return string;
 }
 
-function handleFileSelected(evt){
-  console.log(evt);
+function handleFileSelected(evt, callback){
+  //console.log(evt);
   console.log(evt," https://www.html5rocks.com/en/tutorials/file/dndfiles/")
 
 
@@ -272,38 +272,10 @@ function handleFileSelected(evt){
   params.files = files;
   params.remplaceNetwork = remplaceNetwork.checked;
   //params.partageImport = app.$.partageImport.checked;
-  importer(params,updateGraph)
+//  importer(params,updateGraph)
   //  evt.target.files = null;
   //  evt.display = none;
-}
-
-function importer(params,callback){
-  var app = this;
-  console.log("IMPORT")
-  console.log(params)
-  if (params.source != undefined){
-    var url = params.source;
-    var extension = url.split('.').pop();
-    console.log(extension)
-
-    // a revoir , tout passer en this.parseUrl ?
-    if ((extension == "ttl") || (extension == "json") || (extension == "n3") || (extension == "n3t")) {
-      this.parseUrl(url, params,callback);
-    }
-    else if ((extension == "rdf") || (extension == "owl")) {
-      //  sketch.data2Xml(reader.result); //if srdf
-      //rdf2Xml(reader.result, network, remplaceNetwork);
-      //  network.dispatch('addTriplets', network.triplets);
-      console.log("rdf\n\n")
-    }
-    else {
-      //ttl2Xml(reader.result, network, remplaceNetwork);
-      console.log("DEFAULT INCONNU\n\n")
-      this.parseUrl(url, params,callback);
-      //  data2Xml(reader.result, network);
-    }
-    console.log("fichier lu");
-  }else   if (params.files != undefined){
+  if (params.files != undefined){
     var data = {};
     for (var i = 0; i < params.files.length; i++) {
       // Code to execute for every file selected
@@ -352,6 +324,91 @@ function importer(params,callback){
 
     }
 
+  }
+}
+
+
+
+function importer(params,callback){
+  console.log("IMPORT",params);
+  var url = params.source;
+  var extension = url.split('.').pop();
+  console.log(extension);
+  switch (extension) {
+  case 'json':
+    console.log('JSON');
+    fetchJson(params,callback)
+    break;
+  case 'rdf':
+  case 'ttl':
+  //  console.log('Mangoes and papayas are $2.79 a pound.');
+    // expected output: "Mangoes and papayas are $2.79 a pound."
+  //  break;
+  default:
+    console.log('Sorry, je ne peux pas traiter ' + extension + '.');
+}
+}
+
+function fetchJson(params, callback){
+  let url = params.source;
+
+fetch(url)
+.then(res => res.json())
+.then((out) => {
+  console.log('Checkout this JSON! ', out);
+  callback({data:out,params:params})
+})
+.catch(err => { throw err });
+}
+
+/*function parseJSON(fichier,callback){
+  console.log("fich",fichier)
+  var reader = new FileReader(); //https://openclassrooms.com/courses/dynamisez-vos-sites-web-avec-javascript/l-api-file
+  reader.addEventListener('load', function () {
+    var result = reader.result;
+    console.log(typeof result, result);
+      //  sketch.data2Xml(reader.result); //if srdf
+      //rdf2Xml(reader.result, network, remplaceNetwork);
+      //  network.dispatch('addTriplets', network.triplets);
+      var res = JSON.parse(result)
+      var nodes = res.nodes;
+      var edges = res.edges;
+      data ={nodes: nodes, edges: edges}
+      console.log(data)
+      //app.agentImport.send('agentGraph', {type: 'updateGraph', data: data, params: params});
+      callback({data:data,params:params})
+      console.log("JSON\n\n")
+  });
+
+  reader.readAsText(fichier);
+}*/
+
+function importer1(params,callback){
+  var app = this;
+  console.log("IMPORT")
+  console.log(params)
+  if (params.source != undefined){
+    var url = params.source;
+    var extension = url.split('.').pop();
+    console.log(extension)
+
+    // a revoir , tout passer en this.parseUrl ?
+    if ((extension == "ttl") || (extension == "json") || (extension == "n3") || (extension == "n3t")) {
+      this.parseUrl(url, params,callback);
+    }
+    else if ((extension == "rdf") || (extension == "owl")) {
+      //  sketch.data2Xml(reader.result); //if srdf
+      //rdf2Xml(reader.result, network, remplaceNetwork);
+      //  network.dispatch('addTriplets', network.triplets);
+      console.log("rdf\n\n")
+    }
+    else {
+      //ttl2Xml(reader.result, network, remplaceNetwork);
+      console.log("DEFAULT INCONNU\n\n")
+      this.parseUrl(url, params,callback);
+      //  data2Xml(reader.result, network);
+    }
+    console.log("fichier lu");
   }
 }
 
