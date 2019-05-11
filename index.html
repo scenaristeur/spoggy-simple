@@ -214,42 +214,29 @@
   <fieldset>
     <legend>Console</legend>
     <textarea id="story" name="story" rows="5" cols="66">
-It was a dark and stormy night...
-</textarea>
-
+      It was a dark and stormy night...
+    </textarea>
   </fieldset>
 </div>
 
 
 <script>
-console.log("RDF",$rdf)
-const fileClient = SolidFileClient;
-console.log("FC",fileClient)
-/*const rdfService = new RdfService;
-console.log(rdfService)*/
-</script>
-<script>
-
-//console.log(new Rectangle(5,8).area());
-//var authSession = new SolidAuthService();
-//var res = authSession.getVal(5);
-//console.log("SESSION",res)
-</script>
-
-<script>
-
-// create two agents
+// create agents
 var historiqueAgent = new HistoriqueAgent('historiqueAgent');
 var appAgent = new AppAgent('appAgent');
 var rdfAgent = new RdfAgent('rdfAgent');
 var authAgent = new AuthAgent('authAgent');
 var fileAgent = new FileAgent('fileAgent');
 
-historiqueAgent.send('historiqueAgent', 'Ich bin ready!');
-appAgent.send('historiqueAgent', 'Ich bin ready!');
-rdfAgent.send('historiqueAgent', 'Ich bin ready!');
-fileAgent.send('historiqueAgent', 'Ich bin ready!');
-authAgent.send('historiqueAgent', 'Ich bin ready!');
+historiqueAgent.send('historiqueAgent', 'Prêt!');
+appAgent.send('historiqueAgent', 'Prêt!');
+rdfAgent.send('historiqueAgent', 'Prêt!');
+fileAgent.send('historiqueAgent', 'Prêt!');
+authAgent.send('historiqueAgent', 'Prêt!');
 </script>
+
+<footer>
+en savoir plus ? <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">spoggy-simple</a>
+</footer>
 </body>
 </html>

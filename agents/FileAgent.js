@@ -9,6 +9,9 @@ function FileAgent(id) {
   eve.Agent.call(this, id);
   // connect to all transports configured by the system
   this.connect(eve.system.transports.getAll());
+
+  const fileClient = SolidFileClient;
+  console.log("FC",fileClient)
 }
 // extend the eve.Agent prototype
 FileAgent.prototype = Object.create(eve.Agent.prototype);

@@ -9,6 +9,7 @@ function RdfAgent(id) {
   eve.Agent.call(this, id);
   // connect to all transports configured by the system
   this.connect(eve.system.transports.getAll());
+    console.log("RDF",$rdf)
 }
 // extend the eve.Agent prototype
 RdfAgent.prototype = Object.create(eve.Agent.prototype);

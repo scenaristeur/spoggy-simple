@@ -36,7 +36,8 @@ HistoriqueAgent.prototype.receive = function(from, message) {
   node.appendChild(textnode);                              // Append the text to <li>
   document.getElementById("historique").prepend(node);
 */
-document.getElementById("story").value = now+": "+message+" from "+from+"\n"+document.getElementById("story").value;
+
+document.getElementById("story").value = now+"["+from.replace('local:','')+"] "+message+"\n"+document.getElementById("story").value;
 
 
   /*  document.write(from + ' said: ' + JSON.stringify(message) + '<br>');
