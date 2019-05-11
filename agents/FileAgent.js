@@ -25,42 +25,54 @@ FileAgent.prototype.checkSession = function() {
   this.fileClient.checkSession().then( session => {
     console.log("Logged in as "+session.webId);
     this.session = session;
+    updateSession(session)
     this.send(historiqueAgent, "L'utilisateur connecté est "+session.webId);
   }, err =>
   {
     console.log(err)
     console.log("No user logged")
     this.send("historiqueAgent",'Aucun utilisateur connecté');
-    this.session = {webId:"blop"}
   }
 );
 }
 
 FileAgent.prototype.login = async function() {
-//  if (window.location.hostname.length > 0 && window.location.hostname != "localhost" && window.location.hostname != "127.0.0.1"){
-    this.fileClient.popupLogin().then( webId => {
-      console.log( `Logged in as ${webId}.`)
-    }, err => console.log(err) );
+  //  if (window.location.hostname.length > 0 && window.location.hostname != "localhost" && window.location.hostname != "127.0.0.1"){
+  this.fileClient.popupLogin().then( webId => {
+    console.log( `Logged in as ${webId}.`)
+    this.checkSession();
+  }, err => {
+    console.log(err);
+    this.checkSession();
+  }
+);
 
 /*  }else{
-    alert("connexion impossible en local, essayez la version en ligne https://scenaristeur.github.io/spoggy-simple/");
-    //You can find a popup in dist-popup/popup.html.
-    let session = await solid.auth.currentSession();
-    //let popupUri = 'https://solid.community/common/popup.html';
-    let popupUri = './dist/popup.html';
-    if (!session)
-    session = await solid.auth.popupLogin({ popupUri });
-    alert(`Logged in as ${session.webId}`);
-  }*/
+alert("connexion impossible en local, essayez la version en ligne https://scenaristeur.github.io/spoggy-simple/");
+//You can find a popup in dist-popup/popup.html.
+let session = await solid.auth.currentSession();
+//let popupUri = 'https://solid.community/common/popup.html';
+let popupUri = './dist/popup.html';
+if (!session)
+session = await solid.auth.popupLogin({ popupUri });
+alert(`Logged in as ${session.webId}`);
+}*/
 }
 
 FileAgent.prototype.logout = function() {
-  this.fileClient.logout().then( console.log( `Bye now!` ));
+  this.fileClient.logout().then( () =>{
+    localStorage.removeItem('solid-auth-client');
+    updateSession({})
+    console.log( `Bye now!` )
+  }
+);
 }
 
 FileAgent.prototype.checkSession = function() {
   this.fileClient.checkSession().then( session => {
     console.log("Logged in as "+session.webId)
+    localStorage.setItem('solid-auth-client',JSON.stringify(session));
+    updateSession(session)
   }, err => console.log(err) );
 }
 
@@ -140,6 +152,7 @@ FileAgent.prototype.readFolder = function(url) {
   this.fileClient.readFolder(url).then(folder => {
     console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
     folder2vis(folder)
+    updateCurrent(folder)
   }, err => console.log(err) );
 }
 
@@ -158,9 +171,15 @@ FileAgent.prototype.fetch = function(url, request) {
 }
 
 
+FileAgent.prototype.saveOldUserData = function(profile)  {
+  if (!localStorage.getItem('oldProfileData')) {
+    localStorage.setItem('oldProfileData', JSON.stringify(profile));
+  }
+}
 
-
-
+FileAgent.prototype.getOldUserData = function() {
+  return JSON.parse(localStorage.getItem('oldProfileData'));
+}
 
 
 

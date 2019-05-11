@@ -346,3 +346,6 @@ function initSpoggy(){
     importer(params,updateGraph);
   }
 }
+function updateCurrent(folder){
+  console.log(folder)
+}
