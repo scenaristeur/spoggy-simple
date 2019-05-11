@@ -226,6 +226,7 @@ function catchTriplet(triplet){
     label: predicate,
     from : sujetNode[0].id,
     to : objetNode[0].id,
+    color: {inherit:'both'}
 
   });
   //on récupère ce edge pour l'envoyer au serveur

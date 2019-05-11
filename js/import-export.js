@@ -8,7 +8,7 @@ function handleFileSelected(evt, callback){
   var params = {}
   params.files = files;
   params.remplaceNetwork = remplaceNetwork.checked;
-  params.partageImport = partageImport.checked;
+  //params.partageImport = partageImport.checked;
   if (params.files != undefined){
     var data = {};
     for (var i = 0; i < params.files.length; i++) {
@@ -34,6 +34,7 @@ function handleFileSelected(evt, callback){
           let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
           let mimeType = 'text/turtle'
           let store = $rdf.graph()
+          console.log(store)
           $rdf.parse(result, store,base, mimeType)
           console.log("STORE",store)
           data = app.statements2vis(store.statements);
@@ -52,6 +53,7 @@ function handleFileSelected(evt, callback){
 
 function importer(params,callback){
   var url = params.source;
+  if(isFile(url)){
   var extension = url.split('.').pop();
   switch (extension) {
     case 'json':
@@ -59,10 +61,13 @@ function importer(params,callback){
     break;
     case 'rdf':
     case 'ttl':
-    console.log("fetch TTl")
+    console.log("fichier TTl ou RDF")
     default:
     console.log('Sorry, je ne peux pas traiter ',params);
   }
+}else{
+  console.log("FOLDER ou WEBID")
+}
 }
 
 function fetchJson(params, callback){
