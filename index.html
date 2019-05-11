@@ -6,6 +6,8 @@
 
 
   <!--<script type="text/javascript" src="../exampleUtil.js"></script>-->
+  <script type="text/javascript" src="./dist/eve.custom.js"></script>
+  <script type="text/javascript" src="./agents/HelloAgent.js"></script>
   <script type="text/javascript" src="./dist/vis-network.min.js"></script>
   <link href="./dist/vis-network.min.css" rel="stylesheet" type="text/css" />
   <link href="./css/main.css" rel="stylesheet" type="text/css" />
@@ -184,7 +186,7 @@
     <a href="?source=https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl">Spoggy-caracteristiques.ttl sur POD public smag0</a><br>
     <a href="?source=https://smag0.solid.community/public/">POD public smag0</a><br><br>
     todo :
-    urls Persee, urls Semantic Forms... https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files, 
+    urls Persee, urls Semantic Forms... https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files,
     Parcourir pour importer un ttl, rdf
   </fieldset>
 </div>
@@ -219,6 +221,17 @@ console.log(rdfService)*/
 var authSession = new SolidAuthService();
 //var res = authSession.getVal(5);
 //console.log("SESSION",res)
+</script>
+
+<script>
+
+  // create two agents
+  var agent1 = new HelloAgent('agent1');
+  var agent2 = new HelloAgent('agent2');
+  // send a message to agent1
+  console.log(agent1,agent2)
+  agent2.send('agent1', 'Hello agent1!');
+  agent1.send('agent2', 'Hello agent1!');
 </script>
 
 
