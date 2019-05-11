@@ -10,6 +10,8 @@ function RdfAgent(id) {
   // connect to all transports configured by the system
   this.connect(eve.system.transports.getAll());
     console.log("RDF",$rdf)
+    this.store = $rdf.graph();
+    this.fetcher = new $rdf.Fetcher(this.store);
 }
 // extend the eve.Agent prototype
 RdfAgent.prototype = Object.create(eve.Agent.prototype);
@@ -35,3 +37,28 @@ RdfAgent.prototype.receive = function(from, message) {
     this.send(from, 'Hi ' + from + ', nice to meet you!');
   }
 };
+
+
+RdfAgent.prototype.friends = function() {
+  this.fileClient.logout().then( () =>{
+    localStorage.removeItem('solid-auth-client');
+    updateSession({})
+    console.log( `Bye now!` )
+  }
+);
+}
+
+RdfAgent.prototype.profile = function(webId) {
+
+  const me = this.store.sym(webId);
+  const profile = me.doc() //    i.e. store.sym(''https://example.com/alice/card#me');
+  const VCARD = new $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
+  this.fetcher.load(profile).then(response => {
+    console.log(response)
+    console.log(this.store)
+   let name = this.store.any(me, VCARD('fn'));
+  console.log("Loaded ",name);
+}, err => {
+   console.log("Load failed ",  err);
+});
+}

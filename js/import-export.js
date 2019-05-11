@@ -84,9 +84,9 @@ function importer(params,callback){
     }
   }else{
     console.log("FOLDER ou WEBID")
-    if (params.source.endsWith("card")){
+    if (params.source.endsWith("card#me")){
       console.log("WEBID")
-      fileAgent.fetchAndParse(params.source+"#me","application/json");
+      fileAgent.readProfile(params.source);
     }else{
       fileAgent.readFolder(params.source)
     }
@@ -600,6 +600,8 @@ function localname(node){
 }
 
 function recupParams(){
+  //console.log(window.location)
+  var url = window.location.search+window.location.hash;  // pour catcher les /card#me
   var params = (function(a) {
     if (a == "") return {};
     var b = {};
@@ -611,7 +613,7 @@ function recupParams(){
     b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
   }
   return b;
-})(window.location.search.substr(1).split('&'));
+})(url.substr(1).split('&'));
 return params;
 }
 

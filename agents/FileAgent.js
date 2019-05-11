@@ -13,7 +13,7 @@ function FileAgent(id) {
   this.fileClient = SolidFileClient;
   console.log("FC",this.fileClient)
   this.checkSession();
-  this.session;
+
 }
 // extend the eve.Agent prototype
 FileAgent.prototype = Object.create(eve.Agent.prototype);
@@ -37,6 +37,7 @@ FileAgent.prototype.checkSession = function() {
 }
 
 FileAgent.prototype.login = async function() {
+
   //  if (window.location.hostname.length > 0 && window.location.hostname != "localhost" && window.location.hostname != "127.0.0.1"){
   this.fileClient.popupLogin().then( webId => {
     console.log( `Logged in as ${webId}.`)
@@ -73,7 +74,11 @@ FileAgent.prototype.checkSession = function() {
     console.log("Logged in as "+session.webId)
     localStorage.setItem('solid-auth-client',JSON.stringify(session));
     updateSession(session)
-  }, err => console.log(err) );
+  }, err => {
+    console.log(err)
+    updateSession({})
+  }
+);
 }
 
 
@@ -181,7 +186,9 @@ FileAgent.prototype.getOldUserData = function() {
   return JSON.parse(localStorage.getItem('oldProfileData'));
 }
 
+FileAgent.prototype.readProfile = function() {
 
+}
 
 
 

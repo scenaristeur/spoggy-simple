@@ -13,8 +13,8 @@
   <!-- Agents-->
   <script type="text/javascript" src="./agents/HistoriqueAgent.js"></script>
   <script type="text/javascript" src="./agents/AppAgent.js"></script>
-  <!--  <script type="text/javascript" src="./agents/RdfAgent.js"></script>
-  <script type="text/javascript" src="./agents/AuthAgent.js"></script>-->
+    <script type="text/javascript" src="./agents/RdfAgent.js"></script>
+  <script type="text/javascript" src="./agents/AuthAgent.js"></script>
   <script type="text/javascript" src="./agents/FileAgent.js"></script>
 
   <!-- Graph Vis -->
@@ -163,10 +163,11 @@
         <legend>LOGIN</legend>
         <button id="login-btn" onclick="login()">Login</button>
         <button id="logout-btn" onclick="logout()">Logout</button>
+        <button id="profile-btn" onclick="profile()">Profile</button>
         <button id="friends-btn" onclick="friends()">Friends</button>
         <div id="webId"></div>
-        <div id="current"></div>
-      
+        <div id="current-webId"></div>
+
       </fieldset>
     </div>
 
@@ -209,13 +210,13 @@
     // create agents
     var historiqueAgent = new HistoriqueAgent('historiqueAgent');
     var appAgent = new AppAgent('appAgent');
-    //var rdfAgent = new RdfAgent('rdfAgent');
-    //var authAgent = new AuthAgent('authAgent');
+    var rdfAgent = new RdfAgent('rdfAgent');
+  //  var authAgent = new AuthAgent('authAgent');
     var fileAgent = new FileAgent('fileAgent');
 
     historiqueAgent.send('historiqueAgent', 'Prêt!');
     appAgent.send('historiqueAgent', 'Prêt!');
-    //rdfAgent.send('historiqueAgent', 'Prêt!');
+    rdfAgent.send('historiqueAgent', 'Prêt!');
     fileAgent.send('historiqueAgent', 'Prêt!');
     //authAgent.send('historiqueAgent', 'Prêt!');
     </script>
