@@ -138,6 +138,21 @@
 
     <div style="float:auto">
       <fieldset>
+        <legend>LOGIN <div id="webId"></div></legend>
+        <button id="login-btn" onclick="login()">Login</button>
+        <button id="logout-btn" onclick="logout()">Logout</button><br>
+        current webId : <div id="current-webId"></div>
+        <button id="profile-btn" onclick="profile()">Profile</button>
+        <button id="public-btn" onclick="public()">Public</button>
+        <button id="friends-btn" onclick="friends()">Friends</button>
+
+
+
+      </fieldset>
+    </div>
+
+    <div style="float:auto">
+      <fieldset>
         <legend>Exemples JSON OK</legend>
         <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets_spoggy_nodes_edges_1511453311975.json">Projets David</a><br><br>
         <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Barriere%20Lego.json">Barrière LEGO sur github</a><br><br>
@@ -158,18 +173,7 @@
     </div>
 
 
-    <div style="float:auto">
-      <fieldset>
-        <legend>LOGIN</legend>
-        <button id="login-btn" onclick="login()">Login</button>
-        <button id="logout-btn" onclick="logout()">Logout</button>
-        <button id="profile-btn" onclick="profile()">Profile</button>
-        <button id="friends-btn" onclick="friends()">Friends</button>
-        <div id="webId"></div>
-        <div id="current-webId"></div>
 
-      </fieldset>
-    </div>
 
     <div style="float:auto">
       <fieldset>

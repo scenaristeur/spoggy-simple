@@ -21,13 +21,13 @@ function handleFileSelected(evt, callback){
         switch (extension) {
           case 'json':
           var data = JSON.parse(result)
-        /*  var nodes = res.nodes;
+          /*  var nodes = res.nodes;
           var edges = res.edges;
           data ={nodes: nodes, edges: edges}*/
           callback({data:data,params:params})
-  //editor.insert("testJK")
-  var text = JSON.stringify(data, null, 2)
-  editor.session.setValue(text)
+          //editor.insert("testJK")
+          var text = JSON.stringify(data, null, 2)
+          editor.session.setValue(text)
           //  editor.insert(JSON.stringify(data, null, 2))
           break;
           case 'rdf':
@@ -35,13 +35,13 @@ function handleFileSelected(evt, callback){
           case 'n3':
           case 'n3t':
           case 'owl':
-        /*  let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
+          /*  let base = 'https://www.wikidata.org/wiki/Special:EntityData/Q2005.ttl'
           let mimeType = 'text/turtle'*/
           let doc = $rdf.sym("http://smag0.blogspot.fr/spoggy");
           let store = $rdf.graph()
           console.log(store)
           $rdf.parse(result, store, doc.uri, 'text/turtle');
-        /*  $rdf.parse(result, store,base, mimeType)
+          /*  $rdf.parse(result, store,base, mimeType)
           console.log("STORE",store)*/
           data = statements2vis(store.statements);
           callback({data:data,params:params})
@@ -72,7 +72,7 @@ function importer(params,callback){
       case 'html':
       case 'jpg':
       case 'png':
-    //  console.log('ouverture ',params.source);
+      //  console.log('ouverture ',params.source);
       var win = window.open(params.source, '_blank');
       win.focus();
       break;
@@ -86,7 +86,7 @@ function importer(params,callback){
     console.log("FOLDER ou WEBID")
     if (params.source.endsWith("card#me")){
       console.log("WEBID")
-      fileAgent.readProfile(params.source);
+      rdfAgent.profile(params.source);
     }else{
       fileAgent.readFolder(params.source)
     }
@@ -100,8 +100,8 @@ function fetchJson(params, callback){
   .then(res => res.json())
   .then((out) => {
     console.log('Checkout this JSON! ', out);
-    var text = JSON.stringify(data, null, 2)
-    editor.session.setValue(out)
+    var text = JSON.stringify(out, null, 2)
+    editor.session.setValue(text)
     callback({data:out,params:params})
   })
   .catch(err => { throw err });
@@ -485,7 +485,7 @@ function statements2vis(statements){
   var data = {nodes:[], edges:[]};
   //  var i = 0;
   statements.forEach(function (statement){
-    console.log(statement)
+    //console.log(statement)
     //  i++;
     //  app.agentImport.send('agentApp', {type: 'message', data: statements.length-i});
     //  console.log("STATEMENT2VIS", statement)
@@ -498,9 +498,6 @@ function statements2vis(statements){
     switch(p.value) {
       case "http://www.w3.org/2000/01/rdf-schema#label":
       case "http://xmlns.com/foaf/0.1/label":
-      console.log("LABEL")
-      console.log(s.value)
-      console.log(o.value)
       var nodeAndLabel = {
         id: s.value,
         title: o.value,
@@ -509,94 +506,130 @@ function statements2vis(statements){
         y:2*Math.random(),
         type: "node"
       };
-      console.log(nodeAndLabel)
+      console.log("push",s.value,"label",o.value)
       //app.addNodeIfNotExist(app.network, nodeAndLabel)
       data.nodes.push(nodeAndLabel)
       break;
       default:
-      console.log("NON LABEL ",p.value);
+      //console.log("NON LABEL ",p.value);
+      console.log("###\n",s.value,"\n",p.value,"\n",o.value)
       var edges = [];
-      var nodeSujetTemp;
-      console.log("objet",o)
-      if (s.termType != "BlankNode"){
-        var ls = app.localname(s);
-        console.log(ls)
-        nodeSujetTemp = {
-          id: s.value,
-          title: s.value,
-          label: ls,
-          why: w.value,
-          y:2*Math.random(),
-          type: "node"
-        };
-        console.log(nodeSujetTemp)
-        //app.addNodeIfNotExist(app.network, nodeSujetTemp)
-        data.nodes.push(nodeSujetTemp)
-      }/*else{
-        nodeSujetTemp = {
-        id: s.value,
-        type: "node"
-      };
-    }*/
+      var nodeSujetTemp = detailNoeud(s,w);
+      var nodeObjetTemp = detailNoeud(o,w);
+      data.nodes.push(nodeSujetTemp)
+      data.nodes.push(nodeObjetTemp)
 
 
-    console.log("objet",o)
-    if (o.termType != "BlankNode"){
-      var lo = app.localname(o);
-      console.log(lo)
-      var nodeObjetTemp = {
-        id:  o.value,
-        title: o.value,
-        label: lo,
-        why: w.value,
-        type: "node"
-      };
-      console.log(nodeObjetTemp)
-      //app.addNodeIfNotExist(app.network, nodeObjetTemp)
-      data.edges.push(nodeObjetTemp)
+
+
+      data.edges.push({from:s.value, to: o.value, arrows: 'to', label: app.localname(p), uri: p.value});
+      //  app.addEdgeIfNotExist(app.network,{from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
+
+      //app.network.body.data.edges.update(edges)
     }
+  });
+  console.log(data)
 
-    /*  let pArray = p.split("#");
-    //  console.log(conceptCut);
-    let labelP = pArray[pArray.length-1];
-    if (labelP == p){
-    pArray = p.split("/");
-    //console.log(conceptCut);
-    labelP = pArray[pArray.length-1];
-  }*/
-
-  data.edges.push({from:s.value, to: o.value, arrows: 'to', label: app.localname(p), uri: p.value});
-  //  app.addEdgeIfNotExist(app.network,{from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
-
-  //app.network.body.data.edges.update(edges)
+  return data;
 }
-});
-console.log(data)
 
-return data;
+
+function detailNoeud(n,w){
+  var node = {}
+  console.log(n)
+  switch (n.termType) {
+
+    case 'BlankNode':
+      var l = localname(n);
+    node = {
+      id: n.value,
+      title: n.value,
+      label: n.value,
+      why: w.value,
+      //  y:2*Math.random(),
+      type: "node"
+    };
+    break;
+    case 'Collection':
+    n.elements.forEach(function(elem){
+      console.log("elem",elem)
+      detailNoeud(elem,w)
+    })
+    break;
+    case 'Literal':
+    var l = localname(n).length>37? localname(n).substring(0,40)+"..." : localname(n);
+    node = {
+      id: n.value,
+      title: n.value,
+      label: l,
+      why: w.value,
+      //  y:2*Math.random(),
+      type: "node",
+      shape: "box",
+      color: "rgb(240,220,110)"
+    };
+    break;
+    case 'NamedNode':
+    var l = localname(n);
+    node = {
+      id: n.value,
+      title: n.value,
+      label: l,
+      why: w.value,
+      //  y:2*Math.random(),
+      type: "node"
+    };
+    if(l == "me"){
+      node.label =  node.title;
+      node.shape = "image";
+      node.image = "./assets/profile.svg";
+      node.type = "webId";
+    }
+    break;
+    default:
+    console.log('Sorry, je ne traite pas encore ' + n.termType + '.');
+    node = {
+      id: n.value,
+      title: n.value,
+      label: n.value,
+      why: w.value,
+      //  y:2*Math.random(),
+      type: "node"
+    };
+
+  }
+  console.log(node)
+  //
+  return node;
 }
+
 
 function localname(node){
-  console.log("LOCALNAME OF ",node)
-  var value = node.value;
-  if (value.endsWith('/') || value.endsWith('#')){
-    value = value.substring(0,value.length-1);
-  }
-  var labelU = value;
-
-  if (node.termType == "NamedNode"){
-    console.log("namenode")
-    var uLabel = value.split("#");
-    var labelU = uLabel[uLabel.length-1];
-    if (labelU == uLabel){
-      uLabel = value.split("/");
-      labelU = uLabel[uLabel.length-1];
+  //  console.log("LOCALNAME OF ",node)
+  if (node.value != undefined){
+    var value = node.value;
+    //  console.log(value)
+    if (value.endsWith('/') || value.endsWith('#')){
+      value = value.substring(0,value.length-1);
     }
+    var labelU = value;
+    if (node.termType == "NamedNode"){
+      //  console.log("namenode")
+      var uLabel = value.split("#");
+      var labelU = uLabel[uLabel.length-1];
+      if (labelU == uLabel){
+        uLabel = value.split("/");
+        labelU = uLabel[uLabel.length-1];
+      }
+    }else{
+      console.log("TODO : literal or blanknode ???", node)
+    }
+    //  console.log(labelU)
+    return labelU;
   }else{
-    console.log("literal or blanknode ???")
+    console.log("TODO node.value = undefined, il faut maintenant traiter le tableau",node.elements)
   }
-  console.log(labelU)
-  return labelU;
+
 }
 
 function recupParams(){

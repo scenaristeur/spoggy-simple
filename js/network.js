@@ -161,7 +161,7 @@ function draw() {
         iterations: 1000,
         updateInterval: 100,
         onlyDynamicEdges: false//,
-      //  fit: true
+        //  fit: true
       },
       timestep: 0.5,
       adaptiveTimestep: true
@@ -180,38 +180,41 @@ function draw() {
   });
 
   network.on("doubleClick", async function (params) {
-     console.log('doubleClick ', params);
-     var id = params.nodes[0];
-     var existNode;
-     try{
-       existNode = network.body.data.nodes.get({
-         filter: function(node){
-           return (node.id == id );
-         }
-       });
-       console.log(existNode);
-       if (existNode.length != 0){
-         console.log("existe", existNode[0])
-         var params = existNode[0];
-         params.source = existNode[0].id;
-         importer(params,updateGraph)
-         fitAndFocus(existNode[0].id)
-         //app.nodeChanged(existNode[0]);
-         //  app.agentVis.send('agentFileeditor', {type: "nodeChanged", node: existNode[0]});
-         //  app.agentVis.send('agentFoldermenu', {type: "nodeChanged", node: existNode[0]});
-         //  network.body.data.nodes.add(data);
-         //  var thing = this.thing;
-       }else{
-         console.log("n'existe pas")
-         //  delete data.x;
-         //  delete data.y
-         //  network.body.data.nodes.update(data);
-       }
-     }
-     catch (err){
-       console.log(err);
-     }
-   });
+    console.log('doubleClick ', params);
+    var id = params.nodes[0];
+    var existNode;
+    try{
+      existNode = network.body.data.nodes.get({
+        filter: function(node){
+          return (node.id == id );
+        }
+      });
+      console.log(existNode);
+      if (existNode.length != 0){
+        console.log("existe", existNode[0])
+        var params = existNode[0];
+        params.source = existNode[0].id;
+        importer(params,updateGraph)
+        fitAndFocus(existNode[0].id)
+        if(params.source.endsWith("#me")){
+          updateCurrentWebId(params.source)
+        }
+        //app.nodeChanged(existNode[0]);
+        //  app.agentVis.send('agentFileeditor', {type: "nodeChanged", node: existNode[0]});
+        //  app.agentVis.send('agentFoldermenu', {type: "nodeChanged", node: existNode[0]});
+        //  network.body.data.nodes.add(data);
+        //  var thing = this.thing;
+      }else{
+        console.log("n'existe pas")
+        //  delete data.x;
+        //  delete data.y
+        //  network.body.data.nodes.update(data);
+      }
+    }
+    catch (err){
+      console.log(err);
+    }
+  });
 
 }
 
@@ -328,9 +331,9 @@ function updateGraph(message){
   }
   //this.network.body.data.nodes.update(message.data.nodes)
   //this.network.body.data.edges.update(message.data.edges)
-addResultsToGraph(this.network, message.data)
-//  this.network.fit();
-//  this.network.redraw();
+  addResultsToGraph(this.network, message.data)
+  //  this.network.fit();
+  //  this.network.redraw();
   console.log(this.network)
 }
 
@@ -356,13 +359,14 @@ function addResultsToGraph(network, results){
     app.addNodeIfNotExist(app.network, n);
   });
   app.network.body.data.edges.update(edges)
-    //REACTIVATION STABIL POUR PLUS DE FLUIDITE
+  //REACTIVATION STABIL POUR PLUS DE FLUIDITE
   options = {
-  physics:{
-  stabilization: true
-}
-}
-app.network.setOptions(options);
+    physics:{
+      stabilization: true
+    }
+  }
+  app.network.setOptions(options);
+  //app.network.redraw();
 }
 
 function addNodeIfNotExist(network, data){
