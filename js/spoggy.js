@@ -280,12 +280,12 @@ function catchCommande(commande){
     console.log("new graph");
 
     newGraph();
-    level < 1? increaseLevel() : "";
+    level < 6? increaseLevel() : "";
     break;
     case "/b":
     console.log("clean graph");
     cleanGraph();
-    level < 2? increaseLevel() : "";
+    level < 6? increaseLevel() : "";
     //  this.connectBase(this.network,this);
     break;
     case "/l":

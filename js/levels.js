@@ -13,8 +13,9 @@ var levels = {
 
 
 function increaseLevel(){
+level = 6 // temporaire affiche tous les tutos tant que ce n'est pas ok
+//level++;
 console.log(level)
-level++;
 localStorage.setItem('level',level)
 initLevel();
 }
