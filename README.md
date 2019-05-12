@@ -1,27 +1,27 @@
 # spoggy-simple
 Pour utiliser Spoggy, préférez Firefox ou Chrome https://scenaristeur.github.io/spoggy-simple/
 
-# tutoriels 
+# tutoriel 
+Cliquez sur les images pour ouvrir la video. Clic on picture to open the video.
+ 
+    1 Créer un nouveau graphe
+   [![Créer un nouveau graphe](https://img.youtube.com/vi/bkedKb34USI/0.jpg)](https://www.youtube.com/watch?v=bkedKb34USI)
+   
+    2 Vider un graphe
+   [![Vider un graphe](https://img.youtube.com/vi/YqatYoxz5VU/0.jpg)](https://www.youtube.com/watch?v=YqatYoxz5VU)
+   
+    3 Créer un nouveau noeud dans le graphe
+   [![Créer un nouveau noeud dans le graphe](https://img.youtube.com/vi/XkI6cJPUTuk/0.jpg)](https://www.youtube.com/watch?v=XkI6cJPUTuk)
+   
+    4 Créer un deuxième noeud dans le graphe 
+   [![Créer un deuxième noeud dans le graphe](https://img.youtube.com/vi/AmDwlkLk7f8/0.jpg)](https://www.youtube.com/watch?v=AmDwlkLk7f8)
+   
+    5 Créer un lien entre deux noeuds
+   [![Créer un lien entre deux noeuds](https://img.youtube.com/vi/ND8fK2liSdE/0.jpg)](https://www.youtube.com/watch?v=ND8fK2liSdE)
 
-  0: {nom: "Créer un nouveau graphe", lien: "https://youtu.be/bkedKb34USI",video: "https://youtu.be/bkedKb34USI"},
-  1: {nom: "Vider un graphe", lien: "https://youtu.be/YqatYoxz5VU",video: "https://youtu.be/YqatYoxz5VU"},
-  2: {nom: "Créer un nouveau noeud dans le graphe", lien: "https://youtu.be/XkI6cJPUTuk",video: "https://youtu.be/XkI6cJPUTuk"},
-  3: {nom: "Créer un deuxième noeud dans le graphe",lien: "https://youtu.be/AmDwlkLk7f8",video: "https://youtu.be/AmDwlkLk7f8"},
-  4: {nom: "Créer un lien entre deux noeuds", lien: "https://youtu.be/ND8fK2liSdE",video: "https://youtu.be/ND8fK2liSdE"},
-  5: {nom: "Créer un triplet", lien: "https://youtu.be/tXfX8vgfdiQ",video: "https://youtu.be/tXfX8vgfdiQ"},
   
-  
-  
-  1: [![Créer un nouveau graphe](https://img.youtube.com/vi/bkedKb34USI/0.jpg)](https://www.youtube.com/watch?v=bkedKb34USI)
-  
-  5: [![Créer un triplet](https://img.youtube.com/vi/tXfX8vgfdiQ/0.jpg)](https://www.youtube.com/watch?v=tXfX8vgfdiQ)
-
-
-
-  [![Alt text](https://img.youtube.com/vi/VID/0.jpg)](https://www.youtube.com/watch?v=VID)
-
-
-
+    6 Créer un triplet
+   [![Créer un triplet](https://img.youtube.com/vi/tXfX8vgfdiQ/0.jpg)](https://www.youtube.com/watch?v=tXfX8vgfdiQ)
 
 
 # agents communication
