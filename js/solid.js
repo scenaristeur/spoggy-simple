@@ -73,7 +73,26 @@ function turtleSave(){
   saveEditorToPod("ttl")
 }
 
+
+
+function saveEditorToPod1(ext){
+fileAgent.checkSession();
+  var url = 'https://smag0.solid.community/public/';
+  var data = {username: 'example'};
+
+fetch(url, {
+  method: 'POST', // or 'PUT'
+  body: JSON.stringify(data), // data can be `string` or {object}!
+  headers:{
+    'Content-Type': 'application/json'
+  }
+}).then(res => res.json())
+.then(response => console.log('Success:', JSON.stringify(response)))
+.catch(error => console.error('Error:', error));
+}
+
 function saveEditorToPod(ext){
+  fileAgent.checkSession();
   var url = document.getElementById("current-folder-url").innerHTML;
   var name = document.getElementById("new-file-input").value || "test" || new Date.now();
   var content = editor.getValue();

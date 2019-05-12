@@ -55,12 +55,7 @@ RdfAgent.prototype.receive = function(from, message) {
 
 
 RdfAgent.prototype.friends = function() {
-  this.fileClient.logout().then( () =>{
-    localStorage.removeItem('solid-auth-client');
-    updateSession({})
-    console.log( `Bye now!` )
-  }
-);
+
 }
 
 RdfAgent.prototype.profile = function(webId) {
