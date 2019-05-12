@@ -288,6 +288,11 @@ function catchCommande(commande){
     //this.agentInput.send("agentVis", {type: 'newGraph'})
     break;
     case "/b":
+    console.log("clean graph");
+    cleanGraph();
+    //  this.connectBase(this.network,this);
+    break;
+    case "/l":
     console.log("connection a la base levelgraph");
     //  this.connectBase(this.network,this);
     break;
@@ -348,4 +353,53 @@ function initSpoggy(){
 }
 function updateCurrent(folder){
   console.log(folder)
+}
+
+
+function newGraph(){
+  let network = this.network;
+
+  var graphname = prompt("Comment nommer ce nouveau graphe ?", "Spoggy-Graph_"+Date.now());
+  var nodeName = {
+    label: graphname,
+    shape: "star",
+    color: "green",
+    type: "node"
+  };
+  var nodeGraph = {
+    label: "Graph",
+    /*    shape: "star",
+    color: "red",*/
+    type: "node"
+  };
+  network.body.data.nodes.clear();
+  network.body.data.edges.clear();
+  var nodes = network.body.data.nodes.add([nodeName, nodeGraph]);
+
+  var edge = {
+    from: nodes[0],
+    to: nodes[1],
+    arrows: "to",
+    label: "type"
+  }
+  network.body.data.edges.add(edge);
+  fitAndFocus(nodes[0].id)
+}
+
+
+function cleanGraph(){
+  network.body.data.nodes.clear();
+  network.body.data.edges.clear();
+}
+
+
+function updateEditorFromNetwork(event, properties, senderId){
+//  console.log(event, properties, senderId)
+  var text = JSON.stringify(network.body.data, null, 2)
+  editor.session.setValue(text)
+}
+function updateEditorFromNetworkTtl(text){
+//  console.log(event, properties, senderId)
+  //var text = JSON.stringify(network.body.data, null, 2)
+  editor.session.setValue(text)
 }

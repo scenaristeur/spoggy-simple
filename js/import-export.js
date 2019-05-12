@@ -329,8 +329,8 @@ for (var l = 0; l < listeComplementaire.length; l++) {
 //this.$.dialogs.$.inputTextToSave.value = output; //     document.getElementById("inputTextToSave").value =output;
 /*this.$.dialogs.$.popupTtl.fitInto = this.$.dialogs.$.menu;*/
 //this.$.dialogs.$.popupTtl.toggle();
-console.log(output)
-
+//console.log(output)
+updateEditorFromNetworkTtl(output)
 //this.agentGraph.send('agentDialogs', {type:'exportTtl', ttlData : output});
 }
 

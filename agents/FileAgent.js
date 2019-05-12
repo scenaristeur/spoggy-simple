@@ -86,47 +86,47 @@ FileAgent.prototype.checkSession = function() {
 FileAgent.prototype.createFile = function(url, content) {
   this.fileClient.createFile(url).then( fileCreated => {
     console.log(`Created file ${fileCreated}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 FileAgent.prototype.readFile = function(url) {
   this.fileClient.readFile(url).then(  body => {
     console.log(`File content is : ${body}.`);
 
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 
 FileAgent.prototype.updateFile = function(url, newContent, contentType) {
   this.fileClient.updateFile( url, newContent, contentType ).then( success => {
     console.log( `Updated ${url}.`)
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 FileAgent.prototype.deleteFile = function(url) {
   this.fileClient.deleteFile(url).then(success => {
     console.log(`Deleted ${url}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 FileAgent.prototype.copyFile = function(old,newFile) {
   this.fileClient.copyFile(old,newFile).then(success => {
     console.log(`Copied ${old} to ${newFile}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 FileAgent.prototype.download = function(localPath, url) {
   //only in console
   this.fileClient.downloadFile(localPath,url).then(success => {
     console.log(`Downloaded ${url} to ${localPath}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 FileAgent.prototype.updateFile = function(localPath,url) {
   //only in console
   this.fileClient.uploadFile(localPath,url).then(success => {
     console.log(`Uploaded ${localPath} to ${url}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 FileAgent.prototype.fetchAndParse = function(url,contentType) {
@@ -135,7 +135,7 @@ FileAgent.prototype.fetchAndParse = function(url,contentType) {
     var data = statements2vis(graph.statements)
     updateGraph({data:data})
     //let something = graph.any(someSubject, somePredicate);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 // FOLDERS
@@ -143,13 +143,13 @@ FileAgent.prototype.fetchAndParse = function(url,contentType) {
 FileAgent.prototype.createFolder = function(url) {
   this.fileClient.createFolder(url).then(success => {
     console.log(`Created folder ${url}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 FileAgent.prototype.deleteFolder = function(url) {
   this.fileClient.deleteFolder(url).then(success => {
     console.log(`Deleted ${url}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 
@@ -157,14 +157,14 @@ FileAgent.prototype.readFolder = function(url) {
   this.fileClient.readFolder(url).then(folder => {
     console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
     folder2vis(folder)
-    updateCurrent(folder)
-  }, err => console.log(err) );
+    updateCurrentFolder(folder)
+  }, err => { console.log(err); alert(err);} );
 }
 
-FileAgent.prototype.createFolder = function(old,newFolder) {
+FileAgent.prototype.copy = function(old,newFolder) {
   this.fileClient.copy(old,newFolder).then(success => {
     console.log(`Copied ${old} to ${newFolder}.`);
-  }, err => console.log(err) );
+  }, err => { console.log(err); alert(err);} );
 }
 
 
@@ -172,7 +172,7 @@ FileAgent.prototype.fetch = function(url, request) {
   this.fileClient.fetch( url, request ).then( results => {
     // do something with results
     console.log(results)
-  }, err => console.log(err) );;
+  }, err => { console.log(err); alert(err);} );;
 }
 
 

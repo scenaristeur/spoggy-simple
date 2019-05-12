@@ -28,9 +28,6 @@ function public(){
   publicFolder = webIdRoot+"public/";
   fileAgent.readFolder(publicFolder)
 }
-function updateCurrentWebId(webId){
-  document.getElementById("current-webId").innerHTML = webId;
-}
 
 function updateSession(session){
   //  console.log(session)
@@ -43,5 +40,44 @@ function updateSession(session){
     document.getElementById("logout-btn").style.display = "none";
     document.getElementById("login-btn").style.display = "block";
   }
+}
 
+function updateCurrentWebId(webId){
+  document.getElementById("current-webId").innerHTML = webId;
+}
+
+function updateCurrentFolder(folder){
+  console.log(folder)
+  document.getElementById("current-folder-parent").innerHTML = folder.parent;
+  document.getElementById("current-folder-url").innerHTML = folder.url;
+}
+
+function createFolder(){
+  var url = document.getElementById("current-folder-url").innerHTML+document.getElementById("new-folder-input").value;
+  fileAgent.createFolder(url);
+}
+
+function removeFolder(){
+
+}
+
+function renameFolder(){
+
+}
+function jsonSave(){
+  updateEditorFromNetwork();
+  saveEditorToPod("json")
+}
+function turtleSave(){
+  exportTtl(network)
+  saveEditorToPod("ttl")
+}
+
+function saveEditorToPod(ext){
+  var url = document.getElementById("current-folder-url").innerHTML;
+  var name = document.getElementById("new-file-input").value || "test" || new Date.now();
+  var content = editor.getValue();
+  url+=name+"."+ext;
+  console.log(url, content)
+  fileAgent.createFile(url, content)
 }

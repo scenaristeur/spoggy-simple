@@ -167,54 +167,65 @@ function draw() {
       adaptiveTimestep: true
     }
   };
+
   network = new vis.Network(container, data, options);
 
-  network.on("selectNode", function (params) {
-    console.log('selectNode Event:', params);
-    if (params.nodes.length == 1) {
-      let id = params.nodes[0];
-      var node = network.body.data.nodes.get(id);
-      console.log(node);
-      document.getElementById("input").value = node.label+" ";
-    }
-  });
+  // EVENTS on Network
+  network.body.data.nodes.on("*", function(event, properties, senderId){
+    updateEditorFromNetwork(event, properties, senderId)
+  }
+);
+network.body.data.edges.on("*", function(event, properties, senderId){
+  updateEditorFromNetwork(event, properties, senderId)
+}
+);
 
-  network.on("doubleClick", async function (params) {
-    console.log('doubleClick ', params);
-    var id = params.nodes[0];
-    var existNode;
-    try{
-      existNode = network.body.data.nodes.get({
-        filter: function(node){
-          return (node.id == id );
-        }
-      });
-      console.log(existNode);
-      if (existNode.length != 0){
-        console.log("existe", existNode[0])
-        var params = existNode[0];
-        params.source = existNode[0].id;
-        importer(params,updateGraph)
-        fitAndFocus(existNode[0].id)
-        if(params.source.endsWith("#me")){
-          updateCurrentWebId(params.source)
-        }
-        //app.nodeChanged(existNode[0]);
-        //  app.agentVis.send('agentFileeditor', {type: "nodeChanged", node: existNode[0]});
-        //  app.agentVis.send('agentFoldermenu', {type: "nodeChanged", node: existNode[0]});
-        //  network.body.data.nodes.add(data);
-        //  var thing = this.thing;
-      }else{
-        console.log("n'existe pas")
-        //  delete data.x;
-        //  delete data.y
-        //  network.body.data.nodes.update(data);
+network.on("selectNode", function (params) {
+  console.log('selectNode Event:', params);
+  if (params.nodes.length == 1) {
+    let id = params.nodes[0];
+    var node = network.body.data.nodes.get(id);
+    console.log(node);
+    document.getElementById("input").value = node.label+" ";
+  }
+});
+
+network.on("doubleClick", async function (params) {
+  console.log('doubleClick ', params);
+  var id = params.nodes[0];
+  var existNode;
+  try{
+    existNode = network.body.data.nodes.get({
+      filter: function(node){
+        return (node.id == id );
       }
+    });
+    console.log(existNode);
+    if (existNode.length != 0){
+      console.log("existe", existNode[0])
+      var params = existNode[0];
+      params.source = existNode[0].id;
+      importer(params,updateGraph)
+      fitAndFocus(existNode[0].id)
+      if(params.source.endsWith("#me")){
+        updateCurrentWebId(params.source)
+      }
+      //app.nodeChanged(existNode[0]);
+      //  app.agentVis.send('agentFileeditor', {type: "nodeChanged", node: existNode[0]});
+      //  app.agentVis.send('agentFoldermenu', {type: "nodeChanged", node: existNode[0]});
+      //  network.body.data.nodes.add(data);
+      //  var thing = this.thing;
+    }else{
+      console.log("n'existe pas")
+      //  delete data.x;
+      //  delete data.y
+      //  network.body.data.nodes.update(data);
     }
-    catch (err){
-      console.log(err);
-    }
-  });
+  }
+  catch (err){
+    console.log(err);
+  }
+});
 
 }
 
@@ -226,6 +237,8 @@ function editNode(data, cancelAction, callback) {
   colpicborder.id="colpicborder"
   document.getElementById('node-operation').appendChild(colpicbody)
   document.getElementById('node-operation').appendChild(colpicborder)
+  data.color.background? document.getElementById('colpicbody').value = data.color.background : "";
+  data.color.border? document.getElementById('colpicborder').value = data.color.border : "";
 
   document.getElementById('node-id').value = data.id || "";
   document.getElementById('node-label').value = data.label;
@@ -393,34 +406,4 @@ function addNodeIfNotExist(network, data){
   catch (err){
     console.log(err);
   }
-}
-
-function newGraph(){
-  let network = this.network;
-
-  var graphname = prompt("Comment nommer ce nouveau graphe ?", "Spoggy-Graph_"+Date.now());
-  var nodeName = {
-    label: graphname,
-    shape: "star",
-    color: "green",
-    type: "node"
-  };
-  var nodeGraph = {
-    label: "Graph",
-    /*    shape: "star",
-    color: "red",*/
-    type: "node"
-  };
-  network.body.data.nodes.clear();
-  network.body.data.edges.clear();
-  var nodes = network.body.data.nodes.add([nodeName, nodeGraph]);
-
-  var edge = {
-    from: nodes[0],
-    to: nodes[1],
-    arrows: "to",
-    label: "type"
-  }
-  network.body.data.edges.add(edge);
-  fitAndFocus(nodes[0].id)
 }
