@@ -237,8 +237,8 @@ function editNode(data, cancelAction, callback) {
   colpicborder.id="colpicborder"
   document.getElementById('node-operation').appendChild(colpicbody)
   document.getElementById('node-operation').appendChild(colpicborder)
-  data.color.background? document.getElementById('colpicbody').value = data.color.background : "";
-  data.color.border? document.getElementById('colpicborder').value = data.color.border : "";
+  data.color && data.color.background? document.getElementById('colpicbody').value = data.color.background : "";
+  data.color && data.color.border? document.getElementById('colpicborder').value = data.color.border : "";
 
   document.getElementById('node-id').value = data.id || "";
   document.getElementById('node-label').value = data.label;

@@ -23,6 +23,7 @@
   <script type="text/javascript" src="./js/network.js"></script>
 
   <!-- Spoggy -->
+  <script type="text/javascript" src="./js/levels.js"></script>
   <link href="./css/main.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="./js/import-export.js"></script>
   <script type="text/javascript" src="./js/spoggy.js"></script>
@@ -133,140 +134,155 @@
         <button id="importer_btn" onclick="catchCommande({value:'/i'})">Importer</button> /i
         <button id="exporter_json" onclick="catchCommande({value:'/e'})">Exporter JSON</button> /e
         <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
+        <button id="empty_graph" onclick="catchCommande({value:'/b'})">Vider</button> /b
       </fieldset>
     </div>
 
     <div style="float:auto">
       <fieldset>
-        <legend>Solid <div id="webId"></div></legend>
-        <button id="login-btn" onclick="login()">Login</button>
-        <button id="logout-btn" onclick="logout()">Logout</button><br>
-        current webId : <div id="current-webId"></div>
-        <button id="profile-btn" onclick="profile()">Profile</button>
-        <button id="public-btn" onclick="public()">Public</button>
-        <button id="friends-btn" onclick="friends()">Friends</button><br>
-        current Folder : <div id="current-folder">
-          parent Folder :  <div id="current-folder-parent"></div>
-          current Folder :   <div id="current-folder-url"></div>
-          <input id="new-file-input"></input>
-          <button id="jsonSave-btn" onclick="jsonSave()">Sauver en JSON</button>
-          <button id="turtleSave-btn" onclick="turtleSave()">Sauver en Turtle</button><br>
-          <input id="new-folder-input"></input>
-          <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button>
-        </div>
-      </fieldset>
-    </div>
-
-    <div style="float:auto">
-      <fieldset>
-        <legend>Réglages</legend>
-        <button  onclick="resetColors()">retablir les couleurs</button>
-        <select id="locale" onchange="draw();">
-          <option value="en">en</option>
-          <option value="de">de</option>
-          <option value="es">es</option>
-          <!--<option value="fr">fr</option>-->
-          <option value="it">it</option>
-          <option value="nl">nl</option>
-          <option value="pt-br">pt</option>
-          <option value="ru">ru</option>
-        </select>
-      </fieldset>
-    </div>
-
-    <div style="float:auto">
-      <fieldset>
-        <legend>Historique : Console | Navigation | Commandes | Recherches | Sources</legend>
-        <textarea id="story" name="story" rows="5" cols="66">
-          It was a dark and stormy night...
-        </textarea>
-      </fieldset>
-    </div>
-
-    <div style="float:auto">
-      <fieldset>
-        <legend>Editeur</legend>
-        <pre id="editor"></pre>
-      </fieldset>
+        <legend>Tuto niveau <span id="level">inconnu</level></legend>
+          <ul id="tutos-levels"> </ul>
+        </fieldset>
+      </div>
 
       <div style="float:auto">
         <fieldset>
-          <legend>Exemples JSON OK</legend>
-          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets_spoggy_nodes_edges_1511453311975.json">Projets David</a><br><br>
-          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Barriere%20Lego.json">Barrière LEGO sur github</a><br><br>
-          <a href="?source=https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json">Graph_Couleurs_Martin, JSON sur POD public smag0</a><br><br>
-          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy-Donner%20du%20sens%20%C3%A0%20l'IA.json">Donner du sens à l'IA</a><br><br>
+          <legend>Solid <div id="webId"></div></legend>
+          <button id="login-btn" onclick="login()">Login</button>
+          <button id="logout-btn" onclick="logout()">Logout</button><br>
+          current webId : <div id="current-webId"></div>
+          <button id="profile-btn" onclick="profile()">Profile</button>
+          <button id="public-btn" onclick="public()">Public</button>
+          <button id="friends-btn" onclick="friends()">Friends</button><br>
+          current Folder : <div id="current-folder">
+            parent Folder :  <div id="current-folder-parent"></div>
+            current Folder :   <div id="current-folder-url"></div>
+            <input id="new-file-input"></input>
+            <button id="jsonSave-btn" onclick="jsonSave()">Sauver en JSON</button>
+            <button id="turtleSave-btn" onclick="turtleSave()">Sauver en Turtle</button><br>
+            <input id="new-folder-input"></input>
+            <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button>
+          </div>
         </fieldset>
+      </div>
+
+      <div style="float:auto">
         <fieldset>
-          <legend>Exemples POD en developpement</legend>
-          <a href="?source=https://smag0.solid.community/profile/card#me">Explorer un POD (smag0) : firends,  public (& prive si auth)</a><br>
-          <a href="?source=https://holacratie.solid.community/profile/card#me">Et Parcourir les Friends (holacratie)</a><br>
-          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl"> David Projets TTL sur Github</a><br>
-          <a href="?source=https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl">Spoggy-caracteristiques.ttl sur POD public smag0</a><br>
-          <a href="?source=https://smag0.solid.community/public/">POD public smag0</a><br><br>
-          todo :
-          urls Persee, urls Semantic Forms...  Parcourir pour importer un ttl, rdf
-          <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank">exemples de fichiers spoggy </a>
+          <legend>Réglages</legend>
+          <button  onclick="resetColors()">retablir les couleurs</button>
+          <select id="locale" onchange="draw();">
+            <option value="en">en</option>
+            <option value="de">de</option>
+            <option value="es">es</option>
+            <!--<option value="fr">fr</option>-->
+            <option value="it">it</option>
+            <option value="nl">nl</option>
+            <option value="pt-br">pt</option>
+            <option value="ru">ru</option>
+          </select>
         </fieldset>
       </div>
 
-    </div>
-    <div style="float:auto">
-      <fieldset>
-        <legend>Explorateur Global</legend>
-        <ul>
-          <li>Enpdpoint Sparql
-            <li>requete</li>
-            <li>filtre</li>
-            <li>reasoner</li>
-            <li>authentification</li>
-          </ul>
+      <div style="float:auto">
+        <fieldset>
+          <legend>Historique : Console | Navigation | Commandes | Recherches | Sources</legend>
+          <textarea id="story" name="story" rows="5" cols="66">
+            It was a dark and stormy night...
+          </textarea>
         </fieldset>
       </div>
 
+      <div style="float:auto">
+        <fieldset>
+          <legend>Editeur</legend>
+          <pre id="editor"></pre>
+        </fieldset>
 
+        <div style="float:auto">
+          <fieldset>
+            <legend>Exemples JSON OK</legend>
+            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets_spoggy_nodes_edges_1511453311975.json">Projets David</a><br><br>
+            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Barriere%20Lego.json">Barrière LEGO sur github</a><br><br>
+            <a href="?source=https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json">Graph_Couleurs_Martin, JSON sur POD public smag0</a><br><br>
+            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy-Donner%20du%20sens%20%C3%A0%20l'IA.json">Donner du sens à l'IA</a><br><br>
+          </fieldset>
+          <fieldset>
+            <legend>Exemples POD en developpement</legend>
+            <a href="?source=https://smag0.solid.community/profile/card#me">Explorer un POD (smag0) : firends,  public (& prive si auth)</a><br>
+            <a href="?source=https://holacratie.solid.community/profile/card#me">Et Parcourir les Friends (holacratie)</a><br>
+            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl"> David Projets TTL sur Github</a><br>
+            <a href="?source=https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl">Spoggy-caracteristiques.ttl sur POD public smag0</a><br>
+            <a href="?source=https://smag0.solid.community/public/">POD public smag0</a><br><br>
+            todo :
+            urls Persee, urls Semantic Forms...  Parcourir pour importer un ttl, rdf
+            <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank">exemples de fichiers spoggy </a>
+          </fieldset>
+        </div>
+
+      </div>
+      <div style="float:auto">
+        <fieldset>
+          <legend>Explorateur Global</legend>
+          <ul>
+            <li>Enpdpoint Sparql
+              <li>requete</li>
+              <li>filtre</li>
+              <li>reasoner</li>
+              <li>authentification</li>
+            </ul>
+          </fieldset>
+        </div>
+
+        <div style="float:auto">
+          <fieldset>
+            <legend>Capture d'écran</legend>
+            <button id="capture_graphe" disabled onclick="catchCommande({value:'/c'})">Capturer le graphe</button>
+            <button id="capture_page" disabled onclick="catchCommande({value:'/s'})">Capturer la page</button>
+          </fieldset>
+        </div>
+
+        <script>
+        // create agents
+        var historiqueAgent = new HistoriqueAgent('historiqueAgent');
+        var appAgent = new AppAgent('appAgent');
+        var rdfAgent = new RdfAgent('rdfAgent');
+        //  var authAgent = new AuthAgent('authAgent');
+        var fileAgent = new FileAgent('fileAgent');
+
+        historiqueAgent.send('historiqueAgent', 'Prêt!');
+        appAgent.send('historiqueAgent', 'Prêt!');
+        rdfAgent.send('historiqueAgent', 'Prêt!');
+        fileAgent.send('historiqueAgent', 'Prêt!');
+        //authAgent.send('historiqueAgent', 'Prêt!');
+        </script>
+
+        <footer>
+          en savoir plus ? <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">spoggy-simple</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Aide</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Formation</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Developper un plugin Spoggy</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Spoggy dans votre entreprise</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Contact</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Partenaires</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Api</a><br>
+          <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Mécenat</a><br>
+
+        </footer>
+      </body>
+      </html>
+      <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
+      <!-- load ace language tools -->
+      <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
       <script>
-      // create agents
-      var historiqueAgent = new HistoriqueAgent('historiqueAgent');
-      var appAgent = new AppAgent('appAgent');
-      var rdfAgent = new RdfAgent('rdfAgent');
-      //  var authAgent = new AuthAgent('authAgent');
-      var fileAgent = new FileAgent('fileAgent');
+      //https://ace.c9.io/#nav=api&api=editor
+      var editor = ace.edit("editor", {
+        theme: "ace/theme/tomorrow_night_eighties",
+        mode: "ace/mode/turtle",
+        maxLines: 30,
+        wrap: true,
+        autoScrollEditorIntoView: true
+      });
 
-      historiqueAgent.send('historiqueAgent', 'Prêt!');
-      appAgent.send('historiqueAgent', 'Prêt!');
-      rdfAgent.send('historiqueAgent', 'Prêt!');
-      fileAgent.send('historiqueAgent', 'Prêt!');
-      //authAgent.send('historiqueAgent', 'Prêt!');
+
+      //editor.insert("test")
       </script>
-
-      <footer>
-        en savoir plus ? <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">spoggy-simple</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Aide</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Formation</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Developper un plugin Spoggy</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Spoggy dans votre entreprise</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Contact</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Partenaires</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Api</a><br>
-        <a href="https://github.com/scenaristeur/spoggy-simple" target="_blank">Mécenat</a><br>
-
-      </footer>
-    </body>
-    </html>
-    <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
-    <!-- load ace language tools -->
-    <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
-    <script>
-    //https://ace.c9.io/#nav=api&api=editor
-    var editor = ace.edit("editor", {
-      theme: "ace/theme/tomorrow_night_eighties",
-      mode: "ace/mode/turtle",
-      maxLines: 30,
-      wrap: true,
-      autoScrollEditorIntoView: true
-    });
-
-
-    //editor.insert("test")
-    </script>

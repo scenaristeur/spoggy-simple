@@ -1,5 +1,6 @@
 var commandHistory = [];
 
+
 function validInput(){
   var inputValue = document.getElementById('input').value.trim();
   if (inputValue.length > 0){
@@ -274,34 +275,28 @@ function catchCommande(commande){
     case "/importJson":
     console.log("import");
     document.getElementById('import-popUp').style.display = 'block';
-    //  importJson(network,app);
-    //this.$.dialogs.$.importPopUp.toggle();
-    //this.agentInput.send("agentPopup", {type: 'importJson'})
-    //  this.$.dialogs.$.dialogs.openImport(this.network)
     break;
     case "/n":
     console.log("new graph");
+
     newGraph();
-    //  this.newGraph(this.network, this);
-    //  this.agentInput.send('agentGraph', {type: 'newGraph'})
-    //  this.agentInput.send('agentSparqlUpdate', {type: "newGraph"});
-    //this.agentInput.send("agentVis", {type: 'newGraph'})
+    level < 1? increaseLevel() : "";
     break;
     case "/b":
     console.log("clean graph");
     cleanGraph();
+    level < 2? increaseLevel() : "";
     //  this.connectBase(this.network,this);
     break;
     case "/l":
     console.log("connection a la base levelgraph");
-    //  this.connectBase(this.network,this);
     break;
-    /*
-    case "/p":
-    case "/t":
-    // non traité ici , mais par le serveur
-    console.log("triplet, predicat ou noeud");
-    break;*/
+    case "/s":
+    console.log("capture_graphe");
+    break;
+    case "/s":
+    console.log("capture_page");
+    break;
     default:
     console.log("non traite"+ commande);
     //  return afficheCommandes();
@@ -350,7 +345,14 @@ function initSpoggy(){
   if (params.source!= undefined && params.source.length > 0){
     importer(params,updateGraph);
   }
+  initLevel();
+
+
 }
+
+
+
+
 function updateCurrent(folder){
   console.log(folder)
 }
@@ -394,13 +396,13 @@ function cleanGraph(){
 
 
 function updateEditorFromNetwork(event, properties, senderId){
-//  console.log(event, properties, senderId)
-var data = { nodes: network.body.data.nodes.get(), edges: network.body.data.edges.get() };
+  //  console.log(event, properties, senderId)
+  var data = { nodes: network.body.data.nodes.get(), edges: network.body.data.edges.get() };
   var text = JSON.stringify(data, null, 2)
   editor.session.setValue(text)
 }
 function updateEditorFromNetworkTtl(text){
-//  console.log(event, properties, senderId)
+  //  console.log(event, properties, senderId)
   //var text = JSON.stringify(network.body.data, null, 2)
   editor.session.setValue(text)
 }
