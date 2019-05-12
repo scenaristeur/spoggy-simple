@@ -11,7 +11,10 @@ Pour utiliser Spoggy, préférez Firefox ou Chrome https://scenaristeur.github.i
   5: {nom: "Créer un triplet", lien: "https://youtu.be/tXfX8vgfdiQ",video: "https://youtu.be/tXfX8vgfdiQ"},
   
   
-  [![Créer un triplet](https://img.youtube.com/vi/tXfX8vgfdiQ/0.jpg)](https://www.youtube.com/watch?v=tXfX8vgfdiQ)
+  
+  1: [![Créer un nouveau graphe](https://img.youtube.com/vi/bkedKb34USI/0.jpg)](https://www.youtube.com/watch?v=bkedKb34USI)
+  
+  5: [![Créer un triplet](https://img.youtube.com/vi/tXfX8vgfdiQ/0.jpg)](https://www.youtube.com/watch?v=tXfX8vgfdiQ)
 
 
 
