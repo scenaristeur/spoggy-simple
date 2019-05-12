@@ -7,13 +7,8 @@ var levels = {
   3: {nom: "Créer un deuxième noeud dans le graphe",lien: "https://youtu.be/AmDwlkLk7f8",video: "https://youtu.be/AmDwlkLk7f8"},
   4: {nom: "Créer un lien entre deux noeuds", lien: "https://youtu.be/ND8fK2liSdE",video: "https://youtu.be/ND8fK2liSdE"},
   5: {nom: "Créer un triplet", lien: "https://youtu.be/tXfX8vgfdiQ",video: "https://youtu.be/tXfX8vgfdiQ"},
-  6: {nom: "Créer un graphe avec au moins cinq noeuds et 7 liens", lien: "https://github.com/scenaristeur/spoggy-simple",video: "https://github.com/scenaristeur/spoggy-simple"},
-  7: {nom: "Créer un nouveau graphe", lien: "https://github.com/scenaristeur/spoggy-simple",video: "https://github.com/scenaristeur/spoggy-simple"},
-  8: {nom: "Créer un nouveau graphe", lien: "https://github.com/scenaristeur/spoggy-simple",video: "https://github.com/scenaristeur/spoggy-simple"},
-  9: {nom: "Créer un nouveau graphe", lien: "https://github.com/scenaristeur/spoggy-simple",video: "https://github.com/scenaristeur/spoggy-simple"},
-  10: {nom: "Créer un nouveau graphe", lien: "https://github.com/scenaristeur/spoggy-simple",video: "https://github.com/scenaristeur/spoggy-simple"},
-  11: {nom: "Créer un nouveau graphe", lien: "https://github.com/scenaristeur/spoggy-simple",video: "https://github.com/scenaristeur/spoggy-simple"},
-  12: {nom: "Créer un nouveau graphe", lien: "https://github.com/scenaristeur/spoggy-simple",video: "https://github.com/scenaristeur/spoggy-simple"}
+  6: {nom: "Créer un graphe avec au moins cinq noeuds et 7 liens", lien: "https://github.com/scenaristeur/spoggy-simple/blob/master/README.md",video: "https://github.com/scenaristeur/spoggy-simple/blob/master/README.md"},
+
 };
 
 
