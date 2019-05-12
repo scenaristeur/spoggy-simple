@@ -395,7 +395,8 @@ function cleanGraph(){
 
 function updateEditorFromNetwork(event, properties, senderId){
 //  console.log(event, properties, senderId)
-  var text = JSON.stringify(network.body.data, null, 2)
+var data = { nodes: network.body.data.nodes.get(), edges: network.body.data.edges.get() };
+  var text = JSON.stringify(data, null, 2)
   editor.session.setValue(text)
 }
 function updateEditorFromNetworkTtl(text){
