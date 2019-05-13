@@ -347,7 +347,9 @@ function initSpoggy(){
   }
   initLevel();
 
-
+file1 = window.location.protocol+"//"+window.location.host+"/data/pizza.ttl";
+file2 = window.location.protocol+"//"+window.location.host+"/data/DavidProjets.ttl"
+document.getElementById("url-remote").value = file2;
 }
 
 

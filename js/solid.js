@@ -10,8 +10,22 @@ function logout(){
 
 function friends(){
   console.log("friends");
-  rdfAgent.friends();
 }
+
+//
+//;
+
+function fetchRemote(url){
+  console.log("fetchRemote");
+  var url = document.getElementById("url-remote").value || "https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl";
+  rdfAgent.fetchRemote(url);
+}
+
+function parseLocal(){
+  console.log("parseLocal");
+  rdfAgent.parse()
+}
+
 
 function profile(){
   console.log("profile");
