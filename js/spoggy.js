@@ -350,7 +350,7 @@ function initSpoggy(){
 file1 = window.location.protocol+"//"+window.location.host+"/data/pizza.ttl";
 file2 = window.location.protocol+"//"+window.location.host+"/data/DavidProjets.ttl";
 file3 = "http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf";
-document.getElementById("url-remote").value = file3;
+document.getElementById("url-remote").value = file2;
 }
 
 
