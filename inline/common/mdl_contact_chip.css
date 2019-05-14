@@ -1,0 +1,19 @@
+body {
+  padding: 24px;
+}
+.material-icons {
+  vertical-align: middle;
+  font-size:130%;
+}
+.mdl-chip--contact {
+  min-width:230px;
+  border-radius: 16px;
+  margin-right: 8px;
+  font-size: 18px;
+  line-height: 32px;
+}
+.image {
+  height: 32px;
+width: 32px;
+
+}

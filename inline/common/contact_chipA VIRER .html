@@ -1,0 +1,19 @@
+<!-- ne devrait pas exister si inline dans le même fichier -->
+
+
+<!-- definition of a inline view template -->
+<div data-ui-view="app/inline/common/contact_chip"
+      class="mdl-chip mdl-chip--contact">
+    <img class="mdl-chip__contact" src="./app/content/docs/examples/images/avatar_01.png">
+    <span class="mdl-chip__text">Contact Name</span>
+</div>
+
+<!-- definition of a inline view template -->
+<div data-ui-view="app/inline/common/contact_chip"
+      class="mdl-chip mdl-chip--contact">
+    <img  data-ui-field="image"
+          class="mdl-chip__contact"
+          src="images/avatar_01.png">
+    <span data-ui-field="name"
+          class="mdl-chip__text">Contact Name</span>
+</div>
