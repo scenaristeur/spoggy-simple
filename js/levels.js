@@ -13,32 +13,31 @@ var levels = {
 
 
 function increaseLevel(){
-level = 6 // temporaire affiche tous les tutos tant que ce n'est pas ok
-//level++;
-console.log(level)
-localStorage.setItem('level',level)
-initLevel();
+  level = 6 // temporaire affiche tous les tutos tant que ce n'est pas ok
+  //level++;
+  //console.log(level)
+  localStorage.setItem('level',level)
+  initLevel();
 }
 
 function initLevel(){
   localStorage.getItem('level') == null? localStorage.setItem('level',0) : "" ;
   level = Number(localStorage.getItem('level'))
   document.getElementById("level").textContent  = level;
-var x=document.getElementById("tutos-levels");
-x.innerHTML = "";
+  var x=document.getElementById("tutos-levels");
+  x.innerHTML = "";
 
   for (var i  = 0; i <= level && i <= Object.keys(levels).length; i++)
   {
     var nom = levels[i].nom;
-  //  var lien = levels[i].lien;
+    //  var lien = levels[i].lien;
     var video = levels[i].video;
-    console.log(video)
     space = document.createTextNode(' ')
     space1 = document.createTextNode(' ')
 
     newLI = document.createElement("li");
     newText = document.createTextNode(nom);
-  /*  link = document.createElement('a');
+    /*  link = document.createElement('a');
     link.setAttribute('href', lien);
     link.setAttribute('target', '_blank');
     link.appendChild(document.createTextNode("lien"));*/
@@ -48,7 +47,7 @@ x.innerHTML = "";
     vid.appendChild(document.createTextNode("video"));
     newLI.appendChild(newText);
     newLI.appendChild(space);
-  //  newLI.appendChild(link);
+    //  newLI.appendChild(link);
     newLI.appendChild(space1);
     newLI.appendChild(vid);
     x.appendChild(newLI);

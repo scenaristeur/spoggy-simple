@@ -1,0 +1,110 @@
+<!-- include common links -->
+<div data-ui-include="./app/content/docs/examples/links"></div>
+<!--<div data-ui-include="https://zuixjs.github.io/zuix/app/content/docs/examples/links"></div>-->
+
+<div data-ui-include="./app/content/docs/intro"
+data-ui-options="my_loading_options"></div>
+
+
+
+<div data-ui-include="./app/templates/mdl_card">
+  <h1 data-ui-field="title">Down the rabbit hole</h1>
+  <img data-ui-field="image" src="./app/content/docs/examples/images/card_cover_2.jpg">
+  <p data-ui-field="text">
+    Luckily for Alice, the little magic bottle had now had
+    its full effect, and she grew no larger&hellip;
+  </p>
+  <a data-ui-field="link_read" href="/#/docs">Read More</a>
+</div>
+
+
+<div data-ui-include="./app/templates/mdl_card">
+  <h1 data-ui-field="title">Deuxième</h1>
+  <img data-ui-field="image" src="./app/content/docs/examples/images/card_placeholder.jpg">
+  <p data-ui-field="text">
+    Luckily for Alice, the little magic bottle had now had
+    its full effect, and she grew no larger&hellip;
+  </p>
+  <a data-ui-field="link_read" href="/#/docs">Read More</a>
+</div>
+
+
+<div data-ui-include="inline/common/mdl_contact_chip"
+data-ui-options="view_options">
+<p data-ui-field="name">Mary Jane</p>
+<p data-ui-field="image">./app/content/docs/examples/images/avatar_01.png</p>
+<p data-ui-field="phone">12-333-444-5555</p>
+</div>
+
+<br/>
+
+<div data-ui-include="inline/common/mdl_contact_chip"
+data-ui-options="view_options">
+<p data-ui-field="name">John Doe</p>
+<p data-ui-field="image">./app/content/docs/examples/images/avatar_01.png</p>
+<p data-ui-field="phone">66-777-888-9999</p>
+</div>
+
+<!-- Inline template definitions can be placed
+inside a hidden div area -->
+
+<div class="hidden">
+
+  <!-- Example Material Design contact chip template -->
+  <div data-ui-view="inline/common/mdl_contact_chip">
+    <span class="mdl-chip mdl-chip--contact mdl-shadow--6dp">
+
+      <img data-ui-field="image"
+      class="mdl-chip__contact"
+      src="./app/content/docs/examples/images/avatar_01.png">
+
+      <span class="mdl-chip__text">
+        <strong data-ui-field="name">Contact Name</strong>
+        <i class="material-icons">phone</i>
+        <span data-ui-field="phone">12-345-678-9012</span>
+      </span>
+
+    </span>
+  </div>
+
+  <div layout="row center-spread">
+    <!-- Foo Bar chip -->
+    <div data-ui-include="inline/common/mdl_contact_chip"
+    data-bind-model="foo_bar_contact"></div>
+    <!-- Jane Doe chip -->
+    <div data-ui-include="inline/common/mdl_contact_chip"
+    data-bind-model="a_random_contact"></div>
+  </div>
+
+
+</div>
+
+<script>
+var my_loading_options = {
+  lazyLoad: false,
+  priority: -1,
+  ready: function(ctx) {
+    // ctx is the {ComponentContext} object
+    // associated to the loaded content/component
+    console.log('CHARGE '+ctx.componentId+' AS '+ctx.contextId+'.');
+  },
+  error: function(err) {
+    console.log('Oh-oh!', err);
+  }
+}
+</script>
+
+<script>
+// example inline data model
+var foo_bar_contact = {
+  image: './app/content/docs/examples/images/avatar_01.png',
+  name: 'Foo Bar'
+};
+var a_random_contact = {
+  image: './app/content/docs/examples/images/avatar_01.png',
+  name: function(element, field) { element.html(a_random_name()); }
+};
+function a_random_name(){
+  return 'Swing Pop'
+}
+</script>
