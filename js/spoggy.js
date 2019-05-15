@@ -72,6 +72,7 @@ function getInputType(iv){
       inputObject.inputNew = last.s+" ";
       break;
 
+
       default:
       // si le premier charactère n'indique pas une commande, on traite comme un triplet
       inputObject = traiteTriplet(iv);
@@ -291,11 +292,9 @@ function catchCommande(commande){
     case "/l":
     console.log("connection a la base levelgraph");
     break;
-    case "/s":
-    console.log("capture_graphe");
-    break;
-    case "/s":
-    console.log("capture_page");
+    case "/c":
+  //  console.log("capture_graphe");
+    downloadCanvas()
     break;
     default:
     console.log("non traite"+ commande);
@@ -408,4 +407,36 @@ function updateEditorFromNetworkTtl(text){
   //  console.log(event, properties, senderId)
   //var text = JSON.stringify(network.body.data, null, 2)
   editor.session.setValue(text)
+}
+
+function downloadCanvas(){
+    // get canvas data
+    var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
+
+    destinationCanvas = document.createElement("canvas");
+  destinationCanvas.width = srcCanvas.width;
+  destinationCanvas.height = srcCanvas.height;
+
+  destCtx = destinationCanvas.getContext('2d');
+
+  //create a rectangle with the desired color
+  destCtx.fillStyle = "#FFFFFF";
+  destCtx.fillRect(0,0,srcCanvas.width,srcCanvas.height);
+
+  //draw the original canvas onto the destination canvas
+  destCtx.drawImage(srcCanvas, 0, 0);
+
+  //finally use the destinationCanvas.toDataURL() method to get the desired output;
+
+    var image =   destinationCanvas.toDataURL(); //canvas.toDataURL("image/png");
+
+    // create temporary link
+    var tmpLink = document.createElement( 'a' );
+    tmpLink.download = 'image.png'; // set the name of the download file
+    tmpLink.href = image;
+
+    // temporarily add link to body and initiate the download
+    document.body.appendChild( tmpLink );
+    tmpLink.click();
+    document.body.removeChild( tmpLink );
 }

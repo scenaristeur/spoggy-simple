@@ -135,6 +135,7 @@
         <button id="exporter_json" onclick="catchCommande({value:'/e'})">Exporter JSON</button> /e
         <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
         <button id="empty_graph" onclick="catchCommande({value:'/b'})">Vider</button> /b
+        <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
       </fieldset>
     </div>
 
@@ -251,13 +252,6 @@
           </fieldset>
         </div>
 
-        <div style="float:auto">
-          <fieldset>
-            <legend>Capture d'écran</legend>
-            <button id="capture_graphe" disabled onclick="catchCommande({value:'/c'})">Capturer le graphe</button>
-            <button id="capture_page" disabled onclick="catchCommande({value:'/s'})">Capturer la page</button>
-          </fieldset>
-        </div>
 
         <script>
         // create agents

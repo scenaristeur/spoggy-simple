@@ -32,7 +32,7 @@ Cliquez sur les images pour ouvrir la video. Clic on picture to open the video.
 [ ] enregistrer les sources utilisées, les sources préférées, proposer les sources connues du "Central", proposer une source au "Central"
 [ ] implémenter en web composants + agents
 [ ] récupérer les réglages de graphes depuis heroku-spoggy
-[ ] capture screenshot d'un graphe
+[ X ] capture screenshot d'un graphe (fond Blanc) (comment recupérer le background du canvas ?)
 
 
 # agents communication
