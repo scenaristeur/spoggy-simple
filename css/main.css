@@ -3,7 +3,8 @@ body, select {
 }
 #mynetwork {
   position:relative;
-  width: 800px;
+  max-width: 800px;
+  min-width: 320px;
   height: 600px;
   border: 1px solid lightgray;
   background: linear-gradient(to bottom, rgba(55, 55, 255, 0.2), rgba(200, 200, 10, 0.2));
@@ -35,8 +36,8 @@ div.table_description {
 .popUp {
   display:none;
   position:absolute;
-  top:350px;
-  left:170px;
+  top:50%;
+  left:50%;
   z-index:299;
   width:auto;
   /*height:90px;*/
@@ -62,4 +63,4 @@ textarea {
        border: 1px solid lightgray;
        margin: auto;
        width: 80%;
-   } 
+   }

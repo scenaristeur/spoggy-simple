@@ -106,45 +106,111 @@
       <input type="button" value="Fermer" onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
     </div>
 
-    <div style="float:left" id="mynetwork"></div>
 
     <div style="float:left">
-      <fieldset>
-        <legend>Input</legend>
-        <input id="input" style="width:70%" onkeyup="inputChanged(this)" type="text"></input>
-        <button id="valider" onclick="validInput()">Valider</button><br>
-        <br>
-        <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
-        <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
-        <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-        <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-        <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
-        <br>
-        Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
-        ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-        ou importer une url (json, ttl, rdf, POD...)<br>
-      </fieldset>
-    </div>
+      <div style="float:auto">
+        <fieldset>
+          <legend>Tuto niveau <span id="level">inconnu</level></legend>
+            <ul id="tutos-levels"> </ul>
+          </fieldset>
+        </div>
+
+        <div style="float:left">
+          <fieldset>
+            <legend>Input</legend>
+            <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text"></input>
+            <button id="valider" onclick="validInput()">Valider</button><br>
+            <br>
+            <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+            <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+            <button  onclick="resetColors()">retablir les couleurs</button>
+            <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+            <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+            <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+            <br>
+            Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+            ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+            ou importer une url (json, ttl, rdf, POD...)<br>
+          </fieldset>
+        </div>
+
+        <div style="float:auto">
+          <div style="float:auto">
+            <fieldset>
+              <legend>Réglages</legend>
+              <select id="locale" onchange="draw();">
+                <option value="en">en</option>
+                <option value="de">de</option>
+                <option value="es">es</option>
+                <!--<option value="fr">fr</option>-->
+                <option value="it">it</option>
+                <option value="nl">nl</option>
+                <option value="pt-br">pt</option>
+                <option value="ru">ru</option>
+              </select>
 
 
-    <div style="float:auto">
-      <fieldset>
-        <legend>Outils</legend>
-        <button id="exporter_ttl" onclick="catchCommande({value:'/n'})">Nouveau Graphe</button> /n
-        <button id="importer_btn" onclick="catchCommande({value:'/i'})">Importer</button> /i
-        <button id="exporter_json" onclick="catchCommande({value:'/e'})">Exporter JSON</button> /e
-        <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
-        <button id="empty_graph" onclick="catchCommande({value:'/b'})">Vider</button> /b
-        <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
-      </fieldset>
-    </div>
 
-    <div style="float:auto">
-      <fieldset>
-        <legend>Tuto niveau <span id="level">inconnu</level></legend>
-          <ul id="tutos-levels"> </ul>
-        </fieldset>
+            </fieldset>
+
+
+
+
+            <div style="float:left">
+
+              <fieldset>
+                <legend>Clustering Network</legend>
+                <input type="button" onclick="clusterByCid()" value="Cluster all nodes with CID = 1"> <br />
+                <input type="button" onclick="clusterByColor()" value="Cluster by color"> <br />
+                <input type="button" onclick="clusterByConnection()" value="Cluster 'node 1' by connections"> <br />
+                <input type="button" onclick="clusterOutliers()" value="Cluster outliers"> <br />
+                <input type="button" onclick="clusterByHubsize()" value="Cluster by hubsize"> <br/>
+              </fieldset>
+
+              <fieldset>
+                <legend>Réglages</legend>
+                <div class="slidecontainer">
+                  D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)">
+                  L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)">
+                  F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)">
+                  G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)">
+                  R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)">
+                  <button onclick="setDefaultReglages()">Defaut</button>
+                </div>
+              </fieldset>
+            </div>
+
+          </div>
+
+
+        </div>
+
+
       </div>
+
+      <div style="float:left" id="mynetwork"></div>
+
+      <div style="float:auto">
+        <div style="float:auto">
+          <fieldset>
+            <legend>Outils</legend>
+            <button id="exporter_ttl" onclick="catchCommande({value:'/n'})">Nouveau Graphe</button> /n
+            <button id="importer_btn" onclick="catchCommande({value:'/i'})">Importer</button> /i
+            <button id="exporter_json" onclick="catchCommande({value:'/e'})">Exporter JSON</button> /e
+            <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
+            <button id="empty_graph" onclick="catchCommande({value:'/b'})">Vider</button> /b
+            <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
+          </fieldset>
+        </div>
+
+        <div style="float:auto">
+          <fieldset>
+            <legend>Editeur</legend>
+            <pre id="editor"></pre>
+          </fieldset>
+        </div>
+      </div>
+
 
       <div style="float:auto">
         <fieldset>
@@ -167,22 +233,7 @@
         </fieldset>
       </div>
 
-      <div style="float:auto">
-        <fieldset>
-          <legend>Réglages</legend>
-          <button  onclick="resetColors()">retablir les couleurs</button>
-          <select id="locale" onchange="draw();">
-            <option value="en">en</option>
-            <option value="de">de</option>
-            <option value="es">es</option>
-            <!--<option value="fr">fr</option>-->
-            <option value="it">it</option>
-            <option value="nl">nl</option>
-            <option value="pt-br">pt</option>
-            <option value="ru">ru</option>
-          </select>
-        </fieldset>
-      </div>
+
 
       <div style="float:auto">
         <fieldset>
@@ -193,50 +244,37 @@
         </fieldset>
       </div>
 
-      <div style="float:auto">
-        <fieldset>
-          <legend>Editeur</legend>
-          <pre id="editor"></pre>
-        </fieldset>
-
-        <div style="float:auto">
-          <fieldset>
-            <legend>Exemples JSON OK</legend>
-            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets_spoggy_nodes_edges_1511453311975.json">Projets David</a><br><br>
-            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Barriere%20Lego.json">Barrière LEGO sur github</a><br><br>
-            <a href="?source=https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json">Graph_Couleurs_Martin, JSON sur POD public smag0</a><br><br>
-            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy-Donner%20du%20sens%20%C3%A0%20l'IA.json">Donner du sens à l'IA</a><br><br>
-          </fieldset>
-          <fieldset>
-            <legend>Exemples POD en developpement</legend>
-            <a href="?source=https://smag0.solid.community/profile/card#me">Explorer un POD (smag0) : firends,  public (& prive si auth)</a><br>
-            <a href="?source=https://holacratie.solid.community/profile/card#me">Et Parcourir les Friends (holacratie)</a><br>
-            <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl"> David Projets TTL sur Github</a><br>
-            <a href="?source=https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl">Spoggy-caracteristiques.ttl sur POD public smag0</a><br>
-            <a href="?source=https://smag0.solid.community/public/">POD public smag0</a><br><br>
-            todo :
-            urls Persee, urls Semantic Forms...  Parcourir pour importer un ttl, rdf<br>
-            <input id="url-remote" value=""></input>
-            <button  onclick="fetchRemote()">Test FetchRemote</button><br>
-            <button  onclick="parseLocal()">Test Parse local</button>
-            <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank">exemples de fichiers spoggy </a>
-          </fieldset>
-        </div>
-
-      </div>
-
 
 
       <div style="float:auto">
         <fieldset>
-          <legend>Clustering Network</legend>
-          <input type="button" onclick="clusterByCid()" value="Cluster all nodes with CID = 1"> <br />
-          <input type="button" onclick="clusterByColor()" value="Cluster by color"> <br />
-          <input type="button" onclick="clusterByConnection()" value="Cluster 'node 1' by connections"> <br />
-          <input type="button" onclick="clusterOutliers()" value="Cluster outliers"> <br />
-          <input type="button" onclick="clusterByHubsize()" value="Cluster by hubsize"> <br />
+          <legend>Exemples JSON OK</legend>
+          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets_spoggy_nodes_edges_1511453311975.json">Projets David</a><br><br>
+          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Barriere%20Lego.json">Barrière LEGO sur github</a><br><br>
+          <a href="?source=https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json">Graph_Couleurs_Martin, JSON sur POD public smag0</a><br><br>
+          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy-Donner%20du%20sens%20%C3%A0%20l'IA.json">Donner du sens à l'IA</a><br><br>
+        </fieldset>
+        <fieldset>
+          <legend>Exemples POD en developpement</legend>
+          <a href="?source=https://smag0.solid.community/profile/card#me">Explorer un POD (smag0) : firends,  public (& prive si auth)</a><br>
+          <a href="?source=https://holacratie.solid.community/profile/card#me">Et Parcourir les Friends (holacratie)</a><br>
+          <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl"> David Projets TTL sur Github</a><br>
+          <a href="?source=https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl">Spoggy-caracteristiques.ttl sur POD public smag0</a><br>
+          <a href="?source=https://smag0.solid.community/public/">POD public smag0</a><br><br>
+          todo :
+          urls Persee, urls Semantic Forms...  Parcourir pour importer un ttl, rdf<br>
+          <input id="url-remote" value=""></input>
+          <button  onclick="fetchRemote()">Test FetchRemote</button><br>
+          <button  onclick="parseLocal()">Test Parse local</button>
+          <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank">exemples de fichiers spoggy </a>
         </fieldset>
       </div>
+
+
+
+
+
+
 
 
       <div style="float:auto">

@@ -312,6 +312,7 @@ function saveEdgeData(data, callback) {
 function init() {
   setDefaultLocale();
   draw();
+  setDefaultReglages();
 }
 
 function fitAndFocus(node_id){
@@ -464,4 +465,42 @@ function clusterByHubsize() {
     clusterNodeProperties: {borderWidth:3, shape:'box', font:{size:30}}
   };
   network.clusterByHubsize(undefined, clusterOptionsByData);
+}
+
+function reglage(id,value){
+  console.log(id,value);
+  switch(id) {
+    case "distance":
+    network.physics.options.repulsion.nodeDistance = value
+    break;
+    case "force":
+    network.physics.options.repulsion.springConstant = value
+    break;
+    case "longueur":
+    network.physics.options.repulsion.springLength = value
+    break;
+    case "gravite":
+    network.physics.options.repulsion.centralGravity = value
+    break;
+    case "resistance":
+    network.physics.options.repulsion.damping = value
+    break;
+    default:
+    // code block
+  }
+  network.stabilize(10);
+}
+
+
+function setDefaultReglages(){
+  document.getElementById("distance").value = nodeDistanceValueDefault;
+  document.getElementById("force").value = springConstantValueDefault;
+  document.getElementById("longueur").value = springLengthValueDefault;
+  document.getElementById("gravite").value = centralGravityValueDefault;
+  document.getElementById("resistance").value = dampingValueDefault;
+  reglage("distance",nodeDistanceValueDefault)
+  reglage("force",springConstantValueDefault)
+  reglage("longueur",springLengthValueDefault)
+  reglage("gravite",centralGravityValueDefault)
+  reglage("resistance",dampingValueDefault)
 }

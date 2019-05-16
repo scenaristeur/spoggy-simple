@@ -31,7 +31,7 @@ Cliquez sur les images pour ouvrir la video. Clic on picture to open the video.
 [ ] implémenter la recherche dans le graphe, dans les sources connues
 [ ] enregistrer les sources utilisées, les sources préférées, proposer les sources connues du "Central", proposer une source au "Central"
 [ ] implémenter en web composants + agents
-[ ] récupérer les réglages de graphes depuis heroku-spoggy
+[ X ] récupérer les réglages de graphes depuis heroku-spoggy
 [ X ] capture screenshot d'un graphe (fond Blanc) (comment recupérer le background du canvas ?)
 
 
