@@ -24,16 +24,17 @@ Cliquez sur les images pour ouvrir la video. Clic on picture to open the video.
    [![Créer un triplet](https://img.youtube.com/vi/tXfX8vgfdiQ/0.jpg)](https://www.youtube.com/watch?v=tXfX8vgfdiQ)
 
 # todo
-[ ] proposer une liste de graphes
-[ ] utiliser les cluster visjs pour séparer les graphes (cluster 1 : navigation, cluster 2 : graphe en cours, ... ou réserver cluster 0 à 10 pour le système, et cluster data à partir de 11 )
-[ ] bloquer le déplacement du graphe par clavier quand le focus est dans l'input
-[ ] ne pas créer de noeud en cas de message chat
-[ ] implémenter la recherche dans le graphe, dans les sources connues
-[ ] enregistrer les sources utilisées, les sources préférées, proposer les sources connues du "Central", proposer une source au "Central"
-[ ] implémenter en web composants + agents
-[ X ] récupérer les réglages de graphes depuis heroku-spoggy
-[ X ] capture screenshot d'un graphe (fond Blanc) (comment recupérer le background du canvas ?)
-
+- [ ] proposer une liste de graphes
+- [ ] enregistrer les graphes 1. dans un POD public, 2. dans un POD perso, 3. dans un POD partagé
+- [ ] utiliser les cluster visjs pour séparer les graphes (cluster 1 : navigation, cluster 2 : graphe en cours, ... ou réserver cluster 0 à 10 pour le système, et cluster data à partir de 11 )
+- [ ] bloquer le déplacement du graphe par clavier quand le focus est dans l'input
+- [ ] ne pas créer de noeud en cas de message chat
+- [ ] implémenter la recherche dans le graphe, dans les sources connues
+- [ ] enregistrer les sources utilisées, les sources préférées, proposer les sources connues du "Central", proposer une source au "Central"
+- [ ] implémenter en web composants + agents
+- [ X ] récupérer les réglages de graphes depuis heroku-spoggy
+- [ X ] capture screenshot d'un graphe (fond Blanc) (comment recupérer le background du canvas ?)
+- [ ] ajouter prise de photo et reconnaissance Semantique transmise au graphe https://medium.com/nanonets/how-to-do-image-segmentation-using-deep-learning-c673cc5862ef
 
 # agents communication
 https://github.com/scenaristeur/evejs

@@ -277,6 +277,10 @@ function catchCommande(commande){
     console.log("import");
     document.getElementById('import-popUp').style.display = 'block';
     break;
+    case "/p":
+    console.log("save_to_pod");
+    document.getElementById('select-pod-popUp').style.display = 'block';
+    break;
     case "/n":
     console.log("new graph");
 

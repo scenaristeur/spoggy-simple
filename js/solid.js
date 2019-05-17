@@ -1,3 +1,5 @@
+var agora_POD = "https://agora.solid.community/profile/card#me"
+var sessionCourante = {};
 function login(){
   console.log("login");
   fileAgent.login();
@@ -45,14 +47,16 @@ function public(){
 
 function updateSession(session){
   //  console.log(session)
+  sessionCourante = session;
   document.getElementById("webId").innerHTML = session.webId || "";
   document.getElementById("current-webId").innerHTML = session.webId || "";
+  document.getElementById("PODurlInput").value = session.webId || agora_POD;
   if (session != undefined && session.webId != undefined){
-    document.getElementById("logout-btn").style.display = "block";
-    document.getElementById("login-btn").style.display = "none";
+    document.querySelectorAll("button.logout").forEach(function(o){o.style.display = "block";})
+    document.querySelectorAll("button.login").forEach(function(i){i.style.display = "none";})
   }else{
-    document.getElementById("logout-btn").style.display = "none";
-    document.getElementById("login-btn").style.display = "block";
+    document.querySelectorAll("button.logout").forEach(function(o){o.style.display = "none";})
+    document.querySelectorAll("button.login").forEach(function(i){i.style.display = "block";})
   }
 }
 
@@ -95,4 +99,12 @@ function saveEditorToPod(ext){
   url+=name+"."+ext;
   console.log(url, content)
   fileAgent.createFile(url, content)
+}
+
+function reset_Public_POD(){
+  document.getElementById('PODurlInput').value = agora_POD;
+}
+
+function restoreCurrentSession(){
+    document.getElementById('PODurlInput').value = sessionCourante.webId;
 }
