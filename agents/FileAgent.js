@@ -62,7 +62,7 @@ alert(`Logged in as ${session.webId}`);
 
 FileAgent.prototype.logout = function() {
   this.fileClient.logout().then( () =>{
-  //  localStorage.removeItem('solid-auth-client');
+    //  localStorage.removeItem('solid-auth-client');
     updateSession({})
     console.log( `Bye now!` )
   }
@@ -72,7 +72,7 @@ FileAgent.prototype.logout = function() {
 FileAgent.prototype.checkSession = function() {
   this.fileClient.checkSession().then( session => {
     console.log("Logged in as "+session.webId)
-  //  localStorage.setItem('solid-auth-client',JSON.stringify(session));
+    //  localStorage.setItem('solid-auth-client',JSON.stringify(session));
     updateSession(session)
   }, err => {
     console.log(err)
@@ -157,8 +157,7 @@ FileAgent.prototype.deleteFolder = function(url) {
 FileAgent.prototype.readFolder = function(url) {
   this.fileClient.readFolder(url).then(folder => {
     console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
-    folder2vis(folder)
-    updateCurrentFolder(folder)
+    return folder;
   }, err => { console.log(err); alert(err);} );
 }
 
@@ -178,13 +177,13 @@ FileAgent.prototype.fetch = function(url, request) {
 
 
 /* FileAgent.prototype.saveOldUserData = function(profile)  {
-  if (!localStorage.getItem('oldProfileData')) {
-    localStorage.setItem('oldProfileData', JSON.stringify(profile));
-  }
+if (!localStorage.getItem('oldProfileData')) {
+localStorage.setItem('oldProfileData', JSON.stringify(profile));
+}
 }*/
 
 /*FileAgent.prototype.getOldUserData = function() {
-  return JSON.parse(localStorage.getItem('oldProfileData'));
+return JSON.parse(localStorage.getItem('oldProfileData'));
 }*/
 
 

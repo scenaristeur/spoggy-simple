@@ -126,7 +126,7 @@
           <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
           <button id="empty_graph" onclick="catchCommande({value:'/b'})">Vider</button> /b
           <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
-          <button id="save_to_pod" onclick="catchCommande({value:'/p'})">Sauvegarder sur un POD public</button> /p
+          <button id="save_to_pod" onclick="catchCommande({value:'/p'})">Sauvegarder sur un POD</button> /p
         </fieldset>
       </div>
 
@@ -319,9 +319,9 @@
                 <fieldset>
                   <legend>POD public (libre anonyme) / perso ou partagé (se connecter)</legend>
                   <button onclick="reset_Public_POD()">Utiliser le POD public</button>
-                   <button  class="login" onclick="login()">Se connecter sur un POD</button>
-                   <button class="logout" onclick="logout()">Se deconnecter du POD</button>
-                   <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button><br>
+                  <button  class="login" onclick="login()">Se connecter sur un POD</button>
+                  <button class="logout" onclick="logout()">Se deconnecter du POD</button>
+                  <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button><br>
                 </fieldset>
               </p>
               <p >
@@ -337,39 +337,71 @@
           </div>
 
 
-          <!-- fin pop-ups -->
+          <div id="pod-browser-popUp" class="popUp">
+            <div style="padding-left:20px" vertical start-justified start layout wrap>
+              <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
+                <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+                <p>
+                  <fieldset>
+                    <legend>Dossier</legend>
+                    <ul id="folderslist">
+                      <li>fo1 </li>
+                      <li>fo1 </li>
+                      <li>fo1 </li>
+                    </ul>
+
+                  </fieldset>
+                  <fieldset>
+                    <legend>Fichier</legend>
+                    <ul id="fileslist">
+                      <li>fi1 </li>
+                      <li>fi1 </li>
+                      <li>fi1 </li>
+                    </ul>
+
+                  </fieldset>
+                </p>
+
+              </div>
+
+              <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
+            </div>
 
 
-        </body>
-        </html>
-        <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
-        <!-- load ace language tools -->
-        <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
-        <script>
-        //https://ace.c9.io/#nav=api&api=editor
-        var editor = ace.edit("editor", {
-          theme: "ace/theme/tomorrow_night_eighties",
-          mode: "ace/mode/turtle",
-          maxLines: 30,
-          wrap: true,
-          autoScrollEditorIntoView: true
-        });
+
+            <!-- fin pop-ups -->
 
 
-        //editor.insert("test")
-        </script>
+          </body>
+          </html>
+          <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
+          <!-- load ace language tools -->
+          <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
+          <script>
+          //https://ace.c9.io/#nav=api&api=editor
+          var editor = ace.edit("editor", {
+            theme: "ace/theme/tomorrow_night_eighties",
+            mode: "ace/mode/turtle",
+            maxLines: 30,
+            wrap: true,
+            autoScrollEditorIntoView: true
+          });
 
-        <script>
-        // create agents
-        var historiqueAgent = new HistoriqueAgent('historiqueAgent');
-        var appAgent = new AppAgent('appAgent');
-        var rdfAgent = new RdfAgent('rdfAgent');
-        //  var authAgent = new AuthAgent('authAgent');
-        var fileAgent = new FileAgent('fileAgent');
 
-        historiqueAgent.send('historiqueAgent', 'Prêt!');
-        appAgent.send('historiqueAgent', 'Prêt!');
-        rdfAgent.send('historiqueAgent', 'Prêt!');
-        fileAgent.send('historiqueAgent', 'Prêt!');
-        //authAgent.send('historiqueAgent', 'Prêt!');
-        </script>
+          //editor.insert("test")
+          </script>
+
+          <script>
+          // create agents
+          var historiqueAgent = new HistoriqueAgent('historiqueAgent');
+          var appAgent = new AppAgent('appAgent');
+          var rdfAgent = new RdfAgent('rdfAgent');
+          //  var authAgent = new AuthAgent('authAgent');
+          var fileAgent = new FileAgent('fileAgent');
+
+          historiqueAgent.send('historiqueAgent', 'Prêt!');
+          appAgent.send('historiqueAgent', 'Prêt!');
+          rdfAgent.send('historiqueAgent', 'Prêt!');
+          fileAgent.send('historiqueAgent', 'Prêt!');
+          //authAgent.send('historiqueAgent', 'Prêt!');
+          </script>
