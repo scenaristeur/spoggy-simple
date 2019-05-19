@@ -43,9 +43,9 @@ function public(){
   webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
   console.log(webIdRoot);
   publicFolder = webIdRoot+"public/";
-  newFolder = fileAgent.readFolder(publicFolder)
-  folder2vis(newFolder)
-  updateCurrentFolder(newFolder)
+   fileAgent.readFolder(publicFolder)
+//  folder2vis(newFolder)
+//  updateCurrentFolder(newFolder)
 }
 function browsePOD(){
   // A fusionner avec public ?
@@ -54,9 +54,9 @@ function browsePOD(){
   webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
   console.log(webIdRoot);
   publicFolder = webIdRoot+"public/";
-  newFolder = fileAgent.readFolder(publicFolder)
-  folder2vis(newFolder)
-  updateCurrentFolder(newFolder)
+fileAgent.readFolder(publicFolder)
+//  folder2vis(newFolder)
+//  updateCurrentFolder(newFolder)
 }
 
 function updateSession(session){

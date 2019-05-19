@@ -183,6 +183,7 @@
       </fieldset>
       <fieldset>
         <legend>Exemples POD en developpement</legend>
+        <a href="http://127.0.0.1:3000/?source=https://spoggy.solid.community/public/test/">Folder Test : https://spoggy.solid.community/public/test/</a><br>
         <a href="?source=https://smag0.solid.community/profile/card#me">Explorer un POD (smag0) : firends,  public (& prive si auth)</a><br>
         <a href="?source=https://holacratie.solid.community/profile/card#me">Et Parcourir les Friends (holacratie)</a><br>
         <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl"> David Projets TTL sur Github</a><br>
@@ -194,6 +195,17 @@
         <button  onclick="fetchRemote()">Test FetchRemote</button><br>
         <button  onclick="parseLocal()">Test Parse local</button>
         <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank">exemples de fichiers spoggy </a>
+      </fieldset>
+      <fieldset>
+        <legend>Websocket / notifications</legend>
+        sur deux fichiers : <br>
+        <a href="https://spoggy.solid.community/public/test/fichier.ttl" target="_blank">https://spoggy.solid.community/public/test/fichier.ttl</a><br>
+        <a href="https://spoggy.solid.community/public/test/fichier2.ttl" target="_blank">https://spoggy.solid.community/public/test/fichier2.ttl</a><br>
+        ne fonctionne pas sur le dossier https://spoggy.solid.community/public/test/<br>
+        <button onclick="testWebSocket()">Activer</button>
+        <textarea id="notification" name="notification" rows="5" cols="66">
+        </textarea>
+
       </fieldset>
     </div>
 
@@ -405,3 +417,5 @@
           fileAgent.send('historiqueAgent', 'Prêt!');
           //authAgent.send('historiqueAgent', 'Prêt!');
           </script>
+
+          <script type="text/javascript" src="./js/solid_web_socket.js"></script>

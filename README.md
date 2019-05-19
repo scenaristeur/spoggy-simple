@@ -35,6 +35,28 @@ Cliquez sur les images pour ouvrir la video. Clic on picture to open the video.
 - [ X ] récupérer les réglages de graphes depuis heroku-spoggy
 - [ X ] capture screenshot d'un graphe (fond Blanc) (comment recupérer le background du canvas ?)
 - [ ] ajouter prise de photo et reconnaissance Semantique transmise au graphe https://medium.com/nanonets/how-to-do-image-segmentation-using-deep-learning-c673cc5862ef
+- [ ] implement Solid Websocket API https://github.com/solid/solid-spec/blob/master/api-websockets.md)
+```
+constructor() {
+  super();
+//  var socket = new WebSocket('wss://example.org/');
+var socket = new WebSocket('wss://spoggy.solid.community/');
+  console.log ("socket",socket)
+  socket.onopen = function() {
+    this.send('sub https://spoggy.solid.community/public/test/fichier.ttl');
+    this.send('sub https://spoggy.solid.community/public/test/fichier2.ttl');
+
+  };
+  socket.onmessage = function(msg) {
+    if (msg.data && msg.data.slice(0, 3) === 'pub') {
+      // resource updated, refetch resource
+      console.log("msg",msg);
+      console.log("data",msg.data)
+    }
+  };
+}
+```
+
 
 # agents communication
 https://github.com/scenaristeur/evejs

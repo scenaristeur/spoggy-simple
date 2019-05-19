@@ -157,7 +157,9 @@ FileAgent.prototype.deleteFolder = function(url) {
 FileAgent.prototype.readFolder = function(url) {
   this.fileClient.readFolder(url).then(folder => {
     console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
-    return folder;
+    //return folder;
+    folder2vis(folder)
+    updateCurrentFolder(folder)
   }, err => { console.log(err); alert(err);} );
 }
 
