@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spoggy-simple | Edition | Import / Export</title>
 
   <!--Vendor LIBS -->
@@ -25,14 +26,27 @@
   <!-- Spoggy -->
   <script type="text/javascript" src="./js/levels.js"></script>
   <link href="./css/main.css" rel="stylesheet" type="text/css" />
+
   <script type="text/javascript" src="./js/import-export.js"></script>
   <script type="text/javascript" src="./js/spoggy.js"></script>
   <script type="text/javascript" src="./js/solid.js"></script>
+
+  <!-- ZUIX -->
+  <script type="text/javascript" src="./dist/zuix.min.js"></script>
+  <!-- TEST MOBILE, virer aussi le css <link href="./css/mobile.css" rel="stylesheet" type="text/css" /> -->
+
+
 </head>
 
 <body onload="init();initSpoggy();">
   <h2>Créez  un graphe en éditant les noeuds et les liens</h2>
 
+  <!--<div data-ui-load="@lib/controllers/view_pager">
+   elements of the ViewPager
+    <div>Page 1</div>
+    <div>Page 2</div>
+    <div>Page 3</div>
+  </div>-->
   <div style="float:left">
     <div style="float:auto">
       <fieldset>
