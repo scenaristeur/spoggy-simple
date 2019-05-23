@@ -88,7 +88,7 @@ function importer(params,callback){
       console.log("WEBID")
       rdfAgent.profile(params.source);
     }else{
-      fileAgent.readFolder(params.source)
+      fileAgent.readFolder(params.source,callbackAfterRead)
     }
 
   }
@@ -234,11 +234,19 @@ for (var i = 0; i < edges.length; i++) {
   //string.indexOf(substring) > -1
   //console.log(sujet);
   //console.log(propriete);
-  //  console.log(objet);
+  console.log(objet);
 
   // AJOUTER EVENTUELLEMENT LA RECUPERATION DE SHAPE, COLOR, pour l'export RDF
   var sujetLabel = network.body.data.nodes.get(sujet).label;
-  var objetLabel = network.body.data.nodes.get(objet).label;
+  try{
+    var objetLabel = network.body.data.nodes.get(objet).label;
+  }catch(error)
+  {
+    console.error("ERREUR NONTRAITEE")
+    console.error(error)
+
+  }
+
   //console.log("#########################");
   //console.log(sujetLabel);
   //console.log(objetLabel)
@@ -540,7 +548,7 @@ function detailNoeud(n,w){
   switch (n.termType) {
 
     case 'BlankNode':
-      var l = localname(n);
+    var l = localname(n);
     node = {
       id: n.value,
       title: n.value,

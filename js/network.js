@@ -316,7 +316,8 @@ function init() {
 }
 
 function fitAndFocus(node_id){
-  var network = this.network;
+  console.log("Fonctionnement erratique de fitAndFocus, suspendu pour l'instant")
+  /*var network = this.network;
   var oneStab = true;
   this.network.on("stabilized", function(params){
     //http://visjs.org/docs/network/index.html?keywords=fit
@@ -338,7 +339,7 @@ function fitAndFocus(node_id){
     }else{
       console.log("other stab")
     }
-  });
+  });*/
 }
 
 function updateGraph(message){

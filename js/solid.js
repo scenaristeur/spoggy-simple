@@ -36,28 +36,70 @@ function profile(){
   rdfAgent.profile(currentWebId);
 }
 
-function public(){
-  // a fusionner avec browsePOD ??
-  var currentWebId = document.getElementById("current-webId").innerHTML;
-  var wedIdSpilt = currentWebId.split("/");
+
+function browsePublicFromWebId(webId){
+  getPublicFromWebId(webId)
+  fileAgent.readFolder(publicFolder,callbackAfterRead)
+}
+
+function getPublicFromWebId(webId){
+  var wedIdSpilt = webId.split("/");
   webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
   console.log(webIdRoot);
   publicFolder = webIdRoot+"public/";
-   fileAgent.readFolder(publicFolder)
-//  folder2vis(newFolder)
-//  updateCurrentFolder(newFolder)
+  return publicFolder
 }
-function browsePOD(){
-  // A fusionner avec public ?
-  var currentWebId = document.getElementById("PODurlInput").innerHTML;
-  var wedIdSpilt = currentWebId.split("/");
-  webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
-  console.log(webIdRoot);
-  publicFolder = webIdRoot+"public/";
-fileAgent.readFolder(publicFolder)
-//  folder2vis(newFolder)
-//  updateCurrentFolder(newFolder)
+
+function podBrowser(webId){
+  browsePublicFromWebId(webId)
+  document.getElementById("pod-browser-popUp").style.display = "block";
+  document.getElementById("select-pod-popUp").style.display = "none";
 }
+
+
+function callbackAfterRead(folder){
+  console.log("callback after read")
+  folder2vis(folder)
+  updateCurrentFolder(folder)
+  updateBrowser(folder)
+}
+
+
+function updateBrowser(folder){
+  console.log("updateBrowser")
+  var folderList=document.getElementById("folderslist");
+  folderList.innerHTML = "";
+  var fileList=document.getElementById("fileslist");
+  fileList.innerHTML = "";
+  folder.folders.forEach(function(fo){
+    console.log("fo",fo)
+    var name = fo.name;
+    var url = fo.url;
+    newLI = document.createElement("li");
+    newText = document.createTextNode(name);
+    newLI.appendChild(newText);
+    newLI.style.padding="15px";
+    newLI.addEventListener('click', function () {
+      console.log(url)
+      fileAgent.readFolder(url,callbackAfterRead)
+    })
+    folderList.appendChild(newLI);
+  })
+  folder.files.forEach(function(fi){
+    console.log("fi",fi)
+    var name = fi.name;
+    var url = fi.url;
+    newLI = document.createElement("li");
+    newText = document.createTextNode(name);
+    newLI.appendChild(newText);
+    newLI.style.padding="15px";
+    newLI.addEventListener('click', function () {
+      console.log(url)
+    })
+    fileList.appendChild(newLI);
+  })
+}
+
 
 function updateSession(session){
   //  console.log(session)
@@ -121,9 +163,4 @@ function reset_Public_POD(){
 
 function restoreCurrentSession(){
   document.getElementById('PODurlInput').value = sessionCourante.webId;
-}
-
-function podBrowser(){
-  document.getElementById("pod-browser-popUp").style.display = "block";
-  document.getElementById("select-pod-popUp").style.display = "none";
 }

@@ -154,12 +154,11 @@ FileAgent.prototype.deleteFolder = function(url) {
 }
 
 
-FileAgent.prototype.readFolder = function(url) {
+FileAgent.prototype.readFolder = function(url,callback) {
   this.fileClient.readFolder(url).then(folder => {
     console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
     //return folder;
-    folder2vis(folder)
-    updateCurrentFolder(folder)
+    callback? callback(folder) : defaultCallBack(folder)
   }, err => { console.log(err); alert(err);} );
 }
 
@@ -177,6 +176,12 @@ FileAgent.prototype.fetch = function(url, request) {
   }, err => { console.log(err); alert(err);} );;
 }
 
+/*function defaultCallBack(folder){
+  console.log("Default callback after read")
+  folder2vis(folder)
+  updateCurrentFolder(folder)
+  folder2browser(folder)
+}*/
 
 /* FileAgent.prototype.saveOldUserData = function(profile)  {
 if (!localStorage.getItem('oldProfileData')) {
@@ -187,28 +192,6 @@ localStorage.setItem('oldProfileData', JSON.stringify(profile));
 /*FileAgent.prototype.getOldUserData = function() {
 return JSON.parse(localStorage.getItem('oldProfileData'));
 }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**
