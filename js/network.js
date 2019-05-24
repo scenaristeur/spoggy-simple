@@ -421,7 +421,7 @@ function clusterByCid() {
     joinCondition:function(childOptions) {
       return childOptions.cid == 1;
     },
-    clusterNodeProperties: {id:'cidCluster', borderWidth:3, shape:'database'}
+    clusterNodeProperties: {id:'cidCluster', label:"Navigation", color:"red", borderWidth:3, shape:'star'}
   };
   network.cluster(clusterOptionsByData);
 }
@@ -504,4 +504,10 @@ function setDefaultReglages(){
   reglage("longueur",springLengthValueDefault)
   reglage("gravite",centralGravityValueDefault)
   reglage("resistance",dampingValueDefault)
+}
+
+function toggleNavigation(){
+  console.log("toogleNavigation")
+  var data = network.body.data;
+  console.error(data)
 }

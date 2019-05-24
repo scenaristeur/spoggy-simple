@@ -38,8 +38,9 @@
 
 </head>
 
-<body onload="init();initSpoggy();">
+<body onload="init();initSpoggy();" bgcolor="#E6E6FA">
   <h2>Créez  un graphe en éditant les noeuds et les liens</h2>
+  <button id="goFS">Fullscreen</button>
 
   <!--<div data-ui-load="@lib/controllers/view_pager">
   elements of the ViewPager
@@ -94,13 +95,14 @@
           <legend>Réglages</legend>
 
           <div  style="float:auto">
-            <input type="button" onclick="clusterByCid()" value="Cluster all nodes with CID = 1"> <br />
+            <input type="button" onclick="clusterByCid()" value="Cluster all nodes with CID = 1 (Navigation POD)"> <br />
             <input type="button" onclick="clusterByColor()" value="Cluster by color"> <br />
             <input type="button" onclick="clusterByConnection()" value="Cluster 'node 1' by connections"> <br />
             <input type="button" onclick="clusterOutliers()" value="Cluster outliers"> <br />
             <input type="button" onclick="clusterByHubsize()" value="Cluster by hubsize"> <br/>
             <input type="button" onclick="clusterNavigation()" value="Cluster Navigation"> <br/>
             <input type="button" onclick="clusterHistorique()" value="Cluster Historique"> <br/>
+            <input type="button" onclick="toggleNavigation()" value="Toggle Navigation / Data"> <br/>
           </div>
         </fieldset>
 
@@ -130,7 +132,7 @@
 
   </div>
 
-  <div style="float:left" id="mynetwork"></div>
+  <div style="float:left" id="mynetwork" bgcolor="#E6E6FA"></div>
 
   <div style="float:auto">
     <div style="float:auto">
@@ -436,3 +438,9 @@
         </script>
 
         <script type="text/javascript" src="./js/solid_web_socket.js"></script>
+        <script>
+          var goFS = document.getElementById("goFS");
+          goFS.addEventListener("click", function() {
+              toggleFullScreen();
+          }, false);
+        </script>

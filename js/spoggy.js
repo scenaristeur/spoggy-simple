@@ -297,7 +297,7 @@ function catchCommande(commande){
     console.log("connection a la base levelgraph");
     break;
     case "/c":
-  //  console.log("capture_graphe");
+    //  console.log("capture_graphe");
     downloadCanvas()
     break;
     default:
@@ -350,10 +350,10 @@ function initSpoggy(){
   }
   initLevel();
 
-file1 = window.location.protocol+"//"+window.location.host+"/data/pizza.ttl";
-file2 = window.location.protocol+"//"+window.location.host+"/data/DavidProjets.ttl";
-file3 = "http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf";
-document.getElementById("url-remote").value = file2;
+  file1 = window.location.protocol+"//"+window.location.host+"/data/pizza.ttl";
+  file2 = window.location.protocol+"//"+window.location.host+"/data/DavidProjets.ttl";
+  file3 = "http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf";
+  document.getElementById("url-remote").value = file2;
 }
 
 
@@ -403,7 +403,33 @@ function cleanGraph(){
 
 function updateEditorFromNetwork(event, properties, senderId){
   //  console.log(event, properties, senderId)
-  var data = { nodes: network.body.data.nodes.get(), edges: network.body.data.edges.get() };
+  nodesInEditor = network.body.data.nodes.get({
+    filter: function(node){
+      return (node.cid != 1 );
+    }
+  });
+  console.log(nodesInEditor)
+  nodesNavigation = network.body.data.nodes.get({
+    filter: function(node){
+      return (node.cid == 1 );
+    }
+  });
+  console.log("nodes nav",nodesNavigation)
+
+  edgesInEditor = network.body.data.edges.get({
+    filter: function(edge){
+      return (nodesNavigation.indexOf(edge.from) < 0 && nodesNavigation.indexOf(edge.to) < 0 );
+    }
+  });
+
+nodesInEditorIds = nodesInEditor.map(function(n) {
+  return n.id;
+});
+nodesNavigationIds = nodesInEditor.map(function(n) {
+  return n.id;
+});
+
+  var data = { nodes: network.body.data.nodes.get(nodesInEditorIds), edges: network.body.data.edges.get(nodesNavigationIds) };
   var text = JSON.stringify(data, null, 2)
   editor.session.setValue(text)
 }
@@ -414,10 +440,10 @@ function updateEditorFromNetworkTtl(text){
 }
 
 function downloadCanvas(){
-    // get canvas data
-    var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
+  // get canvas data
+  var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
 
-    destinationCanvas = document.createElement("canvas");
+  destinationCanvas = document.createElement("canvas");
   destinationCanvas.width = srcCanvas.width;
   destinationCanvas.height = srcCanvas.height;
 
@@ -432,15 +458,33 @@ function downloadCanvas(){
 
   //finally use the destinationCanvas.toDataURL() method to get the desired output;
 
-    var image =   destinationCanvas.toDataURL(); //canvas.toDataURL("image/png");
+  var image =   destinationCanvas.toDataURL(); //canvas.toDataURL("image/png");
 
-    // create temporary link
-    var tmpLink = document.createElement( 'a' );
-    tmpLink.download = 'image.png'; // set the name of the download file
-    tmpLink.href = image;
+  // create temporary link
+  var tmpLink = document.createElement( 'a' );
+  tmpLink.download = 'image.png'; // set the name of the download file
+  tmpLink.href = image;
 
-    // temporarily add link to body and initiate the download
-    document.body.appendChild( tmpLink );
-    tmpLink.click();
-    document.body.removeChild( tmpLink );
+  // temporarily add link to body and initiate the download
+  document.body.appendChild( tmpLink );
+  tmpLink.click();
+  document.body.removeChild( tmpLink );
+}
+
+function toggleFullScreen() {
+  var doc = window.document;
+  var docEl = doc.documentElement;
+
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    //requestFullScreen.call(docEl);
+    var canvas = document.getElementById("mynetwork");
+    canvas.requestFullscreen();
+
+  }
+  else {
+    cancelFullScreen.call(doc);
+  }
 }

@@ -8,7 +8,8 @@ body, select {
   min-width: 320px;
   height: 600px;
   border: 1px solid lightgray;
-  background: linear-gradient(to bottom, rgba(55, 55, 255, 0.2), rgba(200, 200, 10, 0.2));
+  /*background: linear-gradient(to bottom, rgba(55, 55, 255, 0.2), rgba(200, 200, 10, 0.2));*/
+  background: linear-gradient(to bottom, rgba(215, 215, 255), rgba(250, 250, 170))
 }
 table.legend_table {
   font-size: 11px;
