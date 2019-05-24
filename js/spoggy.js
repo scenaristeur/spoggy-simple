@@ -456,6 +456,7 @@ function downloadCanvas(){
 }
 
 function toggleFullScreen() {
+  //https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
   var doc = window.document;
   var docEl = doc.documentElement;
 

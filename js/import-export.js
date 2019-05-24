@@ -248,9 +248,9 @@ for (var i = 0; i < edges.length; i++) {
   console.log(objet);
 
   // AJOUTER EVENTUELLEMENT LA RECUPERATION DE SHAPE, COLOR, pour l'export RDF
-  var sujetLabel = network.body.data.nodes.get(sujet).label;
+  var sujetLabel = network.body.data.nodes.get(sujet).label.replace(/\n/g, "");
   try{
-    var objetLabel = network.body.data.nodes.get(objet).label;
+    var objetLabel = network.body.data.nodes.get(objet).label.replace(/\n/g, "");
   }catch(error)
   {
     console.error("ERREUR NONTRAITEE")
