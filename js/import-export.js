@@ -193,8 +193,19 @@ downloadLink.click();*/
 function exportTtl(network) {
   /* source https://github.com/scenaristeur/dreamcatcherAutonome/blob/master/autonome/public/agents/ExportAgent.js */
   //  let network = this.network;
-  var nodes = network.body.data.nodes.get();
-  var edges = network.body.data.edges.get();
+//  var nodes = network.body.data.nodes.get();
+  //var edges = network.body.data.edges.get();
+  // on ne prend pas le cluster cid=1 correspondant à la navigation pour l'export
+  var nodes = network.body.data.nodes.get({
+    filter: function (n) {
+      return (n.cid != 1);
+    }
+  });
+  var edges = network.body.data.edges.get({
+    filter: function (e) {
+      return (e.cid != 1);
+    }
+  });
   console.log("exportation");
   console.log(nodes);
   console.log(edges);
@@ -678,7 +689,7 @@ function folder2vis(sfolder){
   if (parent != undefined){
     //  console.log("undef")
     nodes.push({id: parent, label: parent, type: "folder", cid:1, shape: "image", image: "./assets/parentfolder.png" });
-    edges.push({from: url, to: parent, arrows:'to', label: "parent"});
+    edges.push({from: url, to: parent, cid:1, arrows:'to', label: "parent"});
   }
   //  {id: "urlNode"+url, label: url},
   /*,
@@ -696,8 +707,8 @@ function folder2vis(sfolder){
         var node = {id:fo.url, label:fo.name, type: 'folder',cid:1, shape: "image", image: "./assets/folder.png" }
         //  console.log(node)
         nodes.push(node);
-        edges.push({from:url, to: fo.url, arrows: 'to', label:"folder"});
-        edges.push({from:fo.url, to: 'folders', arrows: 'to', label:"type"});
+        edges.push({from:url, to: fo.url, cid:1, arrows: 'to', label:"folder"});
+        edges.push({from:fo.url, to: 'folders', cid:1, arrows: 'to', label:"type"});
       }
     })
   }
@@ -709,7 +720,7 @@ function folder2vis(sfolder){
       var node = {id:fi.url, label:fi.label, type: 'file' , cid:1, shape: "image", image: "./assets/document.png" };
       //  console.log(node)
       nodes.push(node);
-      edges.push({from:url, to: fi.url, arrows: 'to', label:"file"});
+      edges.push({from:url, to: fi.url, cid:1, arrows: 'to', label:"file"});
       //  edges.push({from:fi.url, to: 'files', arrows: 'to', label:"type"});
     })
   }

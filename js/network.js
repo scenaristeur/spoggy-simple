@@ -3,11 +3,11 @@ var edges = null;
 var network = null;
 
 
-var centralGravityValueDefault = 0.0001,
-springLengthValueDefault = 127,
-springConstantValueDefault = 0.04, // 0.05
-nodeDistanceValueDefault = 170, //120
-dampingValueDefault = 0.08 // 0,08;
+var centralGravityValueDefault = 0.2; //0.0001,
+springLengthValueDefault = 170;//200;//127,
+springConstantValueDefault = 0.05;//0.04, // 0.05
+nodeDistanceValueDefault = 152;//100;//170, //120
+dampingValueDefault = 0.09;//0.08 // 0,08;
 
 
 
@@ -39,7 +39,7 @@ var data = {
   nodes: nodes,
   edges: edges
 };
-var seed = 1;
+var seed = 2;
 
 function setDefaultLocale() {
   var defaultLocal = navigator.language;
@@ -145,6 +145,7 @@ function draw() {
         springConstant: springConstantValueDefault, //0.01, //0.01
         nodeDistance:  nodeDistanceValueDefault, //150, //100 //350
         damping: dampingValueDefault, ///0.08
+
       },
       hierarchicalRepulsion: {
         centralGravity: 0.0,

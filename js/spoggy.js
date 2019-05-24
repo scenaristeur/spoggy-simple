@@ -402,34 +402,18 @@ function cleanGraph(){
 
 
 function updateEditorFromNetwork(event, properties, senderId){
-  //  console.log(event, properties, senderId)
-  nodesInEditor = network.body.data.nodes.get({
-    filter: function(node){
-      return (node.cid != 1 );
-    }
-  });
-  console.log(nodesInEditor)
-  nodesNavigation = network.body.data.nodes.get({
-    filter: function(node){
-      return (node.cid == 1 );
-    }
-  });
-  console.log("nodes nav",nodesNavigation)
 
-  edgesInEditor = network.body.data.edges.get({
-    filter: function(edge){
-      return (nodesNavigation.indexOf(edge.from) < 0 && nodesNavigation.indexOf(edge.to) < 0 );
+var data = {
+  nodes: network.body.data.nodes.get({
+    filter: function (n) {
+      return (n.cid != 1);
     }
-  });
-
-nodesInEditorIds = nodesInEditor.map(function(n) {
-  return n.id;
-});
-nodesNavigationIds = nodesInEditor.map(function(n) {
-  return n.id;
-});
-
-  var data = { nodes: network.body.data.nodes.get(nodesInEditorIds), edges: network.body.data.edges.get(nodesNavigationIds) };
+  }),
+  edges: network.body.data.edges.get({
+    filter: function (e) {
+      return (e.cid != 1);
+    }
+  }) };
   var text = JSON.stringify(data, null, 2)
   editor.session.setValue(text)
 }
