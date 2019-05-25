@@ -66,7 +66,8 @@ function callbackAfterRead(folder){
 
 
 function updateBrowser(folder){
-  console.log("updateBrowser",folder)
+  //  console.log("updateBrowser",folder)
+  console.log("updateBrowser")
   var folderList=document.getElementById("folderslist");
   folderList.innerHTML = "";
   var fileList=document.getElementById("fileslist");
@@ -77,7 +78,7 @@ function updateBrowser(folder){
   newLI.appendChild(newText);
   newLI.style.padding="15px";
   newLI.addEventListener('click', function () {
-  //  console.log(folder.parent)
+    //  console.log(folder.parent)
     fileAgent.readFolder(folder.parent,callbackAfterRead)
   })
   folderList.appendChild(newLI);
@@ -85,7 +86,7 @@ function updateBrowser(folder){
 
 
   folder.folders.forEach(function(fo){
-  //  console.log("fo",fo)
+    //  console.log("fo",fo)
     var name = fo.name;
     var url = fo.url;
     newLI = document.createElement("li");
@@ -99,7 +100,7 @@ function updateBrowser(folder){
     folderList.appendChild(newLI);
   })
   folder.files.forEach(function(fi){
-  //  console.log("fi",fi)
+    //  console.log("fi",fi)
     var name = fi.name;
     var url = fi.url;
     newLI = document.createElement("li");
@@ -107,7 +108,8 @@ function updateBrowser(folder){
     newLI.appendChild(newText);
     newLI.style.padding="15px";
     newLI.addEventListener('click', function () {
-    //  console.log(url)
+      //  console.log(url)
+        fileAgent.readFile(url,callbackAfterRead)
     })
     fileList.appendChild(newLI);
   })
@@ -134,7 +136,7 @@ function updateCurrentWebId(webId){
 }
 
 function updateCurrentFolder(folder){
-  console.log(folder)
+  console.log("update current folder")
   document.getElementById("current-folder-parent").innerHTML = folder.parent;
   document.getElementById("current-folder-url").innerHTML = folder.url;
 }
@@ -176,4 +178,57 @@ function reset_Public_POD(){
 
 function restoreCurrentSession(){
   document.getElementById('PODurlInput').value = sessionCourante.webId;
+}
+
+function last_public(){
+  console.log("last_public", agora_POD)
+  cleanGraph();
+  var public_POD = getPublicFromWebId(document.getElementById('PODurlInput').value)
+  var fileList=document.getElementById("last-public");
+  fileList.innerHTML = "";
+  fileAgent.readFolder(public_POD,callbackLastPublic)
+}
+
+function recursiveExplore(folder,level){
+  console.log("Explore ",level,folder.name)
+  for (var i=0; i < folder.folders.length; i++){
+    var f = folder.folders[i];
+    console.log("f: ", f.name, f.url)
+    fileAgent.readFolder(f.url,callbackLastPublic)
+  }
+}
+
+function callbackLastPublic(folder){
+  console.log("callback last_public")
+  if(folder.folders){
+    recursiveExplore(folder,10)
+  }
+  folder2vis(folder)
+  updateCurrentFolder(folder)
+  updateBrowser(folder)
+  updateLastPublicList(folder)
+}
+
+function updateLastPublicList(folder){
+  console.log("updateLastPublicList")
+  var fileList=document.getElementById("last-public");
+  folder.files.forEach(function(fi){
+    //  console.log("fi",fi)
+    var name = fi.name;
+    var url = fi.url;
+    newLI = document.createElement("li");
+    newText = document.createTextNode(folder.url+name);
+    newLI.appendChild(newText);
+    newLI.style.padding="15px";
+    newLI.addEventListener('click', function () {
+      //  console.log(url)
+      //  fileAgent.readFile(url,callbackAfterRead)
+var params = {};
+params.source = url
+importer(params,updateGraph)
+
+
+    })
+    fileList.appendChild(newLI);
+  })
 }

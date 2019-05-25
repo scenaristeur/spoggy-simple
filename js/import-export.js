@@ -674,7 +674,7 @@ function folder2vis(sfolder){
   var app = this;
   //  this.clear()
   console.log('sfolder')
-  console.log(sfolder)
+//  console.log(sfolder)
   var name = sfolder.name;
   var url = sfolder.url;
   var parent = sfolder.parent;
@@ -728,6 +728,8 @@ function folder2vis(sfolder){
     nodes: nodes,
     edges: edges
   };
+
+  //console.log("DATA",data)
   updateGraph({data:data})
   //  console.log(data)
   /*this.network.body.data.nodes.clear();

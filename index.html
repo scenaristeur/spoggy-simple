@@ -32,7 +32,7 @@
   <script type="text/javascript" src="./js/solid.js"></script>
 
   <!-- ZUIX -->
-<!--  <script type="text/javascript" src="./dist/zuix.min.js"></script> -->
+  <!--  <script type="text/javascript" src="./dist/zuix.min.js"></script> -->
   <!-- TEST MOBILE, virer aussi le css <link href="./css/mobile.css" rel="stylesheet" type="text/css" /> -->
   <link rel="manifest" href="/manifest.json">
 
@@ -157,6 +157,15 @@
     </div>
   </div>
 
+  <div style="float:auto">
+    <fieldset>
+      <legend>Dernière publications publiques <div id="webId"></div></legend>
+      <button   onclick="last_public()">Afficher les dernières publications publiques</button>
+      <ul id="last-public">
+
+      </ul>
+    </fieldset>
+  </div>
 
   <div style="float:auto">
     <fieldset>
@@ -434,8 +443,8 @@
 
         <script type="text/javascript" src="./js/solid_web_socket.js"></script>
         <script>
-          var goFS = document.getElementById("goFS");
-          goFS.addEventListener("click", function() {
-              toggleFullScreen();
-          }, false);
+        var goFS = document.getElementById("goFS");
+        goFS.addEventListener("click", function() {
+          toggleFullScreen();
+        }, false);
         </script>

@@ -344,7 +344,7 @@ function fitAndFocus(node_id){
 }
 
 function updateGraph(message){
-  console.log(message);
+  console.log("update graph"/*,message*/);
   var app =this;
   if (message.params!= undefined && message.params.remplaceNetwork){
     this.network.body.data.nodes.clear();
@@ -355,7 +355,7 @@ function updateGraph(message){
   addResultsToGraph(this.network, message.data)
   //  this.network.fit();
   //  this.network.redraw();
-  console.log(this.network)
+//  console.log("add results to graph"/*,this.network*/)
 }
 
 function addResultsToGraph(network, results){

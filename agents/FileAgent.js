@@ -90,10 +90,10 @@ FileAgent.prototype.createFile = function(url, content) {
   }, err => { console.log(err); alert(err);} );
 }
 
-FileAgent.prototype.readFile = function(url) {
+FileAgent.prototype.readFile = function(url, callback) {
   this.fileClient.readFile(url).then(  body => {
     console.log(`File content is : ${body}.`);
-
+callback? callback(body) : defaultCallBack(body)
   }, err => { console.log(err); alert(err);} );
 }
 
@@ -156,7 +156,7 @@ FileAgent.prototype.deleteFolder = function(url) {
 
 FileAgent.prototype.readFolder = function(url,callback) {
   this.fileClient.readFolder(url).then(folder => {
-    console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
+  //  console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
     //return folder;
     callback? callback(folder) : defaultCallBack(folder)
   }, err => { console.log(err); alert(err);} );
