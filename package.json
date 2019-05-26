@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/scenaristeur/spoggy-simple#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "express": "^4.16.4",
+    "lit-element": "^2.1.0"
   }
 }

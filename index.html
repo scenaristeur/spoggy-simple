@@ -35,6 +35,10 @@
   <!--  <script type="text/javascript" src="./dist/zuix.min.js"></script> -->
   <!-- TEST MOBILE, virer aussi le css <link href="./css/mobile.css" rel="stylesheet" type="text/css" /> -->
   <link rel="manifest" href="/manifest.json">
+<!-- Web Components https://lit-element.polymer-project.org/guide/start -->
+<script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+ <!-- Built with love using PWA Starter Kit -->
+ <script type="module" src="src/components/my-element.js"></script>
 
 
 </head>
@@ -406,8 +410,9 @@
 
           <!-- fin pop-ups -->
 
-
+  <my-element></my-element>
         </body>
+
         </html>
         <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
         <!-- load ace language tools -->

@@ -1,3 +1,6 @@
+# WEb components
+polymer serve
+
 # spoggy-simple
 Pour utiliser Spoggy, préférez Firefox ou Chrome https://scenaristeur.github.io/spoggy-simple/
 
