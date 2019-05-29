@@ -314,6 +314,8 @@ function init() {
   setDefaultLocale();
   draw();
   setDefaultReglages();
+  var popupCont = document.getElementById("popup-container");
+  document.getElementById("mynetwork").appendChild(popupCont);
 }
 
 function fitAndFocus(node_id){

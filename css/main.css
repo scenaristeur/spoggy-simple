@@ -38,11 +38,11 @@ div.table_description {
 .popUp {
   display:none;
   position:absolute;
-  top:50%;
-  left:50%;
-  z-index:299;
+  top:0;
+  left:0;
+  z-index:9;
   width:auto;
-  /*height:90px;*/
+  height:auto;
   background-color: #f9f9f9;
   border-style:solid;
   border-width:3px;

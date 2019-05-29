@@ -403,73 +403,73 @@ function cleanGraph(){
 
 function updateEditorFromNetwork(event, properties, senderId){
 
-var data = {
-  nodes: network.body.data.nodes.get({
-    filter: function (n) {
-      return (n.cid != 1);
-    }
-  }),
-  edges: network.body.data.edges.get({
-    filter: function (e) {
-      return (e.cid != 1);
-    }
-  }) };
-  var text = JSON.stringify(data, null, 2)
-  editor.session.setValue(text)
-}
-function updateEditorFromNetworkTtl(text){
-  //  console.log(event, properties, senderId)
-  //var text = JSON.stringify(network.body.data, null, 2)
-  editor.session.setValue(text)
-}
-
-function downloadCanvas(){
-  // get canvas data
-  var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
-
-  destinationCanvas = document.createElement("canvas");
-  destinationCanvas.width = srcCanvas.width;
-  destinationCanvas.height = srcCanvas.height;
-
-  destCtx = destinationCanvas.getContext('2d');
-
-  //create a rectangle with the desired color
-  destCtx.fillStyle = "#FFFFFF";
-  destCtx.fillRect(0,0,srcCanvas.width,srcCanvas.height);
-
-  //draw the original canvas onto the destination canvas
-  destCtx.drawImage(srcCanvas, 0, 0);
-
-  //finally use the destinationCanvas.toDataURL() method to get the desired output;
-
-  var image =   destinationCanvas.toDataURL(); //canvas.toDataURL("image/png");
-
-  // create temporary link
-  var tmpLink = document.createElement( 'a' );
-  tmpLink.download = 'image.png'; // set the name of the download file
-  tmpLink.href = image;
-
-  // temporarily add link to body and initiate the download
-  document.body.appendChild( tmpLink );
-  tmpLink.click();
-  document.body.removeChild( tmpLink );
-}
-
-function toggleFullScreen() {
-  //https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
-  var doc = window.document;
-  var docEl = doc.documentElement;
-
-  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-    //requestFullScreen.call(docEl);
-    var canvas = document.getElementById("network-container");
-    canvas.requestFullscreen();
-
+  var data = {
+    nodes: network.body.data.nodes.get({
+      filter: function (n) {
+        return (n.cid != 1);
+      }
+    }),
+    edges: network.body.data.edges.get({
+      filter: function (e) {
+        return (e.cid != 1);
+      }
+    }) };
+    var text = JSON.stringify(data, null, 2)
+    editor.session.setValue(text)
   }
-  else {
-    cancelFullScreen.call(doc);
+  function updateEditorFromNetworkTtl(text){
+    //  console.log(event, properties, senderId)
+    //var text = JSON.stringify(network.body.data, null, 2)
+    editor.session.setValue(text)
   }
-}
+
+  function downloadCanvas(){
+    // get canvas data
+    var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
+
+    destinationCanvas = document.createElement("canvas");
+    destinationCanvas.width = srcCanvas.width;
+    destinationCanvas.height = srcCanvas.height;
+
+    destCtx = destinationCanvas.getContext('2d');
+
+    //create a rectangle with the desired color
+    destCtx.fillStyle = "#FFFFFF";
+    destCtx.fillRect(0,0,srcCanvas.width,srcCanvas.height);
+
+    //draw the original canvas onto the destination canvas
+    destCtx.drawImage(srcCanvas, 0, 0);
+
+    //finally use the destinationCanvas.toDataURL() method to get the desired output;
+
+    var image =   destinationCanvas.toDataURL(); //canvas.toDataURL("image/png");
+
+    // create temporary link
+    var tmpLink = document.createElement( 'a' );
+    tmpLink.download = 'image.png'; // set the name of the download file
+    tmpLink.href = image;
+
+    // temporarily add link to body and initiate the download
+    document.body.appendChild( tmpLink );
+    tmpLink.click();
+    document.body.removeChild( tmpLink );
+  }
+
+  function toggleFullScreen() {
+    //https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
+    var doc = window.document;
+    var docEl = doc.documentElement;
+
+    var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+    var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+    if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+      //requestFullScreen.call(docEl);
+      var canvas = document.getElementById("mynetwork");
+      canvas.requestFullscreen();
+
+    }
+    else {
+      cancelFullScreen.call(doc);
+    }
+  }
