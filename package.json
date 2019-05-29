@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/scenaristeur/spoggy-simple#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "hyperhtml": "^2.28.0"
   }
 }
