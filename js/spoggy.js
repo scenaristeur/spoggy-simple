@@ -465,7 +465,7 @@ function toggleFullScreen() {
 
   if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
     //requestFullScreen.call(docEl);
-    var canvas = document.getElementById("mynetwork");
+    var canvas = document.getElementById("network-container");
     canvas.requestFullscreen();
 
   }

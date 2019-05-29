@@ -133,7 +133,55 @@
 
   </div>
 
-  <div style="float:left" id="mynetwork" bgcolor="#E6E6FA"></div>
+<div id="network-container">
+  <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
+  <div id="node-popUp" class="popUp">
+    <span id="node-operation">node</span> <br>
+    <table style="margin:auto;">
+      <tr style="display:none">
+        <td>id</td><td><input id="node-id" value="" /></td>
+      </tr>
+      <tr>
+        <td>Nom du noeud</td><td><input id="node-label" autofocus /></td>
+      </tr>
+    </table>
+    <label for="node-shape">Forme:</label>
+    <select id="node-shape">
+      <optgroup label="Label interne">
+        <option>ellipse</option>
+        <option>circle</option>
+        <option>database</option>
+        <option>box</option>
+        <option>text</option>
+      </optgroup>
+      <optgroup label="Label externe">
+        <option>image</option>
+        <option>circularImage</option>
+        <option>diamond</option>
+        <option>dot</option>
+        <option>star</option>
+        <option>triangle</option>
+        <option>triangleDown</option>
+        <option>hexagon</option>
+        <option>square</option>
+        <option>icon</option>
+      </optgroup>
+      <input style="display:none" id="node-image-url" value="" />
+    </select>
+    <input type="button" value="save" id="node-saveButton" />
+    <input type="button" value="cancel" id="node-cancelButton" />
+  </div>
+
+  <div id="edge-popUp" class="popUp">
+    <span id="edge-operation">edge</span> <br>
+    <table style="margin:auto;">
+      <tr>
+        <td>label</td><td><input id="edge-label" /></td>
+      </tr></table>
+      <input type="button" value="save" id="edge-saveButton" />
+      <input type="button" value="cancel" id="edge-cancelButton" />
+    </div>
+</div>
 
   <div style="float:auto">
     <div style="float:auto">
@@ -277,52 +325,7 @@
 
     <!-- POPUPS -->
 
-    <div id="node-popUp" class="popUp">
-      <span id="node-operation">node</span> <br>
-      <table style="margin:auto;">
-        <tr style="display:none">
-          <td>id</td><td><input id="node-id" value="" /></td>
-        </tr>
-        <tr>
-          <td>Nom du noeud</td><td><input id="node-label" autofocus /></td>
-        </tr>
-      </table>
-      <label for="node-shape">Forme:</label>
-      <select id="node-shape">
-        <optgroup label="Label interne">
-          <option>ellipse</option>
-          <option>circle</option>
-          <option>database</option>
-          <option>box</option>
-          <option>text</option>
-        </optgroup>
-        <optgroup label="Label externe">
-          <option>image</option>
-          <option>circularImage</option>
-          <option>diamond</option>
-          <option>dot</option>
-          <option>star</option>
-          <option>triangle</option>
-          <option>triangleDown</option>
-          <option>hexagon</option>
-          <option>square</option>
-          <option>icon</option>
-        </optgroup>
-        <input style="display:none" id="node-image-url" value="" />
-      </select>
-      <input type="button" value="save" id="node-saveButton" />
-      <input type="button" value="cancel" id="node-cancelButton" />
-    </div>
 
-    <div id="edge-popUp" class="popUp">
-      <span id="edge-operation">edge</span> <br>
-      <table style="margin:auto;">
-        <tr>
-          <td>label</td><td><input id="edge-label" /></td>
-        </tr></table>
-        <input type="button" value="save" id="edge-saveButton" />
-        <input type="button" value="cancel" id="edge-cancelButton" />
-      </div>
 
       <div id="import-popUp" class="popUp">
         <div style="padding-left:20px" vertical start-justified start layout wrap>
