@@ -57,7 +57,7 @@
   <br>
 
   <h2>Créez  un graphe en éditant les noeuds et les liens</h2>
-  <button id="goFS" class="foo-button mdc-button">Fullscreen</button>
+
 
 
 
@@ -79,51 +79,91 @@
 
     <div style="float:auto">
       <div style="float:auto">
-        <fieldset>
-          <legend>Réglages</legend>
 
 
-          <div  style="float:auto">
-            <div>D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div><button onclick="setDefaultReglages()">Defaut</button></div>
-          </div>
-        </fieldset>
+        <div style="float:auto">
+          <fieldset>
+            <legend>Outils</legend>
+            <button id="exporter_ttl" onclick="catchCommande({value:'/n'})">Nouveau Graphe</button> /n
+            <button id="importer_btn" onclick="catchCommande({value:'/i'})">Importer</button> /i
+            <button id="exporter_json" onclick="catchCommande({value:'/e'})">Exporter JSON</button> /e
+            <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
+            <button id="empty_graph" onclick="catchCommande({value:'/b'})">Vider</button> /b
+            <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
+            <button id="save_to_pod" onclick="catchCommande({value:'/p'})">Sauvegarder sur un POD</button> /p
+            <button id="goFS" class="foo-button mdc-button">Fullscreen</button>
+          </fieldset>
+        </div>
 
-        <fieldset>
-          <legend>Réglages</legend>
 
-          <div  style="float:auto">
-            <input type="button" onclick="clusterByCid()" value="Cluster all nodes with CID = 1 (Navigation POD)"> <br />
-            <input type="button" onclick="clusterByColor()" value="Cluster by color"> <br />
-            <input type="button" onclick="clusterByConnection()" value="Cluster 'node 1' by connections"> <br />
-            <input type="button" onclick="clusterOutliers()" value="Cluster outliers"> <br />
-            <input type="button" onclick="clusterByHubsize()" value="Cluster by hubsize"> <br/>
-            <input type="button" onclick="clusterNavigation()" value="Cluster Navigation"> <br/>
-            <input type="button" onclick="clusterHistorique()" value="Cluster Historique"> <br/>
-            <input type="button" onclick="toggleNavigation()" value="Toggle Navigation / Data"> <br/>
-          </div>
-        </fieldset>
+  <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
 
-        <fieldset>
-          <legend>Réglages</legend>
-          <div>
-            <select id="locale" onchange="draw();">
-              <option value="en">en</option>
-              <option value="de">de</option>
-              <option value="es">es</option>
-              <!--<option value="fr">fr</option>-->
-              <option value="it">it</option>
-              <option value="nl">nl</option>
-              <option value="pt-br">pt</option>
-              <option value="ru">ru</option>
-            </select>
-          </div>
+  <fieldset>
+    <legend>Réglages</legend>
 
-        </fieldset>
+
+    <div  style="float:auto">
+      <div>D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+      <div>L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+      <div>F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+      <div>G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+      <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+      <div><button onclick="setDefaultReglages()">Defaut</button></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Réglages</legend>
+    <div>
+      <select id="locale" onchange="draw();">
+        <option value="en">en</option>
+        <option value="de">de</option>
+        <option value="es">es</option>
+        <!--<option value="fr">fr</option>-->
+        <option value="it">it</option>
+        <option value="nl">nl</option>
+        <option value="pt-br">pt</option>
+        <option value="ru">ru</option>
+      </select>
+    </div>
+
+  </fieldset>
+
+  <fieldset>
+    <legend>Cluster</legend>
+
+    <div  style="float:auto">
+      <input type="button" onclick="clusterByCid()" value="by cid=1 (Navigation POD)"> <br />
+            <input type="button" onclick="clusterByConnection()" value="'node 1' by connec"> <br />
+      <input type="button" onclick="clusterByColor()" value="by color"> <br />
+
+      <input type="button" onclick="clusterOutliers()" value="outliers"> <br />
+      <input type="button" onclick="clusterByHubsize()" value="hubsize"> <!--<br/>
+      <input type="button" onclick="clusterNavigation()" value="Navigation"> <br/>
+      <input type="button" onclick="clusterHistorique()" value=" Historique"> <br/>
+      <input type="button" onclick="toggleNavigation()" value="Navigation / Data"> <br/>-->
+    </div>
+  </fieldset>
+
+</div>
+  <div style="float:left">
+
+  <fieldset>
+    <legend>Input</legend>
+    <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" placeholder="Saisis ici 3 mots suivis d'une virgule et valide"></input>
+    <button id="valider" onclick="validInput()">Valider</button><br>
+    <br>
+    <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+    <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+    <button  onclick="resetColors()">retablir les couleurs</button>
+    <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+    <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+    <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+    <br>
+    Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+    ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+    ou importer une url (json, ttl, rdf, POD...)<br>
+  </fieldset>
 
 
       </div>
@@ -136,42 +176,16 @@
 
 
 
-  <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
+
 
   <div>
-    <fieldset>
-      <legend>Input</legend>
-      <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" placeholder="Saisis ici 3 mots suivis d'une virgule et valide"></input>
-      <button id="valider" onclick="validInput()">Valider</button><br>
-      <br>
-      <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
-      <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
-      <button  onclick="resetColors()">retablir les couleurs</button>
-      <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-      <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-      <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
-      <br>
-      Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
-      ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-      ou importer une url (json, ttl, rdf, POD...)<br>
-    </fieldset>
+
   </div>
 
 
 
   <div style="float:auto">
-    <div style="float:auto">
-      <fieldset>
-        <legend>Outils</legend>
-        <button id="exporter_ttl" onclick="catchCommande({value:'/n'})">Nouveau Graphe</button> /n
-        <button id="importer_btn" onclick="catchCommande({value:'/i'})">Importer</button> /i
-        <button id="exporter_json" onclick="catchCommande({value:'/e'})">Exporter JSON</button> /e
-        <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Exporter Ttl</button> /t
-        <button id="empty_graph" onclick="catchCommande({value:'/b'})">Vider</button> /b
-        <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
-        <button id="save_to_pod" onclick="catchCommande({value:'/p'})">Sauvegarder sur un POD</button> /p
-      </fieldset>
-    </div>
+
 
     <div style="float:auto">
       <fieldset>
