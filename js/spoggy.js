@@ -355,6 +355,27 @@ function initSpoggy(){
   file3 = "http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf";
   document.getElementById("url-remote").value = file2;
   mdc.ripple.MDCRipple.attachTo(document.querySelector('.foo-button'));
+  console.log("MDC",mdc)
+  //MDCFormField.attachTo()
+ const formField = new mdc.formField.MDCFormField(document.querySelector('.mdc-form-field'));
+const checkbox = new mdc.checkbox.MDCCheckbox(document.querySelector('.mdc-checkbox'));
+formField.input = checkbox;
+console.log("ff",formField)
+
+const textField = new mdc.textField.MDCTextField(document.querySelector('.mdc-text-field'));
+
+const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
+
+document.querySelector('.mdc-checkbox').addEventListener("click", function(e){
+  //console.log("event",e)
+  console.log(checkbox.checked)
+  checkbox.checked? dialog.open() : dialog.close() ;
+});
+/*const list = new mdc.list.MDCList(document.querySelector('.mdc-dialog .mdc-list'));
+
+dialog.listen('MDCDialog:opened', () => {
+  list.layout();
+});*/
 }
 
 

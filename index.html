@@ -36,13 +36,13 @@
   <!-- TEST MOBILE, virer aussi le css <link href="./css/mobile.css" rel="stylesheet" type="text/css" /> -->
 
 
-<!-- material  https://github.com/material-components/material-components-web/blob/master/docs/getting-started.md -->
-<!--<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
-<link href="./css/material-components-web.min.css" rel="stylesheet" type="text/css" />
-<script src="./dist/material-components-web.min.js"></script>
-<link href="./css/icon.css" rel="stylesheet" type="text/css" />
+  <!-- material  https://github.com/material-components/material-components-web/blob/master/docs/getting-started.md -->
+  <!--<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
+  <link href="./css/material-components-web.min.css" rel="stylesheet" type="text/css" />
+  <script src="./dist/material-components-web.min.js"></script>
+  <link href="./css/icon.css" rel="stylesheet" type="text/css" />
 
 
   <link rel="manifest" href="/manifest.json">
@@ -51,8 +51,14 @@
 </head>
 
 <body onload="init();initSpoggy();" bgcolor="#E6E6FA">
+
+  <br>
+  <br><br>
+  <br>
+
   <h2>Créez  un graphe en éditant les noeuds et les liens</h2>
   <button id="goFS" class="foo-button mdc-button">Fullscreen</button>
+
 
 
   <!--<div data-ui-load="@lib/controllers/view_pager">
@@ -294,42 +300,86 @@
 
 
     <!-- POPUPS -->
-    <div id="popup-container">
+    <div id="popup-container" >
+      <div dir="rtl" >
+        <header class="mdc-top-app-bar mdc-top-app-bar--short mdc-top-app-bar--short-collapsed" style="top:35px">
+          <!--https://material-components.github.io/material-components-web-catalog/#/component/top-app-bar-->
+          <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+              <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+              <span class="mdc-top-app-bar__title">Title</span>
+            </section>
+          </div>
+        </header>
+      </div>
+
       <div id="node-popUp" class="popUp">
         <span id="node-operation">node</span> <br>
+        <input style="display:none" id="node-id" value="" />
+
+<br>
+
+<div class="mdc-form-field">
+  <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
+
+  <div class="mdc-text-field">
+    <input class="mdc-text-field__input" id="node-label" autofocus>
+    <div class="mdc-line-ripple"></div>
+    <label class="mdc-floating-label">Nom du noeud</label>
+  </div>
+</div>
+<br>
+
+
+
+
+<!--
+        <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
+  <i class="material-icons mdc-text-field__icon">favorite</i>
+  <i class="material-icons mdc-text-field__icon">visibility</i>
+  <input class="mdc-text-field__input" id="node-label" autofocus>
+  <div class="mdc-line-ripple"></div>
+  <label class="mdc-floating-label">Name</label>
+</div>-->
         <table style="margin:auto;">
-          <tr style="display:none">
-            <td>id</td><td><input id="node-id" value="" /></td>
-          </tr>
+
           <tr>
-            <td>Nom du noeud</td><td><input id="node-label" autofocus /></td>
+            <td>
+              <label for="node-shape">Forme:</label>
+            </td>
+            <td>
+              <select id="node-shape">
+                <optgroup label="Label interne">
+                  <option>ellipse</option>
+                  <option>circle</option>
+                  <option>database</option>
+                  <option>box</option>
+                  <option>text</option>
+                </optgroup>
+                <optgroup label="Label externe">
+                  <option>image</option>
+                  <option>circularImage</option>
+                  <option>diamond</option>
+                  <option>dot</option>
+                  <option>star</option>
+                  <option>triangle</option>
+                  <option>triangleDown</option>
+                  <option>hexagon</option>
+                  <option>square</option>
+                  <option>icon</option>
+                </optgroup>
+                <input style="display:none" id="node-image-url" value="" />
+              </select>
+            </td>
           </tr>
         </table>
-        <label for="node-shape">Forme:</label>
-        <select id="node-shape">
-          <optgroup label="Label interne">
-            <option>ellipse</option>
-            <option>circle</option>
-            <option>database</option>
-            <option>box</option>
-            <option>text</option>
-          </optgroup>
-          <optgroup label="Label externe">
-            <option>image</option>
-            <option>circularImage</option>
-            <option>diamond</option>
-            <option>dot</option>
-            <option>star</option>
-            <option>triangle</option>
-            <option>triangleDown</option>
-            <option>hexagon</option>
-            <option>square</option>
-            <option>icon</option>
-          </optgroup>
-          <input style="display:none" id="node-image-url" value="" />
-        </select>
-        <input type="button" value="save" id="node-saveButton" />
-        <input type="button" value="cancel" id="node-cancelButton" />
+
+
+
+        <button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
+        <button id="node-saveButton" class="foo-button mdc-button">Valider</button>
+
+
       </div>
 
       <div id="edge-popUp" class="popUp">
@@ -344,91 +394,132 @@
 
 
 
-      <div id="import-popUp" class="popUp">
-        <div style="padding-left:20px" vertical start-justified start layout wrap>
-          <h2 id="importOperation" style="margin: 0;color: #0D578B;">Import JSON (ou ttl) <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
-          <p >
-            <fieldset>
-              <legend>Paramètres</legend>
-              <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer Network</input>
-              <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
-            </fieldset>
-          </p>
-          <p>
-            <fieldset>
-              <legend>Fichier</legend>
-              <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this, updateGraph)"></input>
-            </fieldset>
-            <fieldset>
-              <legend>Url / POD</legend>
-              <!--  <input id="filepicker" type="file" multiple value="Importer" on-change="handleFileSelected"></input>-->
-              <input id="importUrl" Label="Url / POD"></input>
-              <button onclick="importFromUrl()">Importer</button>
-            </fieldset>
-          </p>
-        </div>
-
-        <input type="button" value="Fermer" onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
-      </div>
-
-      <div id="select-pod-popUp" class="popUp">
-        <div style="padding-left:20px" vertical start-justified start layout wrap>
-          <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">Sauvegarder sur un POD
-            <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
-            <p>
-              <fieldset>
-                <legend>POD public (libre anonyme) / perso ou partagé (se connecter)</legend>
-
-                <button  class="login" onclick="login()">Se connecter sur un POD</button>
-                <button class="logout" onclick="logout()">Se deconnecter du POD</button><br>
-                <button onclick="reset_Public_POD()">Utiliser le POD public</button>
-                <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button>
-              </fieldset>
-            </p>
+        <div id="import-popUp" class="popUp">
+          <div style="padding-left:20px" vertical start-justified start layout wrap>
+            <h2 id="importOperation" style="margin: 0;color: #0D578B;">Import JSON (ou ttl) <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
             <p >
               <fieldset>
-                <legend>POD</legend>
-                <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input> <div hidden >Public / Perso / Group </div>
-                <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button>
+                <legend>Paramètres</legend>
+                <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer Network</input>
+                <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
+              </fieldset>
+            </p>
+            <p>
+              <fieldset>
+                <legend>Fichier</legend>
+                <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this, updateGraph)"></input>
+              </fieldset>
+              <fieldset>
+                <legend>Url / POD</legend>
+                <!--  <input id="filepicker" type="file" multiple value="Importer" on-change="handleFileSelected"></input>-->
+                <input id="importUrl" Label="Url / POD"></input>
+                <button onclick="importFromUrl()">Importer</button>
               </fieldset>
             </p>
           </div>
 
-          <input type="button" value="Fermer" onclick="(function(){ document.getElementById('select-pod-popUp').style.display = 'none'; })();"/>
+          <input type="button" value="Fermer" onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
         </div>
 
-
-        <div id="pod-browser-popUp" class="popUp">
+        <div id="select-pod-popUp" class="popUp">
           <div style="padding-left:20px" vertical start-justified start layout wrap>
-            <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
+            <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">Sauvegarder sur un POD
               <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
               <p>
                 <fieldset>
-                  <legend>Dossier</legend>
-                  <ul id="folderslist">
-                  </ul>
+                  <legend>POD public (libre anonyme) / perso ou partagé (se connecter)</legend>
 
-                </fieldset>
-                <fieldset>
-                  <legend>Fichier</legend>
-                  <ul id="fileslist">
-                  </ul>
-
+                  <button  class="login" onclick="login()">Se connecter sur un POD</button>
+                  <button class="logout" onclick="logout()">Se deconnecter du POD</button><br>
+                  <button onclick="reset_Public_POD()">Utiliser le POD public</button>
+                  <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button>
                 </fieldset>
               </p>
-
+              <p >
+                <fieldset>
+                  <legend>POD</legend>
+                  <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input> <div hidden >Public / Perso / Group </div>
+                  <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button>
+                </fieldset>
+              </p>
             </div>
 
-            <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
+            <input type="button" value="Fermer" onclick="(function(){ document.getElementById('select-pod-popUp').style.display = 'none'; })();"/>
           </div>
 
-    </div>
+
+          <div id="pod-browser-popUp" class="popUp">
+            <div style="padding-left:20px" vertical start-justified start layout wrap>
+              <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
+                <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+                <p>
+                  <fieldset>
+                    <legend>Dossier</legend>
+                    <ul id="folderslist">
+                    </ul>
+
+                  </fieldset>
+                  <fieldset>
+                    <legend>Fichier</legend>
+                    <ul id="fileslist">
+                    </ul>
+
+                  </fieldset>
+                </p>
+
+              </div>
+
+              <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
+            </div>
+
+          </div>
 
           <!-- fin pop-ups -->
 
           <div id="app"></div>
           <div id="app2"></div>
           <div id="app3"></div>
+
+          <div>
+<!-- test ouverture material design dialog -->
+<div class="mdc-checkbox">
+<input type="checkbox" id="my-checkbox" class="mdc-checkbox__native-control"/>
+<div class="mdc-checkbox__background">
+...
+</div>
+</div>
+<label for="my-checkbox">Test ouverture dialog box</label>
+
+
+            <div class="mdc-dialog"
+                 role="alertdialog"
+                 aria-modal="true"
+                 aria-labelledby="my-dialog-title"
+                 aria-describedby="my-dialog-content">
+              <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                  <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+                  <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+                 -->Dialog Title<!--
+               --></h2>
+                  <div class="mdc-dialog__content" id="my-dialog-content">
+                    Dialog body text goes here.
+                  </div>
+                  <footer class="mdc-dialog__actions">
+                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+                      <span class="mdc-button__label">No</span>
+                    </button>
+                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+                      <span class="mdc-button__label">Yes</span>
+                    </button>
+                  </footer>
+                </div>
+              </div>
+              <div class="mdc-dialog__scrim"></div>
+            </div>
+
+
+          </div>
         </body>
         </html>
         <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
@@ -475,6 +566,6 @@
         <script src="./dist/hyperhtml.min.js"></script>
         <script type="module" src="./hyper/app.js"></script>
 
-<!-- TEST JS MODULES -->
-<script type="module" src="./modules/main.mjs"></script>
-<script nomodule src="fallback.js"></script>
+        <!-- TEST JS MODULES -->
+        <script type="module" src="./modules/main.mjs"></script>
+        <script nomodule src="fallback.js"></script>
