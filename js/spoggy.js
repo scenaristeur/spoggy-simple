@@ -354,28 +354,59 @@ function initSpoggy(){
   file2 = window.location.protocol+"//"+window.location.host+"/data/DavidProjets.ttl";
   file3 = "http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf";
   document.getElementById("url-remote").value = file2;
+  initMaterialDesign();
+
+}
+
+function initMaterialDesign(){
   mdc.ripple.MDCRipple.attachTo(document.querySelector('.foo-button'));
   console.log("MDC",mdc)
   //MDCFormField.attachTo()
- const formField = new mdc.formField.MDCFormField(document.querySelector('.mdc-form-field'));
-const checkbox = new mdc.checkbox.MDCCheckbox(document.querySelector('.mdc-checkbox'));
-formField.input = checkbox;
-console.log("ff",formField)
+  const formField = new mdc.formField.MDCFormField(document.querySelector('.mdc-form-field'));
+  const checkbox = new mdc.checkbox.MDCCheckbox(document.querySelector('.mdc-checkbox'));
+  formField.input = checkbox;
+  console.log("ff",formField)
 
-const textField = new mdc.textField.MDCTextField(document.querySelector('.mdc-text-field'));
+  const textField = new mdc.textField.MDCTextField(document.querySelector('.mdc-text-field'));
 
-const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
+  const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
 
-document.querySelector('.mdc-checkbox').addEventListener("click", function(e){
-  //console.log("event",e)
-  console.log(checkbox.checked)
-  checkbox.checked? dialog.open() : dialog.close() ;
+  document.querySelector('.mdc-checkbox').addEventListener("click", function(e){
+    //console.log("event",e)
+    console.log(checkbox.checked)
+    checkbox.checked? dialog.open() : dialog.close() ;
+  });
+
+  drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
+  console.log(drawer)
+  const listEl = document.querySelector('.mdc-drawer .mdc-list');
+const mainContentEl = document.querySelector('.main-content');
+
+listEl.addEventListener('click', (event) => {
+  drawer.open =false;
+  mainContentEl.querySelector('input, button').focus();
 });
-/*const list = new mdc.list.MDCList(document.querySelector('.mdc-dialog .mdc-list'));
 
-dialog.listen('MDCDialog:opened', () => {
+document.body.addEventListener('MDCDrawer:closed', () => {
+    drawer.open =false;
+  mainContentEl.querySelector('input, button').focus();
+});
+  /*const list = new mdc.list.MDCList(document.querySelector('.mdc-dialog .mdc-list'));
+
+  dialog.listen('MDCDialog:opened', () => {
   list.layout();
 });*/
+}
+
+function toggleToolbar(elem){
+  elem.classList.toggle("mdc-top-app-bar--short-collapsed");
+}
+
+function toggleDrawer(){
+  //var drawerF = new mdc.drawer.MDCDismissibleDrawerFoundation(document.querySelector('.mdc-drawer'));
+  //console.log("av",drawer.isOpen())
+  drawer.open? drawer.open = false : drawer.open = true;
+  //  console.log("ap",drawer.isOpen())
 }
 
 
@@ -384,6 +415,8 @@ dialog.listen('MDCDialog:opened', () => {
 function updateCurrent(folder){
   console.log(folder)
 }
+
+
 
 
 function newGraph(){
@@ -484,14 +517,31 @@ function updateEditorFromNetwork(event, properties, senderId){
 
     var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
     var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+    var changeFullScreen = doc.fullscreenchange || doc.mozfullscreenchange || doc.webkitfullscreenchange || doc.msfullscreenchange;
+
+
+
 
     if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
       //requestFullScreen.call(docEl);
+  // document.getElementById("main-content").innerHTML = "";
+
       var canvas = document.getElementById("mynetwork");
       canvas.requestFullscreen();
 
+      /*   document.getElementById("main-content").appendChild(document.getElementById("mynetwork"))*/
+         document.getElementById("mynetwork").prepend(document.getElementById("rtl-menu"));
+         /*canvas.addEventListener("cancelFullScreen", function(e) {
+           console.log("change",e)
+         });*/
     }
     else {
-      cancelFullScreen.call(doc);
+      console.log("cancelFullscreen")
+        //  document.getElementById("main-content").innerHTML = "";
+      //  document.getElementById("main-content").appendChild(document.getElementById("principal"))
+    cancelFullScreen.call(doc);
+    /*  document.getElementById("network-container").appendChild(document.getElementById("mynetwork"))*/
+  // document.getElementById("attachGlobal").prepend(document.getElementById("global"));
+
     }
   }

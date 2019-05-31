@@ -52,10 +52,63 @@
 
 <body onload="init();initSpoggy();" bgcolor="#E6E6FA">
 
+<!--
+<div id="attachGlobal">
+<div id="global">-->
+  <div dir="rtl" id="rtl-menu">
+    <header id="app-bar"
+    class="mdc-top-app-bar mdc-top-app-bar--short mdc-top-app-bar--short-collapsed"
+     style="top:35px"
+     onmouseover="toggleToolbar(this)"
+      onmouseout="toggleToolbar(this)"
+      onclick="toggleDrawer()">
+      <!--https://material-components.github.io/material-components-web-catalog/#/component/top-app-bar-->
+      <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+          <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+          <span class="mdc-top-app-bar__title">Spoggy</span>
+        </section>
+      </div>
+    </header>
+
+
+     <aside id="app-drawer"
+      class="mdc-drawer mdc-drawer--dismissible mdc-top-app-bar--fixed-adjust">
+       <div class="mdc-drawer__content">
+         <div class="mdc-list">
+           <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page">
+             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
+             <span class="mdc-list-item__text">Inbox</span>
+           </a>
+           <a class="mdc-list-item" href="#">
+             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>
+             <span class="mdc-list-item__text">Outgoing</span>
+           </a>
+           <a class="mdc-list-item" href="#">
+             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>
+             <span class="mdc-list-item__text">Drafts</span>
+           </a>
+         </div>
+       </div>
+     </aside>
+</div>
+
+  <!--   <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
+       <main class="main-content" id="main-content">
+       </main>
+     </div>
+</div>
+</div>-->
+
+
+
+
+
+
   <br>
   <br><br>
   <br>
-
+<div id="principal">
   <h2>Créez  un graphe en éditant les noeuds et les liens</h2>
 
 
@@ -96,74 +149,77 @@
         </div>
 
 
-  <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
+        <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
 
-  <fieldset>
-    <legend>Réglages</legend>
+        <fieldset>
+          <legend>Réglages</legend>
 
 
-    <div  style="float:auto">
-      <div>D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-      <div>L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-      <div>F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-      <div>G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-      <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-      <div><button onclick="setDefaultReglages()">Defaut</button></div>
-    </div>
-  </fieldset>
+          <div  style="float:auto">
+            <div>D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+            <div>L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+            <div>F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+            <div>G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+            <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+            <div><button onclick="setDefaultReglages()">Defaut</button></div>
+          </div>
+        </fieldset>
 
-  <fieldset>
-    <legend>Réglages</legend>
-    <div>
-      <select id="locale" onchange="draw();">
-        <option value="en">en</option>
-        <option value="de">de</option>
-        <option value="es">es</option>
-        <!--<option value="fr">fr</option>-->
-        <option value="it">it</option>
-        <option value="nl">nl</option>
-        <option value="pt-br">pt</option>
-        <option value="ru">ru</option>
-      </select>
-    </div>
+        <fieldset>
+          <legend>Réglages</legend>
+          <div>
+            <select id="locale" onchange="draw();">
+              <option value="en">en</option>
+              <option value="de">de</option>
+              <option value="es">es</option>
+              <!--<option value="fr">fr</option>-->
+              <option value="it">it</option>
+              <option value="nl">nl</option>
+              <option value="pt-br">pt</option>
+              <option value="ru">ru</option>
+            </select>
+          </div>
 
-  </fieldset>
+        </fieldset>
 
-  <fieldset>
-    <legend>Cluster</legend>
+        <fieldset>
+          <legend>Cluster</legend>
 
-    <div  style="float:auto">
-      <input type="button" onclick="clusterByCid()" value="by cid=1 (Navigation POD)"> <br />
+          <div  style="float:auto">
+            <input type="button" onclick="clusterByCid()" value="by cid=1 (Navigation POD)"> <br />
             <input type="button" onclick="clusterByConnection()" value="'node 1' by connec"> <br />
-      <input type="button" onclick="clusterByColor()" value="by color"> <br />
+            <input type="button" onclick="clusterByColor()" value="by color"> <br />
 
-      <input type="button" onclick="clusterOutliers()" value="outliers"> <br />
-      <input type="button" onclick="clusterByHubsize()" value="hubsize"> <!--<br/>
-      <input type="button" onclick="clusterNavigation()" value="Navigation"> <br/>
-      <input type="button" onclick="clusterHistorique()" value=" Historique"> <br/>
-      <input type="button" onclick="toggleNavigation()" value="Navigation / Data"> <br/>-->
-    </div>
-  </fieldset>
+            <input type="button" onclick="clusterOutliers()" value="outliers"> <br />
+            <input type="button" onclick="clusterByHubsize()" value="hubsize"> <!--<br/>
+              <input type="button" onclick="clusterNavigation()" value="Navigation"> <br/>
+              <input type="button" onclick="clusterHistorique()" value=" Historique"> <br/>
+              <input type="button" onclick="toggleNavigation()" value="Navigation / Data"> <br/>-->
+            </div>
+          </fieldset>
 
-</div>
-  <div style="float:left">
+        </div>
+        <div style="float:left">
 
-  <fieldset>
-    <legend>Input</legend>
-    <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" placeholder="Saisis ici 3 mots suivis d'une virgule et valide"></input>
-    <button id="valider" onclick="validInput()">Valider</button><br>
-    <br>
-    <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
-    <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
-    <button  onclick="resetColors()">retablir les couleurs</button>
-    <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-    <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-    <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
-    <br>
-    Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
-    ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-    ou importer une url (json, ttl, rdf, POD...)<br>
-  </fieldset>
+          <fieldset>
+            <legend>Input</legend>
+            <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" placeholder="Saisis ici 3 mots suivis d'une virgule et valide"></input>
+            <button id="valider" onclick="validInput()">Valider</button><br>
+            <br>
+            <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+            <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+            <button  onclick="resetColors()">retablir les couleurs</button>
+            <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+            <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+            <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+            <br>
+            Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+            ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+            ou importer une url (json, ttl, rdf, POD...)<br>
+          </fieldset>
+
+
+        </div>
 
 
       </div>
@@ -172,189 +228,177 @@
     </div>
 
 
-  </div>
 
 
 
+    <div>
 
+    </div>
 
-  <div>
-
-  </div>
-
-
-
-  <div style="float:auto">
 
 
     <div style="float:auto">
-      <fieldset>
-        <legend>Editeur</legend>
-        <pre id="editor"></pre>
-      </fieldset>
-    </div>
-  </div>
 
-  <div style="float:auto">
-    <fieldset>
-      <legend>Dernière publications publiques <div id="webId"></div></legend>
-      <button   onclick="last_public()">Afficher les dernières publications publiques</button>
-      <ul id="last-public">
 
-      </ul>
-    </fieldset>
-  </div>
-
-  <div style="float:auto">
-    <fieldset>
-      <legend>Solid <div id="webId"></div></legend>
-      <button  class="login" onclick="login()">Se connecter sur un POD</button>
-      <button class="logout" onclick="logout()">Se deconnecter du POD</button><br><br>
-      current webId : <div id="current-webId"></div>
-      <button id="profile-btn" onclick="profile()">Profile</button>
-      <button id="public-btn" onclick="browsePublicFromWebId(document.getElementById('current-webId').innerHTML)">Public</button>
-      <button id="friends-btn" onclick="friends()">Friends</button><br>
-      current Folder : <div id="current-folder">
-        parent Folder :  <div id="current-folder-parent"></div>
-        current Folder :   <div id="current-folder-url"></div>
-        <input id="new-file-input" placeholder="Nom de fichier"></input>
-        <button id="jsonSave-btn" onclick="jsonSave()">Sauver en JSON</button> /e
-        <button id="turtleSave-btn" onclick="turtleSave()">Sauver en Turtle</button><br> /t<br>
-        <input id="new-folder-input" placeholder="Nom de dossier"></input>
-        <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button>
+      <div style="float:auto">
+        <fieldset>
+          <legend>Editeur</legend>
+          <pre id="editor"></pre>
+        </fieldset>
       </div>
-    </fieldset>
-  </div>
+    </div>
 
+    <div style="float:auto">
+      <fieldset>
+        <legend>Dernière publications publiques <div id="webId"></div></legend>
+        <button   onclick="last_public()">Afficher les dernières publications publiques</button>
+        <ul id="last-public">
 
-
-  <div style="float:auto">
-    <fieldset>
-      <legend>Historique : Console | Navigation | Commandes | Recherches | Sources</legend>
-      <textarea id="story" name="story" rows="5" style="width:90%">
-        It was a dark and stormy night...
-      </textarea>
-    </fieldset>
-  </div>
-
-
-
-  <div style="float:auto">
-    <fieldset>
-      <legend>Exemples JSON OK</legend>
-      <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets_spoggy_nodes_edges_1511453311975.json">Projets David</a><br><br>
-      <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Barriere%20Lego.json">Barrière LEGO sur github</a><br><br>
-      <a href="?source=https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json">Graph_Couleurs_Martin, JSON sur POD public smag0</a><br><br>
-      <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy-Donner%20du%20sens%20%C3%A0%20l'IA.json">Donner du sens à l'IA</a><br><br>
-    </fieldset>
-    <fieldset>
-      <legend>Exemples POD en developpement</legend>
-      <a href="http://127.0.0.1:3000/?source=https://spoggy.solid.community/public/test/">Folder Test : https://spoggy.solid.community/public/test/</a><br>
-      <a href="?source=https://smag0.solid.community/profile/card#me">Explorer un POD (smag0) : firends,  public (& prive si auth)</a><br>
-      <a href="?source=https://holacratie.solid.community/profile/card#me">Et Parcourir les Friends (holacratie)</a><br>
-      <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl"> David Projets TTL sur Github</a><br>
-      <a href="?source=https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl">Spoggy-caracteristiques.ttl sur POD public smag0</a><br>
-      <a href="?source=https://smag0.solid.community/public/">POD public smag0</a><br><br>
-      todo :
-      urls Persee, urls Semantic Forms...  Parcourir pour importer un ttl, rdf<br>
-      <input id="url-remote" value=""></input>
-      <button  onclick="fetchRemote()">Test FetchRemote</button><br>
-      <button  onclick="parseLocal()">Test Parse local</button>
-      <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank">exemples de fichiers spoggy </a>
-    </fieldset>
-    <fieldset>
-      <legend>Websocket / notifications</legend>
-      sur deux fichiers : <br>
-      <a href="https://spoggy.solid.community/public/test/fichier.ttl" target="_blank">https://spoggy.solid.community/public/test/fichier.ttl</a><br>
-      <a href="https://spoggy.solid.community/public/test/fichier2.ttl" target="_blank">https://spoggy.solid.community/public/test/fichier2.ttl</a><br>
-      ne fonctionne pas sur le dossier https://spoggy.solid.community/public/test/<br>
-      <button onclick="testWebSocket()">Activer</button>
-      <textarea id="notification" name="notification" rows="5"  style="width:90%">
-      </textarea>
-
-    </fieldset>
-  </div>
-
-
-
-
-
-
-
-
-  <div style="float:auto">
-    <fieldset>
-      <legend>Explorateur Global</legend>
-      <ul>
-        <li>Enpdpoint Sparql
-          <li>requete</li>
-          <li>filtre</li>
-          <li>reasoner</li>
-          <li>authentification</li>
         </ul>
       </fieldset>
     </div>
 
+    <div style="float:auto">
+      <fieldset>
+        <legend>Solid <div id="webId"></div></legend>
+        <button  class="login" onclick="login()">Se connecter sur un POD</button>
+        <button class="logout" onclick="logout()">Se deconnecter du POD</button><br><br>
+        current webId : <div id="current-webId"></div>
+        <button id="profile-btn" onclick="profile()">Profile</button>
+        <button id="public-btn" onclick="browsePublicFromWebId(document.getElementById('current-webId').innerHTML)">Public</button>
+        <button id="friends-btn" onclick="friends()">Friends</button><br>
+        current Folder : <div id="current-folder">
+          parent Folder :  <div id="current-folder-parent"></div>
+          current Folder :   <div id="current-folder-url"></div>
+          <input id="new-file-input" placeholder="Nom de fichier"></input>
+          <button id="jsonSave-btn" onclick="jsonSave()">Sauver en JSON</button> /e
+          <button id="turtleSave-btn" onclick="turtleSave()">Sauver en Turtle</button><br> /t<br>
+          <input id="new-folder-input" placeholder="Nom de dossier"></input>
+          <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button>
+        </div>
+      </fieldset>
+    </div>
 
 
 
-    <footer>
-      en savoir plus ? <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">spoggy-simple</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Aide</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Formation</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Developper un plugin Spoggy</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Spoggy dans votre entreprise</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Contact</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Partenaires</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Api</a><br>
-      <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Mécenat</a><br>
-
-    </footer>
+    <div style="float:auto">
+      <fieldset>
+        <legend>Historique : Console | Navigation | Commandes | Recherches | Sources</legend>
+        <textarea id="story" name="story" rows="5" style="width:90%">
+          It was a dark and stormy night...
+        </textarea>
+      </fieldset>
+    </div>
 
 
 
-    <!-- POPUPS -->
-    <div id="popup-container" >
-      <div dir="rtl" >
-        <header class="mdc-top-app-bar mdc-top-app-bar--short mdc-top-app-bar--short-collapsed" style="top:35px">
-          <!--https://material-components.github.io/material-components-web-catalog/#/component/top-app-bar-->
-          <div class="mdc-top-app-bar__row">
-            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-              <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
-              <span class="mdc-top-app-bar__title">Title</span>
-            </section>
-          </div>
-        </header>
+    <div style="float:auto">
+      <fieldset>
+        <legend>Exemples JSON OK</legend>
+        <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets_spoggy_nodes_edges_1511453311975.json">Projets David</a><br><br>
+        <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Barriere%20Lego.json">Barrière LEGO sur github</a><br><br>
+        <a href="?source=https://smag0.solid.community/public/spoggy/Graph_Couleurs_Martin.json">Graph_Couleurs_Martin, JSON sur POD public smag0</a><br><br>
+        <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy-Donner%20du%20sens%20%C3%A0%20l'IA.json">Donner du sens à l'IA</a><br><br>
+      </fieldset>
+      <fieldset>
+        <legend>Exemples POD en developpement</legend>
+        <a href="http://127.0.0.1:3000/?source=https://spoggy.solid.community/public/test/">Folder Test : https://spoggy.solid.community/public/test/</a><br>
+        <a href="?source=https://smag0.solid.community/profile/card#me">Explorer un POD (smag0) : firends,  public (& prive si auth)</a><br>
+        <a href="?source=https://holacratie.solid.community/profile/card#me">Et Parcourir les Friends (holacratie)</a><br>
+        <a href="?source=https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/DavidProjets.ttl"> David Projets TTL sur Github</a><br>
+        <a href="?source=https://smag0.solid.community/public/spoggy/Spoggy-caracteristiques.ttl">Spoggy-caracteristiques.ttl sur POD public smag0</a><br>
+        <a href="?source=https://smag0.solid.community/public/">POD public smag0</a><br><br>
+        todo :
+        urls Persee, urls Semantic Forms...  Parcourir pour importer un ttl, rdf<br>
+        <input id="url-remote" value=""></input>
+        <button  onclick="fetchRemote()">Test FetchRemote</button><br>
+        <button  onclick="parseLocal()">Test Parse local</button>
+        <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/public/exemple_files" target="_blank">exemples de fichiers spoggy </a>
+      </fieldset>
+      <fieldset>
+        <legend>Websocket / notifications</legend>
+        sur deux fichiers : <br>
+        <a href="https://spoggy.solid.community/public/test/fichier.ttl" target="_blank">https://spoggy.solid.community/public/test/fichier.ttl</a><br>
+        <a href="https://spoggy.solid.community/public/test/fichier2.ttl" target="_blank">https://spoggy.solid.community/public/test/fichier2.ttl</a><br>
+        ne fonctionne pas sur le dossier https://spoggy.solid.community/public/test/<br>
+        <button onclick="testWebSocket()">Activer</button>
+        <textarea id="notification" name="notification" rows="5"  style="width:90%">
+        </textarea>
+
+      </fieldset>
+    </div>
+
+
+
+
+
+
+
+
+    <div style="float:auto">
+      <fieldset>
+        <legend>Explorateur Global</legend>
+        <ul>
+          <li>Enpdpoint Sparql
+            <li>requete</li>
+            <li>filtre</li>
+            <li>reasoner</li>
+            <li>authentification</li>
+          </ul>
+        </fieldset>
       </div>
 
-      <div id="node-popUp" class="popUp">
-        <span id="node-operation">node</span> <br>
-        <input style="display:none" id="node-id" value="" />
-
-<br>
-
-<div class="mdc-form-field">
-  <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
-
-  <div class="mdc-text-field">
-    <input class="mdc-text-field__input" id="node-label" autofocus>
-    <div class="mdc-line-ripple"></div>
-    <label class="mdc-floating-label">Nom du noeud</label>
-  </div>
-</div>
-<br>
 
 
 
+      <footer>
+        en savoir plus ? <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">spoggy-simple</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Aide</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Formation</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Developper un plugin Spoggy</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Spoggy dans votre entreprise</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Contact</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Partenaires</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Api</a><br>
+        <a href="https://github.com/scenaristeur/spoggy-simple/blob/master/README.md" target="_blank">Mécenat</a><br>
 
-<!--
-        <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
-  <i class="material-icons mdc-text-field__icon">favorite</i>
-  <i class="material-icons mdc-text-field__icon">visibility</i>
-  <input class="mdc-text-field__input" id="node-label" autofocus>
-  <div class="mdc-line-ripple"></div>
-  <label class="mdc-floating-label">Name</label>
-</div>-->
+      </footer>
+
+
+
+      <!-- POPUPS -->
+      <div id="popup-container" >
+
+
+
+        <div id="node-popUp" class="popUp">
+          <span id="node-operation">node</span> <br>
+          <input style="display:none" id="node-id" value="" />
+
+          <br>
+
+          <div class="mdc-form-field">
+            <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
+
+            <div class="mdc-text-field">
+              <input class="mdc-text-field__input" id="node-label" autofocus>
+              <div class="mdc-line-ripple"></div>
+              <label class="mdc-floating-label">Nom du noeud</label>
+            </div>
+          </div>
+          <br>
+
+
+
+
+          <!--
+          <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
+          <i class="material-icons mdc-text-field__icon">favorite</i>
+          <i class="material-icons mdc-text-field__icon">visibility</i>
+          <input class="mdc-text-field__input" id="node-label" autofocus>
+          <div class="mdc-line-ripple"></div>
+          <label class="mdc-floating-label">Name</label>
+        </div>-->
         <table style="margin:auto;">
 
           <tr>
@@ -495,91 +539,92 @@
           <div id="app3"></div>
 
           <div>
-<!-- test ouverture material design dialog -->
-<div class="mdc-checkbox">
-<input type="checkbox" id="my-checkbox" class="mdc-checkbox__native-control"/>
-<div class="mdc-checkbox__background">
-...
-</div>
-</div>
-<label for="my-checkbox">Test ouverture dialog box</label>
+            <!-- test ouverture material design dialog -->
+            <div class="mdc-checkbox">
+              <input type="checkbox" id="my-checkbox" class="mdc-checkbox__native-control"/>
+              <div class="mdc-checkbox__background">
+                ...
+              </div>
+            </div>
+            <label for="my-checkbox">Test ouverture dialog box</label>
 
 
             <div class="mdc-dialog"
-                 role="alertdialog"
-                 aria-modal="true"
-                 aria-labelledby="my-dialog-title"
-                 aria-describedby="my-dialog-content">
-              <div class="mdc-dialog__container">
-                <div class="mdc-dialog__surface">
-                  <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-                  <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
-                 -->Dialog Title<!--
-               --></h2>
-                  <div class="mdc-dialog__content" id="my-dialog-content">
-                    Dialog body text goes here.
-                  </div>
-                  <footer class="mdc-dialog__actions">
-                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
-                      <span class="mdc-button__label">No</span>
-                    </button>
-                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
-                      <span class="mdc-button__label">Yes</span>
-                    </button>
-                  </footer>
-                </div>
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="my-dialog-title"
+            aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+              <div class="mdc-dialog__surface">
+                <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+                <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+                -->Dialog Title<!--
+              --></h2>
+              <div class="mdc-dialog__content" id="my-dialog-content">
+                Dialog body text goes here.
               </div>
-              <div class="mdc-dialog__scrim"></div>
+              <footer class="mdc-dialog__actions">
+                <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+                  <span class="mdc-button__label">No</span>
+                </button>
+                <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+                  <span class="mdc-button__label">Yes</span>
+                </button>
+              </footer>
             </div>
-
-
           </div>
-        </body>
-        </html>
-        <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
-        <!-- load ace language tools -->
-        <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
-        <script>
-        //https://ace.c9.io/#nav=api&api=editor
-        var editor = ace.edit("editor", {
-          theme: "ace/theme/tomorrow_night_eighties",
-          mode: "ace/mode/turtle",
-          maxLines: 30,
-          wrap: true,
-          autoScrollEditorIntoView: true
-        });
+          <div class="mdc-dialog__scrim"></div>
+        </div>
 
 
-        //editor.insert("test")
-        </script>
+      </div>
+    </div>
+    </body>
+    </html>
+    <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
+    <!-- load ace language tools -->
+    <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
+    <script>
+    //https://ace.c9.io/#nav=api&api=editor
+    var editor = ace.edit("editor", {
+      theme: "ace/theme/tomorrow_night_eighties",
+      mode: "ace/mode/turtle",
+      maxLines: 30,
+      wrap: true,
+      autoScrollEditorIntoView: true
+    });
 
-        <script>
-        // create agents
-        var historiqueAgent = new HistoriqueAgent('historiqueAgent');
-        var appAgent = new AppAgent('appAgent');
-        var rdfAgent = new RdfAgent('rdfAgent');
-        //  var authAgent = new AuthAgent('authAgent');
-        var fileAgent = new FileAgent('fileAgent');
 
-        historiqueAgent.send('historiqueAgent', 'Prêt!');
-        appAgent.send('historiqueAgent', 'Prêt!');
-        rdfAgent.send('historiqueAgent', 'Prêt!');
-        fileAgent.send('historiqueAgent', 'Prêt!');
-        //authAgent.send('historiqueAgent', 'Prêt!');
-        </script>
+    //editor.insert("test")
+    </script>
 
-        <script type="text/javascript" src="./js/solid_web_socket.js"></script>
-        <script>
-        var goFS = document.getElementById("goFS");
-        goFS.addEventListener("click", function() {
-          toggleFullScreen();
-        }, false);
-        </script>
+    <script>
+    // create agents
+    var historiqueAgent = new HistoriqueAgent('historiqueAgent');
+    var appAgent = new AppAgent('appAgent');
+    var rdfAgent = new RdfAgent('rdfAgent');
+    //  var authAgent = new AuthAgent('authAgent');
+    var fileAgent = new FileAgent('fileAgent');
 
-        <!--<script src="https://unpkg.com/hyperhtml@latest/min.js"></script>-->
-        <script src="./dist/hyperhtml.min.js"></script>
-        <script type="module" src="./hyper/app.js"></script>
+    historiqueAgent.send('historiqueAgent', 'Prêt!');
+    appAgent.send('historiqueAgent', 'Prêt!');
+    rdfAgent.send('historiqueAgent', 'Prêt!');
+    fileAgent.send('historiqueAgent', 'Prêt!');
+    //authAgent.send('historiqueAgent', 'Prêt!');
+    </script>
 
-        <!-- TEST JS MODULES -->
-        <script type="module" src="./modules/main.mjs"></script>
-        <script nomodule src="fallback.js"></script>
+    <script type="text/javascript" src="./js/solid_web_socket.js"></script>
+    <script>
+    var goFS = document.getElementById("goFS");
+    goFS.addEventListener("click", function() {
+      toggleFullScreen();
+    }, false);
+    </script>
+
+    <!--<script src="https://unpkg.com/hyperhtml@latest/min.js"></script>-->
+    <script src="./dist/hyperhtml.min.js"></script>
+    <script type="module" src="./hyper/app.js"></script>
+
+    <!-- TEST JS MODULES -->
+    <script type="module" src="./modules/main.mjs"></script>
+    <script nomodule src="fallback.js"></script>
