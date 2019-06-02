@@ -1,8 +1,14 @@
 
 import {LitElement, html, css} from 'https://unpkg.com/lit-element/lit-element.js?module';
-import "./form-from-pod.js"
+import "./form-from-uri.js";
+import "./agents/AccueilAgent.js"
 class AccueilHolacratie extends LitElement {
+  constructor() {
+    super();
+    var accueilAgent = new AccueilAgent('accueilAgent');
+    accueilAgent.send('historiqueAgent', 'Prêt!');
 
+  }
   static get properties() {
     return {
       mood: {type: String}
@@ -39,14 +45,14 @@ class AccueilHolacratie extends LitElement {
     En gros, on va traiter deux types de <span class="mood">TENSIONS</span> :
     Les Problèmes qu'il faut résoudre et les Idées qui peuvent améliorer les choses.
     <br>
-<p>
+    <p>
     Une <span class="mood">TENSION</span> est composée au minimum d'un nom ou titre pour la reconnaître, d'un exposé de
     <span class="mood">CE QUI EST</span> et d'un exposé de <span class="mood">CE QUI DEVRAIT ÊTRE</span>.<br>
     Pas si compliqué, hein... Essaie pour voir...
-</p>
+    </p>
 
-<form-from-pod  mood="great"></form-from-pod>
-ok
+    <form-from-uri  uri="https://holacratie.solid.community/public/Schema/tension.ttl"></form-from-uri>
+    ok
 
 
     <br><br>
