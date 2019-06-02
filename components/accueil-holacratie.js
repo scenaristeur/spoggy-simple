@@ -1,7 +1,7 @@
 
 import {LitElement, html, css} from 'https://unpkg.com/lit-element/lit-element.js?module';
 import "./form-from-uri.js";
-import "./agents/AccueilAgent.js"
+//import "../agents/AccueilAgent.js"
 class AccueilHolacratie extends LitElement {
   constructor() {
     super();
