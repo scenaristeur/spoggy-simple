@@ -44,7 +44,9 @@
   <script src="./dist/material-components-web.min.js"></script>
   <link href="./css/icon.css" rel="stylesheet" type="text/css" />
 
-
+  <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js"></script>-->
+  <script src="./dist/webcomponents-loader.js"></script>
+  <script type="module" src="./components/my-element.js"></script>
   <link rel="manifest" href="/manifest.json">
 
 
@@ -52,51 +54,51 @@
 
 <body onload="init();initSpoggy();" bgcolor="#E6E6FA">
 
-<!--
-<div id="attachGlobal">
-<div id="global">-->
+  <!--
+  <div id="attachGlobal">
+  <div id="global">-->
   <div dir="rtl" id="rtl-menu">
     <header id="app-bar"
     class="mdc-top-app-bar mdc-top-app-bar--short mdc-top-app-bar--short-collapsed"
-     style="top:35px"
-     onmouseover="toggleToolbar(this)"
-      onmouseout="toggleToolbar(this)"
-      onclick="toggleDrawer()">
-      <!--https://material-components.github.io/material-components-web-catalog/#/component/top-app-bar-->
-      <div class="mdc-top-app-bar__row">
-        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-          <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
-          <span class="mdc-top-app-bar__title">Spoggy</span>
-        </section>
-      </div>
-    </header>
+    style="top:35px"
+    onmouseover="toggleToolbar(this)"
+    onmouseout="toggleToolbar(this)"
+    onclick="toggleDrawer()">
+    <!--https://material-components.github.io/material-components-web-catalog/#/component/top-app-bar-->
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+        <span class="mdc-top-app-bar__title">Spoggy</span>
+      </section>
+    </div>
+  </header>
 
 
-     <aside id="app-drawer"
-      class="mdc-drawer mdc-drawer--dismissible mdc-top-app-bar--fixed-adjust">
-       <div class="mdc-drawer__content">
-         <div class="mdc-list">
-           <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page">
-             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
-             <span class="mdc-list-item__text">Inbox</span>
-           </a>
-           <a class="mdc-list-item" href="#">
-             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>
-             <span class="mdc-list-item__text">Outgoing</span>
-           </a>
-           <a class="mdc-list-item" href="#">
-             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>
-             <span class="mdc-list-item__text">Drafts</span>
-           </a>
-         </div>
-       </div>
-     </aside>
+  <aside id="app-drawer"
+  class="mdc-drawer mdc-drawer--dismissible mdc-top-app-bar--fixed-adjust">
+  <div class="mdc-drawer__content">
+    <div class="mdc-list">
+      <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page">
+        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
+        <span class="mdc-list-item__text">Inbox</span>
+      </a>
+      <a class="mdc-list-item" href="#">
+        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>
+        <span class="mdc-list-item__text">Outgoing</span>
+      </a>
+      <a class="mdc-list-item" href="#">
+        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>
+        <span class="mdc-list-item__text">Drafts</span>
+      </a>
+    </div>
+  </div>
+</aside>
 </div>
 
-  <!--   <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
-       <main class="main-content" id="main-content">
-       </main>
-     </div>
+<!--   <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
+<main class="main-content" id="main-content">
+</main>
+</div>
 </div>
 </div>-->
 
@@ -105,9 +107,9 @@
 
 
 
-  <br>
-  <br><br>
-  <br>
+<br>
+<br><br>
+<br>
 <div id="principal">
   <h2>Créez  un graphe en éditant les noeuds et les liens</h2>
 
@@ -579,52 +581,54 @@
 
       </div>
     </div>
-    </body>
-    </html>
-    <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
-    <!-- load ace language tools -->
-    <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
-    <script>
-    //https://ace.c9.io/#nav=api&api=editor
-    var editor = ace.edit("editor", {
-      theme: "ace/theme/tomorrow_night_eighties",
-      mode: "ace/mode/turtle",
-      maxLines: 30,
-      wrap: true,
-      autoScrollEditorIntoView: true
-    });
+
+    <my-element mood="great"></my-element>
+  </body>
+  </html>
+  <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
+  <!-- load ace language tools -->
+  <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
+  <script>
+  //https://ace.c9.io/#nav=api&api=editor
+  var editor = ace.edit("editor", {
+    theme: "ace/theme/tomorrow_night_eighties",
+    mode: "ace/mode/turtle",
+    maxLines: 30,
+    wrap: true,
+    autoScrollEditorIntoView: true
+  });
 
 
-    //editor.insert("test")
-    </script>
+  //editor.insert("test")
+  </script>
 
-    <script>
-    // create agents
-    var historiqueAgent = new HistoriqueAgent('historiqueAgent');
-    var appAgent = new AppAgent('appAgent');
-    var rdfAgent = new RdfAgent('rdfAgent');
-    //  var authAgent = new AuthAgent('authAgent');
-    var fileAgent = new FileAgent('fileAgent');
+  <script>
+  // create agents
+  var historiqueAgent = new HistoriqueAgent('historiqueAgent');
+  var appAgent = new AppAgent('appAgent');
+  var rdfAgent = new RdfAgent('rdfAgent');
+  //  var authAgent = new AuthAgent('authAgent');
+  var fileAgent = new FileAgent('fileAgent');
 
-    historiqueAgent.send('historiqueAgent', 'Prêt!');
-    appAgent.send('historiqueAgent', 'Prêt!');
-    rdfAgent.send('historiqueAgent', 'Prêt!');
-    fileAgent.send('historiqueAgent', 'Prêt!');
-    //authAgent.send('historiqueAgent', 'Prêt!');
-    </script>
+  historiqueAgent.send('historiqueAgent', 'Prêt!');
+  appAgent.send('historiqueAgent', 'Prêt!');
+  rdfAgent.send('historiqueAgent', 'Prêt!');
+  fileAgent.send('historiqueAgent', 'Prêt!');
+  //authAgent.send('historiqueAgent', 'Prêt!');
+  </script>
 
-    <script type="text/javascript" src="./js/solid_web_socket.js"></script>
-    <script>
-    var goFS = document.getElementById("goFS");
-    goFS.addEventListener("click", function() {
-      toggleFullScreen();
-    }, false);
-    </script>
+  <script type="text/javascript" src="./js/solid_web_socket.js"></script>
+  <script>
+  var goFS = document.getElementById("goFS");
+  goFS.addEventListener("click", function() {
+    toggleFullScreen();
+  }, false);
+  </script>
 
-    <!--<script src="https://unpkg.com/hyperhtml@latest/min.js"></script>-->
-    <script src="./dist/hyperhtml.min.js"></script>
-    <script type="module" src="./hyper/app.js"></script>
+  <!--<script src="https://unpkg.com/hyperhtml@latest/min.js"></script>-->
+  <script src="./dist/hyperhtml.min.js"></script>
+  <script type="module" src="./hyper/app.js"></script>
 
-    <!-- TEST JS MODULES -->
-    <script type="module" src="./modules/main.mjs"></script>
-    <script nomodule src="fallback.js"></script>
+  <!-- TEST JS MODULES -->
+  <script type="module" src="./modules/main.mjs"></script>
+  <script nomodule src="fallback.js"></script>
