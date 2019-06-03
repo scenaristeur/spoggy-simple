@@ -1,14 +1,9 @@
 
 import {LitElement, html, css} from 'https://unpkg.com/lit-element/lit-element.js?module';
-import "./form-from-uri.js";
+//import "./form-from-uri.js";
 //import "../agents/AccueilAgent.js"
 class AccueilHolacratie extends LitElement {
-  constructor() {
-    super();
-    var accueilAgent = new AccueilAgent('accueilAgent');
-    accueilAgent.send('historiqueAgent', 'Prêt!');
 
-  }
   static get properties() {
     return {
       mood: {type: String}
@@ -24,7 +19,7 @@ class AccueilHolacratie extends LitElement {
     <!--  Web Components are <span class="mood">${this.mood}</span>!-->
     <p>  Bonjour, cher visiteur égaré ! </p>
     <p>  Je m'appelle <span class="mood">SPOGGY</span>, je suis une WebApp hébergée quelque part sur l'internet.<br>
-    Selon mon concepteur, ma <span class="mood">RAISON D'ÊTRE</span> est de :
+    Selon mon concepteur, ma <span class="mood">RAISON D'ÊTRE</span> est :
     <ul>
     <b><li>Enregistrer numériquement les <span class="mood">TENSIONS</span> de manière sécurisée afin de pouvoir créer des
     <span class="mood">CERCLES</span> d'<span class="mood">ASSOCIES</span> pour les réduire, voir même les éliminer.</li></b>
@@ -51,8 +46,8 @@ class AccueilHolacratie extends LitElement {
     Pas si compliqué, hein... Essaie pour voir...
     </p>
 
-    <form-from-uri  uri="https://holacratie.solid.community/public/Schema/tension.ttl"></form-from-uri>
-    ok
+  <!--  <form-from-uri  uri="https://holacratie.solid.community/public/Schema/tension.ttl"></form-from-uri>
+    ok-->
 
 
     <br><br>

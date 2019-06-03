@@ -1,6 +1,9 @@
 //https://linkeddata.github.io/rdflib.js/Documentation/webapp-intro.html
 //https://github.com/solid/solid-tutorial-rdflib.js
+//https://www.orpha.net/sparql?nsdecl
 
+const RDF = new $rdf.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+const RDFS = new $rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
 const VCARD = new $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = new $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 const LDP = new $rdf.Namespace('http://www.w3.org/ns/ldp#');
@@ -15,6 +18,8 @@ const DCEL = new $rdf.Namespace('http://purl.org/dc/elements/1.1/');
 const NONE = new $rdf.Namespace('http://example.org/ns/none#');
 const ACL = new $rdf.Namespace('http://www.w3.org/ns/auth/acl#');
 const PL = new $rdf.Namespace('http://www.w3.org/ns/iana/media-types/text/plain#');
+const XSD = new $rdf.Namespace("http://www.w3.org/2001/XMLSchema#");
+const OWL = new $rdf.Namespace("http://www.w3.org/2002/07/owl#");
 
 /**
 * Custom agent prototype

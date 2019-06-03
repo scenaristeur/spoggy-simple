@@ -4,34 +4,39 @@
  * @constructor
  * @extend eve.Agent
  */
-function AccueilAgent(id) {
+function FormAgent(id) {
   // execute super constructor
   eve.Agent.call(this, id);
+  // this.extend('request');
+
   // connect to all transports configured by the system
   this.connect(eve.system.transports.getAll());
 }
 // extend the eve.Agent prototype
-AccueilAgent.prototype = Object.create(eve.Agent.prototype);
-AccueilAgent.prototype.constructor = AccueilAgent;
+FormAgent.prototype = Object.create(eve.Agent.prototype);
+FormAgent.prototype.constructor = FormAgent;
 /**
  * Send a greeting to an agent
  * @param {String} to
  */
-AccueilAgent.prototype.sayHello = function(to) {
+FormAgent.prototype.sayHello = function(to) {
   this.send(to, 'Hello ' + to + '!');
 };
 /**
  * Handle incoming greetings. This overloads the default receive,
- * so we can't use AccueilAgent.on(pattern, listener) anymore
+ * so we can't use FormAgent.on(pattern, listener) anymore
  * @param {String} from     Id of the sender
  * @param {*} message       Received message, a JSON object (often a string)
  */
-AccueilAgent.prototype.receive = function(from, message) {
+FormAgent.prototype.receive = function(from, message) {
   console.log(message,"from",from)
   document.write(from + ' said: ' + JSON.stringify(message) + '<br>');
-  if (message.indexOf('Hello') === 0) {
-    // reply to the greeting
-    this.send(from, 'Hi ' + from + ', nice to meet you!');
-    this.send("historiqueAgent", message);
+  switch (message.type) {
+  /*  case 'updateForm':
+    this.updateForm(message)
+    break;*/
+
+    default:
+    console.log('Desolé, type de message inconnu : ' + message.type + '.');
   }
 };

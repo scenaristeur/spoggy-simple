@@ -7,6 +7,10 @@
 function FileAgent(id) {
   // execute super constructor
   eve.Agent.call(this, id);
+  // extend the agent with support for requests
+  //this.extend('request');
+  //this.extend('request');
+  //this.request = this.loadModule('request', this.request);
   // connect to all transports configured by the system
   this.connect(eve.system.transports.getAll());
 
@@ -93,7 +97,7 @@ FileAgent.prototype.createFile = function(url, content) {
 FileAgent.prototype.readFile = function(url, callback) {
   this.fileClient.readFile(url).then(  body => {
     console.log(`File content is : ${body}.`);
-callback? callback(body) : defaultCallBack(body)
+    callback? callback(body) : defaultCallBack(body)
   }, err => { console.log(err); alert(err);} );
 }
 
@@ -156,7 +160,7 @@ FileAgent.prototype.deleteFolder = function(url) {
 
 FileAgent.prototype.readFolder = function(url,callback) {
   this.fileClient.readFolder(url).then(folder => {
-  //  console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
+    //  console.log(`Read ${folder.name}, it has ${folder.files.length} files & ${folder.folders.length} folders .`,folder);
     //return folder;
     callback? callback(folder) : defaultCallBack(folder)
   }, err => { console.log(err); alert(err);} );
@@ -177,10 +181,10 @@ FileAgent.prototype.fetch = function(url, request) {
 }
 
 /*function defaultCallBack(folder){
-  console.log("Default callback after read")
-  folder2vis(folder)
-  updateCurrentFolder(folder)
-  folder2browser(folder)
+console.log("Default callback after read")
+folder2vis(folder)
+updateCurrentFolder(folder)
+folder2browser(folder)
 }*/
 
 /* FileAgent.prototype.saveOldUserData = function(profile)  {
@@ -207,11 +211,110 @@ FileAgent.prototype.sayHello = function(to) {
 * @param {String} from     Id of the sender
 * @param {*} message       Received message, a JSON object (often a string)
 */
-FileAgent.prototype.receive = function(from, message) {
-  console.log(message,"from",from)
-  document.write(from + ' said: ' + JSON.stringify(message) + '<br>');
-  if (message.indexOf('Hello') === 0) {
-    // reply to the greeting
-    this.send(from, 'Hi ' + from + ', nice to meet you!');
+FileAgent.prototype.receive =  function(from, message) {
+  console.log("MESS from",from, message)
+  //  document.write(from + ' said: ' + JSON.stringify(message) + '<br>');
+  switch (message.type) {
+    case 'form':
+    this.loadForm(message, from);
+  /*  var promise1 = new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        //this.loadForm(message, from);
+        resolve('foo');
+      }, 300);
+    });
+
+    promise1.then(function(value) {
+      console.log(value);
+      // expected output: "foo"
+      return value;
+    });*/
+
+       //}, 50);
+
+    break;
+
+    default:
+    console.log('Desolé, type de message inconnu : ' + message.type + '.');
+
+
   }
 };
+
+FileAgent.prototype.loadForm = function(message, sender){
+  var agent = this;
+  console.log("message",message)
+  var fields = [];
+  this.fileClient.fetchAndParse(message.uri, 'text/turtle').then(
+    graph => {
+      console.log(graph)
+      console.log(graph.statements)
+      //recherche du module définit dans ce fichier
+      root = graph.any(null, RDF('type'), OWL('Ontology'));
+      console.log("root ", root)
+      moduleSubject = graph.any(root, RDFS('isDefinedBy'));
+      console.log("moduleSubject ", moduleSubject)
+      let moduleFields = graph.match(moduleSubject,null,null);
+      return moduleFields;
+    },
+    err => console.log(err)
+  ).then(
+    moduleFields =>{
+      console.log(moduleFields)
+      var ordre = []
+      while (moduleFields.length >0){
+        var f = moduleFields.pop();
+        console.log(f)
+        console.log(localname(f.subject),localname(f.predicate),localname(f.object))
+        var field = {}
+        console.log(field)
+        field.statement = f;
+        if (localname(f.predicate) == "has"){
+          console.log("has")
+          field.name = localname(f.object)
+          field.type = "input"
+        }else{
+          var localPred = localname(f.predicate);
+          var localObj = localname(f.object);
+          console.log("else", localPred )
+
+          if (localPred.startsWith('_')){
+            var o = localPred.slice(1);
+            ordre[localObj] = o;
+
+
+          }else{
+            console.log("todo",f)
+            console.log("todo localObj",localPred)
+            console.log("todo localObj",localObj)
+            field.type = localPred || f.predicate.value
+            field.name = localObj || f.object.value
+
+          }
+
+
+        }
+        console.log(field)
+        fields.push(field)
+      }
+      console.log("ordre",ordre)
+      console.log(fields)
+      fields.forEach(function(fi){
+        if((fi.name != undefined) && (ordre[fi.name] != undefined)){
+          console.log("update ordre de ",fi.name)
+          console.log(ordre[fi.name])
+          fi.ordre = ordre[fi.name];
+        }
+
+      })
+
+      //console.log(sender, fields)
+      message.callback (fields);
+    }
+    ,err => {console.log(err)}
+  ).then(fields =>
+    {console.log("termine");
+    return fields
+  })
+
+}
