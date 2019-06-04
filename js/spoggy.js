@@ -398,6 +398,7 @@ document.body.addEventListener('MDCDrawer:closed', () => {
   list.layout();
 });*/
 
+//https://material-ui.com/fr/api/fab/
 //import {MDCRipple} from '@material/ripple';
 // MATERIAL FAB
 const fabRipple = new mdc.ripple.MDCRipple(document.querySelector('.mdc-fab'));
