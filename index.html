@@ -72,6 +72,8 @@
         <span class="mdc-top-app-bar__title">Spoggy</span>
       </section>
     </div>
+
+
   </header>
 
 
@@ -81,15 +83,15 @@
     <div class="mdc-list">
       <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page">
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
-        <span class="mdc-list-item__text">Inbox</span>
+        <span class="mdc-list-item__text">Ouvrir</span>
       </a>
       <a class="mdc-list-item" href="#">
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>
-        <span class="mdc-list-item__text">Outgoing</span>
+        <span class="mdc-list-item__text">Enregistrer</span>
       </a>
       <a class="mdc-list-item" href="#">
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>
-        <span class="mdc-list-item__text">Drafts</span>
+        <span class="mdc-list-item__text">Réglages</span>
       </a>
     </div>
   </div>
@@ -166,11 +168,22 @@
             <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
             <div><button onclick="setDefaultReglages()">Defaut</button></div>
           </div>
-        </fieldset>
 
-        <fieldset>
-          <legend>Réglages</legend>
+
+
           <div>
+            <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+            <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+            <br>
+            <button  onclick="resetColors()">retablir les couleurs</button>
+            <br>
+            <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+            <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+            <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+          </div>
+
+          <div>
+            langue :
             <select id="locale" onchange="draw();">
               <option value="en">en</option>
               <option value="de">de</option>
@@ -207,14 +220,8 @@
           <fieldset>
             <legend>Input</legend>
             <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" placeholder="Saisis ici 3 mots suivis d'une virgule et valide"></input>
-            <button id="valider" onclick="validInput()">Valider</button><br>
-            <br>
-            <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
-            <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
-            <button  onclick="resetColors()">retablir les couleurs</button>
-            <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-            <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-            <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+            <button id="valider" onclick="validInput()">Valider</button>
+
             <br>
             Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
             ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
@@ -373,264 +380,304 @@
       <div id="popup-container" >
 
 
+        <button id="fab" class="mdc-fab" aria-label="Keyboard">
+          <span class="mdc-fab__icon material-icons">keyboard</span>
+        </button>
 
-        <div id="node-popUp" class="popUp">
-          <span id="node-operation">node</span> <br>
-          <input style="display:none" id="node-id" value="" />
-
-          <br>
-
-          <div class="mdc-form-field">
-            <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
-
-            <div class="mdc-text-field">
-              <input class="mdc-text-field__input" id="node-label" autofocus>
-              <div class="mdc-line-ripple"></div>
-              <label class="mdc-floating-label">Nom du noeud</label>
-            </div>
-          </div>
-          <br>
-
-
+        <div
+        class="mdc-dialog"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="my-dialog-title"
+        aria-describedby="my-dialog-content">
+        <div class="mdc-dialog__container">
+          <div class="mdc-dialog__surface">
+            <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+            <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+            -->3 mots suivis d'une virgule et valider <span></span><!--
+          --></h2>
+          <div class="mdc-dialog__content" id="my-dialog-content">
 
 
-          <!--
-          <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
-          <i class="material-icons mdc-text-field__icon">favorite</i>
-          <i class="material-icons mdc-text-field__icon">visibility</i>
-          <input class="mdc-text-field__input" id="node-label" autofocus>
-          <div class="mdc-line-ripple"></div>
-          <label class="mdc-floating-label">Name</label>
-        </div>-->
-        <table style="margin:auto;">
+            <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" ></input>
 
-          <tr>
-            <td>
-              <label for="node-shape">Forme:</label>
-            </td>
-            <td>
-              <select id="node-shape">
-                <optgroup label="Label interne">
-                  <option>ellipse</option>
-                  <option>circle</option>
-                  <option>database</option>
-                  <option>box</option>
-                  <option>text</option>
-                </optgroup>
-                <optgroup label="Label externe">
-                  <option>image</option>
-                  <option>circularImage</option>
-                  <option>diamond</option>
-                  <option>dot</option>
-                  <option>star</option>
-                  <option>triangle</option>
-                  <option>triangleDown</option>
-                  <option>hexagon</option>
-                  <option>square</option>
-                  <option>icon</option>
-                </optgroup>
-                <input style="display:none" id="node-image-url" value="" />
-              </select>
-            </td>
-          </tr>
-        </table>
-
-
-
-        <button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
-        <button id="node-saveButton" class="foo-button mdc-button">Valider</button>
-
-
-      </div>
-
-      <div id="edge-popUp" class="popUp">
-        <span id="edge-operation">edge</span> <br>
-        <table style="margin:auto;">
-          <tr>
-            <td>label</td><td><input id="edge-label" /></td>
-          </tr></table>
-          <input type="button" value="save" id="edge-saveButton" />
-          <input type="button" value="cancel" id="edge-cancelButton" />
-        </div>
-
-
-
-        <div id="import-popUp" class="popUp">
-          <div style="padding-left:20px" vertical start-justified start layout wrap>
-            <h2 id="importOperation" style="margin: 0;color: #0D578B;">Import JSON (ou ttl) <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
-            <p >
-              <fieldset>
-                <legend>Paramètres</legend>
-                <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer Network</input>
-                <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
-              </fieldset>
-            </p>
-            <p>
-              <fieldset>
-                <legend>Fichier</legend>
-                <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this, updateGraph)"></input>
-              </fieldset>
-              <fieldset>
-                <legend>Url / POD</legend>
-                <!--  <input id="filepicker" type="file" multiple value="Importer" on-change="handleFileSelected"></input>-->
-                <input id="importUrl" Label="Url / POD"></input>
-                <button onclick="importFromUrl()">Importer</button>
-              </fieldset>
-            </p>
-          </div>
-
-          <input type="button" value="Fermer" onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
-        </div>
-
-        <div id="select-pod-popUp" class="popUp">
-          <div style="padding-left:20px" vertical start-justified start layout wrap>
-            <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">Sauvegarder sur un POD
-              <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
-              <p>
-                <fieldset>
-                  <legend>POD public (libre anonyme) / perso ou partagé (se connecter)</legend>
-
-                  <button  class="login" onclick="login()">Se connecter sur un POD</button>
-                  <button class="logout" onclick="logout()">Se deconnecter du POD</button><br>
-                  <button onclick="reset_Public_POD()">Utiliser le POD public</button>
-                  <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button>
-                </fieldset>
-              </p>
-              <p >
-                <fieldset>
-                  <legend>POD</legend>
-                  <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input> <div hidden >Public / Perso / Group </div>
-                  <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button>
-                </fieldset>
-              </p>
-            </div>
-
-            <input type="button" value="Fermer" onclick="(function(){ document.getElementById('select-pod-popUp').style.display = 'none'; })();"/>
-          </div>
-
-
-          <div id="pod-browser-popUp" class="popUp">
-            <div style="padding-left:20px" vertical start-justified start layout wrap>
-              <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
-                <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
-                <p>
-                  <fieldset>
-                    <legend>Dossier</legend>
-                    <ul id="folderslist">
-                    </ul>
-
-                  </fieldset>
-                  <fieldset>
-                    <legend>Fichier</legend>
-                    <ul id="fileslist">
-                    </ul>
-
-                  </fieldset>
-                </p>
-
-              </div>
-
-              <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
-            </div>
+            <button type="button" class="mdc-button mdc-dialog__button">
+              <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
+            </button>
 
           </div>
-
-          <!-- fin pop-ups -->
-
-          <div id="app"></div>
-          <div id="app2"></div>
-          <div id="app3"></div>
-
-          <div>
-            <!-- test ouverture material design dialog -->
-            <div class="mdc-checkbox">
-              <input type="checkbox" id="my-checkbox" class="mdc-checkbox__native-control"/>
-              <div class="mdc-checkbox__background">
-                ...
-              </div>
-            </div>
-            <label for="my-checkbox">Test ouverture dialog box</label>
-
-
-            <div class="mdc-dialog"
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="my-dialog-title"
-            aria-describedby="my-dialog-content">
-            <div class="mdc-dialog__container">
-              <div class="mdc-dialog__surface">
-                <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-                <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
-                -->Dialog Title<!--
-              --></h2>
-              <div class="mdc-dialog__content" id="my-dialog-content">
-                Dialog body text goes here.
-              </div>
-              <footer class="mdc-dialog__actions">
-                <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
-                  <span class="mdc-button__label">No</span>
-                </button>
-                <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
-                  <span class="mdc-button__label">Yes</span>
-                </button>
-              </footer>
-            </div>
-          </div>
-          <div class="mdc-dialog__scrim"></div>
-        </div>
-
-
+          <footer class="mdc-dialog__actions">
+            <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+            <span class="mdc-button__label">No</span>
+          </button>-->
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+            <span class="mdc-button__label">Fermer</span>
+          </button>
+        </footer>
       </div>
     </div>
-
-    <!--<accueil-holacratie mood="great"></accueil-holacratie>-->
-    <!--<accueil-holacratie mood="great"></accueil-holacratie>-->
-  </body>
-  </html>
-  <script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
-  <!-- load ace language tools -->
-  <script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
-  <script>
-  //https://ace.c9.io/#nav=api&api=editor
-  var editor = ace.edit("editor", {
-    theme: "ace/theme/tomorrow_night_eighties",
-    mode: "ace/mode/turtle",
-    maxLines: 30,
-    wrap: true,
-    autoScrollEditorIntoView: true
-  });
+    <div class="mdc-dialog__scrim"></div>
+  </div>
 
 
-  //editor.insert("test")
-  </script>
 
-  <script>
-  // create agents
-  var historiqueAgent = new HistoriqueAgent('historiqueAgent');
-  var appAgent = new AppAgent('appAgent');
-  var rdfAgent = new RdfAgent('rdfAgent');
-  //  var authAgent = new AuthAgent('authAgent');
-  var fileAgent = new FileAgent('fileAgent');
+  <div id="node-popUp" class="popUp">
+    <span id="node-operation">node</span> <br>
+    <input style="display:none" id="node-id" value="" />
 
-  historiqueAgent.send('historiqueAgent', 'Prêt!');
-  appAgent.send('historiqueAgent', 'Prêt!');
-  rdfAgent.send('historiqueAgent', 'Prêt!');
-  fileAgent.send('historiqueAgent', 'Prêt!');
-  //authAgent.send('historiqueAgent', 'Prêt!');
-  </script>
+    <br>
 
-  <script type="text/javascript" src="./js/solid_web_socket.js"></script>
-  <script>
-  var goFS = document.getElementById("goFS");
-  goFS.addEventListener("click", function() {
-    toggleFullScreen();
-  }, false);
-  </script>
+    <div class="mdc-form-field">
+      <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
 
-  <!--<script src="https://unpkg.com/hyperhtml@latest/min.js"></script>-->
-  <script src="./dist/hyperhtml.min.js"></script>
-  <script type="module" src="./hyper/app.js"></script>
+      <div class="mdc-text-field">
+        <input class="mdc-text-field__input" id="node-label" autofocus>
+        <div class="mdc-line-ripple"></div>
+        <label class="mdc-floating-label">Nom du noeud</label>
+      </div>
+    </div>
+    <br>
 
-  <!-- TEST JS MODULES -->
-  <script type="module" src="./modules/main.mjs"></script>
-  <script nomodule src="fallback.js"></script>
+
+
+
+    <!--
+    <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
+    <i class="material-icons mdc-text-field__icon">favorite</i>
+    <i class="material-icons mdc-text-field__icon">visibility</i>
+    <input class="mdc-text-field__input" id="node-label" autofocus>
+    <div class="mdc-line-ripple"></div>
+    <label class="mdc-floating-label">Name</label>
+  </div>-->
+  <table style="margin:auto;">
+
+    <tr>
+      <td>
+        <label for="node-shape">Forme:</label>
+      </td>
+      <td>
+        <select id="node-shape">
+          <optgroup label="Label interne">
+            <option>ellipse</option>
+            <option>circle</option>
+            <option>database</option>
+            <option>box</option>
+            <option>text</option>
+          </optgroup>
+          <optgroup label="Label externe">
+            <option>image</option>
+            <option>circularImage</option>
+            <option>diamond</option>
+            <option>dot</option>
+            <option>star</option>
+            <option>triangle</option>
+            <option>triangleDown</option>
+            <option>hexagon</option>
+            <option>square</option>
+            <option>icon</option>
+          </optgroup>
+          <input style="display:none" id="node-image-url" value="" />
+        </select>
+      </td>
+    </tr>
+  </table>
+
+
+
+  <button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
+  <button id="node-saveButton" class="foo-button mdc-button">Valider</button>
+
+
+</div>
+
+<div id="edge-popUp" class="popUp">
+  <span id="edge-operation">edge</span> <br>
+  <table style="margin:auto;">
+    <tr>
+      <td>label</td><td><input id="edge-label" /></td>
+    </tr></table>
+    <input type="button" value="save" id="edge-saveButton" />
+    <input type="button" value="cancel" id="edge-cancelButton" />
+  </div>
+
+
+
+  <div id="import-popUp" class="popUp">
+    <div style="padding-left:20px" vertical start-justified start layout wrap>
+      <h2 id="importOperation" style="margin: 0;color: #0D578B;">Import JSON (ou ttl) <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+      <p >
+        <fieldset>
+          <legend>Paramètres</legend>
+          <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer Network</input>
+          <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
+        </fieldset>
+      </p>
+      <p>
+        <fieldset>
+          <legend>Fichier</legend>
+          <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this, updateGraph)"></input>
+        </fieldset>
+        <fieldset>
+          <legend>Url / POD</legend>
+          <!--  <input id="filepicker" type="file" multiple value="Importer" on-change="handleFileSelected"></input>-->
+          <input id="importUrl" Label="Url / POD"></input>
+          <button onclick="importFromUrl()">Importer</button>
+        </fieldset>
+      </p>
+    </div>
+
+    <input type="button" value="Fermer" onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
+  </div>
+
+  <div id="select-pod-popUp" class="popUp">
+    <div style="padding-left:20px" vertical start-justified start layout wrap>
+      <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">Sauvegarder sur un POD
+        <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+        <p>
+          <fieldset>
+            <legend>POD public (libre anonyme) / perso ou partagé (se connecter)</legend>
+
+            <button  class="login" onclick="login()">Se connecter sur un POD</button>
+            <button class="logout" onclick="logout()">Se deconnecter du POD</button><br>
+            <button onclick="reset_Public_POD()">Utiliser le POD public</button>
+            <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button>
+          </fieldset>
+        </p>
+        <p >
+          <fieldset>
+            <legend>POD</legend>
+            <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input> <div hidden >Public / Perso / Group </div>
+            <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button>
+          </fieldset>
+        </p>
+      </div>
+
+      <input type="button" value="Fermer" onclick="(function(){ document.getElementById('select-pod-popUp').style.display = 'none'; })();"/>
+    </div>
+
+
+    <div id="pod-browser-popUp" class="popUp">
+      <div style="padding-left:20px" vertical start-justified start layout wrap>
+        <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
+          <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+          <p>
+            <fieldset>
+              <legend>Dossier</legend>
+              <ul id="folderslist">
+              </ul>
+
+            </fieldset>
+            <fieldset>
+              <legend>Fichier</legend>
+              <ul id="fileslist">
+              </ul>
+
+            </fieldset>
+          </p>
+
+        </div>
+
+        <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
+      </div>
+
+    </div>
+
+    <!-- fin pop-ups -->
+
+    <div id="app"></div>
+    <div id="app2"></div>
+    <div id="app3"></div>
+
+    <div>
+      <!-- test ouverture material design dialog -->
+      <div class="mdc-checkbox">
+        <input type="checkbox" id="my-checkbox" class="mdc-checkbox__native-control"/>
+        <div class="mdc-checkbox__background">
+          ...
+        </div>
+      </div>
+      <label for="my-checkbox">Test ouverture dialog box</label>
+
+
+      <div class="mdc-dialog"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="my-dialog-title"
+      aria-describedby="my-dialog-content">
+      <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface">
+          <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+          <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+          -->Dialog Title<!--
+        --></h2>
+        <div class="mdc-dialog__content" id="my-dialog-content">
+          Dialog body text goes here.
+        </div>
+        <footer class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+            <span class="mdc-button__label">No</span>
+          </button>
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+            <span class="mdc-button__label">Yes</span>
+          </button>
+        </footer>
+      </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>
+
+
+</div>
+</div>
+
+<!--<accueil-holacratie mood="great"></accueil-holacratie>-->
+<!--<accueil-holacratie mood="great"></accueil-holacratie>-->
+</body>
+</html>
+<script src="./dist/ace-builds/src-min-noconflict/ace.js"></script>
+<!-- load ace language tools -->
+<script src="./dist/ace-builds/src-min-noconflict/snippets/turtle.js"></script>
+<script>
+//https://ace.c9.io/#nav=api&api=editor
+var editor = ace.edit("editor", {
+  theme: "ace/theme/tomorrow_night_eighties",
+  mode: "ace/mode/turtle",
+  maxLines: 30,
+  wrap: true,
+  autoScrollEditorIntoView: true
+});
+
+
+//editor.insert("test")
+</script>
+
+<script>
+// create agents
+var historiqueAgent = new HistoriqueAgent('historiqueAgent');
+var appAgent = new AppAgent('appAgent');
+var rdfAgent = new RdfAgent('rdfAgent');
+//  var authAgent = new AuthAgent('authAgent');
+var fileAgent = new FileAgent('fileAgent');
+
+historiqueAgent.send('historiqueAgent', 'Prêt!');
+appAgent.send('historiqueAgent', 'Prêt!');
+rdfAgent.send('historiqueAgent', 'Prêt!');
+fileAgent.send('historiqueAgent', 'Prêt!');
+//authAgent.send('historiqueAgent', 'Prêt!');
+</script>
+
+<script type="text/javascript" src="./js/solid_web_socket.js"></script>
+<script>
+var goFS = document.getElementById("goFS");
+goFS.addEventListener("click", function() {
+  toggleFullScreen();
+}, false);
+</script>
+
+<!--<script src="https://unpkg.com/hyperhtml@latest/min.js"></script>-->
+<script src="./dist/hyperhtml.min.js"></script>
+<script type="module" src="./hyper/app.js"></script>
+
+<!-- TEST JS MODULES -->
+<script type="module" src="./modules/main.mjs"></script>
+<script nomodule src="fallback.js"></script>

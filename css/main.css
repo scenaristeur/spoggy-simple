@@ -93,3 +93,9 @@ textarea {
 .mdc-top-app-bar {
   z-index: 7;
 }
+
+#fab {
+  position: absolute;
+  bottom: 0px;
+  left : 45%;
+}
