@@ -379,60 +379,36 @@
       <!-- POPUPS -->
       <div id="popup-container" >
 
-
         <button id="fab" class="mdc-fab" aria-label="Keyboard">
           <span class="mdc-fab__icon material-icons">keyboard</span>
         </button>
 
         <div id="triplet-popUp" class="popUp">
-          <h2 id="my-dialog-title">3 mots suivis d'une virgule et valider, ou saisissez une commande - ?</h2>
-            <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" ></input>
-            <button type="button" onclick="validInput()">Valider</button>
+        <!--  <h2 id="my-dialog-title">3 mots suivis d'une virgule et valider, ou saisissez une commande</h2>
+-->
+
+            <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
+
+            <div class="mdc-text-field mdc-text-field--fullwidth" id="triplet-input">
+            <!--  <input class="mdc-text-field__input"  autofocus  > -->
+              <input class="mdc-text-field__input"  autofocus id="input" onkeyup="inputChanged(this)" type="text" ></input>
+              <div class="mdc-line-ripple" ></div>
+              <label class="mdc-floating-label">3 mots suivis d'une virgule et valider, ou saisissez une commande</label>
+            </div>
+          <!--  <input id="input" onkeyup="inputChanged(this)" type="text" ></input> -->
           <footer class="mdc-dialog__actions">
+            <button id="node-saveButton" class="foo-button mdc-button" onclick="validInput()">Valider</button>
             <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
             <span class="mdc-button__label">No</span>
           </button>-->
-          <button onclick="closeTripletPopup()" type="button" >Fermer </button>
+          <button onclick="closeTripletPopup()" class="foo-button mdc-button" type="button" >Fermer </button>
         </footer>
 
     </div>
 
 
 
-  <div
-  class="mdc-dialog"
-  role="alertdialog"
-  aria-modal="true"
-  aria-labelledby="my-dialog-title"
-  aria-describedby="my-dialog-content">
-  <div class="mdc-dialog__container">
-    <div class="mdc-dialog__surface">
-      <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-      <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
-      -->3 mots suivis d'une virgule et valider <span></span><!--
-    --></h2>
-    <div class="mdc-dialog__content" id="my-dialog-content">
 
-
-      <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" ></input>
-
-      <button type="button" class="mdc-button mdc-dialog__button">
-        <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
-      </button>
-
-    </div>
-    <footer class="mdc-dialog__actions">
-      <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
-      <span class="mdc-button__label">No</span>
-    </button>-->
-    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
-      <span class="mdc-button__label">Fermer</span>
-    </button>
-  </footer>
-</div>
-</div>
-<div class="mdc-dialog__scrim"></div>
-</div>
 
 
 
@@ -442,20 +418,16 @@
 
   <br>
 
-  <div class="mdc-form-field">
+  <div class="mdc-form-field" >
     <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
 
-    <div class="mdc-text-field">
+    <div class="mdc-text-field" id="mdc-node-input">
       <input class="mdc-text-field__input" id="node-label" autofocus>
       <div class="mdc-line-ripple"></div>
       <label class="mdc-floating-label">Nom du noeud</label>
     </div>
   </div>
   <br>
-
-
-
-
   <!--
   <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
   <i class="material-icons mdc-text-field__icon">favorite</i>
@@ -596,6 +568,41 @@
 
         <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
       </div>
+
+      <div
+      class="mdc-dialog"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="my-dialog-title"
+      aria-describedby="my-dialog-content">
+      <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface">
+          <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+          <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+          -->3 mots suivis d'une virgule et valider <span></span><!--
+        --></h2>
+        <div class="mdc-dialog__content" id="my-dialog-content">
+
+
+          <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" ></input>
+
+          <button type="button" class="mdc-button mdc-dialog__button">
+            <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
+          </button>
+
+        </div>
+        <footer class="mdc-dialog__actions">
+          <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+          <span class="mdc-button__label">No</span>
+        </button>-->
+        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+          <span class="mdc-button__label">Fermer</span>
+        </button>
+      </footer>
+    </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+    </div>
 
     </div>
 

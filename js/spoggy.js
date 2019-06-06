@@ -367,11 +367,13 @@ function initMaterialDesign(){
   formField.input = checkbox;
   console.log("ff",formField)
 
-  const textField = new mdc.textField.MDCTextField(document.querySelector('.mdc-text-field'));
+  const textField = new mdc.textField.MDCTextField(document.getElementById("mdc-node-input"));
+  const tripletTextField = new mdc.textField.MDCTextField(document.getElementById("triplet-input"));
 
-  //const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
+
+  const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
   //const inputPopUp = new mdc.dialog.MDCDialog(document.getElementById('input-pupUp'));
-  const dialog = document.getElementById("triplet-popUp")
+  const tripletPopup = document.getElementById("triplet-popUp")
 
   document.querySelector('.mdc-checkbox').addEventListener("click", function(e){
     //console.log("event",e)
@@ -382,17 +384,17 @@ function initMaterialDesign(){
   drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
   console.log(drawer)
   const listEl = document.querySelector('.mdc-drawer .mdc-list');
-const mainContentEl = document.querySelector('.main-content');
+  const mainContentEl = document.querySelector('.main-content');
 
-listEl.addEventListener('click', (event) => {
-  drawer.open =false;
-  mainContentEl.querySelector('input, button').focus();
-});
-
-document.body.addEventListener('MDCDrawer:closed', () => {
+  listEl.addEventListener('click', (event) => {
     drawer.open =false;
-  mainContentEl.querySelector('input, button').focus();
-});
+    mainContentEl.querySelector('input, button').focus();
+  });
+
+  document.body.addEventListener('MDCDrawer:closed', () => {
+    drawer.open =false;
+    mainContentEl.querySelector('input, button').focus();
+  });
   /*const list = new mdc.list.MDCList(document.querySelector('.mdc-dialog .mdc-list'));
 
   dialog.listen('MDCDialog:opened', () => {
@@ -404,14 +406,15 @@ document.body.addEventListener('MDCDrawer:closed', () => {
 // MATERIAL FAB
 const fabRipple = new mdc.ripple.MDCRipple(document.querySelector('.mdc-fab'));
 document.querySelector('.mdc-fab').addEventListener("click", function(e){
-console.log("click")
-  dialog.style.display == 'block'? dialog.style.display = 'none' : dialog.style.display = 'block' ;
+  console.log("click")
+  tripletPopup.style.display == 'block'? tripletPopup.style.display = 'none' : tripletPopup.style.display = 'block' ;
+  document.getElementById("input").focus();
 });
 
 }
 
 function closeTripletPopup(){
-document.getElementById("triplet-popUp").style.display = 'none' 
+  document.getElementById("triplet-popUp").style.display = 'none'
 }
 function toggleToolbar(elem){
   elem.classList.toggle("mdc-top-app-bar--short-collapsed");
@@ -539,24 +542,24 @@ function updateEditorFromNetwork(event, properties, senderId){
 
     if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
       //requestFullScreen.call(docEl);
-  // document.getElementById("main-content").innerHTML = "";
+      // document.getElementById("main-content").innerHTML = "";
 
       var canvas = document.getElementById("mynetwork");
       canvas.requestFullscreen();
 
       /*   document.getElementById("main-content").appendChild(document.getElementById("mynetwork"))*/
-         document.getElementById("mynetwork").prepend(document.getElementById("rtl-menu"));
-         /*canvas.addEventListener("cancelFullScreen", function(e) {
-           console.log("change",e)
-         });*/
-    }
-    else {
-      console.log("cancelFullscreen")
-        //  document.getElementById("main-content").innerHTML = "";
-      //  document.getElementById("main-content").appendChild(document.getElementById("principal"))
+      document.getElementById("mynetwork").prepend(document.getElementById("rtl-menu"));
+      /*canvas.addEventListener("cancelFullScreen", function(e) {
+      console.log("change",e)
+    });*/
+  }
+  else {
+    console.log("cancelFullscreen")
+    //  document.getElementById("main-content").innerHTML = "";
+    //  document.getElementById("main-content").appendChild(document.getElementById("principal"))
     cancelFullScreen.call(doc);
     /*  document.getElementById("network-container").appendChild(document.getElementById("mynetwork"))*/
-  // document.getElementById("attachGlobal").prepend(document.getElementById("global"));
+    // document.getElementById("attachGlobal").prepend(document.getElementById("global"));
 
-    }
   }
+}
