@@ -369,8 +369,9 @@ function initMaterialDesign(){
 
   const textField = new mdc.textField.MDCTextField(document.querySelector('.mdc-text-field'));
 
-  const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
+  //const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
   //const inputPopUp = new mdc.dialog.MDCDialog(document.getElementById('input-pupUp'));
+  const dialog = document.getElementById("triplet-popUp")
 
   document.querySelector('.mdc-checkbox').addEventListener("click", function(e){
     //console.log("event",e)
@@ -404,11 +405,14 @@ document.body.addEventListener('MDCDrawer:closed', () => {
 const fabRipple = new mdc.ripple.MDCRipple(document.querySelector('.mdc-fab'));
 document.querySelector('.mdc-fab').addEventListener("click", function(e){
 console.log("click")
-  dialog.open? dialog.open() : dialog.close() ;
+  dialog.style.display == 'block'? dialog.style.display = 'none' : dialog.style.display = 'block' ;
 });
 
 }
 
+function closeTripletPopup(){
+document.getElementById("triplet-popUp").style.display = 'none' 
+}
 function toggleToolbar(elem){
   elem.classList.toggle("mdc-top-app-bar--short-collapsed");
 }

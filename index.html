@@ -384,108 +384,123 @@
           <span class="mdc-fab__icon material-icons">keyboard</span>
         </button>
 
-        <div
-        class="mdc-dialog"
-        role="alertdialog"
-        aria-modal="true"
-        aria-labelledby="my-dialog-title"
-        aria-describedby="my-dialog-content">
-        <div class="mdc-dialog__container">
-          <div class="mdc-dialog__surface">
-            <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-            <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
-            -->3 mots suivis d'une virgule et valider <span></span><!--
-          --></h2>
-          <div class="mdc-dialog__content" id="my-dialog-content">
-
-
+        <div id="triplet-popUp" class="popUp">
+          <h2 id="my-dialog-title">3 mots suivis d'une virgule et valider, ou saisissez une commande - ?</h2>
             <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" ></input>
-
-            <button type="button" class="mdc-button mdc-dialog__button">
-              <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
-            </button>
-
-          </div>
+            <button type="button" onclick="validInput()">Valider</button>
           <footer class="mdc-dialog__actions">
             <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
             <span class="mdc-button__label">No</span>
           </button>-->
-          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
-            <span class="mdc-button__label">Fermer</span>
-          </button>
+          <button onclick="closeTripletPopup()" type="button" >Fermer </button>
         </footer>
-      </div>
+
     </div>
-    <div class="mdc-dialog__scrim"></div>
+
+
+
+  <div
+  class="mdc-dialog"
+  role="alertdialog"
+  aria-modal="true"
+  aria-labelledby="my-dialog-title"
+  aria-describedby="my-dialog-content">
+  <div class="mdc-dialog__container">
+    <div class="mdc-dialog__surface">
+      <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+      <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+      -->3 mots suivis d'une virgule et valider <span></span><!--
+    --></h2>
+    <div class="mdc-dialog__content" id="my-dialog-content">
+
+
+      <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" ></input>
+
+      <button type="button" class="mdc-button mdc-dialog__button">
+        <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
+      </button>
+
+    </div>
+    <footer class="mdc-dialog__actions">
+      <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+      <span class="mdc-button__label">No</span>
+    </button>-->
+    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+      <span class="mdc-button__label">Fermer</span>
+    </button>
+  </footer>
+</div>
+</div>
+<div class="mdc-dialog__scrim"></div>
+</div>
+
+
+
+<div id="node-popUp" class="popUp">
+  <span id="node-operation">node</span> <br>
+  <input style="display:none" id="node-id" value="" />
+
+  <br>
+
+  <div class="mdc-form-field">
+    <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
+
+    <div class="mdc-text-field">
+      <input class="mdc-text-field__input" id="node-label" autofocus>
+      <div class="mdc-line-ripple"></div>
+      <label class="mdc-floating-label">Nom du noeud</label>
+    </div>
   </div>
-
-
-
-  <div id="node-popUp" class="popUp">
-    <span id="node-operation">node</span> <br>
-    <input style="display:none" id="node-id" value="" />
-
-    <br>
-
-    <div class="mdc-form-field">
-      <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
-
-      <div class="mdc-text-field">
-        <input class="mdc-text-field__input" id="node-label" autofocus>
-        <div class="mdc-line-ripple"></div>
-        <label class="mdc-floating-label">Nom du noeud</label>
-      </div>
-    </div>
-    <br>
+  <br>
 
 
 
 
-    <!--
-    <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
-    <i class="material-icons mdc-text-field__icon">favorite</i>
-    <i class="material-icons mdc-text-field__icon">visibility</i>
-    <input class="mdc-text-field__input" id="node-label" autofocus>
-    <div class="mdc-line-ripple"></div>
-    <label class="mdc-floating-label">Name</label>
-  </div>-->
-  <table style="margin:auto;">
+  <!--
+  <div class="mdc-text-field mdc-text-field--with-leading-icon mdc-text-field--with-trailing-icon">
+  <i class="material-icons mdc-text-field__icon">favorite</i>
+  <i class="material-icons mdc-text-field__icon">visibility</i>
+  <input class="mdc-text-field__input" id="node-label" autofocus>
+  <div class="mdc-line-ripple"></div>
+  <label class="mdc-floating-label">Name</label>
+</div>-->
+<table style="margin:auto;">
 
-    <tr>
-      <td>
-        <label for="node-shape">Forme:</label>
-      </td>
-      <td>
-        <select id="node-shape">
-          <optgroup label="Label interne">
-            <option>ellipse</option>
-            <option>circle</option>
-            <option>database</option>
-            <option>box</option>
-            <option>text</option>
-          </optgroup>
-          <optgroup label="Label externe">
-            <option>image</option>
-            <option>circularImage</option>
-            <option>diamond</option>
-            <option>dot</option>
-            <option>star</option>
-            <option>triangle</option>
-            <option>triangleDown</option>
-            <option>hexagon</option>
-            <option>square</option>
-            <option>icon</option>
-          </optgroup>
-          <input style="display:none" id="node-image-url" value="" />
-        </select>
-      </td>
-    </tr>
-  </table>
+  <tr>
+    <td>
+      <label for="node-shape">Forme:</label>
+    </td>
+    <td>
+      <select id="node-shape">
+        <optgroup label="Label interne">
+          <option>ellipse</option>
+          <option>circle</option>
+          <option>database</option>
+          <option>box</option>
+          <option>text</option>
+        </optgroup>
+        <optgroup label="Label externe">
+          <option>image</option>
+          <option>circularImage</option>
+          <option>diamond</option>
+          <option>dot</option>
+          <option>star</option>
+          <option>triangle</option>
+          <option>triangleDown</option>
+          <option>hexagon</option>
+          <option>square</option>
+          <option>icon</option>
+        </optgroup>
+        <input style="display:none" id="node-image-url" value="" />
+      </select>
+    </td>
+  </tr>
+</table>
 
 
 
-  <button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
-  <button id="node-saveButton" class="foo-button mdc-button">Valider</button>
+<button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
+<button id="node-saveButton" class="foo-button mdc-button">Valider</button>
 
 
 </div>
@@ -499,6 +514,8 @@
     <input type="button" value="save" id="edge-saveButton" />
     <input type="button" value="cancel" id="edge-cancelButton" />
   </div>
+
+
 
 
 
