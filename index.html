@@ -101,9 +101,9 @@
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
       <span class="mdc-list-item__text">Réglages (/r)</span>
     </a>
-    <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/r'})">
+    <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/a'})">
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">format_align_justify</i>
-      <span class="mdc-list-item__text">Editeur</span>
+      <span class="mdc-list-item__text">Editeur (/a)</span>
     </a>
     <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/c'})">
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">image</i>
@@ -163,7 +163,7 @@
             <button id="nouveau_graph" onclick="catchCommande({value:'/n'})">Nouveau</button> /n
             <button id="importer_btn" onclick="catchCommande({value:'/i'})">Ouvrir</button> /i
             <button id="save_to_pod" onclick="catchCommande({value:'/p'})">Enregistrer</button> /p
-            <button id="save_to_pod" onclick="catchCommande({value:'/p'})">Editeur</button> /?????
+            <button id="save_to_pod" onclick="catchCommande({value:'/a'})">Editeur</button> /a
             <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
           </fieldset>
         </div>
@@ -263,16 +263,7 @@
 
 
 
-<div style="float:auto">
 
-
-  <div style="float:auto">
-    <fieldset>
-      <legend>Editeur</legend>
-      <pre id="editor"></pre>
-    </fieldset>
-  </div>
-</div>
 
 
 
@@ -513,7 +504,7 @@
         <button id="friends-btn" onclick="friends()">Friends</button><br>
         current Folder : <div id="current-folder">
           parent Folder :  <div id="current-folder-parent"></div>
-        <!--  current Folder :   <div id="current-folder-url"></div> -->
+          <!--  current Folder :   <div id="current-folder-url"></div> -->
 
         </div>
       </fieldset>
@@ -546,7 +537,7 @@
             <br>
             <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input> <div hidden >Public / Perso / Group </div>
             <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button><br>
-            </fieldset>
+          </fieldset>
         </p>
       </div>
 
@@ -559,25 +550,25 @@
         <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
           <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
           <p>
-                  dossier courant :   <div id="current-folder-url"></div>
+            dossier courant :   <div id="current-folder-url"></div>
             <input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
             <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
             <input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
             <button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
             <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
-</p>
-            <fieldset>
-              <legend>Dossier</legend>
-              <ul id="folderslist">
-              </ul>
+          </p>
+          <fieldset>
+            <legend>Dossier</legend>
+            <ul id="folderslist">
+            </ul>
 
-            </fieldset>
-            <fieldset>
-              <legend>Fichier</legend>
-              <ul id="fileslist">
-              </ul>
+          </fieldset>
+          <fieldset>
+            <legend>Fichier</legend>
+            <ul id="fileslist">
+            </ul>
 
-            </fieldset>
+          </fieldset>
 
 
         </div>
@@ -602,24 +593,79 @@
           <ul id="last-public">
 
           </ul>
-<!--
+          <!--
           <button type="button" class="mdc-button mdc-dialog__button">
-            <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
-          </button>
--->
-        </div>
-        <footer class="mdc-dialog__actions">
-          <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
-          <span class="mdc-button__label">No</span>
-        </button>-->
-        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
-          <span class="mdc-button__label">Fermer</span>
+          <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
         </button>
-      </footer>
+      -->
     </div>
-  </div>
-  <div class="mdc-dialog__scrim"></div>
+    <footer class="mdc-dialog__actions">
+      <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+      <span class="mdc-button__label">No</span>
+    </button>-->
+    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+      <span class="mdc-button__label">Fermer</span>
+    </button>
+  </footer>
 </div>
+</div>
+
+<div class="mdc-dialog__scrim"></div>
+</div>
+
+
+
+<div
+id="editor_dialog"
+class="mdc-dialog"
+role="alertdialog"
+aria-modal="true"
+aria-labelledby="my-dialog-title"
+aria-describedby="my-dialog-content">
+<div class="mdc-dialog__container">
+  <div class="mdc-dialog__surface">
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
+    -->Editeur <span></span><!--
+  --></h2>
+  <div class="mdc-dialog__content" id="my-dialog-content">
+
+    <fieldset>
+      <legend>Editeur</legend>
+      <pre id="editor"></pre>
+    </fieldset>
+    <!--
+    <button type="button" class="mdc-button mdc-dialog__button">
+    <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
+  </button>
+-->
+
+
+
+</div>
+<footer class="mdc-dialog__actions">
+  <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+  <span class="mdc-button__label">No</span>
+</button>-->
+<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+  <span class="mdc-button__label">Fermer</span>
+</button>
+</footer>
+</div>
+</div>
+
+<div class="mdc-dialog__scrim"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 </div>
 

@@ -281,6 +281,12 @@ function catchCommande(commande){
     console.log("save_to_pod");
     document.getElementById('select-pod-popUp').style.display = 'block';
     break;
+    case "/a":
+    console.log("open editor");
+    const editorDialog = new mdc.dialog.MDCDialog(document.getElementById('editor_dialog'));
+    editorDialog.open();
+  //  document.getElementById('select-pod-popUp').style.display = 'block';
+    break;
     case "/n":
     console.log("new graph");
     newGraph();
@@ -365,6 +371,7 @@ function initMaterialDesign(){
 
 
   const dialog = new mdc.dialog.MDCDialog(document.getElementById('last_pub'));
+
   //const inputPopUp = new mdc.dialog.MDCDialog(document.getElementById('input-pupUp'));
   const tripletPopup = document.getElementById("triplet-popUp")
 
@@ -382,13 +389,13 @@ function initMaterialDesign(){
   listEl.addEventListener('click', (event) => {
     console.log("click in listel")
     drawer.open =false;
-  //  mainContentEl.querySelector('input, button').focus();
+    //  mainContentEl.querySelector('input, button').focus();
   });
 
   document.body.addEventListener('MDCDrawer:closed', () => {
     console.log("click drawer close")
     drawer.open =false;
-  //  mainContentEl.querySelector('input, button').focus();
+    //  mainContentEl.querySelector('input, button').focus();
   });
   /*const list = new mdc.list.MDCList(document.querySelector('.mdc-dialog .mdc-list'));
 
@@ -462,7 +469,7 @@ function updateEditorFromNetwork(event, properties, senderId){
   function downloadCanvas(){
     // get canvas data
     var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
-console.log(srcCanvas)
+    console.log(srcCanvas)
     destinationCanvas = document.createElement("canvas");
     destinationCanvas.width = srcCanvas.width;
     destinationCanvas.height = srcCanvas.height;
