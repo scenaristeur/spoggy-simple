@@ -109,7 +109,7 @@ function updateBrowser(folder){
     newLI.style.padding="15px";
     newLI.addEventListener('click', function () {
       //  console.log(url)
-        fileAgent.readFile(url,callbackAfterRead)
+      fileAgent.readFile(url,callbackAfterRead)
     })
     fileList.appendChild(newLI);
   })
@@ -174,13 +174,19 @@ function saveEditorToPod(ext){
 
 function reset_Public_POD(){
   document.getElementById('PODurlInput').value = agora_POD;
+  document.getElementById('importUrl').value = agora_POD;
 }
 
 function restoreCurrentSession(){
   document.getElementById('PODurlInput').value = sessionCourante.webId;
+  document.getElementById('importUrl').value = sessionCourante.webId;
 }
 
 function last_public(){
+  document.getElementById('import-popUp').style.display = "none"
+
+  const dialog = new mdc.dialog.MDCDialog(document.getElementById('last_pub'));
+  dialog.open()
   console.log("last_public", agora_POD)
   newGraph();
   var public_POD = getPublicFromWebId(document.getElementById('PODurlInput').value)
@@ -223,9 +229,9 @@ function updateLastPublicList(folder){
     newLI.addEventListener('click', function () {
       //  console.log(url)
       //  fileAgent.readFile(url,callbackAfterRead)
-var params = {};
-params.source = url
-importer(params,updateGraph)
+      var params = {};
+      params.source = url
+      importer(params,updateGraph)
 
 
     })

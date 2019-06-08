@@ -364,7 +364,7 @@ function initMaterialDesign(){
   const tripletTextField = new mdc.textField.MDCTextField(document.getElementById("triplet-input"));
 
 
-  const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
+  const dialog = new mdc.dialog.MDCDialog(document.getElementById('last_pub'));
   //const inputPopUp = new mdc.dialog.MDCDialog(document.getElementById('input-pupUp'));
   const tripletPopup = document.getElementById("triplet-popUp")
 
@@ -386,7 +386,7 @@ function initMaterialDesign(){
   });
 
   document.body.addEventListener('MDCDrawer:closed', () => {
-    console.log("click draxer close")
+    console.log("click drawer close")
     drawer.open =false;
   //  mainContentEl.querySelector('input, button').focus();
   });
@@ -462,7 +462,7 @@ function updateEditorFromNetwork(event, properties, senderId){
   function downloadCanvas(){
     // get canvas data
     var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
-
+console.log(srcCanvas)
     destinationCanvas = document.createElement("canvas");
     destinationCanvas.width = srcCanvas.width;
     destinationCanvas.height = srcCanvas.height;

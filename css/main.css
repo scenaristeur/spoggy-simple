@@ -48,7 +48,7 @@ div.table_description {
   border-width:3px;
   border-color: #5394ed;
   padding:10px;
-  text-align: center;
+  /*text-align: center;*/
 }
 textarea {
     font-size: .8rem;

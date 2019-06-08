@@ -21,11 +21,12 @@ function increaseLevel(){
 }
 
 function initLevel(){
-  localStorage.getItem('level') == null? localStorage.setItem('level',0) : "" ;
+/*  localStorage.getItem('level') == null? localStorage.setItem('level',0) : "" ;
   level = Number(localStorage.getItem('level'))
-  document.getElementById("level").textContent  = level;
+  document.getElementById("level").textContent  = level;*/
   var x=document.getElementById("tutos-levels");
   x.innerHTML = "";
+  level = 6
 
   for (var i  = 0; i <= level && i <= Object.keys(levels).length; i++)
   {
