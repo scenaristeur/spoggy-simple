@@ -283,15 +283,8 @@ function catchCommande(commande){
     break;
     case "/n":
     console.log("new graph");
-
     newGraph();
     level < 6? increaseLevel() : "";
-    break;
-    case "/b":
-    console.log("clean graph");
-    cleanGraph();
-    level < 6? increaseLevel() : "";
-    //  this.connectBase(this.network,this);
     break;
     case "/l":
     console.log("connection a la base levelgraph");
@@ -387,13 +380,15 @@ function initMaterialDesign(){
   const mainContentEl = document.querySelector('.main-content');
 
   listEl.addEventListener('click', (event) => {
+    console.log("click in listel")
     drawer.open =false;
-    mainContentEl.querySelector('input, button').focus();
+  //  mainContentEl.querySelector('input, button').focus();
   });
 
   document.body.addEventListener('MDCDrawer:closed', () => {
+    console.log("click draxer close")
     drawer.open =false;
-    mainContentEl.querySelector('input, button').focus();
+  //  mainContentEl.querySelector('input, button').focus();
   });
   /*const list = new mdc.list.MDCList(document.querySelector('.mdc-dialog .mdc-list'));
 
@@ -436,39 +431,7 @@ function updateCurrent(folder){
 
 
 
-
 function newGraph(){
-  let network = this.network;
-
-  var graphname = prompt("Comment nommer ce nouveau graphe ?", "Spoggy-Graph_"+Date.now());
-  var nodeName = {
-    label: graphname,
-    shape: "star",
-    color: "green",
-    type: "node"
-  };
-  var nodeGraph = {
-    label: "Graph",
-    /*    shape: "star",
-    color: "red",*/
-    type: "node"
-  };
-  network.body.data.nodes.clear();
-  network.body.data.edges.clear();
-  var nodes = network.body.data.nodes.add([nodeName, nodeGraph]);
-
-  var edge = {
-    from: nodes[0],
-    to: nodes[1],
-    arrows: "to",
-    label: "type"
-  }
-  network.body.data.edges.add(edge);
-  fitAndFocus(nodes[0].id)
-}
-
-
-function cleanGraph(){
   network.body.data.nodes.clear();
   network.body.data.edges.clear();
 }

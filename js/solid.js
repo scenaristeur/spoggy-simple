@@ -182,7 +182,7 @@ function restoreCurrentSession(){
 
 function last_public(){
   console.log("last_public", agora_POD)
-  cleanGraph();
+  newGraph();
   var public_POD = getPublicFromWebId(document.getElementById('PODurlInput').value)
   var fileList=document.getElementById("last-public");
   fileList.innerHTML = "";

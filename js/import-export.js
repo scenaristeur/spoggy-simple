@@ -40,7 +40,13 @@ function handleFileSelected(evt, callback){
           let doc = $rdf.sym("http://smag0.blogspot.fr/spoggy");
           let store = $rdf.graph()
           console.log(store)
-          $rdf.parse(result, store, doc.uri, 'text/turtle');
+          try {
+            $rdf.parse(result, store, doc.uri, 'text/turtle');
+          }
+          catch(error) {
+            alert(error);
+          }
+
           /*  $rdf.parse(result, store,base, mimeType)
           console.log("STORE",store)*/
           data = statements2vis(store.statements);
@@ -48,7 +54,7 @@ function handleFileSelected(evt, callback){
           console.log("OK")
           break;
           default:
-          console.log('Sorry, je ne peux pas traiter ',fichier);
+          alert('Sorry, je ne peux pas traiter ',fichier);
         }
       });
       reader.readAsText(fichier);
@@ -193,7 +199,7 @@ downloadLink.click();*/
 function exportTtl(network) {
   /* source https://github.com/scenaristeur/dreamcatcherAutonome/blob/master/autonome/public/agents/ExportAgent.js */
   //  let network = this.network;
-//  var nodes = network.body.data.nodes.get();
+  //  var nodes = network.body.data.nodes.get();
   //var edges = network.body.data.edges.get();
   // on ne prend pas le cluster cid=1 correspondant à la navigation pour l'export
   var nodes = network.body.data.nodes.get({
@@ -674,7 +680,7 @@ function folder2vis(sfolder){
   var app = this;
   //  this.clear()
   console.log('sfolder')
-//  console.log(sfolder)
+  //  console.log(sfolder)
   var name = sfolder.name;
   var url = sfolder.url;
   var parent = sfolder.parent;
