@@ -252,6 +252,7 @@ function editNode(data, cancelAction, callback) {
   document.getElementById('node-saveButton').onclick = saveNodeData.bind(this, data, callback);
   document.getElementById('node-cancelButton').onclick = cancelAction.bind(this, callback);
   document.getElementById('node-popUp').style.display = 'block';
+  document.getElementById('node-label').onkeyup = nodeNameChanged.bind(this, data, callback);
 }
 
 // Callback passed as parameter is ignored
@@ -259,6 +260,7 @@ function clearNodePopUp() {
   document.getElementById('node-saveButton').onclick = null;
   document.getElementById('node-cancelButton').onclick = null;
   document.getElementById('node-popUp').style.display = 'none';
+    document.getElementById('node-label').onkeyup = null;
 }
 
 function cancelNodeEdit(callback) {
@@ -279,18 +281,37 @@ function saveNodeData(data, callback) {
   callback(data);
 }
 
+function nodeNameChanged(data, callback) {
+  if(event.key === 'Enter') {
+    event.preventDefault();
+  //  document.getElementById("valider").click();
+  saveNodeData(data, callback)
+  }
+}
+
+function edgeNameChanged(data, callback) {
+  if(event.key === 'Enter') {
+    event.preventDefault();
+  //  document.getElementById("valider").click();
+  saveEdgeData(data, callback)
+  }
+}
+
 function editEdgeWithoutDrag(data, callback) {
   // filling in the popup DOM elements
   document.getElementById('edge-label').value = data.label || "";
   document.getElementById('edge-saveButton').onclick = saveEdgeData.bind(this, data, callback);
   document.getElementById('edge-cancelButton').onclick = cancelEdgeEdit.bind(this,callback);
   document.getElementById('edge-popUp').style.display = 'block';
+  document.getElementById('edge-label').onkeyup = edgeNameChanged.bind(this, data, callback);
 }
 
 function clearEdgePopUp() {
   document.getElementById('edge-saveButton').onclick = null;
   document.getElementById('edge-cancelButton').onclick = null;
+  document.getElementById('edge-label').onkeyup = null;
   document.getElementById('edge-popUp').style.display = 'none';
+
 }
 
 function cancelEdgeEdit(callback) {

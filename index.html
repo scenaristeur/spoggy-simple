@@ -263,7 +263,16 @@
 
 
 
+<div style="float:auto">
 
+
+  <div style="float:auto">
+    <fieldset>
+      <legend>Editeur</legend>
+      <pre id="editor"></pre>
+    </fieldset>
+  </div>
+</div>
 
 
 
@@ -374,7 +383,7 @@
     </div>
     <!--  <input id="input" onkeyup="inputChanged(this)" type="text" ></input> -->
     <footer class="mdc-dialog__actions">
-      <button id="node-saveButton" class="foo-button mdc-button" onclick="validInput()">Valider</button>
+      <button  class="foo-button mdc-button" onclick="validInput()">Valider</button>
       <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
       <span class="mdc-button__label">No</span>
     </button>-->
@@ -399,7 +408,7 @@
     <!--          https://material-components.github.io/material-components-web-catalog/#/component/text-field?icons=leadingIcon%2CtrailingIcon-->
 
     <div class="mdc-text-field" id="mdc-node-input">
-      <input class="mdc-text-field__input" id="node-label" autofocus>
+      <input class="mdc-text-field__input" id="node-label"  autofocus>
       <div class="mdc-line-ripple"></div>
       <label class="mdc-floating-label">Nom du noeud</label>
     </div>
@@ -413,13 +422,9 @@
   <div class="mdc-line-ripple"></div>
   <label class="mdc-floating-label">Name</label>
 </div>-->
-<table style="margin:auto;">
 
-  <tr>
-    <td>
       <label for="node-shape">Forme:</label>
-    </td>
-    <td>
+
       <select id="node-shape">
         <optgroup label="Label interne">
           <option>ellipse</option>
@@ -442,15 +447,16 @@
         </optgroup>
         <input style="display:none" id="node-image-url" value="" />
       </select>
-    </td>
-  </tr>
-</table>
 
 
 
+
+
+
+<footer class="mdc-dialog__actions">
 <button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
 <button id="node-saveButton" class="foo-button mdc-button">Valider</button>
-
+</footer>
 
 </div>
 
@@ -630,10 +636,6 @@ aria-describedby="my-dialog-content">
   --></h2>
   <div class="mdc-dialog__content" id="my-dialog-content">
 
-    <fieldset>
-      <legend>Editeur</legend>
-      <pre id="editor"></pre>
-    </fieldset>
     <!--
     <button type="button" class="mdc-button mdc-dialog__button">
     <span class="mdc-button__label raised" onclick="validInput()">Valider</span>

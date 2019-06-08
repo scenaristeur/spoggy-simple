@@ -327,7 +327,8 @@ const isValidUrl = (string) => {
 function inputChanged(ele) {
   if(event.key === 'Enter') {
     event.preventDefault();
-    document.getElementById("valider").click();
+  //  document.getElementById("valider").click();
+  validInput()
   }
 }
 
