@@ -93,29 +93,29 @@ console.log("select",val)
     manipulation: {
       addNode: function (data, callback) {
         // filling in the popup DOM elements
-        document.getElementById('node-operation').innerHTML = "Add Node";
+        document.getElementById('node-operation').innerHTML = "Ajouter un noeud ";
         data.label="";
         editNode(data, clearNodePopUp, callback);
       },
       editNode: function (data, callback) {
         // filling in the popup DOM elements
-        document.getElementById('node-operation').innerHTML = "Edit Node";
+        document.getElementById('node-operation').innerHTML = "Editer un noeud ";
         editNode(data, cancelNodeEdit, callback);
       },
       addEdge: function (data, callback) {
         if (data.from == data.to) {
-          var r = confirm("Do you want to connect the node to itself?");
+          var r = confirm("Etes-vous certain de vouloir connecter le noeud sur lui-même?");
           if (r != true) {
             callback(null);
             return;
           }
         }
-        document.getElementById('edge-operation').innerHTML = "Add Edge";
+        document.getElementById('edge-operation').innerHTML = "Ajouter un lien";
         editEdgeWithoutDrag(data, callback);
       },
       editEdge: {
         editWithoutDrag: function(data, callback) {
-          document.getElementById('edge-operation').innerHTML = "Edit Edge";
+          document.getElementById('edge-operation').innerHTML = "Editer un lien";
           editEdgeWithoutDrag(data,callback);
         }
       }

@@ -26,7 +26,7 @@
 
   <!-- Spoggy -->
   <script type="text/javascript" src="./js/levels.js"></script>
-  <link href="./css/main.css" rel="stylesheet" type="text/css" />
+
 
   <script type="text/javascript" src="./js/import-export.js"></script>
   <script type="text/javascript" src="./js/spoggy.js"></script>
@@ -44,6 +44,7 @@
   <link href="./css/material-components-web.min.css" rel="stylesheet" type="text/css" />
   <script src="./dist/material-components-web.min.js"></script>
   <link href="./css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="./css/main.css" rel="stylesheet" type="text/css" />
 
   <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js"></script>-->
   <!--<script src="./dist/webcomponents-loader.js"></script>
@@ -172,21 +173,7 @@
         <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
 
 
-        <fieldset>
-          <legend>Cluster</legend>
 
-          <div  style="float:auto">
-            <input type="button" onclick="clusterByCid()" value="by cid=1 (Navigation POD)"> <br />
-            <input type="button" onclick="clusterByConnection()" value="'node 1' by connec"> <br />
-            <input type="button" onclick="clusterByColor()" value="by color"> <br />
-
-            <input type="button" onclick="clusterOutliers()" value="outliers"> <br />
-            <input type="button" onclick="clusterByHubsize()" value="hubsize"> <!--<br/>
-              <input type="button" onclick="clusterNavigation()" value="Navigation"> <br/>
-              <input type="button" onclick="clusterHistorique()" value=" Historique"> <br/>
-              <input type="button" onclick="toggleNavigation()" value="Navigation / Data"> <br/>-->
-            </div>
-          </fieldset>
 
         </div>
         <!--  <div style="float:left">
@@ -288,6 +275,23 @@
         <li>authentification</li>
       </ul>
     </fieldset>
+
+    <fieldset>
+      <legend>Cluster</legend>
+
+      <div  style="float:auto">
+        <input type="button" onclick="clusterByCid()" value="by cid=1 (Navigation POD)"> <br />
+        <input type="button" onclick="clusterByConnection()" value="'node 1' by connec"> <br />
+        <input type="button" onclick="clusterByColor()" value="by color"> <br />
+
+        <input type="button" onclick="clusterOutliers()" value="outliers"> <br />
+        <input type="button" onclick="clusterByHubsize()" value="hubsize"> <!--<br/>
+          <input type="button" onclick="clusterNavigation()" value="Navigation"> <br/>
+          <input type="button" onclick="clusterHistorique()" value=" Historique"> <br/>
+          <input type="button" onclick="toggleNavigation()" value="Navigation / Data"> <br/>-->
+        </div>
+      </fieldset>
+
   </div>
 
 
@@ -312,13 +316,13 @@
   <div id="popup-container" >
 
     <div id="bottom-menu">
-      <button id="fabkeyb" class="mdc-fab" aria-label="Keyboard">
+      <button id="fabkeyb" class="mdc-fab mdc-fab--mini" aria-label="Keyboard">
         <span class="mdc-fab__icon material-icons">keyboard</span>
       </button>
-      <button id="fabnav" class="mdc-fab" aria-label="Explore" onclick="clusterByCid()">
+      <button id="fabnav" class="mdc-fab mdc-fab--mini" aria-label="Explore" onclick="clusterByCid()">
         <span class="mdc-fab__icon material-icons">explore</span>
       </button>
-      <button id="fabedit" class="mdc-fab" aria-label="Editeur" onclick="catchCommande({value:'/a'})">
+      <button id="fabedit" class="mdc-fab mdc-fab--mini" aria-label="Editeur" onclick="catchCommande({value:'/a'})">
         <span class="mdc-fab__icon material-icons">format_align_justify</span>
       </button>
     </div>
@@ -353,7 +357,17 @@
 
 
 <div id="node-popUp" class="popUp">
-  <span id="node-operation">node</span> <br>
+
+  <h2  id="node-operation" style="margin: 0;color: #0D578B;">node
+    <!--  <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button>-->
+    <span >
+      <i
+      class="material-icons mdc-list-item__graphic"
+      aria-hidden="true"
+      onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
+      clear</i>
+    </span>
+  </h2>
   <input style="display:none" id="node-id" value="" />
 
   <br>
@@ -535,8 +549,8 @@
 
 
       <div id="editeur-popUp" class="popUp">
-        <div style="padding-left:20px" vertical start-justified start layout wrap>
-          <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">Editeur
+        <div style="padding-left:2px" vertical start-justified start layout wrap>
+          <h2  style="margin: 0;color: #0D578B;">Editeur
             <!--  <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button>-->
             <span>
               <i
@@ -555,14 +569,14 @@
           <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
         </p>-->
 
-        <div class="mdc-dialog__surface">
+      <!--  <div class="mdc-dialog__surface">-->
           <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
         <!--  <h2 class="mdc-dialog__title" id="editor-dialog-title">Editeur
             <span onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();"> X</span>
           </h2>-->
-          <div class="mdc-dialog__content" id="editor-dialog-content" >
+        <!--  <div class="mdc-dialog__content" id="editor-dialog-content" >-->
             <pre id="editor"></pre>
-          </div>
+        <!--  </div>-->
           <footer class="mdc-dialog__actions">
             <button
             type="button"
@@ -572,7 +586,7 @@
             <span class="mdc-button__label">Fermer</span>
           </button>
         </footer>
-      </div>
+    <!--  </div>-->
 
     </div>
 
