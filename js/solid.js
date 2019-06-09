@@ -38,8 +38,8 @@ function profile(){
 
 
 function browsePublicFromWebId(webId){
-  getPublicFromWebId(webId)
-  fileAgent.readFolder(publicFolder,callbackAfterRead)
+  var pf = getPublicFromWebId(webId)
+  fileAgent.readFolder(pf,callbackAfterRead)
 }
 
 function getPublicFromWebId(webId){
@@ -50,10 +50,36 @@ function getPublicFromWebId(webId){
   return publicFolder
 }
 
-function podBrowser(webId){
-  browsePublicFromWebId(webId)
+
+function openPodBrowser(){
+  document.getElementById('editeur-popUp').style.display = 'none'
   document.getElementById("pod-browser-popUp").style.display = "block";
-  document.getElementById("select-pod-popUp").style.display = "none";
+}
+
+
+function podBrowser(whichPOD){
+
+  switch (whichPOD) {
+    case 'public':
+
+    document.getElementById('PODurlInput').value = agora_POD;
+    document.getElementById('importUrl').value = agora_POD;
+    break;
+
+    case 'connecte':
+    document.getElementById('PODurlInput').value = sessionCourante.webId;
+    document.getElementById('importUrl').value = sessionCourante.webId;
+    // expected output: "Mangoes and papayas are $2.79 a pound."
+    break;
+    default:
+    alert('Erreur, je ne comprends pas quel POD vous avez choisi',whichPOD);
+  }
+  var webId = document.getElementById('PODurlInput').value;
+  browsePublicFromWebId(webId)
+  document.getElementById('editeur-popUp').style.display = 'none'
+  document.getElementById("pod-browser-popUp").style.display = "block";
+
+  //  document.getElementById("select-pod-popUp").style.display = "none";
 }
 
 
@@ -172,15 +198,7 @@ function saveEditorToPod(ext){
   fileAgent.createFile(url, content)
 }
 
-function reset_Public_POD(){
-  document.getElementById('PODurlInput').value = agora_POD;
-  document.getElementById('importUrl').value = agora_POD;
-}
 
-function restoreCurrentSession(){
-  document.getElementById('PODurlInput').value = sessionCourante.webId;
-  document.getElementById('importUrl').value = sessionCourante.webId;
-}
 
 function last_public(){
   document.getElementById('import-popUp').style.display = "none"

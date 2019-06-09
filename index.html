@@ -94,17 +94,13 @@
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">open_in_browser</i>
       <span class="mdc-list-item__text">Ouvrir /i</span>
     </a>
-    <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/p'})">
+    <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/a'})">
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">save</i>
-      <span class="mdc-list-item__text">Enregistrer /p</span>
+      <span class="mdc-list-item__text">Enregistrer /a</span>
     </a>
     <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/r'})">
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
       <span class="mdc-list-item__text">Réglages /r</span>
-    </a>
-    <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/a'})">
-      <i class="material-icons mdc-list-item__graphic" aria-hidden="true">format_align_justify</i>
-      <span class="mdc-list-item__text">Editeur /a</span>
     </a>
     <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/c'})">
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">image</i>
@@ -163,8 +159,7 @@
             <legend>Outils</legend>
             <button id="nouveau_graph" onclick="catchCommande({value:'/n'})">Nouveau</button> /n
             <button id="importer_btn" onclick="catchCommande({value:'/i'})">Ouvrir</button> /i
-            <button id="save_to_pod" onclick="catchCommande({value:'/p'})">Enregistrer</button> /p
-            <button id="save_to_pod" onclick="catchCommande({value:'/a'})">Editeur</button> /a
+            <button id="save_to_pod" onclick="catchCommande({value:'/a'})">Enregistrer</button> /a
             <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
           </fieldset>
         </div>
@@ -364,7 +359,7 @@
         <i
         class="material-icons mdc-list-item__graphic"
         aria-hidden="true"
-        onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
+        onclick="(function(){ document.getElementById('node-popUp').style.display = 'none'; })();">
         clear</i>
       </span>
     </h2>
@@ -487,120 +482,188 @@
     <input type="button" value="Fermer" onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();"/>
   </div>
 
-  <div id="select-pod-popUp" class="popUp">
-    <div style="padding-left:20px" vertical start-justified start layout wrap>
-      <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">Enregistrer
-        <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
-        <p>
+  <!--  <div id="select-pod-popUp" class="popUp">
+  <div style="padding-left:20px" vertical start-justified start layout wrap>
+  <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">Enregistrer
+  <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+  <p>
+  <fieldset>
+  <legend>Format</legend>
+
+  <button id="exporter_json" onclick="catchCommande({value:'/e'})">JSON</button> /e
+  <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Ttl</button> /t
+
+</fieldset>
+
+<fieldset>
+<legend>POD public (libre anonyme) / perso ou partagé (se connecter)</legend>
+
+<button onclick="reset_Public_POD()">Utiliser le POD public</button>
+<button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button>
+<button  class="login" onclick="login()">Se connecter sur un POD</button>
+<button class="logout" onclick="logout()">Se deconnecter du POD</button>
+
+
+<br>
+<input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input> <div hidden >Public / Perso / Group </div>
+<button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button><br>
+</fieldset>
+</p>
+</div>
+
+<input type="button" value="Fermer" onclick="(function(){ document.getElementById('select-pod-popUp').style.display = 'none'; })();"/>
+</div>-->
+
+
+<div id="pod-browser-popUp" class="popUp">
+  <div style="padding-left:20px" vertical start-justified start layout wrap>
+    <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
+      <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+      <p>
+
           <fieldset>
-            <legend>Format</legend>
+            <legend>Enregistrer sur un POD</legend>
+            POD public (libre anonyme) ou POD connecté (perso ou partagé)<br>
+            Pod public : <a href="https://agora.solid.community" target="_blank">https://agora.solid.community</a><br>
+            <button
+            type="button"
+            class="mdc-button mdc-dialog__button"
+            data-mdc-dialog-action="yes"
+            onclick="podBrowser('public')"
+            raised>
+            <span class="mdc-button__label">POD public</span>
+          </button>
+          <button
+          type="button"
+          class="mdc-button mdc-dialog__button logout"
+          data-mdc-dialog-action="yes"
+          onclick="podBrowser('connecte')">
+          <span class="mdc-button__label">POD Connecté</span>
+        </button>
+        <button
+        type="button"
+        class="mdc-button mdc-dialog__button login"
+        data-mdc-dialog-action="yes"
+        onclick="login()">
+        <span class="mdc-button__label">Se connecter sur un POD</span>
+        </button>
+        <button
+        type="button"
+        class="mdc-button mdc-dialog__button logout"
+        data-mdc-dialog-action="yes"
+        onclick="logout()">
+        <span class="mdc-button__label">Se deconnecter du POD</span>
+        </button>
 
-            <button id="exporter_json" onclick="catchCommande({value:'/e'})">JSON</button> /e
-            <button id="exporter_ttl" onclick="catchCommande({value:'/t'})">Ttl</button> /t
+        POD séléctionné : <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input>
+         <div hidden >Public / Perso / Group </div>
 
-          </fieldset>
+        </fieldset>
+          <!--  <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button><br>-->
 
-          <fieldset>
-            <legend>POD public (libre anonyme) / perso ou partagé (se connecter)</legend>
+        dossier courant :   <div id="current-folder-url"></div>
+        <input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
+        <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
+        <input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
+        <button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
+        <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
+      </p>
+      <fieldset>
+        <legend>Dossier</legend>
+        <ul id="folderslist">
+        </ul>
 
-            <button onclick="reset_Public_POD()">Utiliser le POD public</button>
-            <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button>
-            <button  class="login" onclick="login()">Se connecter sur un POD</button>
-            <button class="logout" onclick="logout()">Se deconnecter du POD</button>
-
-
-            <br>
-            <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input> <div hidden >Public / Perso / Group </div>
-            <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button><br>
-          </fieldset>
-        </p>
-      </div>
-
-      <input type="button" value="Fermer" onclick="(function(){ document.getElementById('select-pod-popUp').style.display = 'none'; })();"/>
+      </fieldset>
+      <fieldset>
+        <legend>Fichier</legend>
+        <ul id="fileslist">
+        </ul>
+      </fieldset>
     </div>
 
-
-    <div id="pod-browser-popUp" class="popUp">
-      <div style="padding-left:20px" vertical start-justified start layout wrap>
-        <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
-          <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
-          <p>
-            dossier courant :   <div id="current-folder-url"></div>
-            <input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
-            <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
-            <input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
-            <button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
-            <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
-          </p>
-          <fieldset>
-            <legend>Dossier</legend>
-            <ul id="folderslist">
-            </ul>
-
-          </fieldset>
-          <fieldset>
-            <legend>Fichier</legend>
-            <ul id="fileslist">
-            </ul>
-          </fieldset>
-        </div>
-
-        <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
-      </div>
-
-
-      <div id="editeur-popUp" class="popUp">
-        <div style="padding-left:2px" vertical start-justified start layout wrap>
-          <h2  style="margin: 0;color: #0D578B;">Editeur
-            <!--  <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button>-->
-            <span>
-              <i
-              class="material-icons mdc-list-item__graphic"
-              aria-hidden="true"
-              onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
-              clear</i>
-            </span>
-          </h2>
-          <!--  <p>
-          dossier courant :   <div id="current-folder-url"></div>
-          <input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
-          <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
-          <input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
-          <button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
-          <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
-        </p>-->
-
-        <!--  <div class="mdc-dialog__surface">-->
-        <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-        <!--  <h2 class="mdc-dialog__title" id="editor-dialog-title">Editeur
-        <span onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();"> X</span>
-      </h2>-->
-      <!--  <div class="mdc-dialog__content" id="editor-dialog-content" >-->
-      <pre id="editor"></pre>
-      <!--  </div>-->
-      <footer class="mdc-dialog__actions">
-        <button
-        type="button"
-        class="mdc-button mdc-dialog__button"
-        data-mdc-dialog-action="yes"
-        onclick="downloadFile()">
-        <span class="mdc-button__label">Telecharger</span>
-      </button>
-
-        <button
-        type="button"
-        class="mdc-button mdc-dialog__button"
-        data-mdc-dialog-action="yes"
-        onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
-        <span class="mdc-button__label">Fermer</span>
-      </button>
-    </footer>
-
-    <!--  </div>-->
-
+    <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
   </div>
 
-  <!--  <input type="button" value="Fermer" onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();"/>-->
+
+  <div id="editeur-popUp" class="popUp">
+    <div style="padding-left:2px" vertical start-justified start layout wrap>
+      <h2  style="margin: 0;color: #0D578B;">Enregistrer
+        <!--  <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button>-->
+        <span>
+          <i
+          class="material-icons mdc-list-item__graphic"
+          aria-hidden="true"
+          onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
+          clear</i>
+        </span>
+      </h2>
+      Format :
+      <button
+      type="button"
+      class="mdc-button mdc-dialog__button"
+      data-mdc-dialog-action="yes"
+      onclick="catchCommande({value:'/e'})">
+      <span class="mdc-button__label">json</span>
+    </button>
+    <button
+    type="button"
+    class="mdc-button mdc-dialog__button"
+    data-mdc-dialog-action="yes"
+    onclick="catchCommande({value:'/t'})">
+    <span class="mdc-button__label">ttl</span>
+  </button>
+
+  <!--  <p>
+  dossier courant :   <div id="current-folder-url"></div>
+  <input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
+  <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
+  <input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
+  <button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
+  <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
+</p>-->
+
+<!--  <div class="mdc-dialog__surface">-->
+<!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+<!--  <h2 class="mdc-dialog__title" id="editor-dialog-title">Editeur
+<span onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();"> X</span>
+</h2>-->
+<!--  <div class="mdc-dialog__content" id="editor-dialog-content" >-->
+<pre id="editor"></pre>
+<!--  </div>-->
+<footer class="mdc-dialog__actions">
+
+
+
+  <button
+  type="button"
+  class="mdc-button mdc-dialog__button"
+  data-mdc-dialog-action="yes"
+  onclick="downloadFile()">
+  <span class="mdc-button__label">Telecharger</span>
+  </button>
+
+  <button
+  type="button"
+  class="mdc-button mdc-dialog__button"
+  data-mdc-dialog-action="yes"
+  onclick="openPodBrowser()">
+  <span class="mdc-button__label">Enregistrer sur un POD</span>
+  </button>
+
+<button
+type="button"
+class="mdc-button mdc-dialog__button"
+data-mdc-dialog-action="yes"
+onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
+<span class="mdc-button__label">Fermer</span>
+</button>
+</footer>
+
+<!--  </div>-->
+
+</div>
+
+<!--  <input type="button" value="Fermer" onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();"/>-->
 </div>
 
 

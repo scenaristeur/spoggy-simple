@@ -468,23 +468,46 @@ function updateEditorFromNetwork(event, properties, senderId){
     var text = JSON.stringify(data, null, 2)
     editor.session.setValue(text)
     editor.format  = "json";
-    document.getElementById('editeur-popUp').style.display = 'block';
+  //  document.getElementById('editeur-popUp').style.display = 'block';
   }
   function updateEditorFromNetworkTtl(text){
     //  console.log(event, properties, senderId)
     //var text = JSON.stringify(network.body.data, null, 2)
     editor.session.setValue(text)
     editor.format = "ttl"
-  document.getElementById('editeur-popUp').style.display = 'block';
- }
+  //  document.getElementById('editeur-popUp').style.display = 'block';
+  }
 
   function downloadFile(){
-    editor.session.setValue(text)
-    editor.format  = "json";
-    
-    textFileAsBlob = new Blob([nodes_edgesJSON], {
-      type:
-      'application/json'
+    var contenu = editor.session.getValue()
+    var format = editor.format;
+    console.log(contenu, format)
+    var contentType = "";
+    var fileNameToSaveAs = ""
+
+    var filename = prompt("Sous quel nom sauvegarder ce graphe ?", "Spoggy");
+    //  app.$.inputMessage.value = '';
+    if (filename == null || filename == "") {
+      txt = "User cancelled the prompt.";
+      return;
+    }
+
+    switch (format) {
+      case 'json':
+      contentType = 'application/json';
+      fileNameToSaveAs = filename + ".json"; //Date.now() +
+      break;
+      case 'ttl':
+      contentType = 'text/turtle';
+      fileNameToSaveAs = filename + ".ttl"; //Date.now() +
+      break;
+      default:
+      alert('Format de fichier non reconnu', format);
+    }
+
+
+    var textFileAsBlob = new Blob([contenu], {
+      type: contentType
     }
   );
   var downloadLink = document.createElement("a");
@@ -494,13 +517,13 @@ function updateEditorFromNetwork(event, properties, senderId){
   {
     // Chrome allows the link to be clicked
     // without actually adding it to the DOM.
-    console.log("CHROME");
+    //  console.log("CHROME");
     downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
   } else
   {
     // Firefox requires the link to be added to the DOM
     // before it can be clicked.
-    console.log("FF");
+    //  console.log("FF");
     downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
     downloadLink.target="_blank";
     //downloadLink.onclick = destroyClickedElement;
@@ -528,81 +551,81 @@ function updateEditorFromNetwork(event, properties, senderId){
   // Chrome allows the link to be clicked
   // without actually adding it to the DOM.
   downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-  } else {
-  // Firefox requires the link to be added to the DOM
-  // before it can be clicked.
-  downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-  downloadLink.onclick = destroyClickedElement;
-  downloadLink.style.display = "none";
-  document.body.appendChild(downloadLink);
-  }
-  downloadLink.click();*/
-  }
+} else {
+// Firefox requires the link to be added to the DOM
+// before it can be clicked.
+downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+downloadLink.onclick = destroyClickedElement;
+downloadLink.style.display = "none";
+document.body.appendChild(downloadLink);
+}
+downloadLink.click();*/
+}
 
-  function downloadCanvas(){
-    // get canvas data
-    var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
-    console.log(srcCanvas)
-    destinationCanvas = document.createElement("canvas");
-    destinationCanvas.width = srcCanvas.width;
-    destinationCanvas.height = srcCanvas.height;
+function downloadCanvas(){
+  // get canvas data
+  var srcCanvas = document.getElementById( 'mynetwork' ).childNodes[0].canvas;
+  console.log(srcCanvas)
+  destinationCanvas = document.createElement("canvas");
+  destinationCanvas.width = srcCanvas.width;
+  destinationCanvas.height = srcCanvas.height;
 
-    destCtx = destinationCanvas.getContext('2d');
+  destCtx = destinationCanvas.getContext('2d');
 
-    //create a rectangle with the desired color
-    destCtx.fillStyle = "#FFFFFF";
-    destCtx.fillRect(0,0,srcCanvas.width,srcCanvas.height);
+  //create a rectangle with the desired color
+  destCtx.fillStyle = "#FFFFFF";
+  destCtx.fillRect(0,0,srcCanvas.width,srcCanvas.height);
 
-    //draw the original canvas onto the destination canvas
-    destCtx.drawImage(srcCanvas, 0, 0);
+  //draw the original canvas onto the destination canvas
+  destCtx.drawImage(srcCanvas, 0, 0);
 
-    //finally use the destinationCanvas.toDataURL() method to get the desired output;
+  //finally use the destinationCanvas.toDataURL() method to get the desired output;
 
-    var image =   destinationCanvas.toDataURL(); //canvas.toDataURL("image/png");
+  var image =   destinationCanvas.toDataURL(); //canvas.toDataURL("image/png");
 
-    // create temporary link
-    var tmpLink = document.createElement( 'a' );
-    tmpLink.download = 'image.png'; // set the name of the download file
-    tmpLink.href = image;
+  // create temporary link
+  var tmpLink = document.createElement( 'a' );
+  tmpLink.download = 'image.png'; // set the name of the download file
+  tmpLink.href = image;
 
-    // temporarily add link to body and initiate the download
-    document.body.appendChild( tmpLink );
-    tmpLink.click();
-    document.body.removeChild( tmpLink );
-  }
+  // temporarily add link to body and initiate the download
+  document.body.appendChild( tmpLink );
+  tmpLink.click();
+  document.body.removeChild( tmpLink );
+}
 
-  function toggleFullScreen() {
-    //https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
-    var doc = window.document;
-    var docEl = doc.documentElement;
+function toggleFullScreen() {
+  //https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
+  var doc = window.document;
+  var docEl = doc.documentElement;
 
-    var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-    var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-    var changeFullScreen = doc.fullscreenchange || doc.mozfullscreenchange || doc.webkitfullscreenchange || doc.msfullscreenchange;
-
-
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+  var changeFullScreen = doc.fullscreenchange || doc.mozfullscreenchange || doc.webkitfullscreenchange || doc.msfullscreenchange;
 
 
-    if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-      //requestFullScreen.call(docEl);
-      // document.getElementById("main-content").innerHTML = "";
 
-      var canvas = document.getElementById("mynetwork");
-      canvas.requestFullscreen();
 
-      /*   document.getElementById("main-content").appendChild(document.getElementById("mynetwork"))*/
-      document.getElementById("mynetwork").prepend(document.getElementById("rtl-menu"));
-      /*canvas.addEventListener("cancelFullScreen", function(e) {
-      console.log("change",e)
-    });*/
-  }
-  else {
-    console.log("cancelFullscreen")
-    //  document.getElementById("main-content").innerHTML = "";
-    //  document.getElementById("main-content").appendChild(document.getElementById("principal"))
-    cancelFullScreen.call(doc);
-    /*  document.getElementById("network-container").appendChild(document.getElementById("mynetwork"))*/
-    // document.getElementById("attachGlobal").prepend(document.getElementById("global"));
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    //requestFullScreen.call(docEl);
+    // document.getElementById("main-content").innerHTML = "";
 
-  }
+    var canvas = document.getElementById("mynetwork");
+    canvas.requestFullscreen();
+
+    /*   document.getElementById("main-content").appendChild(document.getElementById("mynetwork"))*/
+    document.getElementById("mynetwork").prepend(document.getElementById("rtl-menu"));
+    /*canvas.addEventListener("cancelFullScreen", function(e) {
+    console.log("change",e)
+  });*/
+}
+else {
+  console.log("cancelFullscreen")
+  //  document.getElementById("main-content").innerHTML = "";
+  //  document.getElementById("main-content").appendChild(document.getElementById("principal"))
+  cancelFullScreen.call(doc);
+  /*  document.getElementById("network-container").appendChild(document.getElementById("mynetwork"))*/
+  // document.getElementById("attachGlobal").prepend(document.getElementById("global"));
+
+}
 }
