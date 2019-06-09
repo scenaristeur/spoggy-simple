@@ -312,10 +312,10 @@
   <div id="popup-container" >
 
 <div id="bottom-menu">
-    <button id="fabkeyb" class="mdc-fab fabkeyb" aria-label="Keyboard">
+    <button id="fabkeyb" class="mdc-fab" aria-label="Keyboard">
       <span class="mdc-fab__icon material-icons">keyboard</span>
     </button>
-    <button id="fabnav" class="mdc-fab fabnav" aria-label="Explore" onclick="clusterByCid()">
+    <button id="fabnav" class="mdc-fab" aria-label="Explore" onclick="clusterByCid()">
       <span class="mdc-fab__icon material-icons">explore</span>
     </button>
   </div>
@@ -608,16 +608,17 @@ aria-describedby="reglages-dialog-content">
     <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
     <h2 class="mdc-dialog__title" id="reglages-dialog-title">Réglages<span> X</span></h2>
     <div class="mdc-dialog__content" id="reglages-dialog-content">
-
+<fieldset>
+  <legend></legend>
       <div  style="float:auto">
-        <div>D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-        <div>L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-        <div>F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-        <div>G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-        <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>Distance:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>Longueur:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>Force:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>Gravité:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>Résistance:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
         <div><button onclick="setDefaultReglages()">Defaut</button></div>
       </div>
-
+</fieldset>
 
 
       <div>
