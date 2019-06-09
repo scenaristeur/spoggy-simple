@@ -1,13 +1,12 @@
 var level;
 
 var levels = {
-  0: {nom: "Créer un nouveau graphe", lien: "https://youtu.be/bkedKb34USI",video: "https://youtu.be/bkedKb34USI"},
-  1: {nom: "Vider un graphe", lien: "https://youtu.be/YqatYoxz5VU",video: "https://youtu.be/YqatYoxz5VU"},
-  2: {nom: "Créer un nouveau noeud dans le graphe", lien: "https://youtu.be/XkI6cJPUTuk",video: "https://youtu.be/XkI6cJPUTuk"},
-  3: {nom: "Créer un deuxième noeud dans le graphe",lien: "https://youtu.be/AmDwlkLk7f8",video: "https://youtu.be/AmDwlkLk7f8"},
-  4: {nom: "Créer un lien entre deux noeuds", lien: "https://youtu.be/ND8fK2liSdE",video: "https://youtu.be/ND8fK2liSdE"},
-  5: {nom: "Créer un triplet", lien: "https://youtu.be/tXfX8vgfdiQ",video: "https://youtu.be/tXfX8vgfdiQ"},
-  6: {nom: "Créer un graphe avec au moins cinq noeuds et 7 liens", lien: "https://github.com/scenaristeur/spoggy-simple/blob/master/README.md",video: "https://github.com/scenaristeur/spoggy-simple/blob/master/README.md"},
+  0: {nom: "Créer un nouveau graphe | Create a new graph", lien: "https://youtu.be/YqatYoxz5VU",video: "https://youtu.be/YqatYoxz5VU"},
+  1: {nom: "Créer un nouveau noeud dans le graphe", lien: "https://youtu.be/XkI6cJPUTuk",video: "https://youtu.be/XkI6cJPUTuk"},
+  2: {nom: "Créer un deuxième noeud dans le graphe",lien: "https://youtu.be/AmDwlkLk7f8",video: "https://youtu.be/AmDwlkLk7f8"},
+  3: {nom: "Créer un lien entre deux noeuds", lien: "https://youtu.be/ND8fK2liSdE",video: "https://youtu.be/ND8fK2liSdE"},
+  4: {nom: "Créer un triplet", lien: "https://youtu.be/tXfX8vgfdiQ",video: "https://youtu.be/tXfX8vgfdiQ"},
+  5: {nom: "Créer un graphe avec au moins cinq noeuds et 7 liens", lien: "https://github.com/scenaristeur/spoggy-simple/blob/master/README.md",video: "https://github.com/scenaristeur/spoggy-simple/blob/master/README.md"},
 
 };
 
