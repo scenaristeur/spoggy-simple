@@ -467,11 +467,76 @@ function updateEditorFromNetwork(event, properties, senderId){
     }) };
     var text = JSON.stringify(data, null, 2)
     editor.session.setValue(text)
+    editor.format  = "json";
+    document.getElementById('editeur-popUp').style.display = 'block';
   }
   function updateEditorFromNetworkTtl(text){
     //  console.log(event, properties, senderId)
     //var text = JSON.stringify(network.body.data, null, 2)
     editor.session.setValue(text)
+    editor.format = "ttl"
+  document.getElementById('editeur-popUp').style.display = 'block';
+ }
+
+  function downloadFile(){
+    editor.session.setValue(text)
+    editor.format  = "json";
+    
+    textFileAsBlob = new Blob([nodes_edgesJSON], {
+      type:
+      'application/json'
+    }
+  );
+  var downloadLink = document.createElement("a");
+  downloadLink.download = fileNameToSaveAs;
+  downloadLink.innerHTML = "Download File";
+  if(navigator.userAgent.indexOf("Chrome") != -1)
+  {
+    // Chrome allows the link to be clicked
+    // without actually adding it to the DOM.
+    console.log("CHROME");
+    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+  } else
+  {
+    // Firefox requires the link to be added to the DOM
+    // before it can be clicked.
+    console.log("FF");
+    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+    downloadLink.target="_blank";
+    //downloadLink.onclick = destroyClickedElement;
+    //downloadLink.onclick = window.URL.revokeObjectURL(downloadLink);
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+    //  console.log(app.$.popupTtl);
+  }
+  console.log(downloadLink);
+  /*downloadLink.click();*/
+  /* creation d'un event car download.click() ne fonctionne pas sous Firefox */
+  var event = document.createEvent("MouseEvents");
+  event.initMouseEvent(
+    "click", true, false, window, 0, 0, 0, 0, 0
+    , false, false, false, false, 0, null
+  );
+  downloadLink.dispatchEvent(event);
+  var app = this;
+  setTimeout(function(){
+    //  console.log(downloadLink.parentNode);
+    document.body.removeChild(downloadLink);
+    window.URL.revokeObjectURL(downloadLink);
+  }, 1000);
+  /*if (window.URL != null) {
+  // Chrome allows the link to be clicked
+  // without actually adding it to the DOM.
+  downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+  } else {
+  // Firefox requires the link to be added to the DOM
+  // before it can be clicked.
+  downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+  downloadLink.onclick = destroyClickedElement;
+  downloadLink.style.display = "none";
+  document.body.appendChild(downloadLink);
+  }
+  downloadLink.click();*/
   }
 
   function downloadCanvas(){
