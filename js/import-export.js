@@ -165,10 +165,10 @@ output += "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n";
 output += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n";
 output += "@prefix smag: <http://smag0.blogspot.fr/spoggy#> . \n";
 output += "@base <http://smag0.blogspot.fr/spoggy> . \n";
-output += "<http://smag0.blogspot.fr/spoggy> rdf:type owl:Ontology ;  \n";
-output += "                    owl:versionIRI <http://smag0.blogspot.fr/spoggy/1.0.0> . \n";
+//output += "<http://smag0.blogspot.fr/spoggy> rdf:type owl:Ontology ;  \n";
+//output += "                    owl:versionIRI <http://smag0.blogspot.fr/spoggy/1.0.0> . \n";
 output += " \n";
-output += "owl:Class rdfs:subClassOf owl:Thing .  \n";
+//output += "owl:Class rdfs:subClassOf owl:Thing .  \n";
 
 var listeInfos = new Array();
 var listeComplementaire = new Array();

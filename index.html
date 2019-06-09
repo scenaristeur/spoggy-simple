@@ -461,8 +461,8 @@
 
       <fieldset>
         <legend>Url / POD Solid <div id="webId"></div></legend>
-        <button onclick="reset_Public_POD()">Utiliser le POD public</button>
-        <button class="logout" onclick="restoreCurrentSession()">Utiliser le POD Connecté</button>
+        <button onclick="podBrowser('public')">Utiliser le POD public</button>
+        <button class="logout" onclick="podBrowser('connecte')">Utiliser le POD Connecté</button>
         <button  class="login" onclick="login()">Se connecter sur un POD</button>
         <button class="logout" onclick="logout()">Se deconnecter du POD</button><br><br>
         <input id="importUrl" style="width:80%" placeholder="Url / POD"></input>

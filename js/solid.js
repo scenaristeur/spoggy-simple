@@ -61,11 +61,9 @@ function podBrowser(whichPOD){
 
   switch (whichPOD) {
     case 'public':
-
     document.getElementById('PODurlInput').value = agora_POD;
     document.getElementById('importUrl').value = agora_POD;
     break;
-
     case 'connecte':
     document.getElementById('PODurlInput').value = sessionCourante.webId;
     document.getElementById('importUrl').value = sessionCourante.webId;
@@ -78,7 +76,6 @@ function podBrowser(whichPOD){
   browsePublicFromWebId(webId)
   document.getElementById('editeur-popUp').style.display = 'none'
   document.getElementById("pod-browser-popUp").style.display = "block";
-
   //  document.getElementById("select-pod-popUp").style.display = "none";
 }
 
