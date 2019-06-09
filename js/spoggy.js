@@ -283,15 +283,16 @@ function catchCommande(commande){
     break;
     case "/a":
     console.log("open editor");
-    const editorDialog = new mdc.dialog.MDCDialog(document.getElementById('editor_dialog'));
-    editorDialog.open();
-  //  document.getElementById('select-pod-popUp').style.display = 'block';
+    document.getElementById('editeur-popUp').style.display = 'block';
+    /*  const editorDialog = new mdc.dialog.MDCDialog(document.getElementById('editor_dialog'));
+    editorDialog.open();*/
+    //  document.getElementById('select-pod-popUp').style.display = 'block';
     break;
     case "/r":
     console.log("reglages editor");
     const reglagesDialog = new mdc.dialog.MDCDialog(document.getElementById('reglages_dialog'));
     reglagesDialog.open();
-  //  document.getElementById('select-pod-popUp').style.display = 'block';
+    //  document.getElementById('select-pod-popUp').style.display = 'block';
     break;
     case "/n":
     console.log("new graph");
@@ -333,8 +334,8 @@ const isValidUrl = (string) => {
 function inputChanged(ele) {
   if(event.key === 'Enter') {
     event.preventDefault();
-  //  document.getElementById("valider").click();
-  validInput()
+    //  document.getElementById("valider").click();
+    validInput()
   }
 }
 
