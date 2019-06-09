@@ -287,6 +287,12 @@ function catchCommande(commande){
     editorDialog.open();
   //  document.getElementById('select-pod-popUp').style.display = 'block';
     break;
+    case "/r":
+    console.log("reglages editor");
+    const reglagesDialog = new mdc.dialog.MDCDialog(document.getElementById('reglages_dialog'));
+    reglagesDialog.open();
+  //  document.getElementById('select-pod-popUp').style.display = 'block';
+    break;
     case "/n":
     console.log("new graph");
     newGraph();
@@ -407,8 +413,8 @@ function initMaterialDesign(){
 //https://material-ui.com/fr/api/fab/
 //import {MDCRipple} from '@material/ripple';
 // MATERIAL FAB
-const fabRipple = new mdc.ripple.MDCRipple(document.querySelector('.mdc-fab'));
-document.querySelector('.mdc-fab').addEventListener("click", function(e){
+const fabRipple = new mdc.ripple.MDCRipple(document.getElementById('fabkeyb'));
+document.getElementById('fabkeyb').addEventListener("click", function(e){
   console.log("click")
   tripletPopup.style.display == 'block'? tripletPopup.style.display = 'none' : tripletPopup.style.display = 'block' ;
   document.getElementById("input").focus();

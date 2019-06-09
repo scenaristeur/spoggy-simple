@@ -60,16 +60,16 @@ function destroy() {
   }
 }
 
-function draw() {
+function draw(val) {
   destroy();
   nodes = [];
   edges = [];
-
+console.log("select",val)
   // create a network
   var container = document.getElementById('mynetwork');
   var options = {
     layout: {randomSeed:seed}, // just to make sure the layout is the same when the locale is changed
-    locale: document.getElementById('locale').value,
+    locale: val || "en", // document.getElementById('locale').value,
     interaction: {
       navigationButtons: true,
       keyboard: true,
@@ -493,7 +493,7 @@ function clusterByHubsize() {
 }
 
 function reglage(id,value){
-  console.log(id,value);
+//  console.log(id,value);
   switch(id) {
     case "distance":
     network.physics.options.repulsion.nodeDistance = value

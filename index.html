@@ -171,47 +171,6 @@
 
         <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
 
-        <fieldset>
-          <legend>Réglages</legend>
-
-
-          <div  style="float:auto">
-            <div>D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
-            <div><button onclick="setDefaultReglages()">Defaut</button></div>
-          </div>
-
-
-
-          <div>
-            <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
-            <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
-            <br>
-            <button  onclick="resetColors()">retablir les couleurs</button>
-            <br>
-            <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
-            <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
-            <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
-          </div>
-
-          <div>
-            langue :
-            <select id="locale" onchange="draw();">
-              <option value="en">en</option>
-              <option value="de">de</option>
-              <option value="es">es</option>
-              <!--<option value="fr">fr</option>-->
-              <option value="it">it</option>
-              <option value="nl">nl</option>
-              <option value="pt-br">pt</option>
-              <option value="ru">ru</option>
-            </select>
-          </div>
-
-        </fieldset>
 
         <fieldset>
           <legend>Cluster</legend>
@@ -352,9 +311,14 @@
   <!-- POPUPS -->
   <div id="popup-container" >
 
-    <button id="fab" class="mdc-fab" aria-label="Keyboard">
+<div id="bottom-menu">
+    <button id="fabkeyb" class="mdc-fab fabkeyb" aria-label="Keyboard">
       <span class="mdc-fab__icon material-icons">keyboard</span>
     </button>
+    <button id="fabnav" class="mdc-fab fabnav" aria-label="Explore" onclick="clusterByCid()">
+      <span class="mdc-fab__icon material-icons">explore</span>
+    </button>
+  </div>
 
     <div id="triplet-popUp" class="popUp">
       <!--  <h2 id="my-dialog-title">3 mots suivis d'une virgule et valider, ou saisissez une commande</h2>
@@ -410,30 +374,30 @@
   <label class="mdc-floating-label">Name</label>
 </div>-->
 
-      <label for="node-shape">Forme:</label>
+<label for="node-shape">Forme:</label>
 
-      <select id="node-shape">
-        <optgroup label="Label interne">
-          <option>ellipse</option>
-          <option>circle</option>
-          <option>database</option>
-          <option>box</option>
-          <option>text</option>
-        </optgroup>
-        <optgroup label="Label externe">
-          <option>image</option>
-          <option>circularImage</option>
-          <option>diamond</option>
-          <option>dot</option>
-          <option>star</option>
-          <option>triangle</option>
-          <option>triangleDown</option>
-          <option>hexagon</option>
-          <option>square</option>
-          <option>icon</option>
-        </optgroup>
-        <input style="display:none" id="node-image-url" value="" />
-      </select>
+<select id="node-shape">
+  <optgroup label="Label interne">
+    <option>ellipse</option>
+    <option>circle</option>
+    <option>database</option>
+    <option>box</option>
+    <option>text</option>
+  </optgroup>
+  <optgroup label="Label externe">
+    <option>image</option>
+    <option>circularImage</option>
+    <option>diamond</option>
+    <option>dot</option>
+    <option>star</option>
+    <option>triangle</option>
+    <option>triangleDown</option>
+    <option>hexagon</option>
+    <option>square</option>
+    <option>icon</option>
+  </optgroup>
+  <input style="display:none" id="node-image-url" value="" />
+</select>
 
 
 
@@ -441,8 +405,8 @@
 
 
 <footer class="mdc-dialog__actions">
-<button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
-<button id="node-saveButton" class="foo-button mdc-button">Valider</button>
+  <button id="node-cancelButton" class="foo-button mdc-button">Annuler</button>
+  <button id="node-saveButton" class="foo-button mdc-button">Valider</button>
 </footer>
 
 </div>
@@ -613,49 +577,112 @@ id="editor_dialog"
 class="mdc-dialog"
 role="alertdialog"
 aria-modal="true"
-aria-labelledby="my-dialog-title"
-aria-describedby="my-dialog-content">
+aria-labelledby="editor-dialog-title"
+aria-describedby="editor-dialog-content">
 <div class="mdc-dialog__container">
   <div class="mdc-dialog__surface">
     <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-    <h2 class="mdc-dialog__title" id="my-dialog-title"><!--
-    -->Editeur <span></span><!--
-  --></h2>
-  <div class="mdc-dialog__content" id="my-dialog-content">
-
-    <!--
-    <button type="button" class="mdc-button mdc-dialog__button">
-    <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
-  </button>
--->
-
-    <fieldset style="width:90%">
-      <legend>Editeur</legend>
+    <h2 class="mdc-dialog__title" id="editor-dialog-title">Editeur<span> X</span></h2>
+    <div class="mdc-dialog__content" id="editor-dialog-content">
       <pre id="editor"></pre>
-    </fieldset>
-
-
-
-
+    </div>
+    <footer class="mdc-dialog__actions">
+      <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+        <span class="mdc-button__label">Fermer</span>
+      </button>
+    </footer>
+  </div>
 </div>
-<footer class="mdc-dialog__actions">
-  <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
-  <span class="mdc-button__label">No</span>
-</button>-->
-<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
-  <span class="mdc-button__label">Fermer</span>
-</button>
-</footer>
-</div>
+<div class="mdc-dialog__scrim"></div>
 </div>
 
+<div
+id="reglages_dialog"
+class="mdc-dialog"
+role="alertdialog"
+aria-modal="true"
+aria-labelledby="reglages-dialog-title"
+aria-describedby="reglages-dialog-content">
+<div class="mdc-dialog__container">
+  <div class="mdc-dialog__surface">
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <h2 class="mdc-dialog__title" id="reglages-dialog-title">Réglages<span> X</span></h2>
+    <div class="mdc-dialog__content" id="reglages-dialog-content">
+
+      <div  style="float:auto">
+        <div>D:<input type="range" min="0" max="800"  class="slider" title="Distance entre deux noeuds" id="distance" oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>L:<input type="range" min="0" max="800" class="slider" title="Longueur des liens" id="longueur"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>F:<input type="range" min="0" max="0.2" step="0.001" class="slider" title="Force des liens" id="force"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>G:<input type="range" min="0" max="10"  class="slider" title="Gravité" id="gravite"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div>R:<input type="range" min="0" max="1" step="0.001" class="slider" title="Resistance" id="resistance"  oninput="reglage(this.id,this.value)" onchange="reglage(this.id,this.value)"></div>
+        <div><button onclick="setDefaultReglages()">Defaut</button></div>
+      </div>
+
+
+
+      <div>
+        <input type="color" id="bodycolorpicker" name="bodycolorpicker" value="#D2E5FF"> <label for="bodycolorpicker">Body</label>
+        <input type="color" id="bordercolorpicker" name="bordercolorpicker" value="#2B7CE9"><label for="bordercolorpicker">Contour</label>
+        <br>
+        <button  onclick="resetColors()">retablir les couleurs</button>
+        <br>
+        <!-- transparence https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 -->
+        <input type="checkbox" id="autofocus" name="autofocus" checked><label for="autofocus">AutoFocus</label>
+        <input type="checkbox" id="autofit" name="autofit" ><label for="autofit">Autofit</label>
+      </div>
+
+      <div>
+        langue :
+        <select id="locale" onchange="draw(this.value);" disabled> <!-- disabled car probleme de menu après changement de langue -->
+          <option value="en">en</option>
+          <option value="de">de</option>
+          <option value="es">es</option>
+          <!--<option value="fr">fr</option>-->
+          <option value="it">it</option>
+          <option value="nl">nl</option>
+          <option value="pt-br">pt</option>
+          <option value="ru">ru</option>
+        </select>
+      </div>
+
+    </div>
+    <footer class="mdc-dialog__actions">
+      <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+        <span class="mdc-button__label">Fermer</span>
+      </button>
+    </footer>
+  </div>
+</div>
 <div class="mdc-dialog__scrim"></div>
 </div>
 
 
 
+<!-- modele dialog
+<div
+id="reglages_dialog"
+class="mdc-dialog"
+role="alertdialog"
+aria-modal="true"
+aria-labelledby="reglages-dialog-title"
+aria-describedby="reglages-dialog-content">
+<div class="mdc-dialog__container">
+  <div class="mdc-dialog__surface">
 
-
+    <h2 class="mdc-dialog__title" id="reglages-dialog-title">Réglages<span> X</span></h2>
+    <div class="mdc-dialog__content" id="reglages-dialog-content">
+      contenu
+    </div>
+    <footer class="mdc-dialog__actions">
+      <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+        <span class="mdc-button__label">Fermer</span>
+      </button>
+    </footer>
+  </div>
+</div>
+<div class="mdc-dialog__scrim"></div>
+</div>
+ fin modele dialog -->
 
 
 
