@@ -116,3 +116,10 @@ textarea {
   margin: 5px;
 
 }
+
+.js-panel {
+  display: none;
+}
+.js-panel.is-active {
+  display: block;
+}

@@ -705,6 +705,52 @@ aria-describedby="ub-content">
         clear</i>
       </span><!--
   --></h2>
+
+  <div class="mdc-tab-bar" id="open-tab-bar" role="tablist">
+    <div class="mdc-tab-scroller">
+      <div class="mdc-tab-scroller__scroll-area">
+        <div class="mdc-tab-scroller__scroll-content">
+          <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0" onclick="selectOpenTab(this)">
+            <span class="mdc-tab__content">
+              <span class="mdc-tab__icon material-icons" aria-hidden="true">folder_open</span>
+              <span class="mdc-tab__text-label">Local</span>
+            </span>
+            <span class="mdc-tab-indicator mdc-tab-indicator--active">
+              <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+            </span>
+            <span class="mdc-tab__ripple"></span>
+          </button>
+
+          <button class="mdc-tab  mdc-tab--active" role="tab"  onclick="selectOpenTab(this)">
+            <span class="mdc-tab__content">
+              <span class="mdc-tab__icon material-icons" aria-hidden="true">cloud_queue</span>
+              <span class="mdc-tab__text-label">Pod Public</span>
+            </span>
+            <span class="mdc-tab-indicator mdc-tab-indicator--active">
+              <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+            </span>
+            <span class="mdc-tab__ripple"></span>
+          </button>
+
+          <button class="mdc-tab  mdc-tab--active" role="tab" onclick="selectOpenTab(this)">
+            <span class="mdc-tab__content">
+              <span class="mdc-tab__icon material-icons" aria-hidden="true">cloud</span>
+              <span class="mdc-tab__text-label">Pod Connecte</span>
+            </span>
+            <span class="mdc-tab-indicator mdc-tab-indicator--active">
+              <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+            </span>
+            <span class="mdc-tab__ripple"></span>
+          </button>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="mdc-dialog__content" id="ub-content">
     <div class="mdc-card" >
       <input id="ub-url"></input>
@@ -715,6 +761,13 @@ aria-describedby="ub-content">
       contenu
   <!-- ... content ... -->
 </div>
+<section>
+  <div class="js-panels" for='open-tab-bar'>
+    <p id="mdc-tab-1-panel" class="js-panel is-active" role="tabpanel" aria-hidden="false">Item One</p>
+    <p id="mdc-tab-2-panel" class="js-panel" role="tabpanel" aria-hidden="true">Item Two</p>
+    <p id="mdc-tab-3-panel" class="js-panel" role="tabpanel" aria-hidden="true">Item Three</p>
+  </div>
+</section>
 
 
     <span id="ub-menu"></span>

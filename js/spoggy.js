@@ -383,6 +383,13 @@ function initMaterialDesign(){
   //const inputPopUp = new mdc.dialog.MDCDialog(document.getElementById('input-pupUp'));
   const tripletPopup = document.getElementById("triplet-popUp")
 
+//  const tabBar = new mdc.tabBar.MDCTabBar(document.getElementById('open-tab-bar'));
+
+
+  var tabs = new mdc.tabBar.MDCTabBar(document.querySelector("#open-tab-bar"));
+
+
+
   document.querySelector('.mdc-checkbox').addEventListener("click", function(e){
     //console.log("event",e)
     console.log(checkbox.checked)
@@ -628,4 +635,11 @@ else {
   // document.getElementById("attachGlobal").prepend(document.getElementById("global"));
 
 }
+}
+
+function selectOpenTab(tab){
+  var panels = document.querySelectorAll(".js-panel");
+  panels.forEach(function(p){
+    p.id == tab.id+"-panel"? p.classList.add("is-active") : p.classList.remove("is-active");
+  })
 }
