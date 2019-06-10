@@ -439,7 +439,15 @@
 
   <div id="import-popUp" class="popUp">
     <div style="padding-left:20px" vertical start-justified start layout wrap>
-      <h2 id="importOperation" style="margin: 0;color: #0D578B;">Ouvrir<paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+      <h2 id="importOperation" style="margin: 0;color: #0D578B;">Ouvrir
+          <span>
+          <i
+          class="material-icons mdc-list-item__graphic"
+          aria-hidden="true"
+          onclick="(function(){ document.getElementById('import-popUp').style.display = 'none'; })();">
+          clear</i>
+        </span>
+      </h2>
 
 
       <fieldset>
@@ -456,6 +464,7 @@
       <fieldset>
         <legend>Dernières publications<div id="webId"></div></legend>
         <button   onclick="last_public()">Afficher les dernières publications publiques</button>
+        <button   onclick="open_ub()">Afficher les dernières publications sur Universal Browser(Beta)</button>
 
       </fieldset>
 
@@ -518,7 +527,15 @@
 <div id="pod-browser-popUp" class="popUp">
   <div style="padding-left:20px" vertical start-justified start layout wrap>
     <h2 id="selectPodOperation" style="margin: 0;color: #0D578B;">POD Browser
-      <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button></h2>
+
+      <span>
+        <i
+        class="material-icons mdc-list-item__graphic"
+        aria-hidden="true"
+        onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();">
+        clear</i>
+      </span>
+    </h2>
       <p>
 
           <fieldset>
@@ -668,7 +685,61 @@ onclick="(function(){ document.getElementById('editeur-popUp').style.display = '
 
 
 
+<div
+id="universal-browser"
+class="mdc-dialog"
+role="alertdialog"
+aria-modal="true"
+aria-labelledby="ub-title"
+aria-describedby="ub-content">
+<div class="mdc-dialog__container">
+  <div class="mdc-dialog__surface">
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <h2 class="mdc-dialog__title" id="ub-title"><!--
+    -->Universal Browser   <span>
+        <i
+        class="material-icons mdc-list-item__graphic"
+        aria-hidden="true"
+        data-mdc-dialog-action="yes"
+  >
+        clear</i>
+      </span><!--
+  --></h2>
+  <div class="mdc-dialog__content" id="ub-content">
+    <div class="mdc-card" >
+      <input id="ub-url"></input>
+      <div class="mdc-card" id="ub-up">UP</div>
+    <!-- ... content ... -->
+    </div>
+    <div class="mdc-card" id="ub-parent">
+      contenu
+  <!-- ... content ... -->
+</div>
 
+
+    <span id="ub-menu"></span>
+    <ul id="ub-liste">
+
+    </ul>
+    <!--
+    <button type="button" class="mdc-button mdc-dialog__button">
+    <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
+  </button>
+-->
+</div>
+<footer class="mdc-dialog__actions">
+  <!--<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+  <span class="mdc-button__label">No</span>
+</button>-->
+<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+  <span class="mdc-button__label">Fermer</span>
+</button>
+</footer>
+</div>
+</div>
+
+<div class="mdc-dialog__scrim"></div>
+</div>
 
 
 <div

@@ -87,6 +87,14 @@ function callbackAfterRead(folder){
   updateBrowser(folder)
 }
 
+function callbackAfterBrowse(contenu){
+  console.log("callback after browse")
+  console.log(contenu)
+//  folder2vis(folder)
+//  updateCurrentFolder(folder)
+//  updateBrowser(folder)
+}
+
 
 function updateBrowser(folder){
   //  console.log("updateBrowser",folder)
@@ -199,7 +207,6 @@ function saveEditorToPod(ext){
 
 function last_public(){
   document.getElementById('import-popUp').style.display = "none"
-
   const dialog = new mdc.dialog.MDCDialog(document.getElementById('last_pub'));
   dialog.open()
   console.log("last_public", agora_POD)
@@ -209,6 +216,110 @@ function last_public(){
   fileList.innerHTML = "";
   fileAgent.readFolder(public_POD,callbackLastPublic)
 }
+
+
+function open_ub(){
+  document.getElementById('import-popUp').style.display = "none"
+  const dialog = new mdc.dialog.MDCDialog(document.getElementById('universal-browser'));
+  dialog.open()
+  var public_POD = getPublicFromWebId(document.getElementById('PODurlInput').value)
+/*  newGraph();
+  var fileList=document.getElementById("last-public");
+  fileList.innerHTML = "";*/
+  fileAgent.readFolder(public_POD,callbackUniversalBrowser)
+}
+
+/*function close_ub(){
+  const dialog = new mdc.dialog.MDCDialog(document.getElementById('universal-browser'));
+  dialog.close()
+}*/
+
+
+
+function callbackUniversalBrowser(folder){
+  // material colo https://material.io/tools/color/#!/?view.left=0&view.right=1&primary.color=81D4FA
+  console.log("update universal Browser",folder)
+  var liste=document.getElementById("ub-liste");
+  liste.innerHTML = "";
+/*  var fileList=document.getElementById("fileslist");
+  fileList.innerHTML = ""*/
+
+  parentDiv = document.createElement("div");
+  newText = document.createTextNode("..(parent)");
+  parentDiv.appendChild(newText);
+  parentDiv.style.padding="15px";
+  parentDiv.addEventListener('click', function () {
+    //  console.log(folder.parent)
+    fileAgent.readFolder(folder.parent,callbackUniversalBrowser)
+  })
+
+// nouveaux
+
+
+  var ubParent=document.getElementById("ub-parent");
+  ubParent.innerHTML = "";
+  ubParent.appendChild(parentDiv);
+
+  var ubUrl=document.getElementById("ub-url");
+  ubUrl.value = folder.url;
+  document.getElementById("ub-up").addEventListener('click', function () {
+    //  console.log(folder.parent)
+    fileAgent.readFolder(folder.parent,callbackUniversalBrowser)
+  })
+
+  folder.folders.forEach(function(fo){
+    //  console.log("fo",fo)
+    var name = fo.name;
+    var url = fo.url;
+    newLI = document.createElement("li");
+    newText = document.createTextNode(name);
+    newLI.appendChild(newText);
+    newLI.style.padding="16px";
+  //  newLI.style.color="#fff";
+    newLI.style.background="#81d4fa";
+    newLI.addEventListener('click', function () {
+      //console.log(url)
+    //  fileAgent.readFolder(url,callbackAfterRead)
+    fileAgent.readFolder(url,callbackUniversalBrowser)
+    })
+    liste.appendChild(newLI);
+  })
+  folder.files.forEach(function(fi){
+    //  console.log("fi",fi)
+    var name = fi.name;
+    var url = fi.url;
+    newLI = document.createElement("li");
+    newText = document.createTextNode(name);
+    newLI.appendChild(newText);
+    newLI.style.padding="16px";
+    //newLI.style.color="#ddd";
+    newLI.style.background="#b6ffff";
+    newLI.addEventListener('click', function () {
+      //  console.log(url)
+      //  fileAgent.readFile(url,callbackAfterBrowse)
+      var params = {}
+      params.source = fi.url;
+      //importer(params,after)
+//close_ub();
+      importer(params,updateGraph)
+    })
+    liste.appendChild(newLI);
+  })
+}
+
+
+function after(d){
+  console.log("after",d)
+  //updateGraph
+  var  data = {
+    nodes: d.data.nodes,
+    edges: d.data.edges
+  };
+
+  //console.log("DATA",data)
+  updateGraph({data:data})
+}
+
 
 function recursiveExplore(folder,level){
   console.log("Explore ",level,folder.name)

@@ -99,3 +99,20 @@ textarea {
   bottom: 0px;
   left : 35%;
 }
+
+/*https://stackoverflow.com/questions/25800067/how-to-divide-list-in-a-single-ul-into-3-columns*/
+#ub-liste {
+  list-style: none;
+    flex-wrap: wrap;
+    display: flex;
+    padding: 16px;
+    margin: 0;
+
+}
+#ub-liste li {
+  border: 1px solid #fff;
+  flex: 1 0 25%;
+
+  margin: 5px;
+
+}
