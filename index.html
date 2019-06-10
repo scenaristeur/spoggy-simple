@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spoggy-simple | Edition | Import / Export</title>
+  <title>Spoggy</title>
 
   <!--Vendor LIBS -->
   <script type="text/javascript" src="./dist/eve.custom.js"></script>
@@ -440,7 +440,7 @@
   <div id="import-popUp" class="popUp">
     <div style="padding-left:20px" vertical start-justified start layout wrap>
       <h2 id="importOperation" style="margin: 0;color: #0D578B;">Ouvrir
-          <span>
+        <span>
           <i
           class="material-icons mdc-list-item__graphic"
           aria-hidden="true"
@@ -449,22 +449,10 @@
         </span>
       </h2>
 
-
-      <fieldset>
-        <legend>Paramètres</legend>
-        <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer Network</input>
-        <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
-      </fieldset>
-
-      <fieldset>
-        <legend>Fichier</legend>
-        <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this, updateGraph)"></input>
-      </fieldset>
-
       <fieldset>
         <legend>Dernières publications<div id="webId"></div></legend>
         <button   onclick="last_public()">Afficher les dernières publications publiques</button>
-        <button   onclick="open_ub()">Afficher les dernières publications sur Universal Browser(Beta)</button>
+        <button   onclick="open_ub()">Utiliser Universal Browser</button>
 
       </fieldset>
 
@@ -536,107 +524,107 @@
         clear</i>
       </span>
     </h2>
-      <p>
+    <p>
 
-          <fieldset>
-            <legend>Enregistrer sur un POD</legend>
-            POD public (libre anonyme) ou POD connecté (perso ou partagé)<br>
-            Pod public : <a href="https://agora.solid.community" target="_blank">https://agora.solid.community</a><br>
-            <button
-            type="button"
-            class="mdc-button mdc-dialog__button"
-            data-mdc-dialog-action="yes"
-            onclick="podBrowser('public')"
-            raised>
-            <span class="mdc-button__label">POD public</span>
-          </button>
-          <button
-          type="button"
-          class="mdc-button mdc-dialog__button logout"
-          data-mdc-dialog-action="yes"
-          onclick="podBrowser('connecte')">
-          <span class="mdc-button__label">POD Connecté</span>
-        </button>
+      <fieldset>
+        <legend>Enregistrer sur un POD</legend>
+        POD public (libre anonyme) ou POD connecté (perso ou partagé)<br>
+        Pod public : <a href="https://agora.solid.community" target="_blank">https://agora.solid.community</a><br>
         <button
         type="button"
-        class="mdc-button mdc-dialog__button login"
+        class="mdc-button mdc-dialog__button"
         data-mdc-dialog-action="yes"
-        onclick="login()">
-        <span class="mdc-button__label">Se connecter sur un POD</span>
-        </button>
-        <button
-        type="button"
-        class="mdc-button mdc-dialog__button logout"
-        data-mdc-dialog-action="yes"
-        onclick="logout()">
-        <span class="mdc-button__label">Se deconnecter du POD</span>
-        </button>
-
-        POD séléctionné : <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input>
-         <div hidden >Public / Perso / Group </div>
-
-        </fieldset>
-          <!--  <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button><br>-->
-
-        dossier courant :   <div id="current-folder-url"></div>
-        <input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
-        <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
-        <input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
-        <button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
-        <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
-      </p>
-      <fieldset>
-        <legend>Dossier</legend>
-        <ul id="folderslist">
-        </ul>
-
-      </fieldset>
-      <fieldset>
-        <legend>Fichier</legend>
-        <ul id="fileslist">
-        </ul>
-      </fieldset>
-    </div>
-
-    <input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
-  </div>
-
-
-  <div id="editeur-popUp" class="popUp">
-    <div style="padding-left:2px" vertical start-justified start layout wrap>
-      <h2  style="margin: 0;color: #0D578B;">Enregistrer
-        <!--  <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button>-->
-        <span>
-          <i
-          class="material-icons mdc-list-item__graphic"
-          aria-hidden="true"
-          onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
-          clear</i>
-        </span>
-      </h2>
-      Format :
+        onclick="podBrowser('public')"
+        raised>
+        <span class="mdc-button__label">POD public</span>
+      </button>
       <button
       type="button"
-      class="mdc-button mdc-dialog__button"
+      class="mdc-button mdc-dialog__button logout"
       data-mdc-dialog-action="yes"
-      onclick="catchCommande({value:'/e'})">
-      <span class="mdc-button__label">json</span>
+      onclick="podBrowser('connecte')">
+      <span class="mdc-button__label">POD Connecté</span>
     </button>
+    <button
+    type="button"
+    class="mdc-button mdc-dialog__button login"
+    data-mdc-dialog-action="yes"
+    onclick="login()">
+    <span class="mdc-button__label">Se connecter sur un POD</span>
+  </button>
+  <button
+  type="button"
+  class="mdc-button mdc-dialog__button logout"
+  data-mdc-dialog-action="yes"
+  onclick="logout()">
+  <span class="mdc-button__label">Se deconnecter du POD</span>
+</button>
+
+POD séléctionné : <input type="text" id="PODurlInput" style="width:80%"  placeholder="Url du POD"></input>
+<div hidden >Public / Perso / Group </div>
+
+</fieldset>
+<!--  <button onclick="podBrowser(document.getElementById('PODurlInput').value)">Parcourir</button><br>-->
+
+dossier courant :   <div id="current-folder-url"></div>
+<input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
+<button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
+<input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
+<button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
+<button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
+</p>
+<fieldset>
+  <legend>Dossier</legend>
+  <ul id="folderslist">
+  </ul>
+
+</fieldset>
+<fieldset>
+  <legend>Fichier</legend>
+  <ul id="fileslist">
+  </ul>
+</fieldset>
+</div>
+
+<input type="button" value="Fermer" onclick="(function(){ document.getElementById('pod-browser-popUp').style.display = 'none'; })();"/>
+</div>
+
+
+<div id="editeur-popUp" class="popUp">
+  <div style="padding-left:2px" vertical start-justified start layout wrap>
+    <h2  style="margin: 0;color: #0D578B;">Enregistrer
+      <!--  <paper-icon-button icon="clear" dialog-dismiss></paper-icon-button>-->
+      <span>
+        <i
+        class="material-icons mdc-list-item__graphic"
+        aria-hidden="true"
+        onclick="(function(){ document.getElementById('editeur-popUp').style.display = 'none'; })();">
+        clear</i>
+      </span>
+    </h2>
+    Format :
     <button
     type="button"
     class="mdc-button mdc-dialog__button"
     data-mdc-dialog-action="yes"
-    onclick="catchCommande({value:'/t'})">
-    <span class="mdc-button__label">ttl</span>
+    onclick="catchCommande({value:'/e'})">
+    <span class="mdc-button__label">json</span>
   </button>
+  <button
+  type="button"
+  class="mdc-button mdc-dialog__button"
+  data-mdc-dialog-action="yes"
+  onclick="catchCommande({value:'/t'})">
+  <span class="mdc-button__label">ttl</span>
+</button>
 
-  <!--  <p>
-  dossier courant :   <div id="current-folder-url"></div>
-  <input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
-  <button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
-  <input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
-  <button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
-  <button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
+<!--  <p>
+dossier courant :   <div id="current-folder-url"></div>
+<input id="new-folder-input" style="width:80%"  placeholder="Nom de dossier"></input>
+<button id="new-folder-btn" onclick="createFolder()">Créer un dossier</button><br>
+<input id="new-file-input" style="width:80%"  placeholder="Nom de fichier"></input>
+<button id="jsonSave-btn" onclick="jsonSave()">Enregistrer en JSON sur le POD</button>
+<button id="turtleSave-btn" onclick="turtleSave()">Enregistrer en Turtle (ttl) sur le POD</button><br>
 </p>-->
 
 <!--  <div class="mdc-dialog__surface">-->
@@ -657,15 +645,15 @@
   data-mdc-dialog-action="yes"
   onclick="downloadFile()">
   <span class="mdc-button__label">Telecharger</span>
-  </button>
+</button>
 
-  <button
-  type="button"
-  class="mdc-button mdc-dialog__button"
-  data-mdc-dialog-action="yes"
-  onclick="openPodBrowser()">
-  <span class="mdc-button__label">Enregistrer sur un POD</span>
-  </button>
+<button
+type="button"
+class="mdc-button mdc-dialog__button"
+data-mdc-dialog-action="yes"
+onclick="openPodBrowser()">
+<span class="mdc-button__label">Enregistrer sur un POD</span>
+</button>
 
 <button
 type="button"
@@ -697,13 +685,13 @@ aria-describedby="ub-content">
     <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
     <h2 class="mdc-dialog__title" id="ub-title"><!--
     -->Universal Browser   <span>
-        <i
-        class="material-icons mdc-list-item__graphic"
-        aria-hidden="true"
-        data-mdc-dialog-action="yes"
-  >
-        clear</i>
-      </span><!--
+    <i
+    class="material-icons mdc-list-item__graphic"
+    aria-hidden="true"
+    data-mdc-dialog-action="yes"
+    >
+    clear</i>
+  </span><!--
   --></h2>
 
   <div class="mdc-tab-bar" id="open-tab-bar" role="tablist">
@@ -712,7 +700,7 @@ aria-describedby="ub-content">
         <div class="mdc-tab-scroller__scroll-content">
           <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0" onclick="selectOpenTab(this)">
             <span class="mdc-tab__content">
-              <span class="mdc-tab__icon material-icons" aria-hidden="true">folder_open</span>
+              <!--  <span class="mdc-tab__icon material-icons" aria-hidden="true">folder_open</span>-->
               <span class="mdc-tab__text-label">Local</span>
             </span>
             <span class="mdc-tab-indicator mdc-tab-indicator--active">
@@ -724,7 +712,7 @@ aria-describedby="ub-content">
           <button class="mdc-tab  mdc-tab--active" role="tab"  onclick="selectOpenTab(this)">
             <span class="mdc-tab__content">
               <span class="mdc-tab__icon material-icons" aria-hidden="true">cloud_queue</span>
-              <span class="mdc-tab__text-label">Pod Public</span>
+              <span class="mdc-tab__text-label">Pod</span>
             </span>
             <span class="mdc-tab-indicator mdc-tab-indicator--active">
               <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
@@ -732,52 +720,110 @@ aria-describedby="ub-content">
             <span class="mdc-tab__ripple"></span>
           </button>
 
+          <!--
           <button class="mdc-tab  mdc-tab--active" role="tab" onclick="selectOpenTab(this)">
-            <span class="mdc-tab__content">
-              <span class="mdc-tab__icon material-icons" aria-hidden="true">cloud</span>
-              <span class="mdc-tab__text-label">Pod Connecte</span>
-            </span>
-            <span class="mdc-tab-indicator mdc-tab-indicator--active">
-              <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
-            </span>
-            <span class="mdc-tab__ripple"></span>
-          </button>
+          <span class="mdc-tab__content">
+          <span class="mdc-tab__icon material-icons" aria-hidden="true">cloud</span>
+          <span class="mdc-tab__text-label">Pod Connecte</span>
+        </span>
+        <span class="mdc-tab-indicator mdc-tab-indicator--active">
+        <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+      </span>
+      <span class="mdc-tab__ripple"></span>
+    </button>
+  -->
 
 
 
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mdc-dialog__content" id="ub-content">
-    <div class="mdc-card" >
-      <input id="ub-url"></input>
-      <div class="mdc-card" id="ub-up">UP</div>
-    <!-- ... content ... -->
-    </div>
-    <div class="mdc-card" id="ub-parent">
-      contenu
-  <!-- ... content ... -->
 </div>
-<section>
-  <div class="js-panels" for='open-tab-bar'>
-    <p id="mdc-tab-1-panel" class="js-panel is-active" role="tabpanel" aria-hidden="false">Item One</p>
-    <p id="mdc-tab-2-panel" class="js-panel" role="tabpanel" aria-hidden="true">Item Two</p>
-    <p id="mdc-tab-3-panel" class="js-panel" role="tabpanel" aria-hidden="true">Item Three</p>
+</div>
+</div>
+</div>
+
+<div class="mdc-dialog__content" id="ub-content">
+
+  <section>
+    <div class="js-panels" for='open-tab-bar'>
+      <div id="mdc-tab-1-panel" class="js-panel is-active" role="tabpanel" aria-hidden="false">
+        <input type="checkbox" id="remplaceNetwork" name="remplaceNetwork">Remplacer le graphe</input> <br><br>
+        <!--<input type="checkbox" id="partageImport"  name="partageImport"disabled >Partager Import</input>-->
+        <input id="filepicker" type="file" multiple value="Importer" onchange="handleFileSelected(this, updateGraph)"></input>
+      </div>
+
+      <div id="mdc-tab-2-panel" class="js-panel" role="tabpanel" aria-hidden="true">
+        <div >
+          <button
+          type="button"
+          class="mdc-button"
+          onclick="changePod('public')">
+          <span class="mdc-button__label">POD public</span>
+        </button>
+        <a href="https://agora.solid.community/public" target="_blank">https://agora.solid.community/public</a><br>
+        <button
+        type="button"
+        class="mdc-button logout"
+        onclick="changePod('connecte')">
+        <span class="mdc-button__label">POD Connecté</span>
+      </button>
+      <button
+      type="button"
+      class="mdc-button login"
+      data-mdc-dialog-action="yes"
+      onclick="login()">
+      <span class="mdc-button__label">Se connecter sur un POD</span>
+    </button>
+    <button
+    type="button"
+    class="mdc-button logout"
+    data-mdc-dialog-action="yes"
+    onclick="logout()">
+    <span class="mdc-button__label">Se deconnecter du POD</span>
+  </button>
+  <br>
+  <input type="text" id="pod2browse" style="width:80%"  placeholder="Url du POD"></input>
+
+
+  <div class="mdc-card" >
+    <input id="ub-url"></input>
+    <div class="mdc-card" id="ub-up">UP</div>
+  <!-- ... content ... -->
   </div>
+  <div class="mdc-card" id="ub-parent">
+    contenu
+    <span class="mdc-tab__icon material-icons" aria-hidden="true">arrow_upward</span>
+<!-- ... content ... -->
+</div>
+
+  liste:   <ul id="ub-liste">
+  </ul>
+
+</div>
+
+
+
+
+<!--
+<div class="mdc-card" >
+<div  id="arrow-upward">
+<span class="mdc-tab__icon material-icons" aria-hidden="true">arrow_upward</span>
+</div>
+url :  <input id="ub-url"></input>
+parent : <input id="ub-parent" ></input>
+up :<input id="ub-up">UP</input>
+menu:   <span id="ub-menu">menu</span>
+liste:   <ul id="ub-liste">
+</ul>
+</div>-->
+<!--  <div id="mdc-tab-3-panel" class="js-panel" role="tabpanel" aria-hidden="true">Item Three</div>-->
+</div>
 </section>
 
 
-    <span id="ub-menu"></span>
-    <ul id="ub-liste">
 
-    </ul>
-    <!--
-    <button type="button" class="mdc-button mdc-dialog__button">
-    <span class="mdc-button__label raised" onclick="validInput()">Valider</span>
-  </button>
+<!--
+<button type="button" class="mdc-button mdc-dialog__button">
+<span class="mdc-button__label raised" onclick="validInput()">Valider</span>
+</button>
 -->
 </div>
 <footer class="mdc-dialog__actions">

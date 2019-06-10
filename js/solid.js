@@ -58,7 +58,7 @@ function openPodBrowser(){
 
 
 function podBrowser(whichPOD){
-
+console.log(whichPOD)
   switch (whichPOD) {
     case 'public':
     document.getElementById('PODurlInput').value = agora_POD;
@@ -76,6 +76,35 @@ function podBrowser(whichPOD){
   browsePublicFromWebId(webId)
   document.getElementById('editeur-popUp').style.display = 'none'
   document.getElementById("pod-browser-popUp").style.display = "block";
+  //  document.getElementById("select-pod-popUp").style.display = "none";
+}
+
+
+function changePod(whichPOD){
+console.log(whichPOD)
+  switch (whichPOD) {
+    case 'public':
+    document.getElementById('pod2browse').value = agora_POD;
+
+    break;
+    case 'connecte':
+    document.getElementById('pod2browse').value = sessionCourante.webId;
+
+    // expected output: "Mangoes and papayas are $2.79 a pound."
+    break;
+    default:
+    alert('Erreur, je ne comprends pas quel POD vous avez choisi',whichPOD);
+  }
+  var webId = document.getElementById('pod2browse').value;
+  console.log(webId)
+  var public_POD = getPublicFromWebId(document.getElementById('pod2browse').value)
+/*  newGraph();
+  var fileList=document.getElementById("last-public");
+  fileList.innerHTML = "";*/
+  fileAgent.readFolder(public_POD,callbackUniversalBrowser)
+//  browsePublicFromWebId(webId)
+//  document.getElementById('editeur-popUp').style.display = 'none'
+//  document.getElementById("pod-browser-popUp").style.display = "block";
   //  document.getElementById("select-pod-popUp").style.display = "none";
 }
 
@@ -262,10 +291,12 @@ function callbackUniversalBrowser(folder){
 
   var ubUrl=document.getElementById("ub-url");
   ubUrl.value = folder.url;
-  document.getElementById("ub-up").addEventListener('click', function () {
-    //  console.log(folder.parent)
+/*document.getElementById("arrow-upward").addEventListener('click', function () {
+      console.log(folder.parent)
     fileAgent.readFolder(folder.parent,callbackUniversalBrowser)
-  })
+  })*/
+
+
 
   folder.folders.forEach(function(fo){
     //  console.log("fo",fo)
