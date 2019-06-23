@@ -270,12 +270,20 @@ function cancelNodeEdit(callback) {
 
 function saveNodeData(data, callback) {
   data.label = document.getElementById('node-label').value;
+  console.log(document.getElementById('node-shape'))
   data.shape = document.getElementById('node-shape').value;
+  console.log(data.shape)
   data.color = {};
   data.color.background = document.getElementById('colpicbody').value;
   data.color.border =  document.getElementById('colpicborder').value;
   document.getElementById('bodycolorpicker').value = document.getElementById('colpicbody').value;
   document.getElementById('bordercolorpicker').value = document.getElementById('colpicborder').value;
+var image_url = document.getElementById('node-image-url').value || "";
+if (data.shape == "image" || data.shape == "circularImage" && image_url.length > 0){
+  data.image = image_url;
+}
+
+console.log(data)
   fitAndFocus(data.id)
   clearNodePopUp();
   callback(data);
@@ -340,8 +348,8 @@ function init() {
 }
 
 function fitAndFocus(node_id){
-  console.log("Fonctionnement erratique de fitAndFocus, suspendu pour l'instant")
-  /*var network = this.network;
+  //console.log("Fonctionnement erratique de fitAndFocus, suspendu pour l'instant")
+  var network = this.network;
   var oneStab = true;
   this.network.on("stabilized", function(params){
     //http://visjs.org/docs/network/index.html?keywords=fit
@@ -363,7 +371,7 @@ function fitAndFocus(node_id){
     }else{
       console.log("other stab")
     }
-  });*/
+  });
 }
 
 function updateGraph(message){

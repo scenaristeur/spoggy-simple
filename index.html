@@ -365,6 +365,31 @@
     </h2>
     <input style="display:none" id="node-id" value="" />
 
+  </br>
+  <div class="mdc-select" id="holacratie-select">
+    <i class="mdc-select__dropdown-icon"></i>
+    <select class="mdc-select__native-control">
+      <option value="default" selected></option>
+      <option value="Personne">
+        Personne
+      </option>
+      <option value="Tension">
+        Tension
+      </option>
+      <option value="Organisation">
+        Organisation
+      </option>
+      <option value="Role">
+        Rôle
+      </option>
+      <option value="Cercle">
+        Cercle
+      </option>
+    </select>
+    <label class="mdc-floating-label">Type de noeud</label>
+    <div class="mdc-line-ripple"></div>
+  </div>
+
     <br>
 
     <div class="mdc-form-field" >
@@ -386,7 +411,10 @@
     <label class="mdc-floating-label">Name</label>
   </div>-->
 
-  <label for="node-shape">Forme:</label>
+</br>
+
+
+<!--  <label for="node-shape">Forme:</label>
 
   <select id="node-shape">
     <optgroup label="Label interne">
@@ -408,10 +436,54 @@
       <option>square</option>
       <option>icon</option>
     </optgroup>
-    <input style="display:none" id="node-image-url" value="" />
-  </select>
+
+  </select>-->
+
+  <div class="mdc-select" id="forme-select">
+    <i class="mdc-select__dropdown-icon"></i>
+    <select class="mdc-select__native-control" id="node-shape">>
+    <!--  <option value="" disabled selected></option> -->
+    <optgroup label="Label interne">
+      <!--  <option value="ellipse" >par défaut</option>-->
+      <option value="ellipse" selected>Ellipse</option> <!--selected -->
+      <option value="circle">Cercle</option>
+      <option value="database">Silo</option>
+      <option value="box">Boîte</option>
+      <option value="text">Texte</option>
+    </optgroup>
+    <optgroup label="Images">
+      <option value="image">Image Rectangualire (url)</option>
+      <option value="circularImage">Image Circulaire (url)</option>
+    </optgroup>
+    <optgroup label="Label externe">
+      <option value="diamond">Diamant</option>
+      <option value="dot">Point</option>
+      <option value="star">Etoile</option>
+      <option value="triangle">Triangle</option>
+      <option value="triangleDown">Triangle inversé</option>
+      <option value="hexagon">Héxagone</option>
+      <option value="square">Carré</option>
+      <option value="icon">Icône</option>
+    </optgroup>
+    <!--  <option value="grains">
+        Bread, Cereal, Rice, and Pasta
+      </option>
+      <option value="vegetables">
+        Vegetables
+      </option>
+      <option value="fruit">
+        Fruit
+      </option>-->
+    </select>
+    <label class="mdc-floating-label">Forme</label>
+    <div class="mdc-line-ripple"></div>
+  </div>
+  <input style="display:none;width:80%" id="node-image-url" placeholder="url de l'image" value="" />
 
 
+
+
+</br>
 
 
 

@@ -428,6 +428,29 @@ document.getElementById('fabkeyb').addEventListener("click", function(e){
   document.getElementById("input").focus();
 });
 
+
+const selectForm = new mdc.select.MDCSelect(document.getElementById('forme-select'));
+
+selectForm.listen('MDCSelect:change', () => {
+  console.log(`Selected option at index ${selectForm.selectedIndex} with value "${selectForm.value}"`);
+
+  selectForm.value == "image" || selectForm.value == "circularImage" ? document.getElementById("node-image-url").style.display = "block" : document.getElementById("node-image-url").style.display = "none";
+});
+
+const selectHola = new mdc.select.MDCSelect(document.getElementById('holacratie-select'));
+
+selectHola.listen('MDCSelect:change', () => {
+  console.log(`Selected option at index ${selectHola.selectedIndex} with value "${selectHola.value}"`);
+  if(selectHola.value == "Personne"){
+    document.getElementById("node-shape").value = "circularImage";
+    document.getElementById("node-image-url").style.display = "block"
+    document.getElementById("node-image-url").value= "./assets/profile.svg";
+  }
+
+});
+
+
+
 }
 
 function closeTripletPopup(){
