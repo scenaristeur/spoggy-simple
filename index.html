@@ -780,22 +780,36 @@ aria-describedby="ub-content">
     <span class="mdc-button__label">Se deconnecter du POD</span>
   </button>
   <br>
-  <input type="text" id="pod2browse" style="width:80%"  placeholder="Url du POD"></input>
+  <button
+  type="button"
+  class="mdc-button logout"
+  data-mdc-dialog-action="yes"
+  onclick="profile()">
+  <span class="mdc-button__label">Profile</span>
+</button>
+<button
+type="button"
+class="mdc-button logout"
+data-mdc-dialog-action="yes"
+onclick="friends()">
+<span class="mdc-button__label">Friends</span>
+</button>
+<input type="text" id="pod2browse" style="width:80%"  placeholder="Url du POD"></input>
 
 
-  <div class="mdc-card" >
-    <input id="ub-url"></input>
-    <div class="mdc-card" id="ub-up">UP</div>
+<div class="mdc-card" >
+  <input id="ub-url"></input>
+  <div class="mdc-card" id="ub-up">UP</div>
   <!-- ... content ... -->
-  </div>
-  <div class="mdc-card" id="ub-parent">
-    contenu
-    <span class="mdc-tab__icon material-icons" aria-hidden="true">arrow_upward</span>
-<!-- ... content ... -->
+</div>
+<div class="mdc-card" id="ub-parent">
+  contenu
+  <span class="mdc-tab__icon material-icons" aria-hidden="true">arrow_upward</span>
+  <!-- ... content ... -->
 </div>
 
-  liste:   <ul id="ub-liste">
-  </ul>
+liste:   <ul id="ub-liste">
+</ul>
 
 </div>
 

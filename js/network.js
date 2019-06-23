@@ -72,7 +72,7 @@ console.log("select",val)
     locale: val || "en", // document.getElementById('locale').value,
     interaction: {
       navigationButtons: true,
-      keyboard: true,
+    //  keyboard: true, // incompatible avec le déplacement par flèches dans le champ input
       multiselect: true
     },
     edges:{
@@ -190,7 +190,7 @@ network.on("selectNode", function (params) {
       let id = params.nodes[0];
       var node = network.body.data.nodes.get(id);
       console.log(node);
-      document.getElementById("input").value = node.label+" ";
+      node.label.indexOf(' ') >= 0 ? document.getElementById("input").value = '"'+node.label+'" ' : document.getElementById("input").value = node.label+' ';
     }
 
   }
