@@ -501,12 +501,14 @@ function detailNoeud(n,w){
     var l = localname(n);
     node = {
       id: n.value,
-      title: n.value,
-      label: n.value,
       why: w.value,
       //  y:2*Math.random(),
       type: "node"
     };
+    if (n.value != l){
+      node.title= l;
+      node.label = l;
+    }
     break;
     case 'Collection':
     n.elements.forEach(function(elem){
