@@ -77,3 +77,6 @@ et ouvrez votre navigateur à l'adresse http://127.0.0.1:3000
 
 # Compatibilité
 Testé sur Windows avec Chrome 74 et Firefox 66
+
+# svg icons
+https://www.svgrepo.com/svg/46200/organization

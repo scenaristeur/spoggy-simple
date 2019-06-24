@@ -446,6 +446,14 @@ selectHola.listen('MDCSelect:change', () => {
     document.getElementById("node-image-url").style.display = "block"
     document.getElementById("node-image-url").value= "./assets/profile.svg";
   }
+  else   if(selectHola.value == "Organisation"){
+    document.getElementById("node-shape").value = "circularImage";
+    document.getElementById("node-image-url").style.display = "block";
+    document.getElementById("node-image-url").value= "./assets/organization.svg";
+  }else{
+    document.getElementById("node-image-url").style.display = "none";
+    document.getElementById("node-image-url").value= "";
+  }
 
 });
 
