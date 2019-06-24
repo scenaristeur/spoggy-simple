@@ -4,21 +4,21 @@ var network = null;
 
 
 var centralGravityValueDefault = 0.2; //0.0001,
-springLengthValueDefault = 170;//200;//127,
+springLengthValueDefault = 200;//170;//200;//127,
 springConstantValueDefault = 0.05;//0.04, // 0.05
-nodeDistanceValueDefault = 152;//100;//170, //120
+nodeDistanceValueDefault = 200;//100;//170, //120
 dampingValueDefault = 0.09;//0.08 // 0,08;
 
 
 
 // randomly create some nodes and edges
 var nodes = new vis.DataSet([
-  {id: "Spoggy", label: 'Spoggy'},
+/*  {id: "Spoggy", label: 'Spoggy'},
   {id: "Solo", label: 'Solo'},
   {id: "Collaboratif", label: 'Collaboratif'},
   {id: "Explore", label: 'Explore'},
   {id: "Solid", label: 'Solid'},
-  {id: "Holacratie", label: 'Holacratie'}
+  {id: "Holacratie", label: 'Holacratie'}*/
 ]);
 
 // create an array with edges
@@ -348,13 +348,13 @@ function init() {
 }
 
 function fitAndFocus(node_id){
-  //console.log("Fonctionnement erratique de fitAndFocus, suspendu pour l'instant")
+  console.log("Fonctionnement erratique de fitAndFocus, suspendu pour l'instant")
   var network = this.network;
   var oneStab = true;
   this.network.on("stabilized", function(params){
     //http://visjs.org/docs/network/index.html?keywords=fit
-    //  console.log(params)
-    if (oneStab){
+      console.log(params)
+  /*  if (oneStab){
       oneStab = false;
       autofit.checked? network.fit(): "";
       var options = {
@@ -370,7 +370,7 @@ function fitAndFocus(node_id){
 
     }else{
       console.log("other stab")
-    }
+    }*/
   });
 }
 
@@ -519,7 +519,7 @@ function reglage(id,value){
     network.physics.options.repulsion.damping = value
     break;
     default:
-    // code block
+    console.log("problème",id,value)
   }
   network.stabilize(10);
 }
