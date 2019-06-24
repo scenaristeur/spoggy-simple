@@ -80,3 +80,5 @@ Testé sur Windows avec Chrome 74 et Firefox 66
 
 # svg icons
 https://www.svgrepo.com/svg/46200/organization
+https://learncodeweb.com/web-development/icons-show-in-html-select-options/
+https://icomoon.io/app/#/select
