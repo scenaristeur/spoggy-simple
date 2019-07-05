@@ -13,7 +13,7 @@ dampingValueDefault = 0.09;//0.08 // 0,08;
 
 // randomly create some nodes and edges
 var nodes = new vis.DataSet([
-/*  {id: "Spoggy", label: 'Spoggy'},
+  /*  {id: "Spoggy", label: 'Spoggy'},
   {id: "Solo", label: 'Solo'},
   {id: "Collaboratif", label: 'Collaboratif'},
   {id: "Explore", label: 'Explore'},
@@ -64,7 +64,7 @@ function draw(val) {
   destroy();
   nodes = [];
   edges = [];
-console.log("select",val)
+  console.log("select",val)
   // create a network
   var container = document.getElementById('mynetwork');
   var options = {
@@ -72,7 +72,7 @@ console.log("select",val)
     locale: val || "en", // document.getElementById('locale').value,
     interaction: {
       navigationButtons: true,
-    //  keyboard: true, // incompatible avec le déplacement par flèches dans le champ input
+      //  keyboard: true, // incompatible avec le déplacement par flèches dans le champ input
       multiselect: true
     },
     edges:{
@@ -181,8 +181,113 @@ network.body.data.edges.on("*", function(event, properties, senderId){
 }
 );
 
+// JAVASCRIPT (jQuery)
+
+// Trigger action when the contexmenu is about to be shown
+/*$(document).bind("contextmenu", function (event) {
+
+// Avoid the real one
+event.preventDefault();
+
+// Show contextmenu
+$(".custom-menu").finish().toggle(100).
+
+// In the right position (the mouse)
+css({
+top: event.pageY + "px",
+left: event.pageX + "px"
+});
+});*/
+
+
+// If the document is clicked somewhere
+//$(document).bind("mousedown", function (e) {
+network.on("click", function (e) {
+  console.log(e)
+  // If the clicked element is not the menu
+  if (!$(e.target).parents(".custom-menu").length > 0) {
+    var elems = e.nodes.length+e.edges.length;
+    console.log(elems)
+    if (!elems > 0){
+      $(".custom-menu").hide(100);
+    }
+    else{
+      console.log("noeud ou edge > 0")
+    }
+    // Hide it
+
+  }
+});
+
+
+// If the menu element is clicked
+$(".custom-menu li").click(function(){
+
+  // This is the triggered action name
+  switch($(this).attr("data-action")) {
+
+    // A case for each action. Your actions here
+    case "first": alert("first"); break;
+    case "second": alert("second"); break;
+    case "third": alert("third"); break;
+  }
+
+  // Hide it AFTER the action was triggered
+  $(".custom-menu").hide(100);
+});
+
+/*
+network.on("oncontext", function (params) {
+console.log(params)
+event.preventDefault();
+
+// Show contextmenu
+$(".custom-menu").finish().toggle(100).
+
+// In the right position (the mouse)
+css({
+top: event.pageY + "px",
+left: event.pageX + "px"
+});
+params.event.preventDefault();
+var n = network.getNodeAt(params.pointer.DOM);
+console.log(n)
+var m = document.getElementById("popup-menu");
+m.style.position.top = params.pointer.DOM.y;
+m.style.position.left =  params.pointer.DOM.x;
+m.style.display = "block";
+$(".custom-menu").finish().toggle(100);
+$(".custom-menu").css({
+top: ,
+left:
+});
+});*/
+
+network.on("selectEdge", function (params) {
+  console.log('selectEdge Event:', params);
+if (params.nodes.length == 0){
+  // sinon on a selectionné un noeud
+    event.preventDefault();
+    var networkTopOffset = document.getElementById("mynetwork").offsetTop
+    var ord = event.pageY-networkTopOffset;
+    console.log("ORD",ord)
+    // Show contextmenu
+    $(".custom-menu").finish().toggle(100).
+
+    // In the right position (the mouse)
+    css({
+      top: ord + "px",
+      left: event.pageX + "px"
+    });
+}
+});
+
+
+
 network.on("selectNode", function (params) {
   console.log('selectNode Event:', params);
+  //var n = network.getNodeAt(params.pointer.DOM);
+  //console.log(n)
   if (params.nodes.length == 1) {
     if (network.isCluster(params.nodes[0]) == true) {
       network.openCluster(params.nodes[0]);
@@ -194,6 +299,22 @@ network.on("selectNode", function (params) {
     }
 
   }
+
+
+  event.preventDefault();
+  var networkTopOffset = document.getElementById("mynetwork").offsetTop
+  var ord = event.pageY-networkTopOffset;
+  console.log("ORD",ord)
+  // Show contextmenu
+  $(".custom-menu").finish().toggle(100).
+
+  // In the right position (the mouse)
+  css({
+    top: ord + "px",
+    left: event.pageX + "px"
+  });
+
+
 });
 
 network.on("doubleClick", async function (params) {
@@ -260,7 +381,7 @@ function clearNodePopUp() {
   document.getElementById('node-saveButton').onclick = null;
   document.getElementById('node-cancelButton').onclick = null;
   document.getElementById('node-popUp').style.display = 'none';
-    document.getElementById('node-label').onkeyup = null;
+  document.getElementById('node-label').onkeyup = null;
 }
 
 function cancelNodeEdit(callback) {
@@ -278,12 +399,12 @@ function saveNodeData(data, callback) {
   data.color.border =  document.getElementById('colpicborder').value;
   document.getElementById('bodycolorpicker').value = document.getElementById('colpicbody').value;
   document.getElementById('bordercolorpicker').value = document.getElementById('colpicborder').value;
-var image_url = document.getElementById('node-image-url').value || "";
-if (data.shape == "image" || data.shape == "circularImage" && image_url.length > 0){
-  data.image = image_url;
-}
+  var image_url = document.getElementById('node-image-url').value || "";
+  if (data.shape == "image" || data.shape == "circularImage" && image_url.length > 0){
+    data.image = image_url;
+  }
 
-console.log(data)
+  console.log(data)
   fitAndFocus(data.id)
   clearNodePopUp();
   callback(data);
@@ -292,16 +413,16 @@ console.log(data)
 function nodeNameChanged(data, callback) {
   if(event.key === 'Enter') {
     event.preventDefault();
-  //  document.getElementById("valider").click();
-  saveNodeData(data, callback)
+    //  document.getElementById("valider").click();
+    saveNodeData(data, callback)
   }
 }
 
 function edgeNameChanged(data, callback) {
   if(event.key === 'Enter') {
     event.preventDefault();
-  //  document.getElementById("valider").click();
-  saveEdgeData(data, callback)
+    //  document.getElementById("valider").click();
+    saveEdgeData(data, callback)
   }
 }
 
@@ -353,25 +474,25 @@ function fitAndFocus(node_id){
   var oneStab = true;
   this.network.on("stabilized", function(params){
     //http://visjs.org/docs/network/index.html?keywords=fit
-      console.log(params)
-  /*  if (oneStab){
-      oneStab = false;
-      autofit.checked? network.fit(): "";
-      var options = {
-        scale: 1,
-        offset: {x:1, y:1},
-        //  locked: true,
-        animation: { // -------------------> can be a boolean too!
-          duration: 1000,
-          easingFunction: "easeInOutQuad"
-        }
-      };
-      autofocus.checked? network.focus(node_id, options): "";
+    console.log(params)
+    /*  if (oneStab){
+    oneStab = false;
+    autofit.checked? network.fit(): "";
+    var options = {
+    scale: 1,
+    offset: {x:1, y:1},
+    //  locked: true,
+    animation: { // -------------------> can be a boolean too!
+    duration: 1000,
+    easingFunction: "easeInOutQuad"
+  }
+};
+autofocus.checked? network.focus(node_id, options): "";
 
-    }else{
-      console.log("other stab")
-    }*/
-  });
+}else{
+console.log("other stab")
+}*/
+});
 }
 
 function updateGraph(message){
@@ -386,7 +507,7 @@ function updateGraph(message){
   addResultsToGraph(this.network, message.data)
   //  this.network.fit();
   //  this.network.redraw();
-//  console.log("add results to graph"/*,this.network*/)
+  //  console.log("add results to graph"/*,this.network*/)
 }
 
 function addResultsToGraph(network, results){
@@ -501,7 +622,7 @@ function clusterByHubsize() {
 }
 
 function reglage(id,value){
-//  console.log(id,value);
+  //  console.log(id,value);
   switch(id) {
     case "distance":
     network.physics.options.repulsion.nodeDistance = value
