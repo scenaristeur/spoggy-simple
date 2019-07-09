@@ -227,9 +227,25 @@ $(".custom-menu li").click(function(){
   switch($(this).attr("data-action")) {
 
     // A case for each action. Your actions here
-    case "first": alert("first"); break;
-    case "second": alert("second"); break;
-    case "third": alert("third"); break;
+    case "edit":
+    //  var n = network.getNodeAt(params.pointer.DOM);
+    //  console.log(n)
+    console.log("edit :",network.current);
+    network.editNode(network.current);
+    break;
+    case "expand":
+    console.log("expand");
+var params = {}
+    params.source = network.current.id;
+    importer(params,updateGraph)
+    fitAndFocus(network.current.id)
+    if(params.source.endsWith("#me")){
+      updateCurrentWebId(params.source)
+    }
+    break;
+    case "third":
+    alert("third");
+    break;
   }
 
   // Hide it AFTER the action was triggered
@@ -265,8 +281,8 @@ left:
 
 network.on("selectEdge", function (params) {
   console.log('selectEdge Event:', params);
-if (params.nodes.length == 0){
-  // sinon on a selectionné un noeud
+  if (params.nodes.length == 0){
+    // sinon on a selectionné un noeud
     event.preventDefault();
     var networkTopOffset = document.getElementById("mynetwork").offsetTop
     var ord = event.pageY-networkTopOffset;
@@ -279,7 +295,7 @@ if (params.nodes.length == 0){
       top: ord + "px",
       left: event.pageX + "px"
     });
-}
+  }
 });
 
 
@@ -295,6 +311,7 @@ network.on("selectNode", function (params) {
       let id = params.nodes[0];
       var node = network.body.data.nodes.get(id);
       console.log(node);
+      network.current = node;
       node.label.indexOf(' ') >= 0 ? document.getElementById("input").value = '"'+node.label+'" ' : document.getElementById("input").value = node.label+' ';
     }
 

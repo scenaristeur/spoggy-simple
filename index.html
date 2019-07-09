@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spoggy</title>
-<script type="text/javascript" src="./dist/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="./dist/jquery-3.4.1.min.js"></script>
   <!--Vendor LIBS -->
   <script type="text/javascript" src="./dist/eve.custom.js"></script>
   <script type="text/javascript" src="./dist/rdflib.min.js"></script> <!-- pour import ttl local -->
@@ -90,24 +90,24 @@
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">edit</i>
       <span class="mdc-list-item__text">Nouveau /n</span>
     </a>
-  <!--  <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/i'})">
-      <i class="material-icons mdc-list-item__graphic" aria-hidden="true">open_in_browser</i>
-      <span class="mdc-list-item__text">Ouvrir /i</span>
-    </a>-->
-    <a class="mdc-list-item" href="#" onclick="open_ub()">
-      <i class="material-icons mdc-list-item__graphic" aria-hidden="true">save</i>
-      <span class="mdc-list-item__text">Universal Browser /a</span>
-    </a>
-    <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/r'})">
-      <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
-      <span class="mdc-list-item__text">Réglages /r</span>
-    </a>
-    <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/c'})">
-      <i class="material-icons mdc-list-item__graphic" aria-hidden="true">image</i>
-      <span class="mdc-list-item__text">Capturer en jpg</span>
-    </a>
+    <!--  <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/i'})">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">open_in_browser</i>
+    <span class="mdc-list-item__text">Ouvrir /i</span>
+  </a>-->
+  <a class="mdc-list-item" href="#" onclick="open_ub()">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">save</i>
+    <span class="mdc-list-item__text">Universal Browser /a</span>
+  </a>
+  <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/r'})">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
+    <span class="mdc-list-item__text">Réglages /r</span>
+  </a>
+  <a class="mdc-list-item" href="#" onclick="catchCommande({value:'/c'})">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">image</i>
+    <span class="mdc-list-item__text">Capturer en jpg</span>
+  </a>
 
-  </div>
+</div>
 </div>
 </aside>
 </div>
@@ -158,7 +158,7 @@
           <fieldset>
             <legend>Outils</legend>
             <button id="nouveau_graph" onclick="catchCommande({value:'/n'})">Nouveau</button> /n
-          <!--  <button id="importer_btn" onclick="catchCommande({value:'/i'})">Ouvrir</button> /i-->
+            <!--  <button id="importer_btn" onclick="catchCommande({value:'/i'})">Ouvrir</button> /i-->
             <button id="save_to_pod" onclick="open_ub()">Universal Browser</button> /a
             <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
           </fieldset>
@@ -314,9 +314,9 @@
     <div id="popup-container" >
 
       <ul class='custom-menu'>
-        <li data-action="first">First thing</li>
-        <li data-action="second">Second thing</li>
-        <li data-action="third">Third thing</li>
+        <li data-action="edit">Edit(er)</li>
+        <li data-action="expand">Expand / Explorer</li>
+        <!--<li data-action="third">Third thing</li>-->
       </ul>
 
       <div id="bottom-menu">
