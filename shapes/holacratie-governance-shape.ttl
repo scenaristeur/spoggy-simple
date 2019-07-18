@@ -11,5 +11,5 @@ PREFIX hola: <https://holacratie.solid.community/public/>
   hola:role              hola:Role*;
   hola:policy           hola:Policy*;
   hola:changedBy        hola:GovernanceProcess*;
-  hola:linkedRole         hola:Role*;
+  hola:linkedRole         hola:LinkedRole*;
 }

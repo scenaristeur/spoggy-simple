@@ -13,4 +13,6 @@ PREFIX hola: <https://holacratie.solid.community/public/>
       | rdfs:subClassOf     hola:Process;
       | rdfs:subclassOf     hola:ControlledAndRegulatedByARoleThing;
   )
+  hola:ControlledBy     hola:Role;
+
 }
