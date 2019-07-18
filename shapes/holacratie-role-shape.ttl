@@ -1,0 +1,18 @@
+PREFIX :       <https://holacratie.solid.community/public/>
+PREFIX schema: <http://schema.org/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX hola: <https://holacratie.solid.community/public/>
+
+:Role {
+  schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
+  schema:name           xsd:string  ;
+  schema:dateCreated    xsd:date?  ;
+  schema:creator        hola:Circle;
+  hola:subClassOf       hola:Circle;
+  hola:controls         hola:Domain*;
+  hola:policy           hola:Policy;
+  hola:specialRule      hola:SpecialRule;
+  hola:roleLead         hola:User;
+  hola:assignedTo       hola:User*;
+}

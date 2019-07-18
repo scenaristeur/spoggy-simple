@@ -82,3 +82,38 @@ Testé sur Windows avec Chrome 74 et Firefox 66
 https://www.svgrepo.com/svg/46200/organization
 https://learncodeweb.com/web-development/icons-show-in-html-select-options/
 https://icomoon.io/app/#/select
+
+
+# Shapes & Footprints / UI
+https://shex.io/
+http://shexspec.github.io/primer/#choices
+
+https://book.validatingrdf.com/bookHtml010.html#ch040%3AShExSimpleExample
+http://shex.io/shex-semantics/
+
++ ShEx
+```
+PREFIX :       <http://example.org/>
+PREFIX schema: <http://schema.org/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+:User {
+  schema:name          xsd:string  ;
+  schema:birthDate     xsd:date?  ;
+  schema:gender        [ schema:Male schema:Female ] OR xsd:string ;
+  schema:knows         IRI @:User*
+}
+```
+
+# holacracy
+https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure @en
+https://igipartners.com/constitution-holacracy @fr
+https://catalog.data.gov/dataset?q=holacracy
+https://schema.org/Project
+https://schema.org/Action
+https://schema.org/DislikeAction
+https://schema.org/DisagreeAction
+
+
+# holonic Spacecraft
+https://catalog.data.gov/dataset/holonic-spacecraft-autonomous-agents-phase-i
