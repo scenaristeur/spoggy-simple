@@ -87,7 +87,7 @@ https://icomoon.io/app/#/select
 # Shapes & Footprints / UI
 https://shex.io/
 http://shexspec.github.io/primer/#choices
-
+http://www.validatingrdf.com/tutorial/iswc2018/
 https://book.validatingrdf.com/bookHtml010.html#ch040%3AShExSimpleExample
 http://shex.io/shex-semantics/
 
@@ -104,6 +104,48 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
   schema:knows         IRI @:User*
 }
 ```
+
+
++ shEx2
+https://github.com/shexSpec/shex/wiki/ShEx
+https://rawgit.com/shexSpec/shex.js/master/packages/shex-webapp/doc/shex-simple.html
+tension.shex
+```
+PREFIX : <http://hl7.org/fhir/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+start = @<TensionShape>
+
+<TensionShape> {               # An Observation has:
+  :status ["preliminary" "final"]; #   status in this value set
+  :subject @<UserShape>         #   a subject matching <UserShape>.
+}
+
+<UserShape> {                   # A Patient has:
+ :name xsd:string*;                #   one or more names
+ :birthdate xsd:date?              #   and an optional birthdate.
+}
+
+```
+with data
+```
+PREFIX : <http://hl7.org/fhir/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+<Obs1>
+  :status    "final" ;
+  :subject   <User2> .
+
+<User2>
+  :name "Bob" ;
+  :birthdate "1999-12-31"^^xsd:date .
+```
+query map
+```
+{FOCUS :status _}@START,
+<Patient2>@!<TensionShape>
+  ```
+
 
 # holacracy
 https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure @en

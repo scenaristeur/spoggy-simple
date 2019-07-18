@@ -1,0 +1,28 @@
+@prefix : <> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix hola: <https://holacratie.solid.community/public/> .
+@base <https://holacratie.solid.community/public/> .
+
+:Role
+schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
+schema:name           xsd:string  ;
+schema:dateCreated    xsd:date?  ;
+schema:creator        hola:Circle;
+hola:subClassOf       hola:Circle;
+hola:controls         hola:Domain*;
+hola:policy           hola:Policy;
+hola:specialRule      hola:SpecialRule;
+hola:roleLead         hola:User;
+hola:assignedTo       hola:User*;
+
+
+###  https://holacratie.solid.community/public/Role
+<https://holacratie.solid.community/public/Role> <https://holacratie.solid.community/public/has> <https://holacratie.solid.community/public/Nom> ,
+                                                                                                                         <https://holacratie.solid.community/public/RaisonEtre> ;
+                                                             <https://holacratie.solid.community/public/processe> <https://holacratie.solid.community/public/Tension> ;
+                                                             <https://holacratie.solid.community/public/tenuPar> <https://holacratie.solid.community/public/Associe> ;
+                                                             <https://holacratie.solid.community/public/foldername> "Role"@fr .

@@ -75,6 +75,10 @@ function importer(params,callback){
       console.log("fichier TTl ou RDF")
       fileAgent.fetchAndParse(params.source,"application/json");
       break;
+      case 'shex':
+      console.log("fichier SHEX")
+      fetchShex(params,callback);
+      break;
       case 'html':
       case 'jpg':
       case 'png':
@@ -105,7 +109,7 @@ function fetchJson(params, callback){
   fetch(url)
   .then(res => res.json())
   .then((out) => {
-    console.log('Checkout this JSON! ', out);
+    //  console.log('Checkout this JSON! ', out);
     var text = JSON.stringify(out, null, 2)
     editor.session.setValue(text)
     callback({data:out,params:params})
@@ -114,6 +118,79 @@ function fetchJson(params, callback){
 }
 
 
+function fetchShex(params, callback){
+  let url = params.source;
+  fetch(url)
+  .then(res => res.text())
+  .then((out) => {
+    console.log('Checkout this shex! ', out);
+    //  var text = JSON.stringify(out, null, 2)
+    //    editor.session.setValue(text)
+    shexToForm(out, params, callback)
+  })
+  .catch(err => { throw err });
+}
+
+function shexToForm(shex, params, callback){
+  var lignes  = shex.split("\n");
+  console.log(lignes)
+  var prefixes = [];
+  var shapes = [];
+  var status = "beginShex" // prefixes , start, beginShape, shap property, endShape, new shape, error
+  var start = ""
+  lignes.forEach(function(l){
+    l = l.trim();
+    if (l.length>0){
+      console.log("\n",status,l)
+      switch (true) {
+        case l.startsWith( 'PREFIX' ):
+        //  alert(1); // do something
+        pref = l.split(" ")
+        if (pref[1].trim().length>1) {
+          p = {}
+          p[pref[1].substring(-1)] = pref[2].trim()
+
+          prefixes.push(p)
+        }
+        break;
+        case l.startsWith( 'start' ):
+
+        start = l
+        break;
+        case l.startsWith( '}' ):
+        status = "endShape"
+        break;
+        case l.startsWith( '<' ):
+        status = "beginShape"
+        var s = {}
+        s.name = l.split(">")[0].substring(1);
+        s.props = []
+
+        shapes.push(s)
+        break;
+        default:
+
+        propTemp = l.split(" ");//
+        props = []
+        propTemp.forEach(function(pt){
+          pt = pt.trim()
+          if (pt.length>0){
+            props.push(pt)
+            shapes[shapes.length-1].props.push(props)
+          }
+        })
+
+
+
+        //console.log("---\ NON traité :",l)
+      }
+    }
+  })
+  console.log("PREFIXES ",prefixes)
+  console.log("start ",start)
+  console.log("shapes", shapes)
+  //callback({data:out,params:params})
+}
 
 //###############################################################################
 //Sous cette ligne, review de code a faire
@@ -123,7 +200,7 @@ function fetchJson(params, callback){
 function exportJson(network) {
 
   var nodes_edges = { nodes: network.body.data.nodes.get(), edges: network.body.data.edges.get() };
-//  console.log(nodes_edges);
+  //  console.log(nodes_edges);
   var nodes_edgesJSON = JSON.stringify(nodes_edges);
   updateEditorFromNetwork(nodes_edgesJSON)
 

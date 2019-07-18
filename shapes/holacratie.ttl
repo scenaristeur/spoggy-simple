@@ -1,0 +1,56 @@
+@prefix : <https://holacratie.solid.community/public/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://holacratie.solid.community/public/> .
+
+<https://holacratie.solid.community/public/> rdf:type owl:Ontology .
+
+
+###  https://holacratie.solid.community/public/Associe
+:Associe rdf:type :Agent ;
+         rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/associe.ttl" .
+
+
+###  https://holacratie.solid.community/public/Cercle
+:Cercle rdf:type :Agent ;
+        rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/cercle.ttl" .
+
+
+###  https://holacratie.solid.community/public/Holacratie
+:Holacratie rdf:type :Methode ;
+            rdfs:comment "Holacratie Constitution EN & other : https://github.com/holacracyone/Holacracy-Constitution"@en ,
+                         "Holacratie Constitution FR : https://github.com/holacracyone/Holacracy-Constitution-4.1-FRENCH"@fr ,
+                         "Holacratie PDF FR : https://igipartners.com/sites/default/files/constitution_4.1_0.pdf"@fr .
+
+
+###  https://holacratie.solid.community/public/Organisation
+:Organisation rdf:type :Agent ;
+              rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/organisation.ttl" .
+
+
+###  https://holacratie.solid.community/public/ProchaineAction
+:ProchaineAction rdf:type :Agent ;
+                 rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/action.ttl" .
+
+
+###  https://holacratie.solid.community/public/Projet
+:Projet rdf:type :Agent ;
+        rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/projet.ttl" .
+
+
+###  https://holacratie.solid.community/public/Reunion
+:Reunion rdf:type :Agent ;
+         rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/reunion.ttl" .
+
+
+###  https://holacratie.solid.community/public/Role
+:Role rdf:type :Agent ;
+      rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/role.ttl" .
+
+
+###  https://holacratie.solid.community/public/Tension
+:Tension rdf:type :Agent ;
+         rdfs:isDefinedBy "https://holacratie.solid.community/public/Schema/tension.ttl" .
