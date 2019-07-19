@@ -77,7 +77,7 @@ function importer(params,callback){
       break;
       case 'shex':
       console.log("fichier SHEX")
-      fetchShex(params,callback);
+      fetchShex(params,updateForms);
       break;
       case 'html':
       case 'jpg':
@@ -134,63 +134,124 @@ function fetchShex(params, callback){
 function shexToForm(shex, params, callback){
   var lignes  = shex.split("\n");
   console.log(lignes)
+  var result = {}
   var prefixes = [];
   var shapes = [];
+  var start = "";
+  var comments = [];
   var status = "beginShex" // prefixes , start, beginShape, shap property, endShape, new shape, error
-  var start = ""
+
   lignes.forEach(function(l){
     l = l.trim();
+
     if (l.length>0){
-      console.log("\n",status,l)
+      //  console.log("\n",status,l)
       switch (true) {
+        case l.startsWith( '#BASE' ):
+        result.base = l;
+        break;
         case l.startsWith( 'PREFIX' ):
         //  alert(1); // do something
         pref = l.split(" ")
-        if (pref[1].trim().length>1) {
+        prefClean = pref[1].trim().substring(-1)
+        if (prefClean.length>0) {
           p = {}
-          p[pref[1].substring(-1)] = pref[2].trim()
-
+          p[prefClean] = pref[2].trim()
           prefixes.push(p)
         }
         break;
-        case l.startsWith( 'start' ):
 
-        start = l
+        case l.startsWith( 'start' ):
+        l = cleanComment(l,comments);
+        start = l.split("=")[1].trim()
+        //
+        if (start.startsWith("@")){ // suppression de l'@ pour l'instant mais peut être utile pour savoir si la shape est locale ou externe
+          b = 2
+        }else{
+          b = 1
+        }
+        start = start.slice(b,-1)
         break;
+
+        case l.startsWith( '###' ):
+        case l.startsWith( '#' ):
+        comments.push(l)
+        break;
+
         case l.startsWith( '}' ):
         status = "endShape"
         break;
+
         case l.startsWith( '<' ):
+        l = cleanComment(l,comments);
         status = "beginShape"
         var s = {}
         s.name = l.split(">")[0].substring(1);
-        s.props = []
-
+        s.constraints = []
         shapes.push(s)
         break;
-        default:
 
-        propTemp = l.split(" ");//
+        default:
+        l = cleanComment(l,comments);
+
+
+        var tripletChar = l.slice(-1); // ; ou . ou ,
+        var constraintElems = l.slice(0, -1).trim().replace(/  +/g, ' ').split(" ");
+        var constraint = {}
+        constraint.elems = constraintElems;
+        constraint.tripletChar = tripletChar;
+        constraint.numberOf = 1;
+        var lastElem = constraintElems[constraintElems.length-1]
+        var denomb = lastElem.slice(-1);
+        if (denomb == "*" || denomb == "?"){
+          constraint.numberOf = denomb
+          constraintElems[constraintElems.length-1] = constraintElems[constraintElems.length-1].slice(0, -1)
+        }
+        console.log(tripletChar, denomb, constraint)
+        shapes[shapes.length-1].constraints.push(constraint)
+        /*  propTemp = l.split(" ");//
         props = []
         propTemp.forEach(function(pt){
-          pt = pt.trim()
-          if (pt.length>0){
-            props.push(pt)
-            shapes[shapes.length-1].props.push(props)
-          }
-        })
-
-
-
-        //console.log("---\ NON traité :",l)
+        pt = pt.trim()
+        if (pt.length>0){
+        props.push(pt)
+        shapes[shapes.length-1].props.push(props)
       }
-    }
-  })
-  console.log("PREFIXES ",prefixes)
-  console.log("start ",start)
-  console.log("shapes", shapes)
-  //callback({data:out,params:params})
+    })*/
+
+
+
+    //console.log("---\ NON traité :",l)
+  }
 }
+})
+console.log("PREFIXES ",prefixes)
+console.log("start ",start)
+console.log("shapes", shapes)
+result.prefixes = prefixes;
+result.start = start;
+result.shapes = shapes;
+result.comments = comments;
+result.params = params;
+callback(result)
+}
+
+function cleanComment(l,comments){
+  // test if a comment is at the end of the line
+  testComment = l.split("#")
+  //  console.log(testComment)
+  if(testComment.length>1 && testComment[0].length >0){
+    comments.push(testComment[1].trim())
+    l = testComment[0].trim()
+
+  }
+  return l;
+}
+function updateForms(data){
+  console.log("#################\nUPDATEFORMS",data)
+
+}
+
 
 //###############################################################################
 //Sous cette ligne, review de code a faire

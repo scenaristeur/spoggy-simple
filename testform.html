@@ -1,0 +1,70 @@
+<html>
+
+<script src="./js/import-export.js"></script>
+<body>
+
+  <form>
+    <select id="mySelect">
+      <!--<option>https://holacratie.solid.community/public/Schema/circle.shex</option>-->
+      <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/role.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/tension.shex</option>
+    </select>
+
+  </form>
+  <button onclick="charge()">Charger / Load</button>
+
+
+  <fieldset id="formulaire">
+    <legend id="legend"></legend>
+    <ul id="formlist">
+      <li>Click on Load button to load a shape/form </li>
+      <li>Click sur le bouton "charger" pour charger un shape/form </li>
+    </ul>
+
+  </fieldset>
+
+
+</body>
+
+
+<script>
+
+function charge(){
+  var id = document.getElementById("mySelect").options.selectedIndex;
+  var shapeUrl = document.getElementById("mySelect").options[id].text;
+  var params = {}
+  console.log(shapeUrl)
+  params.source = shapeUrl
+  var destination = {}
+  destination.headId = "legend"
+  destination.listeId = "formlist"
+  params.destination = destination;
+  fetchShex(params,updateFormsTest);
+}
+
+function updateFormsTest(data){
+  console.log("#################\nUPDATEFORMS TEST",data)
+  start = data.start;
+  destination = data.params.destination;
+  document.getElementById(destination.headId).innerHTML = start
+  forms = [];
+  data.shapes.forEach(function(s){
+    f = []
+    name = s.name;
+    console.log(s.constraints)
+    f[name] = s.constraints
+    forms.push(f)
+
+  })
+  console.log(forms)
+
+
+
+}
+
+
+</script>
+
+
+</html>
