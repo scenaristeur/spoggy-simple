@@ -6,11 +6,13 @@ input{
 
 </style>
 <script src="./js/import-export.js"></script>
+<script src="./node_modules/shex/browser/shex-browserify.min.js"></script>
 <body>
   Transform shapes (<a href="https://forum.solidproject.org/t/blog-post-shaping-linked-data-apps/1914/11" taget="blank">shex to forms</a>)
   <form>
     <select id="mySelect">
       <!--<option>https://holacratie.solid.community/public/Schema/circle.shex</option>-->
+      <!--  <option>http://shex.io/examples/Issue.shex</option>-->
       <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
       <option>https://holacratie.solid.community/public/Schema/role.shex</option>
       <option>https://holacratie.solid.community/public/Schema/tension.shex</option>
@@ -27,22 +29,24 @@ input{
   <button onclick="add()"> add yours / ajoutez votre shape to the select (shex)</button>
   (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
   <br><br>
-  <button onclick="charge()">Charger / Load</button><br>
+  <button onclick="charge()">Charger / Load</button>
+  <button onclick="chargelib()">Charger / Load with shex.js</button>
+  <br>
   <br>
 
 
-  <!--  <div id="forms">
+  <div id="forms">
 
-</div>-->
+  </div>
 
-<fieldset id="formulaire">
-  <legend id="legend"></legend>
-  <ul id="formlist">
-    <li>Click on Load button to load a shape/form </li>
-    <li>Click sur le bouton "charger" pour charger un shape/form </li>
-  </ul>
+  <fieldset id="formulaire">
+    <legend id="legend"></legend>
+    <ul id="formlist">
+      <li>Click on Load button to load a shape/form </li>
+      <li>Click sur le bouton "charger" pour charger un shape/form </li>
+    </ul>
 
-</fieldset>
+  </fieldset>
 
 
 </body>
@@ -56,6 +60,52 @@ function add(){
   option.text = document.getElementById("newShape").value.trim();
   select.add(option);
 }
+
+function chargelib(){
+  var id = document.getElementById("mySelect").options.selectedIndex;
+  var shapeUrl = document.getElementById("mySelect").options[id].text;
+  //console.log(shapeUrl)
+  //let url = params.source;
+  /*  fetch(shapeUrl)
+  .then(res => res.text())
+  .then((out) => {
+  console.log('Checkout this shex! ', out);
+
+})
+.catch(err => { throw err });*/
+//  console.log(ShEx)
+var shex = ShEx;
+console.log(shex)
+//var shexc = "https://jmartin.inrupt.net/public/shapes/book.shex";
+//var data = "https://jmartin.inrupt.net/public/shapes/book.ttl";
+//var node = "https://jmartin.inrupt.net/public/shapes/book";
+shex.Loader.load([shapeUrl], [], [], []).then(function (loaded) {
+  console.log(loaded)
+  schemaToForm(loaded.schema)
+  //  var db = shex.Util.makeN3DB(loaded.data);
+  //  var validator = shex.Validator.construct(loaded.schema, { results: "api" });
+  //  var result = validator.validate(db, [{node: node, shape: shex.Validator.start}]);
+  //  console.log(result);
+});
+}
+
+
+function schemaToForm(schema){
+  console.log(schema)
+  var dest = document.getElementById("forms")
+  var prefixes = schema.prefixes;
+  var shapes = schema.shapes;
+  var start = schema.start;
+  console.log ("start",start)
+  for (let [url, constraint] of Object.entries(shapes)) {
+    console.log(url,constraint);
+    var formDiv = document.createElement("div")
+    formDiv.innerHTML = url;
+    dest.appendChild(formDiv)
+  }
+
+}
+
 
 function charge(){
   var id = document.getElementById("mySelect").options.selectedIndex;
@@ -129,7 +179,7 @@ function createFormLines(forms, start,dest){
       var optionSet = document.createElement("option");
       optionSet.text = e.trim();
       selector.add(optionSet);
-      
+
     }else{
 
       switch(elems[1]) {
