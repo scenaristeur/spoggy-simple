@@ -29,6 +29,8 @@ input{
   <br><br>
   <button onclick="charge()">Charger / Load</button><br>
   <br>
+
+
   <!--  <div id="forms">
 
 </div>-->
@@ -105,27 +107,53 @@ function createFormLines(forms, start,dest){
     //  li.appendChild( document.createTextNode( '\u00A0' ) ); // ajout espace
     li.appendChild(br.cloneNode())
 
-    switch(elems[1]) {
-      case "xsd:dateTime":
-      case "xsd:date":
-      // code block
-      var datepicker = document.createElement("input")
-      datepicker.setAttribute("type", "date")
+    if (elems[1] != undefined && elems[1].startsWith("[")){
+      console.log("open set")
+      var e = elems[1].substring(1);
+      var selector = document.createElement("select")
+      li.appendChild(selector);
+      var optionSet1 = document.createElement("option");
+      optionSet1.text = e.trim();
+      selector.add(optionSet1);
+      for (var i = 1; i < elems.length-1;i ++){
+        e = elems[i];
+        console.log("elem",e)
+        var optionSet2 = document.createElement("option");
+        optionSet2.text = e.trim();
+        selector.add(optionSet2);
+      }
+    }
+    else   if (elems[1] != undefined && elems[1].endsWith("]")){
+      console.log("close set")
+      e = elems[1].slice(0,-1);
+      var optionSet = document.createElement("option");
+      optionSet.text = e.trim();
+      selector.add(optionSet);
+      
+    }else{
 
-      li.appendChild(datepicker);
-      break;
-      case "xsd:string":
-      var basicInput = document.createElement("input")
-      basicInput.setAttribute("placeholder", "xsd:string")
-      li.appendChild(basicInput);
-      break;
-      case "IRI":
-      var iriInput = document.createElement("input")
-      iriInput.setAttribute("placeholder", "IRI")
-      li.appendChild(iriInput);
-      break;
-      default:
-      li.appendChild(document.createTextNode(elems[1]));
+      switch(elems[1]) {
+        case "xsd:dateTime":
+        case "xsd:date":
+        // code block
+        var datepicker = document.createElement("input")
+        datepicker.setAttribute("type", "date")
+
+        li.appendChild(datepicker);
+        break;
+        case "xsd:string":
+        var basicInput = document.createElement("input")
+        basicInput.setAttribute("placeholder", "xsd:string")
+        li.appendChild(basicInput);
+        break;
+        case "IRI":
+        var iriInput = document.createElement("input")
+        iriInput.setAttribute("placeholder", "IRI")
+        li.appendChild(iriInput);
+        break;
+        default:
+        li.appendChild(document.createTextNode(elems[1]));
+      }
     }
     li.appendChild(br.cloneNode())
     //  li.appendChild( document.createTextNode( '\u00A0' ) );
