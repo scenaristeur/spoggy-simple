@@ -144,7 +144,7 @@ function shexToFormTestRegexNonConcluant(shex, params, callback){
     // expected output: "Found foo. Next starts at 19."
   }
 
-    /*var regPrefix = /PREFIX(.*?)>/g
+  /*var regPrefix = /PREFIX(.*?)>/g
   var regShape = /<(.*?)>/g
   var contShape =   /\{([^}]+)\}/g  //https://www.regextester.com/97707
 
@@ -225,7 +225,7 @@ function shexToForm(shex, params, callback){
       s.constraints = []
       shapes.push(s)
       break;
-      case l.startsWith( '(' ):
+      /*case l.startsWith( '(' ):
       status = "startChoice"
       break;
       case l.startsWith( ')' ):
@@ -243,7 +243,7 @@ function shexToForm(shex, params, callback){
       break;
       case l.startsWith( ']' ):
       status = "endSet"
-      break;
+      break;*/
 
 
       default:
