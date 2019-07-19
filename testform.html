@@ -1,37 +1,59 @@
 <html>
+<style>
+input{
+  width: 100%;
+}
 
+</style>
 <script src="./js/import-export.js"></script>
 <body>
-
+  Transform shapes (<a href="https://forum.solidproject.org/t/blog-post-shaping-linked-data-apps/1914/11" taget="blank">shex to forms</a>)
   <form>
     <select id="mySelect">
       <!--<option>https://holacratie.solid.community/public/Schema/circle.shex</option>-->
       <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
       <option>https://holacratie.solid.community/public/Schema/role.shex</option>
       <option>https://holacratie.solid.community/public/Schema/tension.shex</option>
+      <option>https://jmartin.inrupt.net/public/shapes/book.shex</option>
+      <option>https://jmartin.inrupt.net/public/shapes/movie.shex</option>
+      <option>https://jmartin.inrupt.net/public/shapes/data-browser.shex</option>
+      <option>https://jmartin.inrupt.net/public/shapes/employee.shex</option>
     </select>
 
   </form>
-  <button onclick="charge()">Charger / Load</button>
 
-  <div id="forms">
 
-  </div>
+  <input id="newShape"  placeholder="https://mypod.provider/public/shapes/shape.shex"></input>
+  <button onclick="add()"> add yours / ajoutez votre shape to the select (shex)</button>
+  (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
+  <br><br>
+  <button onclick="charge()">Charger / Load</button><br>
+  <br>
+  <!--  <div id="forms">
 
-  <fieldset id="formulaire">
-    <legend id="legend"></legend>
-    <ul id="formlist">
-      <li>Click on Load button to load a shape/form </li>
-      <li>Click sur le bouton "charger" pour charger un shape/form </li>
-    </ul>
+</div>-->
 
-  </fieldset>
+<fieldset id="formulaire">
+  <legend id="legend"></legend>
+  <ul id="formlist">
+    <li>Click on Load button to load a shape/form </li>
+    <li>Click sur le bouton "charger" pour charger un shape/form </li>
+  </ul>
+
+</fieldset>
 
 
 </body>
 
 
 <script>
+
+function add(){
+  var select = document.getElementById("mySelect")
+  var option = document.createElement("option");
+  option.text = document.getElementById("newShape").value.trim();
+  select.add(option);
+}
 
 function charge(){
   var id = document.getElementById("mySelect").options.selectedIndex;
@@ -94,17 +116,35 @@ function createFormLines(forms, start,dest){
       break;
       case "xsd:string":
       var basicInput = document.createElement("input")
-
+      basicInput.setAttribute("placeholder", "xsd:string")
       li.appendChild(basicInput);
+      break;
+      case "IRI":
+      var iriInput = document.createElement("input")
+      iriInput.setAttribute("placeholder", "IRI")
+      li.appendChild(iriInput);
       break;
       default:
       li.appendChild(document.createTextNode(elems[1]));
     }
     li.appendChild(br.cloneNode())
     //  li.appendChild( document.createTextNode( '\u00A0' ) );
-    li.appendChild(document.createTextNode(elems[2]+" nombre:"+numberOf));
+    li.appendChild(document.createTextNode("nombre:"+numberOf));
+    if (numberOf =="*"){
+      li.appendChild(br.cloneNode())
+      var addBtn = document.createElement("button");
+      addBtn.innerHTML = "add one / ajouter un "+elems[1]
+      li.appendChild(addBtn);
+
+    }
+
     liste.appendChild(li);
     li.appendChild(br.cloneNode())
+
+
+
+
+
     li.appendChild(br.cloneNode())
   })
   var  submitBtn =document.createElement("button");

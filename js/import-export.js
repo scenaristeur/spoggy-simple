@@ -197,6 +197,7 @@ function shexToForm(shex, params, callback){
         break;
 
         case l.startsWith( 'start' ):
+        case l.startsWith( 'START' ):
         l = cleanComment(l,comments);
         start = l.split("=")[1].trim()
         //
@@ -287,7 +288,7 @@ function shexToForm(shex, params, callback){
         constraint.numberOf = 1;
         var lastElem = constraintElems[constraintElems.length-1]
         var denomb = lastElem.slice(-1);
-        if (denomb == "*" || denomb == "?"){
+        if (denomb == "*" || denomb == "?" || denomb == "+"){
           constraint.numberOf = denomb
           constraintElems[constraintElems.length-1] = constraintElems[constraintElems.length-1].slice(0, -1)
         }
