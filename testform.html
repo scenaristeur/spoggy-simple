@@ -14,6 +14,9 @@
   </form>
   <button onclick="charge()">Charger / Load</button>
 
+  <div id="forms">
+
+  </div>
 
   <fieldset id="formulaire">
     <legend id="legend"></legend>
@@ -48,18 +51,69 @@ function updateFormsTest(data){
   start = data.start;
   destination = data.params.destination;
   document.getElementById(destination.headId).innerHTML = start
-  forms = [];
+  forms = new Map();
   data.shapes.forEach(function(s){
-    f = []
+    f = new Map();
     name = s.name;
     console.log(s.constraints)
-    f[name] = s.constraints
-    forms.push(f)
+    f.set(name, s.constraints)
+    forms.set(name,f)
 
   })
   console.log(forms)
+  createFormLines(forms,start,destination.listeId)
+}
 
+function createFormLines(forms, start,dest){
+  console.log(forms, start, dest)
+  var liste = document.getElementById(dest)
+  liste.innerHTML = "";
+  var current = forms.get(start)
+  console.log("current",current)
+  var it=current.entries();
+  var constr = it.next().value[1]
+  console.log("val", constr)
+  constr.forEach(function(c){
+    var numberOf = c.numberOf
+    var elems = c.elems;
+    console.log(c)
+    var br = document.createElement("br");
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(elems[0]));
+    //  li.appendChild( document.createTextNode( '\u00A0' ) ); // ajout espace
+    li.appendChild(br.cloneNode())
 
+    switch(elems[1]) {
+      case "xsd:dateTime":
+      case "xsd:date":
+      // code block
+      var datepicker = document.createElement("input")
+      datepicker.setAttribute("type", "date")
+
+      li.appendChild(datepicker);
+      break;
+      case "xsd:string":
+      var basicInput = document.createElement("input")
+
+      li.appendChild(basicInput);
+      break;
+      default:
+      li.appendChild(document.createTextNode(elems[1]));
+    }
+    li.appendChild(br.cloneNode())
+    //  li.appendChild( document.createTextNode( '\u00A0' ) );
+    li.appendChild(document.createTextNode(elems[2]+" nombre:"+numberOf));
+    liste.appendChild(li);
+    li.appendChild(br.cloneNode())
+    li.appendChild(br.cloneNode())
+  })
+  var  submitBtn =document.createElement("button");
+  submitBtn.innerHTML = "submit"
+  liste.appendChild(submitBtn);
+  /* creer tous les formulaires et les passer en display=none ?
+  forms.forEach(function (f){
+  console.log(f)
+})*/
 
 }
 

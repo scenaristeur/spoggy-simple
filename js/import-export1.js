@@ -131,41 +131,6 @@ function fetchShex(params, callback){
   .catch(err => { throw err });
 }
 
-
-function shexToFormTestRegexNonConcluant(shex, params, callback){
-
-  var regex1 = RegExp('#*','gm');
-  var str1 = shex;
-  var array1;
-
-  while ((array1 = regex1.exec(str1)) !== null) {
-    console.log(`Found ${array1[0]}. Next starts at ${regex1.lastIndex}.`);
-    // expected output: "Found foo. Next starts at 9."
-    // expected output: "Found foo. Next starts at 19."
-  }
-
-    /*var regPrefix = /PREFIX(.*?)>/g
-  var regShape = /<(.*?)>/g
-  var contShape =   /\{([^}]+)\}/g  //https://www.regextester.com/97707
-
-  var prefixes = shex.match(regPrefix);
-  console.log(prefixes)
-  var shapes = shex.match(regShape);
-  console.log(shapes)
-  var cont = shex.match(contShape);
-  console.log(cont)*/
-}
-
-
-
-
-
-
-
-
-
-
-
 function shexToForm(shex, params, callback){
   var lignes  = shex.split("\n");
   console.log(lignes)
