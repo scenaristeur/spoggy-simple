@@ -132,7 +132,7 @@ with data
 PREFIX : <http://hl7.org/fhir/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-<Obs1>
+<Tension1>
   :status    "final" ;
   :subject   <User2> .
 
@@ -143,7 +143,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 query map
 ```
 {FOCUS :status _}@START,
-<Patient2>@!<TensionShape>
+<User2>@!<TensionShape>
   ```
 
 
