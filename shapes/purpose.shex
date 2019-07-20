@@ -1,11 +1,13 @@
 # Purpose ou Raison d'être
-PREFIX :       <https://holacratie.solid.community/public/>
+PREFIX :  <>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX hola: <https://holacratie.solid.community/public/Schema/>
 
-:Purpose {
+start = @<Purpose>
+
+<Purpose> {
   schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
   schema:name          xsd:string  ;
   schema:dateCreated     xsd:date?  ;
@@ -22,3 +24,5 @@ PREFIX hola: <https://holacratie.solid.community/public/>
   )
 
 }
+
+###   schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
