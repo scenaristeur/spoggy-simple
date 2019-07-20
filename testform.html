@@ -13,13 +13,24 @@ input{
     <select id="mySelect">
       <!--<option>https://holacratie.solid.community/public/Schema/circle.shex</option>-->
       <!--  <option>http://shex.io/examples/Issue.shex</option>-->
-      <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
+      <option> CHOOSE AN HOLACRATIE SHEX </option>
       <option>https://holacratie.solid.community/public/Schema/role.shex</option>
       <option>https://holacratie.solid.community/public/Schema/tension.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/ratifier.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/accountability.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/capacity.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/circle.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/governance.shex</option>
+      <option>  OTHER SHEX </option>
+      <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
       <option>https://jmartin.inrupt.net/public/shapes/book.shex</option>
       <option>https://jmartin.inrupt.net/public/shapes/movie.shex</option>
       <option>https://jmartin.inrupt.net/public/shapes/data-browser.shex</option>
       <option>https://jmartin.inrupt.net/public/shapes/employee.shex</option>
+      <option>SHEX WITH PROBLEMS</option>
+      <option>https://holacratie.solid.community/public/Schema/purpose.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/domain.shex</option>
+      <option>YOUR SHEX</option>
     </select>
 
   </form>
@@ -29,8 +40,8 @@ input{
   <button onclick="add()"> add yours / ajoutez votre shape to the select (shex)</button>
   (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
   <br><br>
-  <button onclick="charge()">Charger / Load</button>
-  <button onclick="chargelib()">Charger / Load with shex.js</button>
+  <button onclick="charge()">Charger / Load V1</button>
+  <button onclick="chargelib()">Charger / Load V2 with shex.js</button>
   <br>
   <br>
 
@@ -80,13 +91,13 @@ console.log(shex)
 //var data = "https://jmartin.inrupt.net/public/shapes/book.ttl";
 //var node = "https://jmartin.inrupt.net/public/shapes/book";
 shex.Loader.load([shapeUrl], [], [], []).then(function (loaded) {
-console.log("LOADED",loaded)
-//console.log("VALID",shex.Validator.construct(loaded.schema))
-if (loaded.schema){
-  schemaToForm(loaded.schema)
-}else{
-  alert("Impossible Error, not a valid schema")
-}
+  console.log("LOADED",loaded)
+  //console.log("VALID",shex.Validator.construct(loaded.schema))
+  if (loaded.schema){
+    schemaToForm(loaded.schema)
+  }else{
+    alert("Impossible Error, not a valid schema")
+  }
 
   //  var db = shex.Util.makeN3DB(loaded.data);
   //  var validator = shex.Validator.construct(loaded.schema, { results: "api" });
@@ -107,7 +118,7 @@ function schemaToForm(schema){
   console.log(schema)
   var br = document.createElement("br");
   var dest = document.getElementById("forms")
-clear();
+  clear();
   var prefixes = schema.prefixes;
   var shapes = schema.shapes;
   var start = schema.start;
@@ -121,17 +132,17 @@ clear();
     var liste = document.createElement("ul")
     //  formDiv.innerHTML = url;
     dest.appendChild(liste)
-//  console.log(constraint.expression)
-   console.log(constraint.expression.type)
-  //  console.log(constraint.expression.expressions)
+    //  console.log(constraint.expression)
+    console.log(constraint.expression.type)
+    //  console.log(constraint.expression.expressions)
     var expressions = constraint.expression.expressions;
     expressions.forEach(function(exp){
-    //  console.log(exp)
+      //  console.log(exp)
       var li = document.createElement("li");
       liste.appendChild(li)
       switch(exp.type) {
         case "TripleConstraint":
-    console.log("===EXP==",exp.type,exp)
+        console.log("===EXP==",exp.type,exp)
         // code block
 
         li.appendChild(document.createTextNode(exp.predicate));
@@ -145,20 +156,20 @@ clear();
           console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
           li.appendChild(document.createTextNode("EXPR TYPE :"+exp.valueExpr.type));
           li.appendChild(br.cloneNode())
-            if (exp.valueExpr.values != undefined){
-          li.appendChild(document.createTextNode("EXPR VALUES :"+exp.valueExpr.values));
-          li.appendChild(br.cloneNode())
-        }
+          if (exp.valueExpr.values != undefined){
+            li.appendChild(document.createTextNode("EXPR VALUES :"+exp.valueExpr.values));
+            li.appendChild(br.cloneNode())
+          }
           if (exp.valueExpr.datatype != undefined){
-          li.appendChild(document.createTextNode("EXPR DATATYPE :"+exp.valueExpr.datatype));
-          li.appendChild(br.cloneNode())
-        }
+            li.appendChild(document.createTextNode("EXPR DATATYPE :"+exp.valueExpr.datatype));
+            li.appendChild(br.cloneNode())
+          }
           if (exp.valueExpr.nodeKind != undefined){
-          li.appendChild(document.createTextNode("EXPR NODEKIND :"+exp.valueExpr.nodeKind));
-          li.appendChild(br.cloneNode())
-        }
+            li.appendChild(document.createTextNode("EXPR NODEKIND :"+exp.valueExpr.nodeKind));
+            li.appendChild(br.cloneNode())
+          }
           break;
-                    case "ShapeRef":
+          case "ShapeRef":
           // code block
           console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
           li.appendChild(document.createTextNode("EXPR TYPE :"+exp.valueExpr.type));
@@ -167,9 +178,9 @@ clear();
           li.appendChild(br.cloneNode())
           break;
           default:
-        console.log("\n\nNON TRAITE---VAL---",exp.valueExpr.type,exp.valueExpr)
-        li.appendChild(document.createTextNode("!!!TODO VAL TYPE:"+exp.valueExpr.type));
-        li.appendChild(br.cloneNode())
+          console.log("\n\nNON TRAITE---VAL---",exp.valueExpr.type,exp.valueExpr)
+          li.appendChild(document.createTextNode("!!!TODO VAL TYPE:"+exp.valueExpr.type));
+          li.appendChild(br.cloneNode())
         }
         break;
         case "EachOf":
@@ -178,7 +189,7 @@ clear();
         li.appendChild(document.createTextNode(exp.type));
         li.appendChild(br.cloneNode())
         li.appendChild(document.createTextNode("min : "+exp.min+" max : "+exp.max ));
-            li.appendChild(br.cloneNode())
+        li.appendChild(br.cloneNode())
         if(exp.expressions.length > 0){
           exp.expressions.forEach(function(subExp){
             li.appendChild(document.createTextNode(subExp.predicate));
@@ -192,9 +203,9 @@ clear();
         break;
         default:
 
-          console.log("\n\nNON TRAITE===EXP=====",exp.type,exp)
-          li.appendChild(document.createTextNode("!!!TODO EXP TYPE :"+exp.type));
-          li.appendChild(br.cloneNode())
+        console.log("\n\nNON TRAITE===EXP=====",exp.type,exp)
+        li.appendChild(document.createTextNode("!!!TODO EXP TYPE :"+exp.type));
+        li.appendChild(br.cloneNode())
       }
     })
 
@@ -296,7 +307,7 @@ function updateFormsTest(data){
 
 function createFormLines(forms, start,dest){
   console.log(forms, start, dest)
-clear();
+  clear();
   var liste = document.getElementById(dest)
   var current = forms.get(start)
   console.log("current",current)

@@ -4,9 +4,9 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX hola: <https://holacratie.solid.community/public/Schema/>
 
-start = @<RoleShape>
+start = @<Role>
 
-<RoleShape> {               # An Role has:
+<Role> {               # An Role has:
   schema:name           xsd:string  ;
   schema:dateCreated    xsd:date?  ;
   schema:creator        hola:Circle;
@@ -14,8 +14,8 @@ start = @<RoleShape>
   hola:controls         hola:Domain*;
   hola:policy           hola:Policy;
   hola:specialRule      hola:SpecialRule;
-  hola:roleLead         hola:User;
-  hola:assignedTo       hola:User*;
+  hola:roleLead         hola:Ratifier;
+  hola:assignedTo       hola:Ratifier*;
 }
 
 ###   schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
