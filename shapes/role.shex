@@ -1,11 +1,12 @@
-PREFIX :       <https://holacratie.solid.community/public/>
+PREFIX :  <>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX hola: <https://holacratie.solid.community/public/Schema/>
 
-:Role {
-  schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
+start = @<RoleShape>
+
+<RoleShape> {               # An Role has:
   schema:name           xsd:string  ;
   schema:dateCreated    xsd:date?  ;
   schema:creator        hola:Circle;
@@ -16,3 +17,5 @@ PREFIX hola: <https://holacratie.solid.community/public/>
   hola:roleLead         hola:User;
   hola:assignedTo       hola:User*;
 }
+
+###   schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"

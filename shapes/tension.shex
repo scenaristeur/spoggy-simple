@@ -2,10 +2,14 @@ PREFIX :       <https://holacratie.solid.community/public/>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX hola: <https://holacratie.solid.community/public/>
 
-:Capacity {
+start = @<Tension>
+
+<Tension> {               # A Tension has:
+  :status ["preliminary" "final"]; #   status in this value set
   schema:name          xsd:string  ;
   schema:dateCreated     xsd:date?  ;
-  rdfs:subClassOf         schema:Thing;
-  schema:creator         IRI @:User*;
+  schema:creator         :Ratifier;
+  :subject              :Organization;
 }

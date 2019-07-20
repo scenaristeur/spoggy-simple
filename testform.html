@@ -25,7 +25,7 @@ input{
   </form>
 
 
-  <input id="newShape"  placeholder="https://mypod.provider/public/shapes/shape.shex"></input>
+  <input id="newShape"  placeholder="https://mypod.provider/public/shapes/shape.shex">https://holacratie.solid.community/public/Schema/xxxxxx.shex</input>
   <button onclick="add()"> add yours / ajoutez votre shape to the select (shex)</button>
   (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
   <br><br>
@@ -80,8 +80,14 @@ console.log(shex)
 //var data = "https://jmartin.inrupt.net/public/shapes/book.ttl";
 //var node = "https://jmartin.inrupt.net/public/shapes/book";
 shex.Loader.load([shapeUrl], [], [], []).then(function (loaded) {
-  console.log(loaded)
+console.log("LOADED",loaded)
+//console.log("VALID",shex.Validator.construct(loaded.schema))
+if (loaded.schema){
   schemaToForm(loaded.schema)
+}else{
+  alert("Impossible Error, not a valid schema")
+}
+
   //  var db = shex.Util.makeN3DB(loaded.data);
   //  var validator = shex.Validator.construct(loaded.schema, { results: "api" });
   //  var result = validator.validate(db, [{node: node, shape: shex.Validator.start}]);

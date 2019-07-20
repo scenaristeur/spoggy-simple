@@ -36,6 +36,9 @@ Cliquez sur les images pour ouvrir la video. Clic on picture to open the video.
 - [ X ] capture screenshot d'un graphe (fond Blanc) (comment recupérer le background du canvas ?)
 - [ ] ajouter prise de photo et reconnaissance Semantique transmise au graphe https://medium.com/nanonets/how-to-do-image-segmentation-using-deep-learning-c673cc5862ef
 - [ ] implement Solid Websocket API https://github.com/solid/solid-spec/blob/master/api-websockets.md)
+- [ ] Shapes posant problème ratifier.shex et domain.shex lors des tests sur https://scenaristeur.github.io/spoggy-simple/testform.html
+avec shex dans https://holacratie.solid.community/public/Schema/
+
 ```
 constructor() {
   super();

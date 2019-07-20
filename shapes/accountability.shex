@@ -1,11 +1,13 @@
-# @fr Redevabilités
-PREFIX :       <https://holacratie.solid.community/public/>
+# @fr Redevabilité
+PREFIX :       <https://holacratie.solid.community/public/Schema/>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX hola: <https://holacratie.solid.community/public/Schema/>
 
-:Accountabilitie {
+start = @<Accountability>
+
+<Accountability> {
   schema:name           xsd:string  ;
   schema:dateCreated    xsd:date?  ;
   schema:creator        hola:User;
