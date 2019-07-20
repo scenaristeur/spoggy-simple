@@ -89,20 +89,169 @@ shex.Loader.load([shapeUrl], [], [], []).then(function (loaded) {
 });
 }
 
+function clear(){
+  var liste = document.getElementById("formlist")
+  liste.innerHTML = "";
+  var dest = document.getElementById("forms")
+  dest.innerHTML = ""
+}
+
 
 function schemaToForm(schema){
   console.log(schema)
+  var br = document.createElement("br");
   var dest = document.getElementById("forms")
+clear();
   var prefixes = schema.prefixes;
   var shapes = schema.shapes;
   var start = schema.start;
   console.log ("start",start)
   for (let [url, constraint] of Object.entries(shapes)) {
-    console.log(url,constraint);
+    console.log("#################\n",url,constraint);
     var formDiv = document.createElement("div")
     formDiv.innerHTML = url;
     dest.appendChild(formDiv)
-  }
+
+    var liste = document.createElement("ul")
+    //  formDiv.innerHTML = url;
+    dest.appendChild(liste)
+//  console.log(constraint.expression)
+   console.log(constraint.expression.type)
+  //  console.log(constraint.expression.expressions)
+    var expressions = constraint.expression.expressions;
+    expressions.forEach(function(exp){
+    //  console.log(exp)
+      var li = document.createElement("li");
+      liste.appendChild(li)
+      switch(exp.type) {
+        case "TripleConstraint":
+    console.log("===EXP==",exp.type,exp)
+        // code block
+
+        li.appendChild(document.createTextNode(exp.predicate));
+        li.appendChild(br.cloneNode())
+        li.appendChild(document.createTextNode(exp.type));
+        li.appendChild(br.cloneNode())
+
+        switch(exp.valueExpr.type) {
+          case "NodeConstraint":
+          // code block
+          console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
+          li.appendChild(document.createTextNode("EXPR TYPE :"+exp.valueExpr.type));
+          li.appendChild(br.cloneNode())
+            if (exp.valueExpr.values != undefined){
+          li.appendChild(document.createTextNode("EXPR VALUES :"+exp.valueExpr.values));
+          li.appendChild(br.cloneNode())
+        }
+          if (exp.valueExpr.datatype != undefined){
+          li.appendChild(document.createTextNode("EXPR DATATYPE :"+exp.valueExpr.datatype));
+          li.appendChild(br.cloneNode())
+        }
+          if (exp.valueExpr.nodeKind != undefined){
+          li.appendChild(document.createTextNode("EXPR NODEKIND :"+exp.valueExpr.nodeKind));
+          li.appendChild(br.cloneNode())
+        }
+          break;
+                    case "ShapeRef":
+          // code block
+          console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
+          li.appendChild(document.createTextNode("EXPR TYPE :"+exp.valueExpr.type));
+          li.appendChild(br.cloneNode())
+          li.appendChild(document.createTextNode("SHAPE REF :"+exp.valueExpr.reference));
+          li.appendChild(br.cloneNode())
+          break;
+          default:
+        console.log("\n\nNON TRAITE---VAL---",exp.valueExpr.type,exp.valueExpr)
+        li.appendChild(document.createTextNode("!!!TODO VAL TYPE:"+exp.valueExpr.type));
+        li.appendChild(br.cloneNode())
+        }
+        break;
+        case "EachOf":
+        case "OneOf":
+        console.log("===EXP==",exp.type,exp)
+        li.appendChild(document.createTextNode(exp.type));
+        li.appendChild(br.cloneNode())
+        li.appendChild(document.createTextNode("min : "+exp.min+" max : "+exp.max ));
+            li.appendChild(br.cloneNode())
+        if(exp.expressions.length > 0){
+          exp.expressions.forEach(function(subExp){
+            li.appendChild(document.createTextNode(subExp.predicate));
+            li.appendChild(br.cloneNode())
+            li.appendChild(document.createTextNode("TODO DETAILLER valueExpr"));
+            li.appendChild(br.cloneNode())
+            console.log("A DETAILLER ", subExp.valueExpr)
+          })
+        }
+
+        break;
+        default:
+
+          console.log("\n\nNON TRAITE===EXP=====",exp.type,exp)
+          li.appendChild(document.createTextNode("!!!TODO EXP TYPE :"+exp.type));
+          li.appendChild(br.cloneNode())
+      }
+    })
+
+
+    /*var exp = constraint.expression.expressions;
+    exp.forEach(function (e){
+    console.log(e)
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(e.predicate));
+    li.appendChild(br.cloneNode())
+    li.appendChild(document.createTextNode(e.type));
+    console.log(e.valueExpr)*/
+    /*switch (e.valueExpr.type) {
+    case '#BASE':
+
+    break;
+    default:
+    li.appendChild(br.cloneNode())
+    li.appendChild(document.createTextNode("TODO "+e.valueExpr));
+  }*/
+  /*  if(e.valueExpr.nodeKind != undefined ) {
+  li.appendChild(br.cloneNode()) ;
+  li.appendChild(document.createTextNode(e.type));
+}
+if(e.valueExpr.datatype != undefined ) {
+li.appendChild(br.cloneNode()) ;
+li.appendChild(document.createTextNode(e.type));
+}*/
+
+
+
+
+//liste.appendChild(li)
+/*  var br = document.createElement("br");
+var li = document.createElement("li");
+li.appendChild(document.createTextNode(e.predicate));
+//  li.appendChild( document.createTextNode( '\u00A0' ) ); // ajout espace
+li.appendChild(br.cloneNode())
+switch(e.type) {
+case "xsd:date":
+
+break;
+case "xsd:string":
+
+break;
+case "IRI":
+
+break;
+default:
+console.log("Type non traité ",e)
+}*/
+
+
+
+//  })
+
+//liste.appendChild(li)
+
+
+
+
+
+}
 
 }
 
@@ -138,10 +287,11 @@ function updateFormsTest(data){
   createFormLines(forms,start,destination.listeId)
 }
 
+
 function createFormLines(forms, start,dest){
   console.log(forms, start, dest)
+clear();
   var liste = document.getElementById(dest)
-  liste.innerHTML = "";
   var current = forms.get(start)
   console.log("current",current)
   var it=current.entries();
