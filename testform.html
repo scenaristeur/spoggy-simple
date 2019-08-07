@@ -193,8 +193,10 @@ function schemaToForm(schema){
 
 function processExp(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
   parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
+  //  parent.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
+  //  parent.appendChild(br.cloneNode())
 
   switch (exp.type) {
     case "Shape":
@@ -203,45 +205,51 @@ function processExp(exp,parent){
     case "TripleConstraint":
     processTriple(exp,parent)
     break;
+    case "NodeConstraint":
+    processNode(exp,parent)
+    break;
     case "EachOf":
-
     processEachOf(exp,parent)
     break;
     case "OneOf":
     processOneOf(exp,parent)
     break;
     default:
-    parent.appendChild(document.createTextNode("TYPE INCONNU :"));
-    parent.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
+    parent.appendChild(document.createTextNode("TYPE INCONNU :"+JSON.stringify(exp, null, 2)));
     parent.appendChild(br.cloneNode())
   }
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
 }
 
 function processShape(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("SHAPE "+ exp.type));
+  parent.appendChild(document.createTextNode("SHAPE "+ JSON.stringify(exp, null, 2)));
   parent.appendChild(br.cloneNode())
-  parent.appendChild(br.cloneNode())
-  parent.appendChild(document.createTextNode("EXPRESSION "+ JSON.stringify(exp.expression, null, 2)));
-  parent.appendChild(br.cloneNode())
-  parent.appendChild(br.cloneNode())
+
+
   processExp(exp.expression,parent)
 }
 function processTriple(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("TRIPLE "+ exp.type));
+  parent.appendChild(document.createTextNode("TRIPLE "+ JSON.stringify(exp, null, 2)));
   parent.appendChild(br.cloneNode())
+  parent.appendChild(document.createTextNode("PREDICATE "+ exp.predicate));
   parent.appendChild(br.cloneNode())
+  var labelInput = document.createElement("LABEL")
+  labelInput.innerHTML = "------------"+exp.predicate;
+  parent.appendChild(labelInput);
+  processExp(exp.valueExpr,parent)
 }
 
 function processEachOf(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("EACHOF "+ exp.type));
+  parent.appendChild(document.createTextNode("EACHOF "+ JSON.stringify(exp, null, 2)));
   parent.appendChild(br.cloneNode())
-  parent.appendChild(br.cloneNode())
-  parent.appendChild(document.createTextNode("EXPRESSIONS "+ JSON.stringify(exp.expressions, null, 2)));
-  parent.appendChild(br.cloneNode())
-  parent.appendChild(br.cloneNode())
+
+  //  parent.appendChild(document.createTextNode("EXPRESSIONS "+ JSON.stringify(exp.expressions, null, 2)));
+
   exp.expressions.forEach(function(e){
     processExp(e,parent)
   });
@@ -249,8 +257,67 @@ function processEachOf(exp,parent){
 
 function processOneOf(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("ONEOF "+ exp.type));
-  parent.appendChild(br.cloneNode())
+  parent.appendChild(document.createTextNode("ONEOF "+ JSON.stringify(exp, null, 2)));
+}
+
+function processNode(exp,parent){
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode("NODE "+ JSON.stringify(exp, null, 2)));
+
+var elem;
+  if(exp.datatype != undefined) {
+    switch(exp.datatype) {
+      case "http://www.w3.org/2001/XMLSchema#dateTime":
+      case "http://www.w3.org/2001/XMLSchema#date":
+      elem = document.createElement("input")
+      elem.setAttribute("type", "date")
+      break;
+      case "http://www.w3.org/2001/XMLSchema#string":
+      elem = document.createElement("input")
+      elem.setAttribute("placeholder", "xsd:string")
+      break;
+      case "http://www.w3.org/2001/XMLSchema#integer":
+          elem = document.createElement("input")
+      elem.setAttribute("placeholder", "xsd:integer")
+      elem.setAttribute("type", "number")
+      break;
+      /*  case "IRI":
+      var iriInput = document.createElement("input")
+      iriInput.setAttribute("placeholder", "IRI")
+      parent.appendChild(iriInput);
+      break;
+      case "ShapeRef":
+      var shapeRefBtn = document.createElement("button")
+      shapeRefBtn.innerHTML = "add one / ajouter un "+elems[1]
+      parent.appendChild(shapeRefBtn);
+      break;*/
+      default:
+      elem = document.createTextNode(" !!!! DATATYPE INCONNU"+ JSON.stringify(exp, null, 2));
+    }
+    parent.appendChild(br.cloneNode());
+  }
+// gestion des contraintes autres proprietes
+    switch (true) {
+        //exemple  <input type="number" name="quantity" min="1" max="5">
+       case (exp.hasOwnProperty("values")):
+      console.log("HAS VALUES ",exp.values)
+      parent.appendChild(br.cloneNode())
+      elem = document.createElement("select")
+      parent.appendChild(elem);
+      exp.values.forEach(function(v){
+        var optionSet = document.createElement("option");
+        optionSet.text = v.value;
+        elem.add(optionSet);
+      });
+      break;
+      case (exp.hasOwnProperty("minlength")):
+      elem.setAttribute("minlength", exp.minlength)
+      break;
+    }
+parent.appendChild(elem);
+var expKeys =   Object.keys(exp)
+parent.appendChild(document.createTextNode("NODE KEYS"+ JSON.stringify(expKeys, null, 2)));
+
 }
 
 
