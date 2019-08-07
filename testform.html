@@ -219,6 +219,9 @@ function processExp(exp,parent){
     case "ShapeRef":
     processShapeRef(exp,parent)
     break;
+    case "ShapeOr":
+    processShapeOr(exp,parent)
+    break;
 
     default:
     parent.appendChild(document.createTextNode("TYPE INCONNU :"+JSON.stringify(exp, null, 2)));
@@ -340,6 +343,16 @@ function processShapeRef(exp, parent){
   };
   parent.appendChild(shapeRefBtn);
 }
+
+
+
+function processShapeOr(exp, parent){
+  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
+
+  parent.appendChild(elem);
+}
+
+
 
 function testForm(id) {
   /*  var x = document.getElementById(id).elements.length;
