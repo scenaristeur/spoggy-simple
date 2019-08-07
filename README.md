@@ -88,11 +88,22 @@ https://icomoon.io/app/#/select
 
 
 # Shapes & Footprints / UI
+
+http://labra.weso.es/pdf/2019_eswc_ShEx.pdf
+https://www.wikidata.org/wiki/Wikidata:WikiProject_ShEx
 https://shex.io/
 http://shexspec.github.io/primer/#choices
 http://www.validatingrdf.com/tutorial/iswc2018/
 https://book.validatingrdf.com/bookHtml010.html#ch040%3AShExSimpleExample
 http://shex.io/shex-semantics/
+
+https://tools.wmflabs.org/wd-shex-infer/
+https://tools.wmflabs.org/scholia/topic/Q29377880
+
+https://www.w3.org/DesignIssues/Footprints.html
+https://rawgit.com/shexSpec/shex.js/master/packages/shex-webapp/doc/shex-simple.html
+
+https://shexspec.github.io/talks/2017/12-04-swat4hcls-ericp/#(1)
 
 + ShEx
 ```

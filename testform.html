@@ -23,6 +23,7 @@ input{
       <option>https://holacratie.solid.community/public/Schema/governance.shex</option>
       <option>  OTHER SHEX </option>
       <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
+      <option>https://holacratie.solid.community/public/Schema/example1.shex</option>
       <option>https://jmartin.inrupt.net/public/shapes/book.shex</option>
       <option>https://jmartin.inrupt.net/public/shapes/movie.shex</option>
       <option>https://jmartin.inrupt.net/public/shapes/data-browser.shex</option>
@@ -90,8 +91,9 @@ console.log(shex)
 //var shexc = "https://jmartin.inrupt.net/public/shapes/book.shex";
 //var data = "https://jmartin.inrupt.net/public/shapes/book.ttl";
 //var node = "https://jmartin.inrupt.net/public/shapes/book";
-shex.Loader.load([shapeUrl], [], [], []).then(function (loaded) {
+shex.Loader.load([shapeUrl], [], [], []).then(function (loaded, err) {
   console.log("LOADED",loaded)
+  console.log("ERROR",err)
   //console.log("VALID",shex.Validator.construct(loaded.schema))
   if (loaded.schema){
     schemaToForm(loaded.schema)
@@ -125,67 +127,86 @@ function schemaToForm(schema){
   console.log ("start",start)
   for (let [url, constraint] of Object.entries(shapes)) {
     console.log("#################\n",url,constraint);
-    var formDiv = document.createElement("div")
-    formDiv.innerHTML = url;
-    dest.appendChild(formDiv)
+    var urlDiv = document.createElement("div")
+    urlDiv.innerHTML = url;
+    dest.appendChild(urlDiv)
+
+    var formulaire = document.createElement("FORM")
+    formulaire.setAttribute("id", "shapeForm");
+    dest.appendChild(formulaire)
 
     var liste = document.createElement("ul")
     //  formDiv.innerHTML = url;
-    dest.appendChild(liste)
+    formulaire.appendChild(liste)
     //  console.log(constraint.expression)
     console.log(constraint.expression.type)
     //  console.log(constraint.expression.expressions)
     var expressions = constraint.expression.expressions;
     expressions.forEach(function(exp){
-      //  console.log(exp)
+      console.log("\nJSON :",exp)
       var li = document.createElement("li");
       liste.appendChild(li)
+
+      li.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
+      li.appendChild(br.cloneNode())
+      li.appendChild(br.cloneNode())
+      li.appendChild(document.createTextNode("type : "+ exp.type));
+      li.appendChild(br.cloneNode())
+      li.appendChild(document.createTextNode("predicate : "+exp.predicate));
+      li.appendChild(br.cloneNode())
+      li.appendChild(document.createTextNode("valueExpr :"+ JSON.stringify(exp.valueExpr, null, 2)));
+      li.appendChild(br.cloneNode())
+      li.appendChild(br.cloneNode())
+
       switch(exp.type) {
         case "TripleConstraint":
-        console.log("===EXP==",exp.type,exp)
+        //  console.log("===EXP==",exp.type,exp)
         // code block
-
-        li.appendChild(document.createTextNode(exp.predicate));
-        li.appendChild(br.cloneNode())
-        li.appendChild(document.createTextNode(exp.type));
-        li.appendChild(br.cloneNode())
-
         switch(exp.valueExpr.type) {
           case "NodeConstraint":
           // code block
-          console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
-          li.appendChild(document.createTextNode("EXPR TYPE :"+exp.valueExpr.type));
+          //  console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
+          li.appendChild(document.createTextNode("NodeConstraint EXPR TYPE : "+exp.valueExpr.type));
           li.appendChild(br.cloneNode())
+
+
+          li.appendChild(br.cloneNode())
+
           if (exp.valueExpr.values != undefined){
-            li.appendChild(document.createTextNode("EXPR VALUES :"+exp.valueExpr.values));
+            li.appendChild(document.createTextNode("NodeConstraint EXPR VALUES : "+exp.valueExpr.values));
+
             li.appendChild(br.cloneNode())
           }
           if (exp.valueExpr.datatype != undefined){
-            li.appendChild(document.createTextNode("EXPR DATATYPE :"+exp.valueExpr.datatype));
+            li.appendChild(document.createTextNode("NodeConstraint EXPR DATATYPE : "+exp.valueExpr.datatype));
+            li.appendChild(br.cloneNode())
+            var domN = domNode(exp.valueExpr.datatype, exp.predicate)
+            console.log(domN)
+            li.appendChild(domN)
             li.appendChild(br.cloneNode())
           }
           if (exp.valueExpr.nodeKind != undefined){
-            li.appendChild(document.createTextNode("EXPR NODEKIND :"+exp.valueExpr.nodeKind));
+            li.appendChild(document.createTextNode("NodeConstraint EXPR NODEKIND : "+exp.valueExpr.nodeKind));
             li.appendChild(br.cloneNode())
           }
           break;
           case "ShapeRef":
           // code block
-          console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
-          li.appendChild(document.createTextNode("EXPR TYPE :"+exp.valueExpr.type));
+          //  console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
+          li.appendChild(document.createTextNode("Shaperef EXPR TYPE :"+exp.valueExpr.type));
           li.appendChild(br.cloneNode())
           li.appendChild(document.createTextNode("SHAPE REF :"+exp.valueExpr.reference));
           li.appendChild(br.cloneNode())
           break;
           default:
-          console.log("\n\nNON TRAITE---VAL---",exp.valueExpr.type,exp.valueExpr)
+          //    console.log("\n\nNON TRAITE---VAL---",exp.valueExpr.type,exp.valueExpr)
           li.appendChild(document.createTextNode("!!!TODO VAL TYPE:"+exp.valueExpr.type));
           li.appendChild(br.cloneNode())
         }
         break;
         case "EachOf":
         case "OneOf":
-        console.log("===EXP==",exp.type,exp)
+        //  console.log("===EXP==",exp.type,exp)
         li.appendChild(document.createTextNode(exp.type));
         li.appendChild(br.cloneNode())
         li.appendChild(document.createTextNode("min : "+exp.min+" max : "+exp.max ));
@@ -203,13 +224,22 @@ function schemaToForm(schema){
         break;
         default:
 
-        console.log("\n\nNON TRAITE===EXP=====",exp.type,exp)
+        //  console.log("\n\nNON TRAITE===EXP=====",exp.type,exp)
         li.appendChild(document.createTextNode("!!!TODO EXP TYPE :"+exp.type));
         li.appendChild(br.cloneNode())
       }
+      li.appendChild(br.cloneNode())
+      li.appendChild(br.cloneNode())
     })
-
-
+    var submitBtn = document.createElement("BUTTON");
+    var t = document.createTextNode("Submit");
+    submitBtn.appendChild(t);
+    submitBtn.onclick = function(){
+      //  alert('here be dragons');
+      testForm();
+      return false;
+    };
+    formulaire.appendChild(submitBtn)
     /*var exp = constraint.expression.expressions;
     exp.forEach(function (e){
     console.log(e)
@@ -270,6 +300,43 @@ console.log("Type non traité ",e)
 
 }
 
+}
+
+
+
+function domNode(datatype,predicate){
+  /* destination, type de formulaire, predicate ...*/
+  var newDiv = document.createElement("div");
+  switch(datatype) {
+    case "http://www.w3.org/2001/XMLSchema#dateTime":
+    case "http://www.w3.org/2001/XMLSchema#date":
+    // code block
+    var datepicker = document.createElement("input")
+    datepicker.setAttribute("type", "date")
+
+    newDiv.appendChild(datepicker);
+    break;
+    case "http://www.w3.org/2001/XMLSchema#string":
+    var basicInput = document.createElement("input")
+    basicInput.setAttribute("placeholder", "xsd:string")
+    newDiv.appendChild(basicInput);
+    break;
+    case "IRI":
+    var iriInput = document.createElement("input")
+    iriInput.setAttribute("placeholder", "IRI")
+    newDiv.appendChild(iriInput);
+    break;
+    default:
+    newDiv.appendChild(document.createTextNode("the node A TRAITER : "+datatype+" "+ predicate));
+  }
+  return newDiv
+}
+
+
+function testForm() {
+  var x = document.getElementById("shapeForm").elements.length;
+  alert( "Found " + x + " elements in the form.");
+  console.log(document.getElementById("shapeForm").elements)
 }
 
 

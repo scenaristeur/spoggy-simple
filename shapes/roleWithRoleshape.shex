@@ -1,8 +1,9 @@
+
 import <https://holacratie.solid.community/public/Schema/ratifier.shex>
 import <https://holacratie.solid.community/public/Schema/circle.shex>
 
-BASE <https://holacratie.solid.community/public/Schema/>
 PREFIX sx: <http://www.w3.org/ns/shex#>
+PREFIX :  <>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -18,8 +19,14 @@ start = @<Role>
   hola:controls         hola:Domain*;
   hola:policy           hola:Policy;
   hola:specialRule      hola:SpecialRule;
-  hola:roleLead         @<Ratifier>;
-  hola:assignedTo       @<Ratifier>*;
+  hola:roleLead         @<RatifierSHAPE>;
+  hola:assignedTo       @<RatifierSHAPE>*;
 }
+
+<RatifierSHAPE>  {
+ a sx:ShapeExternal ;
+ rdfs:isDefinedBy <https://holacratie.solid.community/public/Schema/ratifier.shex>;
+}
+
 
 ###   schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
