@@ -1,15 +1,21 @@
+import <https://holacratie.solid.community/public/Schema/ratifier.shex>
+
 PREFIX :       <https://holacratie.solid.community/public/>
+PREFIX sx: <http://www.w3.org/ns/shex#>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX hola: <https://holacratie.solid.community/public/Schema/>
 
 start = @<Tension>
 
 <Tension> {               # A Tension has:
-  :status ["preliminary" "final"]; #   status in this value set
-  schema:name          xsd:string  ;
-  schema:dateCreated     xsd:date?  ;
-  schema:creator         :Ratifier;
-  :subject              :Organization;
+  :status                  ["preliminary" "final"]; #   status in this value set
+  schema:name              xsd:string  ;
+  schema:dateCreated       xsd:date?  ;
+  schema:creator           :Ratifier;
+  schema:creator2FORTEST   @<Ratifier>;
+  schema:creator3FORTEST   hola:Ratifier;
+  :subject                 :Organization;
+   rdfs:isDefinedBy          <https://holacratie.solid.community/public/Schema/tension.shex> ?;
 }

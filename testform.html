@@ -1,7 +1,14 @@
 <html>
 <style>
 input{
-  width: 100%;
+  width: 50%;
+}
+label {
+    /* Other styling... */
+    text-align: right;
+    clear: both;
+    float:left;
+    margin-right:15px;
 }
 
 </style>
@@ -124,6 +131,7 @@ function schemaToForm(schema){
   var prefixes = schema.prefixes;
   var shapes = schema.shapes;
   var start = schema.start;
+  console.log(shapes)
   console.log ("start",start)
   for (let [url, constraint] of Object.entries(shapes)) {
     console.log("#################\n",url,constraint);
@@ -132,7 +140,7 @@ function schemaToForm(schema){
     dest.appendChild(urlDiv)
 
     var formulaire = document.createElement("FORM")
-    formulaire.setAttribute("id", "shapeForm");
+    formulaire.setAttribute("id", url);
     dest.appendChild(formulaire)
 
     var liste = document.createElement("ul")
@@ -236,7 +244,7 @@ function schemaToForm(schema){
     submitBtn.appendChild(t);
     submitBtn.onclick = function(){
       //  alert('here be dragons');
-      testForm();
+      testForm(url);
       return false;
     };
     formulaire.appendChild(submitBtn)
@@ -307,6 +315,12 @@ console.log("Type non traité ",e)
 function domNode(datatype,predicate){
   /* destination, type de formulaire, predicate ...*/
   var newDiv = document.createElement("div");
+
+  var labelInput = document.createElement("LABEL")
+  labelInput.innerHTML = predicate;
+  console.log("LBL",labelInput)
+  newDiv.appendChild(labelInput);
+
   switch(datatype) {
     case "http://www.w3.org/2001/XMLSchema#dateTime":
     case "http://www.w3.org/2001/XMLSchema#date":
@@ -317,6 +331,7 @@ function domNode(datatype,predicate){
     newDiv.appendChild(datepicker);
     break;
     case "http://www.w3.org/2001/XMLSchema#string":
+
     var basicInput = document.createElement("input")
     basicInput.setAttribute("placeholder", "xsd:string")
     newDiv.appendChild(basicInput);
@@ -333,10 +348,10 @@ function domNode(datatype,predicate){
 }
 
 
-function testForm() {
-  var x = document.getElementById("shapeForm").elements.length;
-  alert( "Found " + x + " elements in the form.");
-  console.log(document.getElementById("shapeForm").elements)
+function testForm(id) {
+  var x = document.getElementById(id).elements.length;
+  alert( "Found " + x + " elements in the form "+id);
+  console.log(document.getElementById(id).elements)
 }
 
 
