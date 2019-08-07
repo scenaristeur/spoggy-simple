@@ -48,8 +48,9 @@ label {
   <button onclick="add()"> add yours / ajoutez votre shape to the select (shex)</button>
   (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
   <br><br>
-  <button onclick="charge()">Charger / Load V1</button>
+
   <button onclick="chargelib()">Charger / Load V2 with shex.js</button>
+  <button onclick="charge()" disabled>Charger / Load V1</button>
   <br>
   <br>
 
@@ -61,6 +62,7 @@ label {
   <fieldset id="formulaire">
     <legend id="legend"></legend>
     <ul id="formlist">
+      <li>Select a Shape or add yours and select it after </li>
       <li>Click on Load button to load a shape/form </li>
       <li>Click sur le bouton "charger" pour charger un shape/form </li>
     </ul>
@@ -72,7 +74,7 @@ label {
 
 
 <script>
-
+var dernierForm = "";
 function add(){
   var select = document.getElementById("mySelect")
   var option = document.createElement("option");
@@ -214,42 +216,40 @@ function processExp(exp,parent){
     case "OneOf":
     processOneOf(exp,parent)
     break;
+    case "ShapeRef":
+    processShapeRef(exp,parent)
+    break;
+
     default:
     parent.appendChild(document.createTextNode("TYPE INCONNU :"+JSON.stringify(exp, null, 2)));
     parent.appendChild(br.cloneNode())
   }
   parent.appendChild(br.cloneNode())
-  parent.appendChild(br.cloneNode())
-  parent.appendChild(br.cloneNode())
 }
 
 function processShape(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("SHAPE "+ JSON.stringify(exp, null, 2)));
-  parent.appendChild(br.cloneNode())
-
-
+  //  parent.appendChild(document.createTextNode("SHAPE "+ JSON.stringify(exp, null, 2)));
+  //  parent.appendChild(br.cloneNode())
   processExp(exp.expression,parent)
 }
 function processTriple(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("TRIPLE "+ JSON.stringify(exp, null, 2)));
-  parent.appendChild(br.cloneNode())
-  parent.appendChild(document.createTextNode("PREDICATE "+ exp.predicate));
-  parent.appendChild(br.cloneNode())
+  //  parent.appendChild(document.createTextNode("TRIPLE "+ JSON.stringify(exp, null, 2)));
+  //  parent.appendChild(br.cloneNode())
+  //  parent.appendChild(document.createTextNode("PREDICATE "+ exp.predicate));
+  //  parent.appendChild(br.cloneNode())
   var labelInput = document.createElement("LABEL")
-  labelInput.innerHTML = "------------"+exp.predicate;
+  labelInput.innerHTML = exp.predicate;
   parent.appendChild(labelInput);
   processExp(exp.valueExpr,parent)
 }
 
 function processEachOf(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("EACHOF "+ JSON.stringify(exp, null, 2)));
-  parent.appendChild(br.cloneNode())
-
+  //  parent.appendChild(document.createTextNode("EACHOF "+ JSON.stringify(exp, null, 2)));
+  //  parent.appendChild(br.cloneNode())
   //  parent.appendChild(document.createTextNode("EXPRESSIONS "+ JSON.stringify(exp.expressions, null, 2)));
-
   exp.expressions.forEach(function(e){
     processExp(e,parent)
   });
@@ -264,7 +264,7 @@ function processNode(exp,parent){
   var br = document.createElement("br");
   parent.appendChild(document.createTextNode("NODE "+ JSON.stringify(exp, null, 2)));
 
-var elem;
+  var elem;
   if(exp.datatype != undefined) {
     switch(exp.datatype) {
       case "http://www.w3.org/2001/XMLSchema#dateTime":
@@ -277,413 +277,86 @@ var elem;
       elem.setAttribute("placeholder", "xsd:string")
       break;
       case "http://www.w3.org/2001/XMLSchema#integer":
-          elem = document.createElement("input")
+      elem = document.createElement("input")
       elem.setAttribute("placeholder", "xsd:integer")
       elem.setAttribute("type", "number")
       break;
-      /*  case "IRI":
-      var iriInput = document.createElement("input")
-      iriInput.setAttribute("placeholder", "IRI")
-      parent.appendChild(iriInput);
-      break;
-      case "ShapeRef":
-      var shapeRefBtn = document.createElement("button")
-      shapeRefBtn.innerHTML = "add one / ajouter un "+elems[1]
-      parent.appendChild(shapeRefBtn);
-      break;*/
       default:
-      elem = document.createTextNode(" !!!! DATATYPE INCONNU"+ JSON.stringify(exp, null, 2));
+      //  elem = document.createTextNode(" !!!! DATATYPE INCONNU"+ JSON.stringify(exp, null, 2));
+      elem = document.createElement("input")
+      elem.setAttribute("placeholder", exp.datatype)
     }
     parent.appendChild(br.cloneNode());
   }
-// gestion des contraintes autres proprietes
-    switch (true) {
-        //exemple  <input type="number" name="quantity" min="1" max="5">
-       case (exp.hasOwnProperty("values")):
-      console.log("HAS VALUES ",exp.values)
-      parent.appendChild(br.cloneNode())
-      elem = document.createElement("select")
-      parent.appendChild(elem);
-      exp.values.forEach(function(v){
-        var optionSet = document.createElement("option");
-        optionSet.text = v.value;
-        elem.add(optionSet);
-      });
-      break;
-      case (exp.hasOwnProperty("minlength")):
-      elem.setAttribute("minlength", exp.minlength)
-      break;
+  // gestion des contraintes autres proprietes
+  switch (true) {
+    //exemple  <input type="number" name="quantity" min="1" max="5">
+    case (exp.hasOwnProperty("values")):
+    //  console.log("HAS VALUES ",exp.values)
+    parent.appendChild(br.cloneNode())
+    elem = document.createElement("select")
+    parent.appendChild(elem);
+    exp.values.forEach(function(v){
+      var optionSet = document.createElement("option");
+      optionSet.text = v.value || v;
+      elem.add(optionSet);
+    });
+    break;
+    case (exp.hasOwnProperty("minlength")):
+    elem.setAttribute("minlength", exp.minlength)
+    break;
+    case (exp.hasOwnProperty("nodeKind")):
+    if(exp.nodeKind == "iri" || exp.nodeKind == "IRI"){
+      elem = document.createElement("input")
+      elem.setAttribute("placeholder", "IRI")
+    }else{
+      parent.appendChild(document.createTextNode("NODEKIND Non géré"+ JSON.stringify(exp.nodeKind, null, 2)));
+
     }
-parent.appendChild(elem);
-var expKeys =   Object.keys(exp)
-parent.appendChild(document.createTextNode("NODE KEYS"+ JSON.stringify(expKeys, null, 2)));
-
+    break;
+  }
+  parent.appendChild(elem);
+  var expKeys =   Object.keys(exp)
+  parent.appendChild(document.createTextNode("NODE KEYS"+ JSON.stringify(expKeys, null, 2)));
 }
 
-
-
-
-function schemaToFormA(schema){
-  console.log(schema)
-  var br = document.createElement("br");
-  var dest = document.getElementById("forms")
-  clear();
-  var prefixes = schema.prefixes;
-  var shapes = schema.shapes;
-  var start = schema.start;
-  console.log(shapes)
-  console.log ("start",start)
-  for (let [url, constraint] of Object.entries(shapes)) {
-    console.log("#################\n",url,constraint);
-    var urlDiv = document.createElement("div")
-    urlDiv.innerHTML = url;
-    dest.appendChild(urlDiv)
-
-    var formulaire = document.createElement("FORM")
-    formulaire.setAttribute("id", url);
-    dest.appendChild(formulaire)
-
-    var liste = document.createElement("ul")
-    //  formDiv.innerHTML = url;
-    formulaire.appendChild(liste)
-    //  console.log(constraint.expression)
-    console.log(constraint.expression.type)
-    //  console.log(constraint.expression.expressions)
-    var expressions = constraint.expression.expressions;
-    expressions.forEach(function(exp){
-      console.log("\nJSON :",exp)
-      var li = document.createElement("li");
-      liste.appendChild(li)
-
-      li.appendChild(document.createElement("HR"));
-      li.appendChild(document.createElement("HR"));
-      li.appendChild(br.cloneNode())
-
-      li.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
-      li.appendChild(br.cloneNode())
-      li.appendChild(br.cloneNode())
-      li.appendChild(document.createTextNode("type : "+ exp.type));
-      li.appendChild(br.cloneNode())
-      li.appendChild(document.createTextNode("predicate : "+exp.predicate));
-      li.appendChild(br.cloneNode())
-      li.appendChild(document.createTextNode("valueExpr :"+ JSON.stringify(exp.valueExpr, null, 2)));
-      li.appendChild(br.cloneNode())
-      li.appendChild(br.cloneNode())
-
-      /*
-      ESSAI POUR GENERALISER MAIS PB AVEC LA RECURSION ???
-      var domNodeResult = expProcess(exp)
-      console.log(domNodeResult)
-      li.appendChild(domNodeResult)*/
-
-
-
-
-
-      li.appendChild(document.createElement("HR"));
-      li.appendChild(br.cloneNode())
-
-      switch(exp.type) {
-        case "TripleConstraint":
-        //  console.log("===EXP==",exp.type,exp)
-        // code block
-        switch(exp.valueExpr.type) {
-          case "NodeConstraint":
-          // code block
-          //  console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
-          li.appendChild(document.createTextNode("NodeConstraint EXPR TYPE : "+exp.valueExpr.type));
-          li.appendChild(br.cloneNode())
-
-
-          li.appendChild(br.cloneNode())
-
-          if (exp.valueExpr.values != undefined){
-            li.appendChild(document.createTextNode("NodeConstraint EXPR VALUES : "+exp.valueExpr.values));
-
-            li.appendChild(br.cloneNode())
-          }
-          if (exp.valueExpr.datatype != undefined){
-            li.appendChild(document.createTextNode("NodeConstraint EXPR DATATYPE : "+exp.valueExpr.datatype));
-            li.appendChild(br.cloneNode())
-            var domN = domNode(exp.valueExpr, exp.predicate)
-            console.log(domN)
-            li.appendChild(domN)
-            li.appendChild(br.cloneNode())
-          }
-          if (exp.valueExpr.nodeKind != undefined){
-            li.appendChild(document.createTextNode("NodeConstraint EXPR NODEKIND : "+exp.valueExpr.nodeKind));
-            li.appendChild(br.cloneNode())
-          }
-          break;
-          case "ShapeRef":
-          // code block
-          //  console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
-          li.appendChild(document.createTextNode("Shaperef EXPR TYPE :"+exp.valueExpr.type));
-          var domN = domNode(exp.valueExpr, exp.predicate)
-          console.log(domN)
-          li.appendChild(domN)
-          li.appendChild(br.cloneNode())
-          li.appendChild(document.createTextNode("SHAPE REF :"+exp.valueExpr.reference));
-          li.appendChild(br.cloneNode())
-          break;
-          default:
-          //    console.log("\n\nNON TRAITE---VAL---",exp.valueExpr.type,exp.valueExpr)
-          li.appendChild(document.createTextNode("!!!TODO VAL TYPE:"+exp.valueExpr.type));
-          li.appendChild(br.cloneNode())
-        }
-        break;
-        case "EachOf":
-        case "OneOf":
-        //  console.log("===EXP==",exp.type,exp)
-        li.appendChild(document.createTextNode(exp.type));
-        li.appendChild(br.cloneNode())
-        li.appendChild(document.createTextNode("min : "+exp.min+" max : "+exp.max ));
-        li.appendChild(br.cloneNode())
-        if(exp.expressions.length > 0){
-          exp.expressions.forEach(function(subExp){
-            li.appendChild(document.createTextNode(subExp.predicate));
-            li.appendChild(br.cloneNode())
-            li.appendChild(document.createTextNode("TODO DETAILLER valueExpr"));
-            li.appendChild(br.cloneNode())
-            console.log("A DETAILLER ", subExp.valueExpr)
-          })
-        }
-
-        break;
-        default:
-
-        //  console.log("\n\nNON TRAITE===EXP=====",exp.type,exp)
-        li.appendChild(document.createTextNode("!!!TODO EXP TYPE :"+exp.type));
-        li.appendChild(br.cloneNode())
+function processShapeRef(exp, parent){
+  var shapeRefBtn = document.createElement("button")
+  shapeRefBtn.innerHTML = "add one / ajouter un "+exp.reference;
+  shapeRefBtn.onclick = function(){
+    console.log("ID parent",parent.id)
+    dernierForm = parent.id;
+    var tousForms = document.querySelectorAll("form");
+    console.log(tousForms)
+    tousForms.forEach(function(f){
+      console.log(f.id)
+      if (f.id == exp.reference){
+        f.style.display = "block"
+      }else{
+        f.style.display = "none"
       }
-      li.appendChild(br.cloneNode())
-      li.appendChild(br.cloneNode())
     })
-    var submitBtn = document.createElement("BUTTON");
-    var t = document.createTextNode("Submit");
-    submitBtn.appendChild(t);
-    submitBtn.onclick = function(){
-      //  alert('here be dragons');
-      testForm(url);
-      return false;
-    };
-    formulaire.appendChild(submitBtn)
-    /*var exp = constraint.expression.expressions;
-    exp.forEach(function (e){
-    console.log(e)
-    var li = document.createElement("li");
-    li.appendChild(document.createTextNode(e.predicate));
-    li.appendChild(br.cloneNode())
-    li.appendChild(document.createTextNode(e.type));
-    console.log(e.valueExpr)*/
-    /*switch (e.valueExpr.type) {
-    case '#BASE':
-
-    break;
-    default:
-    li.appendChild(br.cloneNode())
-    li.appendChild(document.createTextNode("TODO "+e.valueExpr));
-  }*/
-  /*  if(e.valueExpr.nodeKind != undefined ) {
-  li.appendChild(br.cloneNode()) ;
-  li.appendChild(document.createTextNode(e.type));
+    return false;
+  };
+  parent.appendChild(shapeRefBtn);
 }
-if(e.valueExpr.datatype != undefined ) {
-li.appendChild(br.cloneNode()) ;
-li.appendChild(document.createTextNode(e.type));
-}*/
-
-
-
-
-//liste.appendChild(li)
-/*  var br = document.createElement("br");
-var li = document.createElement("li");
-li.appendChild(document.createTextNode(e.predicate));
-//  li.appendChild( document.createTextNode( '\u00A0' ) ); // ajout espace
-li.appendChild(br.cloneNode())
-switch(e.type) {
-case "xsd:date":
-
-break;
-case "xsd:string":
-
-break;
-case "IRI":
-
-break;
-default:
-console.log("Type non traité ",e)
-}*/
-
-
-
-//  })
-
-//liste.appendChild(li)
-
-
-
-
-
-}
-
-}
-
-function expProcess(exp){
-  console.log(exp.type)
-  var innerDiv = document.createElement("div")
-  var br = document.createElement("br");
-  switch (exp.type){
-    case "TripleConstraint":
-    labelNode = document.createTextNode("tripleConstraintProcess");
-    childNode = tripleConstraintProcess(exp)
-
-    break;
-    case "NodeConstraint":
-    labelNode = document.createTextNode("nodeConstraintProcess");
-    //  childNode = nodeConstraintProcess(exp)
-    break;
-    default:
-    labelNode = document.createTextNode("isNotProcessedYet");
-    childNode = isNotProcessedYet(exp)
-  }
-  innerDiv.appendChild(labelNode)
-  innerDiv.appendChild(childNode)
-  innerDiv.appendChild(br.cloneNode())
-  console.log(innerDiv)
-  return innerDiv
-}
-
-function tripleConstraintProcess(exp){
-  console.log("triple",exp)
-  var br = document.createElement("br");
-
-  console.log(exp.valueExpr.type)
-  newNode = document.createElement("DIV");
-  var childLabel = document.createTextNode("TRILET CONS in");
-  newNode.appendChild(childLabel)
-  newNode.appendChild(br.cloneNode())
-  var childValueExpr = document.createTextNode("valueExpr :"+ JSON.stringify(exp.valueExpr, null, 2));
-  newNode.appendChild(childValueExpr)
-  newNode.appendChild(br.cloneNode())
-  var valueExpr = exp.valueExpr;
-  console.log(valueExpr)
-  /*  var child = expProcess(valueExpr)
-  console.log("CHILD",child)
-  newNode.appendChild(child)*/
-  console.log(newNode)
-  return newNode;
-}
-
-function nodeConstraintProcess(exp){
-  console.log("node",exp)
-  var br = document.createElement("br");
-  console.log(exp.valueExpr.type)
-  newNode = document.createElement("DIV");
-  var childLabel = document.createTextNode("NODE CONS in");
-  newNode.appendChild(childLabel)
-  newNode.appendChild(br.cloneNode())
-
-  newNode.appendChild(document.createTextNode("NodeConstraint EXPR TYPE : "+exp.valueExpr.type));
-  newNode.appendChild(br.cloneNode())
-
-
-  newNode.appendChild(br.cloneNode())
-
-  if (exp.valueExpr.values != undefined){
-    newNode.appendChild(document.createTextNode("NodeConstraint EXPR VALUES : "+exp.valueExpr.values));
-
-    newNode.appendChild(br.cloneNode())
-  }
-  if (exp.valueExpr.datatype != undefined){
-    newNode.appendChild(document.createTextNode("NodeConstraint EXPR DATATYPE : "+exp.valueExpr.datatype));
-    newNode.appendChild(br.cloneNode())
-    var domN = domNode(exp.valueExpr, exp.predicate)
-    console.log(domN)
-    newNode.appendChild(domN)
-    lnewNodei.appendChild(br.cloneNode())
-  }
-  if (exp.valueExpr.nodeKind != undefined){
-    newNode.appendChild(document.createTextNode("NodeConstraint EXPR NODEKIND : "+exp.valueExpr.nodeKind));
-    newNode.appendChild(br.cloneNode())
-  }
-  /*var valueExpr = exp.valueExpr;
-  console.log(valueExpr)
-  var child = expProcess(valueExpr)
-  console.log("CHILD",child)
-  domNode.appendChild(child)*/
-  console.log(newNode)
-  return newNode;
-}
-
-function isNotProcessedYet(exp){
-  console.log("is not processed yet",exp)
-  var br = document.createElement("br");
-  newNode = document.createTextNode("NOT PROCESSED CONS in");
-  /*var valueExpr = exp.valueExpr;
-  console.log(valueExpr)
-  var child = expProcess(valueExpr)
-  console.log("CHILD",child)
-  domNode.appendChild(child)*/
-  console.log(newNode)
-  return newNode;
-}
-
-
-
-
-function domNode(exprValue,predicate){
-  console.log("EXPRESSION TO DOM :",exprValue)
-  /* destination, type de formulaire, predicate ...*/
-  var newDiv = document.createElement("div");
-  var br = document.createElement("br");
-
-  var labelInput = document.createElement("LABEL")
-  labelInput.innerHTML = predicate;
-  newDiv.appendChild(labelInput);
-  var type = exprValue.type;
-  var datatype = exprValue.datatype;
-
-  switch(type) {
-    case "http://www.w3.org/2001/XMLSchema#dateTime":
-    case "http://www.w3.org/2001/XMLSchema#date":
-    // code block
-    var datepicker = document.createElement("input")
-    datepicker.setAttribute("type", "date")
-
-    newDiv.appendChild(datepicker);
-    break;
-    case "http://www.w3.org/2001/XMLSchema#string":
-
-    var basicInput = document.createElement("input")
-    basicInput.setAttribute("placeholder", "xsd:string")
-    newDiv.appendChild(basicInput);
-    break;
-    case "IRI":
-    var iriInput = document.createElement("input")
-    iriInput.setAttribute("placeholder", "IRI")
-    newDiv.appendChild(iriInput);
-    break;
-    case "ShapeRef":
-    var shapeRefBtn = document.createElement("button")
-    shapeRefBtn.innerHTML = "add one / ajouter un "+elems[1]
-    newDiv.appendChild(shapeRefBtn);
-    break;
-    default:
-    newDiv.appendChild(document.createTextNode(" A TRAITER : TYPE :"+type+" PREDICATE : "+ predicate+ "DATATYPE :",datatype));
-  }
-  newDiv.appendChild(br.cloneNode())
-  return newDiv
-}
-
 
 function testForm(id) {
-  var x = document.getElementById(id).elements.length;
+  /*  var x = document.getElementById(id).elements.length;
   alert( "Found " + x + " elements in the form "+id);
-  console.log(document.getElementById(id).elements)
+  console.log(document.getElementById(id).elements)*/
+  var tousForms = document.querySelectorAll("form");
+  console.log(tousForms)
+  tousForms.forEach(function(f){
+    console.log(f.id)
+    console.log("compare avec",dernierForm);
+    if (f.id == dernierForm){
+      f.style.display = "block"
+    }else{
+      f.style.display = "none"
+    }
+  });
 }
-
 
 function charge(){
   var id = document.getElementById("mySelect").options.selectedIndex;
