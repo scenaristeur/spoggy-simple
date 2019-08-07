@@ -143,6 +143,139 @@ function schemaToForm(schema){
     formulaire.setAttribute("id", url);
     dest.appendChild(formulaire)
 
+    processExp(constraint,formulaire)
+
+
+    /*
+    var liste = document.createElement("ul")
+    //  formDiv.innerHTML = url;
+    formulaire.appendChild(liste)
+    */
+
+    //  console.log(constraint.expression)
+    /*
+    A REMETTRE POUR SHAPE
+
+    console.log(constraint.expression.type)
+    //  console.log(constraint.expression.expressions)
+    var expressions = constraint.expression.expressions;
+    expressions.forEach(function(exp){
+    console.log("\nJSON :",exp)
+    var li = document.createElement("li");
+    liste.appendChild(li)
+
+    li.appendChild(document.createElement("HR"));
+    li.appendChild(document.createElement("HR"));
+    li.appendChild(br.cloneNode())
+
+    li.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
+    li.appendChild(br.cloneNode())
+    li.appendChild(br.cloneNode())
+
+    processExp(exp,li);
+
+
+
+  });*/
+  var submitBtn = document.createElement("BUTTON");
+  var t = document.createTextNode("Submit");
+  submitBtn.appendChild(t);
+  submitBtn.onclick = function(){
+    //  alert('here be dragons');
+    testForm(url);
+    return false;
+  };
+  formulaire.appendChild(submitBtn)
+}
+}
+
+
+
+function processExp(exp,parent){
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
+  parent.appendChild(br.cloneNode())
+
+  switch (exp.type) {
+    case "Shape":
+    processShape(exp,parent)
+    break;
+    case "TripleConstraint":
+    processTriple(exp,parent)
+    break;
+    case "EachOf":
+
+    processEachOf(exp,parent)
+    break;
+    case "OneOf":
+    processOneOf(exp,parent)
+    break;
+    default:
+    parent.appendChild(document.createTextNode("TYPE INCONNU :"));
+    parent.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
+    parent.appendChild(br.cloneNode())
+  }
+}
+
+function processShape(exp,parent){
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode("SHAPE "+ exp.type));
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(document.createTextNode("EXPRESSION "+ JSON.stringify(exp.expression, null, 2)));
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
+  processExp(exp.expression,parent)
+}
+function processTriple(exp,parent){
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode("TRIPLE "+ exp.type));
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
+}
+
+function processEachOf(exp,parent){
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode("EACHOF "+ exp.type));
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(document.createTextNode("EXPRESSIONS "+ JSON.stringify(exp.expressions, null, 2)));
+  parent.appendChild(br.cloneNode())
+  parent.appendChild(br.cloneNode())
+  exp.expressions.forEach(function(e){
+    processExp(e,parent)
+  });
+}
+
+function processOneOf(exp,parent){
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode("ONEOF "+ exp.type));
+  parent.appendChild(br.cloneNode())
+}
+
+
+
+
+function schemaToFormA(schema){
+  console.log(schema)
+  var br = document.createElement("br");
+  var dest = document.getElementById("forms")
+  clear();
+  var prefixes = schema.prefixes;
+  var shapes = schema.shapes;
+  var start = schema.start;
+  console.log(shapes)
+  console.log ("start",start)
+  for (let [url, constraint] of Object.entries(shapes)) {
+    console.log("#################\n",url,constraint);
+    var urlDiv = document.createElement("div")
+    urlDiv.innerHTML = url;
+    dest.appendChild(urlDiv)
+
+    var formulaire = document.createElement("FORM")
+    formulaire.setAttribute("id", url);
+    dest.appendChild(formulaire)
+
     var liste = document.createElement("ul")
     //  formDiv.innerHTML = url;
     formulaire.appendChild(liste)
@@ -171,7 +304,7 @@ function schemaToForm(schema){
       li.appendChild(br.cloneNode())
 
       /*
-ESSAI POUR GENERALISER MAIS PB AVEC LA RECURSION ???
+      ESSAI POUR GENERALISER MAIS PB AVEC LA RECURSION ???
       var domNodeResult = expProcess(exp)
       console.log(domNodeResult)
       li.appendChild(domNodeResult)*/
@@ -205,7 +338,7 @@ ESSAI POUR GENERALISER MAIS PB AVEC LA RECURSION ???
           if (exp.valueExpr.datatype != undefined){
             li.appendChild(document.createTextNode("NodeConstraint EXPR DATATYPE : "+exp.valueExpr.datatype));
             li.appendChild(br.cloneNode())
-            var domN = domNode(exp.valueExpr.datatype, exp.predicate)
+            var domN = domNode(exp.valueExpr, exp.predicate)
             console.log(domN)
             li.appendChild(domN)
             li.appendChild(br.cloneNode())
@@ -219,7 +352,7 @@ ESSAI POUR GENERALISER MAIS PB AVEC LA RECURSION ???
           // code block
           //  console.log("---VAL---",exp.valueExpr.type,exp.valueExpr)
           li.appendChild(document.createTextNode("Shaperef EXPR TYPE :"+exp.valueExpr.type));
-          var domN = domNode(exp.valueExpr.datatype, exp.predicate)
+          var domN = domNode(exp.valueExpr, exp.predicate)
           console.log(domN)
           li.appendChild(domN)
           li.appendChild(br.cloneNode())
@@ -342,15 +475,15 @@ function expProcess(exp){
     break;
     case "NodeConstraint":
     labelNode = document.createTextNode("nodeConstraintProcess");
-  //  childNode = nodeConstraintProcess(exp)
+    //  childNode = nodeConstraintProcess(exp)
     break;
     default:
     labelNode = document.createTextNode("isNotProcessedYet");
-     childNode = isNotProcessedYet(exp)
+    childNode = isNotProcessedYet(exp)
   }
   innerDiv.appendChild(labelNode)
   innerDiv.appendChild(childNode)
-innerDiv.appendChild(br.cloneNode())
+  innerDiv.appendChild(br.cloneNode())
   console.log(innerDiv)
   return innerDiv
 }
@@ -369,7 +502,7 @@ function tripleConstraintProcess(exp){
   newNode.appendChild(br.cloneNode())
   var valueExpr = exp.valueExpr;
   console.log(valueExpr)
-/*  var child = expProcess(valueExpr)
+  /*  var child = expProcess(valueExpr)
   console.log("CHILD",child)
   newNode.appendChild(child)*/
   console.log(newNode)
@@ -399,7 +532,7 @@ function nodeConstraintProcess(exp){
   if (exp.valueExpr.datatype != undefined){
     newNode.appendChild(document.createTextNode("NodeConstraint EXPR DATATYPE : "+exp.valueExpr.datatype));
     newNode.appendChild(br.cloneNode())
-    var domN = domNode(exp.valueExpr.datatype, exp.predicate)
+    var domN = domNode(exp.valueExpr, exp.predicate)
     console.log(domN)
     newNode.appendChild(domN)
     lnewNodei.appendChild(br.cloneNode())
@@ -433,16 +566,19 @@ function isNotProcessedYet(exp){
 
 
 
-function domNode(datatype,predicate){
+function domNode(exprValue,predicate){
+  console.log("EXPRESSION TO DOM :",exprValue)
   /* destination, type de formulaire, predicate ...*/
   var newDiv = document.createElement("div");
+  var br = document.createElement("br");
 
   var labelInput = document.createElement("LABEL")
   labelInput.innerHTML = predicate;
-  console.log("LBL",labelInput)
   newDiv.appendChild(labelInput);
+  var type = exprValue.type;
+  var datatype = exprValue.datatype;
 
-  switch(datatype) {
+  switch(type) {
     case "http://www.w3.org/2001/XMLSchema#dateTime":
     case "http://www.w3.org/2001/XMLSchema#date":
     // code block
@@ -462,9 +598,15 @@ function domNode(datatype,predicate){
     iriInput.setAttribute("placeholder", "IRI")
     newDiv.appendChild(iriInput);
     break;
+    case "ShapeRef":
+    var shapeRefBtn = document.createElement("button")
+    shapeRefBtn.innerHTML = "add one / ajouter un "+elems[1]
+    newDiv.appendChild(shapeRefBtn);
+    break;
     default:
-    newDiv.appendChild(document.createTextNode("the node A TRAITER : "+datatype+" "+ predicate));
+    newDiv.appendChild(document.createTextNode(" A TRAITER : TYPE :"+type+" PREDICATE : "+ predicate+ "DATATYPE :",datatype));
   }
+  newDiv.appendChild(br.cloneNode())
   return newDiv
 }
 
