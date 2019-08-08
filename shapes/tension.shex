@@ -14,21 +14,23 @@ start = @<Tension>
   :status                  ["preliminary" "final"]; #   status in this value set
   schema:name              xsd:string  ;
   schema:dateCreated       xsd:date?  ;
-  schema:creator           @<Ratifier>;
- #  schema:creator2FORTEST   :Ratifier;
- #  schema:creator3FORTEST   hola:Ratifier;
- #  schema:creator4FORTEST   <Ratifier>;
+  schema:creator           :Ratifier
+                            OR @<Ratifier>
+                            OR IRI
+                            OR xsd:string ;
   :subject                 :Organization;
+  :whatIs                  LITERAL  ;
+  :whatShouldBe            LITERAL  ;
 
 }
 
 <_Footprint> {
 
 
-( fp:root      ["current POD" <../Tension> hola:] ;
-  fp:path      ["Tension"] ;
-  fp:filename  [schema:name];
-  |  fp:fullpath LITERAL
+( fp:root      [hola: "current POD" <../Tension> ] OR xsd:string ;
+  fp:path      ["Tension"] OR xsd:string ;
+  fp:filename  ["value of schema:name"] OR xsd:string;
+  |  fp:fullpath xsd:string
   ### |
   ###  (   fp:root      ["POD" <../Tension> hola:]  |   fp:root LITERAL+    );
   ###  (   fp:path      ["Tension"]                 |   fp:path LITERAL     );
