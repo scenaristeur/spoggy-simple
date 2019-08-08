@@ -15,38 +15,43 @@ label {
 <script src="./js/import-export.js"></script>
 <script src="./js/shex-browserify.min.js"></script>
 <body>
-  Transform shapes (<a href="https://forum.solidproject.org/t/blog-post-shaping-linked-data-apps/1914/11" taget="blank">shex to forms</a>)
-  <form>
-    <select id="mySelect">
-      <!--<option>https://holacratie.solid.community/public/Schema/circle.shex</option>-->
-      <!--  <option>http://shex.io/examples/Issue.shex</option>-->
-      <option> CHOOSE AN HOLACRATIE SHEX </option>
-      <option>https://holacratie.solid.community/public/Schema/role.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/tension.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/ratifier.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/accountability.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/capacity.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/circle.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/governance.shex</option>
-      <option>  OTHER SHEX </option>
-      <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/example1.shex</option>
-      <option>https://jmartin.inrupt.net/public/shapes/book.shex</option>
-      <option>https://jmartin.inrupt.net/public/shapes/movie.shex</option>
-      <option>https://jmartin.inrupt.net/public/shapes/data-browser.shex</option>
-      <option>https://jmartin.inrupt.net/public/shapes/employee.shex</option>
-      <option>SHEX WITH PROBLEMS</option>
-      <option>https://holacratie.solid.community/public/Schema/purpose.shex</option>
-      <option>https://holacratie.solid.community/public/Schema/domain.shex</option>
-      <option>YOUR SHEX</option>
-    </select>
 
-  </form>
+  <a href="../">Return to Spoggy</a><br><br>
+
+  Transform shapes to form. /  Utilisation des shapes rdf SHEX pour générer des formulaires
+  (<a href="https://forum.solidproject.org/t/blog-post-shaping-linked-data-apps/1914/11" taget="blank">shex to forms</a>)   (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
+  <a href="http://shex.io/">http://shex.io/</a> <br><br>
+
+  <select id="mySelect">
+    <!--<option>https://holacratie.solid.community/public/Schema/circle.shex</option>-->
+    <!--  <option>http://shex.io/examples/Issue.shex</option>-->
+    <option> CHOOSE AN HOLACRATIE SHEX </option>
+    <option>https://holacratie.solid.community/public/Schema/role.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/tension.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/ratifier.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/accountability.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/capacity.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/circle.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/governance.shex</option>
+    <option>  OTHER SHEX </option>
+    <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/example1.shex</option>
+    <option>https://jmartin.inrupt.net/public/shapes/book.shex</option>
+    <option>https://jmartin.inrupt.net/public/shapes/movie.shex</option>
+    <option>https://jmartin.inrupt.net/public/shapes/data-browser.shex</option>
+    <option>https://jmartin.inrupt.net/public/shapes/employee.shex</option>
+    <option>SHEX WITH PROBLEMS</option>
+    <option>https://holacratie.solid.community/public/Schema/purpose.shex</option>
+    <option>https://holacratie.solid.community/public/Schema/domain.shex</option>
+    <option>YOUR SHEX</option>
+  </select>
+
+  <br>
 
 
-  <input id="newShape"  placeholder="https://mypod.provider/public/shapes/shape.shex">https://holacratie.solid.community/public/Schema/xxxxxx.shex</input>
+  <input id="newShape"  placeholder="https://holacratie.solid.community/public/Schema/xxxxxx.shex"></input>
+
   <button onclick="add()"> add yours / ajoutez votre shape to the select (shex)</button>
-  (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
   <br><br>
 
   <button onclick="chargelib()">Charger / Load V2 with shex.js</button>
@@ -140,63 +145,29 @@ function schemaToForm(schema){
     var urlDiv = document.createElement("div")
     urlDiv.innerHTML = url;
     dest.appendChild(urlDiv)
-
     var formulaire = document.createElement("FORM")
     formulaire.setAttribute("id", url);
     dest.appendChild(formulaire)
-
+    dernierForm = url;
     processExp(constraint,formulaire)
-
-
-    /*
-    var liste = document.createElement("ul")
-    //  formDiv.innerHTML = url;
-    formulaire.appendChild(liste)
-    */
-
-    //  console.log(constraint.expression)
-    /*
-    A REMETTRE POUR SHAPE
-
-    console.log(constraint.expression.type)
-    //  console.log(constraint.expression.expressions)
-    var expressions = constraint.expression.expressions;
-    expressions.forEach(function(exp){
-    console.log("\nJSON :",exp)
-    var li = document.createElement("li");
-    liste.appendChild(li)
-
-    li.appendChild(document.createElement("HR"));
-    li.appendChild(document.createElement("HR"));
-    li.appendChild(br.cloneNode())
-
-    li.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
-    li.appendChild(br.cloneNode())
-    li.appendChild(br.cloneNode())
-
-    processExp(exp,li);
-
-
-
-  });*/
-  var submitBtn = document.createElement("BUTTON");
-  var t = document.createTextNode("Submit");
-  submitBtn.appendChild(t);
-  submitBtn.onclick = function(){
-    //  alert('here be dragons');
-    testForm(url);
-    return false;
-  };
-  formulaire.appendChild(submitBtn)
-}
+    var submitBtn = document.createElement("BUTTON");
+    var t = document.createTextNode("Submit");
+    submitBtn.appendChild(t);
+    submitBtn.onclick = function(){
+      //  alert('here be dragons');
+      testForm(url);
+      return false;
+    };
+    formulaire.appendChild(submitBtn)
+  }
 }
 
 
 
 function processExp(exp,parent){
   var br = document.createElement("br");
-  parent.appendChild(br.cloneNode())
-  parent.appendChild(br.cloneNode())
+  //  parent.appendChild(br.cloneNode())
+  //  parent.appendChild(br.cloneNode())
   //  parent.appendChild(document.createTextNode(JSON.stringify(exp, null, 2)));
   //  parent.appendChild(br.cloneNode())
 
@@ -224,20 +195,21 @@ function processExp(exp,parent){
     break;
 
     default:
-    parent.appendChild(document.createTextNode("TYPE INCONNU :"+JSON.stringify(exp, null, 2)));
-    parent.appendChild(br.cloneNode())
+    //  parent.appendChild(document.createTextNode("TYPE INCONNU :"+JSON.stringify(exp, null, 2)));
+    //  parent.appendChild(br.cloneNode())
+    console.log("TYPE INCONNU :"+JSON.stringify(exp, null, 2));
   }
   parent.appendChild(br.cloneNode())
 }
 
 function processShape(exp,parent){
-  var br = document.createElement("br");
+  //  var br = document.createElement("br");
   //  parent.appendChild(document.createTextNode("SHAPE "+ JSON.stringify(exp, null, 2)));
   //  parent.appendChild(br.cloneNode())
   processExp(exp.expression,parent)
 }
 function processTriple(exp,parent){
-  var br = document.createElement("br");
+  //  var br = document.createElement("br");
   //  parent.appendChild(document.createTextNode("TRIPLE "+ JSON.stringify(exp, null, 2)));
   //  parent.appendChild(br.cloneNode())
   //  parent.appendChild(document.createTextNode("PREDICATE "+ exp.predicate));
@@ -249,7 +221,7 @@ function processTriple(exp,parent){
 }
 
 function processEachOf(exp,parent){
-  var br = document.createElement("br");
+  //  var br = document.createElement("br");
   //  parent.appendChild(document.createTextNode("EACHOF "+ JSON.stringify(exp, null, 2)));
   //  parent.appendChild(br.cloneNode())
   //  parent.appendChild(document.createTextNode("EXPRESSIONS "+ JSON.stringify(exp.expressions, null, 2)));
@@ -259,13 +231,15 @@ function processEachOf(exp,parent){
 }
 
 function processOneOf(exp,parent){
-  var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("ONEOF "+ JSON.stringify(exp, null, 2)));
+  //  var br = document.createElement("br");
+  //  parent.appendChild(document.createTextNode("ONEOF "+ JSON.stringify(exp, null, 2)));
+  console.log("ONEOF "+ JSON.stringify(exp, null, 2))
 }
 
 function processNode(exp,parent){
-  var br = document.createElement("br");
-  parent.appendChild(document.createTextNode("NODE "+ JSON.stringify(exp, null, 2)));
+  //var br = document.createElement("br");
+  //  parent.appendChild(document.createTextNode("NODE "+ JSON.stringify(exp, null, 2)));
+  console.log("NODE "+ JSON.stringify(exp, null, 2))
 
   var elem;
   if(exp.datatype != undefined) {
@@ -289,14 +263,14 @@ function processNode(exp,parent){
       elem = document.createElement("input")
       elem.setAttribute("placeholder", exp.datatype)
     }
-    parent.appendChild(br.cloneNode());
+    //  parent.appendChild(br.cloneNode());
   }
   // gestion des contraintes autres proprietes
   switch (true) {
     //exemple  <input type="number" name="quantity" min="1" max="5">
     case (exp.hasOwnProperty("values")):
     //  console.log("HAS VALUES ",exp.values)
-    parent.appendChild(br.cloneNode())
+    //  parent.appendChild(br.cloneNode())
     elem = document.createElement("select")
     parent.appendChild(elem);
     exp.values.forEach(function(v){
@@ -313,14 +287,15 @@ function processNode(exp,parent){
       elem = document.createElement("input")
       elem.setAttribute("placeholder", "IRI")
     }else{
-      parent.appendChild(document.createTextNode("NODEKIND Non géré"+ JSON.stringify(exp.nodeKind, null, 2)));
-
+      //  parent.appendChild(document.createTextNode("NODEKIND Non géré"+ JSON.stringify(exp.nodeKind, null, 2)));
+      console.log("NODEKIND Non géré"+ JSON.stringify(exp.nodeKind, null, 2))
     }
     break;
   }
   parent.appendChild(elem);
   var expKeys =   Object.keys(exp)
-  parent.appendChild(document.createTextNode("NODE KEYS"+ JSON.stringify(expKeys, null, 2)));
+  //  parent.appendChild(document.createTextNode("NODE KEYS"+ JSON.stringify(expKeys, null, 2)));
+  console.log("NODE KEYS"+ JSON.stringify(expKeys, null, 2));
 }
 
 function processShapeRef(exp, parent){
@@ -347,17 +322,42 @@ function processShapeRef(exp, parent){
 
 
 function processShapeOr(exp, parent){
-  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
-
-  parent.appendChild(elem);
+  //  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
+  //  parent.appendChild(elem);
+  console.log("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2))
 }
 
 
 
 function testForm(id) {
-  /*  var x = document.getElementById(id).elements.length;
-  alert( "Found " + x + " elements in the form "+id);
-  console.log(document.getElementById(id).elements)*/
+  var currentFormFields = document.getElementById(id).elements
+  var currentFormLength = document.getElementById(id).elements.length;
+  console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+
+  var params = '';
+  for( var i=0; i<currentFormFields.length; i++ )
+  {
+    var field = currentFormFields[i]
+    console.log(field)
+    var fieldName = field.name;
+    var fieldValue = field.value;
+
+    // use the fields, put them in a array, etc.
+
+    // or, add them to a key-value pair strings,
+    // as in regular POST
+
+    params += fieldName + '=' + fieldValue + '&';
+  }
+  console.log("params ",params)
+
+
+
+
+
+
+
+
   var tousForms = document.querySelectorAll("form");
   console.log(tousForms)
   tousForms.forEach(function(f){
