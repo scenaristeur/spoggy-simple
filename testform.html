@@ -62,6 +62,8 @@ label {
   <div id="linkToShape"></div>
   <hr>
   <div id="formMenu"></div>
+  <div id="footprintMenu"></div>
+
   <hr>
   <div id="forms">
 
@@ -159,18 +161,20 @@ function schemaToForm(schema){
     if (!shapeName.endsWith("_Footprint")){
       dernierForm = url
       console.log("dernierForm ",dernierForm)
-      regularShape(url,constraint)
+      regularShape(url,constraint, "formMenu")
     }else{
       footprintShape(url,constraint)
+      regularShape(url,constraint, "footprintMenu")
     }
   }
 }
 
 
-function regularShape(url,constraint){
+function regularShape(url,constraint, whereMenu){
   var shapeName =  localName(url)
+  console.log(whereMenu)
   var br = document.createElement("br");
-  var menu = document.getElementById("formMenu");
+  var menu = document.getElementById(whereMenu);
   var forms = document.getElementById("forms")
   /*var urlDiv = document.createElement("div")
   urlDiv.innerHTML = "MENU "+url;
@@ -186,11 +190,25 @@ function regularShape(url,constraint){
   menu.appendChild(menuitem)
 
 
+
   var formulaire = document.createElement("FORM")
   formulaire.setAttribute("id", url);
+  if (whereMenu == "footprintMenu"){
+    formulaire.style.display = "none";
+  }
   forms.appendChild(formulaire)
 
-  processExp(constraint,formulaire)
+
+  var fieldsetNode = document.createElement("Fieldset")
+
+  var x = document.createElement("LEGEND");
+  var t = document.createTextNode(shapeName);
+  x.appendChild(t);
+  fieldsetNode.appendChild(x);
+    formulaire.appendChild(fieldsetNode);
+
+
+  processExp(constraint,fieldsetNode)
 
   var submitBtn = document.createElement("BUTTON");
   var t = document.createTextNode("Submit");
@@ -204,7 +222,16 @@ function regularShape(url,constraint){
 }
 
 function footprintShape(url,constraint){
-  console.log("FOOTPRINT SHAPE ", url, constraint)
+  var refersTo = url.substring(0, url.length - 10);
+  console.log("FOOTPRINT SHAPE ", url, refersTo, constraint)
+var fp = {url:url, refersTo: refersTo, constraint:constraint}
+
+  if (!("footprints" in data)){
+    data["footprints"] = [];
+  }
+  console.log(fp)
+  data["footprints"].push (fp);
+  console.log(data)
 }
 
 function localName(uri){
