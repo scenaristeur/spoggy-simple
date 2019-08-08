@@ -5,7 +5,8 @@ PREFIX sx: <http://www.w3.org/ns/shex#>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX hola: <https://holacratie.solid.community/public/Schema/>
+PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX fp: <https://footprint.solid.community/public/>
 
 start = @<Tension>
 
@@ -13,9 +14,24 @@ start = @<Tension>
   :status                  ["preliminary" "final"]; #   status in this value set
   schema:name              xsd:string  ;
   schema:dateCreated       xsd:date?  ;
-  schema:creator           :Ratifier;
-  schema:creator2FORTEST   @<Ratifier>;
-  schema:creator3FORTEST   hola:Ratifier;
+  schema:creator           @<Ratifier>;
+ #  schema:creator2FORTEST   :Ratifier;
+ #  schema:creator3FORTEST   hola:Ratifier;
+ #  schema:creator4FORTEST   <Ratifier>;
   :subject                 :Organization;
-   rdfs:isDefinedBy          <https://holacratie.solid.community/public/Schema/tension.shex> ?;
+
+}
+
+<_Footprint> {
+
+
+( fp:root      ["current POD" <../Tension> hola:] ;
+  fp:path      ["Tension"] ;
+  fp:filename  [schema:name];
+  |  fp:fullpath LITERAL
+  ### |
+  ###  (   fp:root      ["POD" <../Tension> hola:]  |   fp:root LITERAL+    );
+  ###  (   fp:path      ["Tension"]                 |   fp:path LITERAL     );
+  ###  (   fp:filename  [schema:name];              |   fp:filename LITERAL );
+  );
 }

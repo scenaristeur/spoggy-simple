@@ -241,6 +241,9 @@ function processExp(exp,parent){
     case "ShapeOr":
     processShapeOr(exp,parent)
     break;
+    case "ShapeAnd":
+    processShapeAnd(exp,parent)
+    break;
 
     default:
     //  parent.appendChild(document.createTextNode("TYPE INCONNU :"+JSON.stringify(exp, null, 2)));
@@ -273,9 +276,11 @@ function processTriple(exp,parent){
 }
 
 function processEachOf(exp,parent){
-  //  var br = document.createElement("br");
-  //  parent.appendChild(document.createTextNode("EACHOF "+ JSON.stringify(exp, null, 2)));
-  //  parent.appendChild(br.cloneNode())
+  var br = document.createElement("hr");
+  /*var br = document.createElement("br");
+  parent.appendChild(document.createTextNode("EACHOF "));
+  parent.appendChild(document.createTextNode( JSON.stringify(exp, null, 2)));
+  parent.appendChild(br.cloneNode())*/
   //  parent.appendChild(document.createTextNode("EXPRESSIONS "+ JSON.stringify(exp.expressions, null, 2)));
   exp.expressions.forEach(function(e){
     processExp(e,parent)
@@ -283,13 +288,41 @@ function processEachOf(exp,parent){
 }
 
 function processOneOf(exp,parent){
-  //  var br = document.createElement("br");
-  //  parent.appendChild(document.createTextNode("ONEOF "+ JSON.stringify(exp, null, 2)));
+//  var br = document.createElement("br");
+
+//  parent.appendChild(document.createTextNode("one of "));
+  //parent.appendChild(document.createTextNode( JSON.stringify(exp, null, 2)));
+//  parent.appendChild(br.cloneNode())
+  var fieldsetNode = document.createElement("Fieldset")
+  parent.appendChild(fieldsetNode);
+  var x = document.createElement("LEGEND");
+  var t = document.createTextNode("One of");
+ x.appendChild(t);
+fieldsetNode.appendChild(x);
+
   console.log("ONEOF "+ JSON.stringify(exp, null, 2))
+var firstChoice = true;
+  exp.expressions.forEach(function(e){
+    var fieldsetChild = document.createElement("Fieldset")
+    fieldsetNode.appendChild(fieldsetChild);
+    var x = document.createElement("LEGEND");
+    if (firstChoice == true){ // pour ne pas l'afficher la premiere fois
+      // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
+        var t = document.createTextNode("Default Choice");
+       firstChoice = false;
+    }else{
+        var t = document.createTextNode("or");
+      //fieldsetNode.appendChild(document.createTextNode("or"));
+    }
+   x.appendChild(t);
+  fieldsetChild.appendChild(x);
+      processExp(e,fieldsetChild)
+  });
 }
 
 function processNode(exp,parent){
   //var br = document.createElement("br");
+    //  parent.appendChild(br.cloneNode());
   //  parent.appendChild(document.createTextNode("NODE "+ JSON.stringify(exp, null, 2)));
   console.log("NODE "+ JSON.stringify(exp, null, 2))
 
@@ -335,16 +368,13 @@ function processNode(exp,parent){
     elem.setAttribute("minlength", exp.minlength)
     break;
     case (exp.hasOwnProperty("nodeKind")):
-    if(exp.nodeKind == "iri" || exp.nodeKind == "IRI"){
-      elem = document.createElement("input")
-      elem.setAttribute("placeholder", "IRI")
-    }else{
-      //  parent.appendChild(document.createTextNode("NODEKIND Non géré"+ JSON.stringify(exp.nodeKind, null, 2)));
-      console.log("NODEKIND Non géré"+ JSON.stringify(exp.nodeKind, null, 2))
-    }
+
+    elem = document.createElement("input")
+    elem.setAttribute("placeholder", exp.nodeKind)
+
     break;
     case (exp.hasOwnProperty("elemName")):
-elem.setAttribute("name", exp.elemName)
+    elem.setAttribute("name", exp.elemName)
     break;
   }
   parent.appendChild(elem);
@@ -370,9 +400,57 @@ function processShapeRef(exp, parent){
 
 
 function processShapeOr(exp, parent){
-  //  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
-  //  parent.appendChild(elem);
-  console.log("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2))
+  // PRESQUE COMME processOneOf ??
+
+//  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
+//  parent.appendChild(elem);
+/*  console.log("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2))
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode(" TODO PROCESSSHAPE OR "));
+      parent.appendChild(br.cloneNode());
+  exp.shapeExprs.forEach(function(e){
+    processExp(e,parent)
+  });*/
+  var fieldsetNode = document.createElement("Fieldset")
+  parent.appendChild(fieldsetNode);
+  var x = document.createElement("LEGEND");
+  var t = document.createTextNode("One of");
+ x.appendChild(t);
+fieldsetNode.appendChild(x);
+
+  console.log("processShapeOr "+ JSON.stringify(exp, null, 2))
+var firstChoice = true;
+  exp.shapeExprs.forEach(function(e){
+    var fieldsetChild = document.createElement("Fieldset")
+    fieldsetNode.appendChild(fieldsetChild);
+    var x = document.createElement("LEGEND");
+    if (firstChoice == true){ // pour ne pas l'afficher la premiere fois
+      // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
+        var t = document.createTextNode("Default Choice");
+       firstChoice = false;
+    }else{
+        var t = document.createTextNode("or");
+      //fieldsetNode.appendChild(document.createTextNode("or"));
+    }
+   x.appendChild(t);
+  fieldsetChild.appendChild(x);
+      processExp(e,fieldsetChild)
+  });
+
+
+
+}
+
+function processShapeAnd(exp, parent){
+//  parent.appendChild(document.createTextNode("PROCESSSHAPEAND Non géré"+ JSON.stringify(exp, null, 2)));
+//  parent.appendChild(elem);
+var br = document.createElement("br");
+parent.appendChild(document.createTextNode(" TODO PROCESSSHAPE AND (must satisfy all constraints)"));
+    parent.appendChild(br.cloneNode());
+  console.log("PROCESSSHAPEAND Non géré"+ JSON.stringify(exp, null, 2))
+  exp.shapeExprs.forEach(function(e){
+    processExp(e,parent)
+  });
 }
 
 
