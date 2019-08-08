@@ -58,11 +58,17 @@ label {
   <button onclick="charge()" disabled>Charger / Load V1</button>
   <br>
   <br>
-
-
+  <hr>
+  <div id="formMenu"></div>
+  <hr>
   <div id="forms">
 
   </div>
+
+  <pre id="result">
+
+  </pre>
+
 
   <fieldset id="formulaire">
     <legend id="legend"></legend>
@@ -80,6 +86,7 @@ label {
 
 <script>
 var dernierForm = "";
+var data = {};
 function add(){
   var select = document.getElementById("mySelect")
   var option = document.createElement("option");
@@ -127,13 +134,15 @@ function clear(){
   liste.innerHTML = "";
   var dest = document.getElementById("forms")
   dest.innerHTML = ""
+  var menu = document.getElementById("formMenu")
+  menu.innerHTML = ""
 }
 
 
 function schemaToForm(schema){
   console.log(schema)
   var br = document.createElement("br");
-  var dest = document.getElementById("forms")
+  var dest = document.getElementById("formMenu")
   clear();
   var prefixes = schema.prefixes;
   var shapes = schema.shapes;
@@ -142,13 +151,26 @@ function schemaToForm(schema){
   console.log ("start",start)
   for (let [url, constraint] of Object.entries(shapes)) {
     console.log("#################\n",url,constraint);
-    var urlDiv = document.createElement("div")
-    urlDiv.innerHTML = url;
-    dest.appendChild(urlDiv)
+    dernierForm = url
+    console.log("dernierForm ",dernierForm)
+    /*var urlDiv = document.createElement("div")
+    urlDiv.innerHTML = "MENU "+url;
+    dest.appendChild(urlDiv)*/
+    var menuitem = document.createElement("BUTTON")
+    menuitem.innerHTML = localName(url);
+    menuitem.title = url;
+    menuitem.onclick = function(){
+      //  alert('here be dragons');
+      displayForm(url);
+      return false;
+    };
+    dest.appendChild(menuitem)
+
+
     var formulaire = document.createElement("FORM")
     formulaire.setAttribute("id", url);
     dest.appendChild(formulaire)
-    dernierForm = url;
+
     processExp(constraint,formulaire)
     var submitBtn = document.createElement("BUTTON");
     var t = document.createTextNode("Submit");
@@ -162,6 +184,32 @@ function schemaToForm(schema){
   }
 }
 
+
+function localName(uri){
+  var ln = uri;
+  if (uri.lastIndexOf("#") != -1) {
+    // Your code in here accessing the string like this
+    ln = uri.substr(uri.lastIndexOf("#")).substr(1)
+  }else{
+    ln = uri.substr(uri.lastIndexOf("/")).substr(1)
+  }
+  return ln
+}
+
+
+function displayForm(id){
+  console.log("dernierForm",dernierForm)
+  //  dernierForm = id;
+  console.log("nouveauForm",dernierForm)
+  var tousForms = document.querySelectorAll("form");
+  tousForms.forEach(function(f){
+    if (f.id == id){
+      f.style.display = "block"
+    }else{
+      f.style.display = "none"
+    }
+  })
+}
 
 
 function processExp(exp,parent){
@@ -215,8 +263,12 @@ function processTriple(exp,parent){
   //  parent.appendChild(document.createTextNode("PREDICATE "+ exp.predicate));
   //  parent.appendChild(br.cloneNode())
   var labelInput = document.createElement("LABEL")
-  labelInput.innerHTML = exp.predicate;
+  labelInput.innerHTML = localName(exp.predicate);
+  labelInput.title = exp.predicate;
   parent.appendChild(labelInput);
+  exp.valueExpr.elemName = exp.predicate;
+  // transmission du predicate à filed concerné pour field.name
+
   processExp(exp.valueExpr,parent)
 }
 
@@ -291,6 +343,9 @@ function processNode(exp,parent){
       console.log("NODEKIND Non géré"+ JSON.stringify(exp.nodeKind, null, 2))
     }
     break;
+    case (exp.hasOwnProperty("elemName")):
+elem.setAttribute("name", exp.elemName)
+    break;
   }
   parent.appendChild(elem);
   var expKeys =   Object.keys(exp)
@@ -299,24 +354,17 @@ function processNode(exp,parent){
 }
 
 function processShapeRef(exp, parent){
+  dernierForm = parent.id;
   var shapeRefBtn = document.createElement("button")
-  shapeRefBtn.innerHTML = "add one / ajouter un "+exp.reference;
+  shapeRefBtn.innerHTML = localName(exp.reference);
+  shapeRefBtn.title = exp.reference;
   shapeRefBtn.onclick = function(){
     console.log("ID parent",parent.id)
-    dernierForm = parent.id;
-    var tousForms = document.querySelectorAll("form");
-    console.log(tousForms)
-    tousForms.forEach(function(f){
-      console.log(f.id)
-      if (f.id == exp.reference){
-        f.style.display = "block"
-      }else{
-        f.style.display = "none"
-      }
-    })
+    displayForm(exp.reference)
     return false;
   };
   parent.appendChild(shapeRefBtn);
+  console.log(dernierForm)
 }
 
 
@@ -341,34 +389,19 @@ function testForm(id) {
     console.log(field)
     var fieldName = field.name;
     var fieldValue = field.value;
-
-    // use the fields, put them in a array, etc.
-
-    // or, add them to a key-value pair strings,
-    // as in regular POST
-
+    field.value = ""
     params += fieldName + '=' + fieldValue + '&';
   }
   console.log("params ",params)
-
-
-
-
-
-
-
-
-  var tousForms = document.querySelectorAll("form");
-  console.log(tousForms)
-  tousForms.forEach(function(f){
-    console.log(f.id)
-    console.log("compare avec",dernierForm);
-    if (f.id == dernierForm){
-      f.style.display = "block"
-    }else{
-      f.style.display = "none"
-    }
-  });
+  if (!(id in data)){
+    data[id] = [];
+  }
+  data[id].push(params)
+  console.log(data)
+  document.getElementById("result").innerHTML = JSON.stringify(data, null, 2)
+  console.log ("display",dernierForm )
+  displayForm(dernierForm)
+  dernierForm = id;
 }
 
 function charge(){
