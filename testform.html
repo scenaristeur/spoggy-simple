@@ -13,6 +13,7 @@ label {
 
 </style>
 <script src="./js/import-export.js"></script>
+<!--<script src="./js/shex-browserify.js"></script>-->
 <script src="./js/shex-browserify.min.js"></script>
 <body>
 
@@ -20,7 +21,7 @@ label {
 
   Transform shapes to form. /  Utilisation des shapes rdf SHEX pour générer des formulaires
   (<a href="https://forum.solidproject.org/t/blog-post-shaping-linked-data-apps/1914/11" taget="blank">shex to forms</a>)   (<a href="http://shexspec.github.io/primer/">http://shexspec.github.io/primer/</a>)
-  <a href="http://shex.io/">http://shex.io/</a> <br><br>
+  <a href="http://shex.io/">http://shex.io/</a> <a href="http://rdfshape.herokuapp.com/validate">shex validator</a><br><br>
 
   <select id="mySelect">
     <!--<option>https://holacratie.solid.community/public/Schema/circle.shex</option>-->
@@ -58,6 +59,7 @@ label {
   <button onclick="charge()" disabled>Charger / Load V1</button>
   <br>
   <br>
+  <div id="linkToShape"></div>
   <hr>
   <div id="formMenu"></div>
   <hr>
@@ -85,6 +87,8 @@ label {
 
 
 <script>
+var shex = ShEx;
+//console.log(shex)
 var dernierForm = "";
 var data = {};
 function add(){
@@ -97,6 +101,7 @@ function add(){
 function chargelib(){
   var id = document.getElementById("mySelect").options.selectedIndex;
   var shapeUrl = document.getElementById("mySelect").options[id].text;
+  document.getElementById("linkToShape").innerHTML = shapeUrl
   //console.log(shapeUrl)
   //let url = params.source;
   /*  fetch(shapeUrl)
@@ -107,8 +112,7 @@ function chargelib(){
 })
 .catch(err => { throw err });*/
 //  console.log(ShEx)
-var shex = ShEx;
-console.log(shex)
+
 //var shexc = "https://jmartin.inrupt.net/public/shapes/book.shex";
 //var data = "https://jmartin.inrupt.net/public/shapes/book.ttl";
 //var node = "https://jmartin.inrupt.net/public/shapes/book";
@@ -141,8 +145,7 @@ function clear(){
 
 function schemaToForm(schema){
   console.log(schema)
-  var br = document.createElement("br");
-  var dest = document.getElementById("formMenu")
+
   clear();
   var prefixes = schema.prefixes;
   var shapes = schema.shapes;
@@ -150,40 +153,59 @@ function schemaToForm(schema){
   console.log(shapes)
   console.log ("start",start)
   for (let [url, constraint] of Object.entries(shapes)) {
+    var shapeName =  localName(url)
     console.log("#################\n",url,constraint);
-    dernierForm = url
-    console.log("dernierForm ",dernierForm)
-    /*var urlDiv = document.createElement("div")
-    urlDiv.innerHTML = "MENU "+url;
-    dest.appendChild(urlDiv)*/
-    var menuitem = document.createElement("BUTTON")
-    menuitem.innerHTML = localName(url);
-    menuitem.title = url;
-    menuitem.onclick = function(){
-      //  alert('here be dragons');
-      displayForm(url);
-      return false;
-    };
-    dest.appendChild(menuitem)
 
-
-    var formulaire = document.createElement("FORM")
-    formulaire.setAttribute("id", url);
-    dest.appendChild(formulaire)
-
-    processExp(constraint,formulaire)
-    var submitBtn = document.createElement("BUTTON");
-    var t = document.createTextNode("Submit");
-    submitBtn.appendChild(t);
-    submitBtn.onclick = function(){
-      //  alert('here be dragons');
-      testForm(url);
-      return false;
-    };
-    formulaire.appendChild(submitBtn)
+    if (!shapeName.endsWith("_Footprint")){
+      dernierForm = url
+      console.log("dernierForm ",dernierForm)
+      regularShape(url,constraint)
+    }else{
+      footprintShape(url,constraint)
+    }
   }
 }
 
+
+function regularShape(url,constraint){
+  var shapeName =  localName(url)
+  var br = document.createElement("br");
+  var menu = document.getElementById("formMenu");
+  var forms = document.getElementById("forms")
+  /*var urlDiv = document.createElement("div")
+  urlDiv.innerHTML = "MENU "+url;
+  dest.appendChild(urlDiv)*/
+  var menuitem = document.createElement("BUTTON")
+  menuitem.innerHTML = shapeName
+  menuitem.title = url;
+  menuitem.onclick = function(){
+    //  alert('here be dragons');
+    displayForm(url);
+    return false;
+  };
+  menu.appendChild(menuitem)
+
+
+  var formulaire = document.createElement("FORM")
+  formulaire.setAttribute("id", url);
+  forms.appendChild(formulaire)
+
+  processExp(constraint,formulaire)
+
+  var submitBtn = document.createElement("BUTTON");
+  var t = document.createTextNode("Submit");
+  submitBtn.appendChild(t);
+  submitBtn.onclick = function(){
+    //  alert('here be dragons');
+    testForm(url);
+    return false;
+  };
+  formulaire.appendChild(submitBtn)
+}
+
+function footprintShape(url,constraint){
+  console.log("FOOTPRINT SHAPE ", url, constraint)
+}
 
 function localName(uri){
   var ln = uri;
@@ -198,13 +220,12 @@ function localName(uri){
 
 
 function displayForm(id){
-  console.log("dernierForm",dernierForm)
-  //  dernierForm = id;
-  console.log("nouveauForm",dernierForm)
+  console.log("must display",id)
   var tousForms = document.querySelectorAll("form");
   tousForms.forEach(function(f){
     if (f.id == id){
       f.style.display = "block"
+      dernierForm = id
     }else{
       f.style.display = "none"
     }
@@ -270,6 +291,7 @@ function processTriple(exp,parent){
   labelInput.title = exp.predicate;
   parent.appendChild(labelInput);
   exp.valueExpr.elemName = exp.predicate;
+  console.log("ADD ELEMNAME", exp.valueExpr)
   // transmission du predicate à filed concerné pour field.name
 
   processExp(exp.valueExpr,parent)
@@ -288,41 +310,41 @@ function processEachOf(exp,parent){
 }
 
 function processOneOf(exp,parent){
-//  var br = document.createElement("br");
+  //  var br = document.createElement("br");
 
-//  parent.appendChild(document.createTextNode("one of "));
+  //  parent.appendChild(document.createTextNode("one of "));
   //parent.appendChild(document.createTextNode( JSON.stringify(exp, null, 2)));
-//  parent.appendChild(br.cloneNode())
+  //  parent.appendChild(br.cloneNode())
   var fieldsetNode = document.createElement("Fieldset")
   parent.appendChild(fieldsetNode);
   var x = document.createElement("LEGEND");
   var t = document.createTextNode("One of");
- x.appendChild(t);
-fieldsetNode.appendChild(x);
+  x.appendChild(t);
+  fieldsetNode.appendChild(x);
 
   console.log("ONEOF "+ JSON.stringify(exp, null, 2))
-var firstChoice = true;
+  var firstChoice = true;
   exp.expressions.forEach(function(e){
     var fieldsetChild = document.createElement("Fieldset")
     fieldsetNode.appendChild(fieldsetChild);
     var x = document.createElement("LEGEND");
     if (firstChoice == true){ // pour ne pas l'afficher la premiere fois
-      // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
-        var t = document.createTextNode("Default Choice");
-       firstChoice = false;
-    }else{
-        var t = document.createTextNode("or");
-      //fieldsetNode.appendChild(document.createTextNode("or"));
-    }
-   x.appendChild(t);
+    // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
+    var t = document.createTextNode("Default Choice");
+    firstChoice = false;
+  }else{
+    var t = document.createTextNode("or");
+    //fieldsetNode.appendChild(document.createTextNode("or"));
+  }
+  x.appendChild(t);
   fieldsetChild.appendChild(x);
-      processExp(e,fieldsetChild)
-  });
+  processExp(e,fieldsetChild)
+});
 }
 
 function processNode(exp,parent){
   //var br = document.createElement("br");
-    //  parent.appendChild(br.cloneNode());
+  //  parent.appendChild(br.cloneNode());
   //  parent.appendChild(document.createTextNode("NODE "+ JSON.stringify(exp, null, 2)));
   console.log("NODE "+ JSON.stringify(exp, null, 2))
 
@@ -402,51 +424,51 @@ function processShapeRef(exp, parent){
 function processShapeOr(exp, parent){
   // PRESQUE COMME processOneOf ??
 
-//  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
-//  parent.appendChild(elem);
-/*  console.log("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2))
+  //  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
+  //  parent.appendChild(elem);
+  /*  console.log("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2))
   var br = document.createElement("br");
   parent.appendChild(document.createTextNode(" TODO PROCESSSHAPE OR "));
-      parent.appendChild(br.cloneNode());
+  parent.appendChild(br.cloneNode());
   exp.shapeExprs.forEach(function(e){
-    processExp(e,parent)
-  });*/
-  var fieldsetNode = document.createElement("Fieldset")
-  parent.appendChild(fieldsetNode);
-  var x = document.createElement("LEGEND");
-  var t = document.createTextNode("One of");
- x.appendChild(t);
+  processExp(e,parent)
+});*/
+var fieldsetNode = document.createElement("Fieldset")
+parent.appendChild(fieldsetNode);
+var x = document.createElement("LEGEND");
+var t = document.createTextNode("One of");
+x.appendChild(t);
 fieldsetNode.appendChild(x);
 
-  console.log("processShapeOr "+ JSON.stringify(exp, null, 2))
+console.log("processShapeOr "+ JSON.stringify(exp, null, 2))
 var firstChoice = true;
-  exp.shapeExprs.forEach(function(e){
-    var fieldsetChild = document.createElement("Fieldset")
-    fieldsetNode.appendChild(fieldsetChild);
-    var x = document.createElement("LEGEND");
-    if (firstChoice == true){ // pour ne pas l'afficher la premiere fois
-      // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
-        var t = document.createTextNode("Default Choice");
-       firstChoice = false;
-    }else{
-        var t = document.createTextNode("or");
-      //fieldsetNode.appendChild(document.createTextNode("or"));
-    }
-   x.appendChild(t);
-  fieldsetChild.appendChild(x);
-      processExp(e,fieldsetChild)
-  });
+exp.shapeExprs.forEach(function(e){
+  var fieldsetChild = document.createElement("Fieldset")
+  fieldsetNode.appendChild(fieldsetChild);
+  var x = document.createElement("LEGEND");
+  if (firstChoice == true){ // pour ne pas l'afficher la premiere fois
+  // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
+  var t = document.createTextNode("Default Choice");
+  firstChoice = false;
+}else{
+  var t = document.createTextNode("or");
+  //fieldsetNode.appendChild(document.createTextNode("or"));
+}
+x.appendChild(t);
+fieldsetChild.appendChild(x);
+processExp(e,fieldsetChild)
+});
 
 
 
 }
 
 function processShapeAnd(exp, parent){
-//  parent.appendChild(document.createTextNode("PROCESSSHAPEAND Non géré"+ JSON.stringify(exp, null, 2)));
-//  parent.appendChild(elem);
-var br = document.createElement("br");
-parent.appendChild(document.createTextNode(" TODO PROCESSSHAPE AND (must satisfy all constraints)"));
-    parent.appendChild(br.cloneNode());
+  //  parent.appendChild(document.createTextNode("PROCESSSHAPEAND Non géré"+ JSON.stringify(exp, null, 2)));
+  //  parent.appendChild(elem);
+  var br = document.createElement("br");
+  parent.appendChild(document.createTextNode(" TODO PROCESSSHAPE AND (must satisfy all constraints)"));
+  parent.appendChild(br.cloneNode());
   console.log("PROCESSSHAPEAND Non géré"+ JSON.stringify(exp, null, 2))
   exp.shapeExprs.forEach(function(e){
     processExp(e,parent)
@@ -458,26 +480,26 @@ parent.appendChild(document.createTextNode(" TODO PROCESSSHAPE AND (must satisfy
 function testForm(id) {
   var currentFormFields = document.getElementById(id).elements
   var currentFormLength = document.getElementById(id).elements.length;
-  console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+  //  console.log( "Found " + currentFormFields.length + " elements in the form "+id);
 
   var params = '';
   for( var i=0; i<currentFormFields.length; i++ )
   {
     var field = currentFormFields[i]
-    console.log(field)
+    //  console.log(field)
     var fieldName = field.name;
     var fieldValue = field.value;
     field.value = ""
     params += fieldName + '=' + fieldValue + '&';
   }
-  console.log("params ",params)
+  //  console.log("params ",params)
   if (!(id in data)){
     data[id] = [];
   }
   data[id].push(params)
-  console.log(data)
+  //console.log(data)
   document.getElementById("result").innerHTML = JSON.stringify(data, null, 2)
-  console.log ("display",dernierForm )
+  //  console.log ("display",dernierForm )
   displayForm(dernierForm)
   dernierForm = id;
 }

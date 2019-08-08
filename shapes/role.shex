@@ -7,6 +7,7 @@ PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX hola: <https://holacratie.solid.community/public/Schema/>
+PREFIX fp: <https://footprint.solid.community/public/>
 
 start = @<Role>
 
@@ -21,5 +22,21 @@ start = @<Role>
   hola:roleLead         @<Ratifier>;
   hola:assignedTo       @<Ratifier>*;
 }
+
+<Role_Footprint> {
+
+
+( fp:root      [hola: "current POD" <../Tension> ] OR xsd:string ;
+  fp:path      ["Tension"] OR xsd:string ;
+  fp:filename  ["value of schema:name"] OR xsd:string;
+  |  fp:fullpath xsd:string
+  ### |
+  ###  (   fp:root      ["POD" <../Tension> hola:]  |   fp:root LITERAL+    );
+  ###  (   fp:path      ["Tension"]                 |   fp:path LITERAL     );
+  ###  (   fp:filename  [schema:name];              |   fp:filename LITERAL );
+  );
+}
+
+
 
 ###   schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
