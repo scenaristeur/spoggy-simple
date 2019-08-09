@@ -11,6 +11,16 @@ label {
   margin-right:15px;
 }
 
+fieldset
+{
+  border:2px solid blue;
+  -moz-border-radius:8px;
+  -webkit-border-radius:8px;
+  border-radius:8px;
+}
+
+
+
 </style>
 <script src="./js/import-export.js"></script>
 <!--<script src="./js/shex-browserify.js"></script>-->
@@ -342,11 +352,12 @@ function processEachOf(exp,parent){
 
 function processOneOf(exp,parent){
   //  var br = document.createElement("br");
-
+  var group =  '_' + Math.random().toString(36).substr(2, 9);
   //  parent.appendChild(document.createTextNode("one of "));
   //parent.appendChild(document.createTextNode( JSON.stringify(exp, null, 2)));
   //  parent.appendChild(br.cloneNode())
   var fieldsetNode = document.createElement("Fieldset")
+  fieldsetNode.setAttribute("id",group)
   parent.appendChild(fieldsetNode);
   var x = document.createElement("LEGEND");
   var t = document.createTextNode("One of");
@@ -356,19 +367,65 @@ function processOneOf(exp,parent){
   console.log("ONEOF "+ JSON.stringify(exp, null, 2))
   var firstChoice = true;
   exp.expressions.forEach(function(e){
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    var uuid =  '_' + Math.random().toString(36).substr(2, 9);
+    var radio = document.createElement("INPUT")
+    //  radio.value = uuid
+    radio.type = "radio"
+    radio.name = group
+    radio.value = uuid
+    fieldsetNode.appendChild(radio);
+
+
+    radio.onclick = function(e){
+      console.log(e.target.value)
+      var  name = e.target.name
+      console.log(name)
+      var fieldsets  = document.getElementsByName(name);
+      console.log(fieldsets)
+      fieldsets.forEach(function (fs){
+        if (fs.nodeName == "FIELDSET"){
+          console.log (fs, fs.id ,e.target.value)
+          if (fs.id == e.target.value){
+            console.log("G")
+            fs.style.borderColor = "green"
+          }else{
+            console.log("R")
+            fs.style.borderColor = "red"
+          }
+        }
+      })
+
+    }
+
+
+
     var fieldsetChild = document.createElement("Fieldset")
+    fieldsetChild.setAttribute("id",uuid)
+    fieldsetChild.name = group
     fieldsetNode.appendChild(fieldsetChild);
     var x = document.createElement("LEGEND");
     if (firstChoice == true){ // pour ne pas l'afficher la premiere fois
     // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
+    radio.checked = true
     var t = document.createTextNode("Default Choice");
     firstChoice = false;
+
+    fieldsetChild.style.borderColor = "green"
   }else{
     var t = document.createTextNode("or");
+    fieldsetChild.style.borderColor = "red"
+    //fieldsetChild.style.borderStyle ="solid";
+
     //fieldsetNode.appendChild(document.createTextNode("or"));
   }
   x.appendChild(t);
   fieldsetChild.appendChild(x);
+
+
+
   processExp(e,fieldsetChild)
 });
 }
@@ -567,14 +624,34 @@ function populateDataFromFootprintForm(id){
   for( var i=0; i<currentFormFields.length; i++ )
   {
     var field = currentFormFields[i]
-    if ((field.nodeName != "FIELDSET") && (field.nodeName != "BUTTON")) {
-      console.log(field, field.nodeName)
-      var fieldName = field.name;
-      var fieldValue = field.value;
-      params[fieldName] = fieldValue;
-      console.log(params)
+    var valid = true;
+    if (
+      (field.nodeName == "FIELDSET")  ||
+      (field.nodeName == "BUTTON")   ||
+      ((field.type == "radio") && (field.checked == false))
+    )
+        {
+    valid = false
     }
+
+console.log(valid)
+
+if (valid == true){
+  console.log(field, field.nodeName, field.type)
+  var fieldName = field.name;
+  var fieldValue = field.value;
+  params[fieldName] = fieldValue;
+}
+
+
+    /*var checkedButtons = document.querySelectorAll('input[type="radio"]:checked')
+    console.log("CHECKEDS",checkedButtons)
+    var checkedButtons = document.querySelectorAll('input[type="radio"]')
+    console.log("CHECKEDS all",checkedButtons)*/
+
+
   }
+  console.log(params)
   //  console.log("params ",params)
   if (!(id in data)){
     data[id] = [];
