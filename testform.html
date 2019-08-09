@@ -70,6 +70,13 @@ fieldset
   <button onclick="charge()" disabled>Charger / Load V1</button>
   <button onclick="populatePost()">Populate Post_simple Form for Lazy tester</button>
   <br>
+
+  <div>
+    <button onclick="login()">Login</button>
+    <button onclick="logout()">Logout</button>
+    <div id="webid"></div>
+  </div>
+
   <br>
   <div id="linkToShape"></div>
   <hr>
@@ -106,9 +113,21 @@ fieldset
 
 <script>
 var shex = ShEx;
-//console.log(shex)
+const fileClient = SolidFileClient;
+console.log("FC",fileClient)
 var dernierForm = "";
 var data = {};
+
+
+function logout(){
+  fileClient.logout().then( console.log( `Bye now!` ))
+}
+
+function login(){
+  fileClient.popupLogin().then( webId => {
+    console.log( `Logged in as ${webId}.`)
+  }, err => console.log(err) );
+}
 
 function populatePost(){
   //put data to test post_simple form
@@ -262,10 +281,10 @@ function footprintShape(url,constraint){
   var fp = { }
   fp[refersTo] = url
   if (!("footprints" in data)){
-    data["footprints"] = [];
+    data["footprints"] = {};
   }
   console.log(fp)
-  data["footprints"].push (fp);
+data["footprints"][refersTo] = url
   console.log(data)
 }
 
@@ -624,35 +643,70 @@ function testForm(id) {
 function formateData(id){
   console.log("formate Data from ",id, data)
   var ttlString = "# ttlString for "+ id+ "\n\n\n"
-//  "@prefix : <https://holacratie.solid.community/public/> ."
-//  "@prefix owl: <http://www.w3.org/2002/07/owl#> ."
-//  "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ."
-//  "@prefix xml: <http://www.w3.org/XML/1998/namespace> ."
-//  "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> ."
-//  "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
-//  "@base <https://holacratie.solid.community/public/> ."
+  //  "@prefix : <https://holacratie.solid.community/public/> ."
+  //  "@prefix owl: <http://www.w3.org/2002/07/owl#> ."
+  //  "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ."
+  //  "@prefix xml: <http://www.w3.org/XML/1998/namespace> ."
+  //  "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> ."
+  //  "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
+  //  "@base <https://holacratie.solid.community/public/> ."
   var enregistrements = data[id];
   console.log(enregistrements)
+  var filename = "unknown.ttl"
   enregistrements.forEach(function(enreg){
     for (let [predicate, object] of Object.entries(enreg)) {
-      console.log(predicate, object.value, object.type);
+      if (predicate == "http://schema.org/name") {
+        filename = object.value+".ttl";
+      }
+    //  console.log(predicate, object.value, object.type);
       ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format :'+object.type+ "\n";
-
     }
   })
 
 
 
-  console.log(ttlString)
-  document.getElementById("result").innerHTML += ttlString
-  return ttlString;
+//  console.log(ttlString)
+  var x = document.createElement("PRE");
+  var t = document.createTextNode(ttlString);
+  x.appendChild(t);
+
+  document.getElementById("result").appendChild(x);
+  return { filename: filename , content: ttlString};
 }
 
 function sendData(id, ttlData){
   console.log("Send Data from ",id, ttlData)
+  fileClient.checkSession().then(
+    session => {
+      console.log("Logged in as "+session.webId)
+    },
+    err => { console.log(err)
+    alert(err)}
+  );
 
   document.getElementById("result").innerHTML += "**** RESULTAT ************"
+  //var url = "https://holacratie.solid.community/public/Post/post.ttl"
+  //var url = "https://agora.solid.community/public/post.ttl"
 
+console.log(ttlData)
+console.log(data)
+var footprints = data.footprints;
+console.log("footprints",footprints)
+var footprintUrl = footprints[id]
+console.log("footprintUrl",footprintUrl)
+var footprint = data[footprintUrl]
+console.log("footprint", footprint)
+ var root = footprint["https://footprint.solid.community/public/root"].value
+  var path = footprint["https://footprint.solid.community/public/path"].value
+ console.log("PATH",path)
+var url = root+path+"/"+ttlData.filename;
+//  var url = id+"/"+ttlData.filename;
+  console.log(url)
+  fileClient.createFile(url,ttlData.content).then( fileCreated => {
+    console.log(`Created file ${fileCreated}.`);
+  },
+  err => console.log(err)
+);
 
 
 
@@ -670,7 +724,7 @@ function populateDataFromFootprintForm(id){
     var valid = true;
     if (
       (field.nodeName == "FIELDSET")  ||
-      (field.nodeName == "BUTTON")   ||
+      (field.nodeName == "BUTTON")    ||
       ((field.type == "radio") && (field.checked == false))
     )
     {
@@ -681,9 +735,11 @@ function populateDataFromFootprintForm(id){
 
     if (valid == true){
       console.log(field, field.nodeName, field.type)
+      var fieldData = {}
       var fieldName = field.name;
-      var fieldValue = field.value;
-      params[fieldName] = fieldValue;
+      fieldData.value = field.value;
+      fieldData.type = field.type;
+      params[fieldName] = fieldData;
     }
 
 
