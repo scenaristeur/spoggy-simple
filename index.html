@@ -142,50 +142,62 @@
 <div style="float:left">
   <div style="float:auto">
     <fieldset>
-      <legend>Comment faire pour... | How to...<span id="level"></level></legend>
-        <ul id="tutos-levels"> </ul>
-        <button id="goFS" class="foo-button mdc-button goFS">Utiliser SPOGGY en plein ecran (fullscreen)</button>
-      </fieldset>
-    </div>
+      <legend>Defis<span id="level1"></span></legend>
 
+      <ul id="defis">
+        <li>(fr) Defi #1 : Créez un Graphe Spoggy contenant 3 noeuds (node) & 5 liens (edge) en utilisant le bouton "Edit".<br>
+          (en) Defi #1 : Create a Spoggy Graph containing 3 nodes (noeuds) & 5 edges (liens) using the "Edit" button.<br>
+          <a href="https://www.youtube.com/watch?v=XkI6cJPUTuk" target="_blank">Help</a>
+        </li>
 
-
-    <div style="float:auto">
-      <div style="float:auto">
-
-
-        <div style="float:auto">
-          <fieldset>
-            <legend>Outils</legend>
-            <button id="nouveau_graph" onclick="catchCommande({value:'/n'})">Nouveau</button> /n
-            <!--  <button id="importer_btn" onclick="catchCommande({value:'/i'})">Ouvrir</button> /i-->
-            <button id="save_to_pod" onclick="open_ub()">Universal Browser</button> /a
-            <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
-          </fieldset>
-        </div>
-
-
-        <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
-
-
-
-
-      </div>
-      <!--  <div style="float:left">
-
-      <fieldset>
-      <legend>Input</legend>
-      <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" placeholder="Saisis ici 3 mots suivis d'une virgule et valide"></input>
-      <button id="valider" onclick="validInput()">Valider</button>
-
-      <br>
-      Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
-      ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
-      ou importer une url (json, ttl, rdf, POD...)<br>
+      </ul>
     </fieldset>
+    <fieldset>
+      <legend>Comment faire pour... | How to...<span id="level"></span></legend>
 
-
+      <ul id="tutos-levels"> </ul>
+      <button id="goFS" class="foo-button mdc-button goFS">Utiliser SPOGGY en plein ecran (fullscreen)</button>
+    </fieldset>
   </div>
+
+
+
+  <div style="float:auto">
+    <div style="float:auto">
+
+
+      <div style="float:auto">
+        <fieldset>
+          <legend>Outils</legend>
+          <button id="nouveau_graph" onclick="catchCommande({value:'/n'})">Nouveau</button> /n
+          <!--  <button id="importer_btn" onclick="catchCommande({value:'/i'})">Ouvrir</button> /i-->
+          <button id="save_to_pod" onclick="open_ub()">Universal Browser</button> /a
+          <button id="capture_graphe" onclick="catchCommande({value:'/c'})">Capturer jpg</button> /c
+        </fieldset>
+      </div>
+
+
+      <div style="float:left" id="mynetwork" bgcolor="#E6E6FA">  </div>
+
+
+
+
+    </div>
+    <!--  <div style="float:left">
+
+    <fieldset>
+    <legend>Input</legend>
+    <input id="input" style="width:80%" onkeyup="inputChanged(this)" type="text" placeholder="Saisis ici 3 mots suivis d'une virgule et valide"></input>
+    <button id="valider" onclick="validInput()">Valider</button>
+
+    <br>
+    Ajouter un triplet : 3 mots suivis d'un point ou virgule ou point-virgule ou tiret et 'Validez' <br>
+    ou lancez un commande commançant par '/' (/n = nouveau, /e = export, /i = import...)<br>
+    ou importer une url (json, ttl, rdf, POD...)<br>
+  </fieldset>
+
+
+</div>
 -->
 
 
