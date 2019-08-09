@@ -22,9 +22,8 @@ fieldset
 
 
 </style>
-<script src="./js/import-export.js"></script>
-<!--<script src="./js/shex-browserify.js"></script>-->
-<script src="./js/shex-browserify.min.js"></script>
+
+<script src="./dist/solid-file-client.bundle.js"></script>
 <body>
 
   <a href="../">Return to Spoggy</a><br><br>
@@ -69,6 +68,7 @@ fieldset
 
   <button onclick="chargelib()">Charger / Load V2 with shex.js</button>
   <button onclick="charge()" disabled>Charger / Load V1</button>
+  <button onclick="populatePost()">Populate Post_simple Form for Lazy tester</button>
   <br>
   <br>
   <div id="linkToShape"></div>
@@ -99,12 +99,33 @@ fieldset
 
 </body>
 
+<script src="./js/import-export.js"></script>
+<!--<script src="./js/shex-browserify.js"></script>-->
+<script src="./dist/shex-browserify.min.js"></script>
+
 
 <script>
 var shex = ShEx;
 //console.log(shex)
 var dernierForm = "";
 var data = {};
+
+function populatePost(){
+  //put data to test post_simple form
+  var test =  document.getElementsByName("http://schema.org/name")
+  console.log(test)
+  document.getElementsByName("http://schema.org/name")[0].value = "MyPost"
+  //  document.getElementsByName("http://schema.org/name")[0].value = "MyPost"
+  document.getElementsByName("http://schema.org/dateCreated")[0].value = "2019-08-09"
+  document.getElementsByName("http://schema.org/creator")[0].value = "David"
+  document.getElementsByName("https://holacratie.solid.community/public/subject")[0].value = "Fictive Organisation"
+  document.getElementsByName("https://holacratie.solid.community/public/whatIs")[0].value = "There is a Big Probleme"
+  document.getElementsByName("https://holacratie.solid.community/public/whatShouldBe")[0].value = "There is a Solution"
+  document.getElementsByName("https://holacratie.solid.community/public/content")[0].value = "What I think is that we could try to ..."
+
+}
+
+
 function add(){
   var select = document.getElementById("mySelect")
   var option = document.createElement("option");
@@ -382,22 +403,16 @@ function processOneOf(exp,parent){
     radio.onclick = function(e){
       console.log(e.target.value)
       var  name = e.target.name
-      console.log(name)
       var fieldsets  = document.getElementsByName(name);
-      console.log(fieldsets)
       fieldsets.forEach(function (fs){
         if (fs.nodeName == "FIELDSET"){
-          console.log (fs, fs.id ,e.target.value)
           if (fs.id == e.target.value){
-            console.log("G")
             fs.style.borderColor = "green"
           }else{
-            console.log("R")
             fs.style.borderColor = "red"
           }
         }
       })
-
     }
 
 
@@ -423,9 +438,6 @@ function processOneOf(exp,parent){
   }
   x.appendChild(t);
   fieldsetChild.appendChild(x);
-
-
-
   processExp(e,fieldsetChild)
 });
 }
@@ -582,11 +594,13 @@ function testForm(id) {
   {
     var field = currentFormFields[i]
     if ((field.nodeName != "FIELDSET") && (field.nodeName != "BUTTON")) {
-      console.log(field, field.nodeName)
+      //  console.log(field, field.nodeName)
+      var fieldData = {}
       var fieldName = field.name;
-      var fieldValue = field.value;
-      params[fieldName] = fieldValue;
-      console.log(params)
+      fieldData.value = field.value;
+      fieldData.type = field.placeholder || "unknown";
+      params[fieldName] = fieldData;
+
     }
   }
   //  console.log("params ",params)
@@ -594,21 +608,50 @@ function testForm(id) {
     data[id] = [];
   }
   data[id].push(params)
-
+  console.log(data)
   var id_footprint = id+"_Footprint"
   console.log("idfootprint",id_footprint)
   populateDataFromFootprintForm(id_footprint)
-  sendData(id)
+  document.getElementById("result").innerHTML = JSON.stringify(data, null, 2)
+  var ttlData =  formateData(id)
+  sendData(id,ttlData)
 
   displayForm(dernierForm)
   dernierForm = id;
 }
 
 
-function sendData(id){
-  console.log("Send Data from ",id, data)
-  document.getElementById("result").innerHTML = JSON.stringify(data, null, 2)
+function formateData(id){
+  console.log("formate Data from ",id, data)
+  var ttlString = "# ttlString for "+ id+ "\n\n\n"
+//  "@prefix : <https://holacratie.solid.community/public/> ."
+//  "@prefix owl: <http://www.w3.org/2002/07/owl#> ."
+//  "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ."
+//  "@prefix xml: <http://www.w3.org/XML/1998/namespace> ."
+//  "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> ."
+//  "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
+//  "@base <https://holacratie.solid.community/public/> ."
+  var enregistrements = data[id];
+  console.log(enregistrements)
+  enregistrements.forEach(function(enreg){
+    for (let [predicate, object] of Object.entries(enreg)) {
+      console.log(predicate, object.value, object.type);
+      ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format :'+object.type+ "\n";
 
+    }
+  })
+
+
+
+  console.log(ttlString)
+  document.getElementById("result").innerHTML += ttlString
+  return ttlString;
+}
+
+function sendData(id, ttlData){
+  console.log("Send Data from ",id, ttlData)
+
+  document.getElementById("result").innerHTML += "**** RESULTAT ************"
 
 
 
@@ -630,18 +673,18 @@ function populateDataFromFootprintForm(id){
       (field.nodeName == "BUTTON")   ||
       ((field.type == "radio") && (field.checked == false))
     )
-        {
-    valid = false
+    {
+      valid = false
     }
 
-console.log(valid)
+    console.log(valid)
 
-if (valid == true){
-  console.log(field, field.nodeName, field.type)
-  var fieldName = field.name;
-  var fieldValue = field.value;
-  params[fieldName] = fieldValue;
-}
+    if (valid == true){
+      console.log(field, field.nodeName, field.type)
+      var fieldName = field.name;
+      var fieldValue = field.value;
+      params[fieldName] = fieldValue;
+    }
 
 
     /*var checkedButtons = document.querySelectorAll('input[type="radio"]:checked')
