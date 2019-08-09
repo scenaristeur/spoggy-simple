@@ -284,7 +284,7 @@ function footprintShape(url,constraint){
     data["footprints"] = {};
   }
   console.log(fp)
-data["footprints"][refersTo] = url
+  data["footprints"][refersTo] = url
   console.log(data)
 }
 
@@ -400,7 +400,7 @@ function processOneOf(exp,parent){
   fieldsetNode.setAttribute("id",group)
   parent.appendChild(fieldsetNode);
   var x = document.createElement("LEGEND");
-  var t = document.createTextNode("One of");
+  var t = document.createTextNode("One of (different predicate)");
   x.appendChild(t);
   fieldsetNode.appendChild(x);
 
@@ -549,7 +549,7 @@ function processShapeRef(exp, parent){
 
 function processShapeOr(exp, parent){
   // PRESQUE COMME processOneOf ??
-
+//  var group =  '_' + Math.random().toString(36).substr(2, 9);
   //  parent.appendChild(document.createTextNode("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2)));
   //  parent.appendChild(elem);
   /*  console.log("PROCESSSHAPEOR Non géré"+ JSON.stringify(exp, null, 2))
@@ -559,29 +559,66 @@ function processShapeOr(exp, parent){
   exp.shapeExprs.forEach(function(e){
   processExp(e,parent)
 });*/
+var group = exp.elemName
 var fieldsetNode = document.createElement("Fieldset")
+fieldsetNode.setAttribute("id",group)
 parent.appendChild(fieldsetNode);
 var x = document.createElement("LEGEND");
-var t = document.createTextNode("One of");
+var t = document.createTextNode("Shape OR (same predicate)");
 x.appendChild(t);
 fieldsetNode.appendChild(x);
 
 console.log("processShapeOr "+ JSON.stringify(exp, null, 2))
 var firstChoice = true;
 exp.shapeExprs.forEach(function(e){
+
+  var uuid =  '_' + Math.random().toString(36).substr(2, 9);
+  var radio = document.createElement("INPUT")
+  //  radio.value = uuid
+  radio.type = "radio"
+  radio.name = group
+  radio.value = uuid
+  fieldsetNode.appendChild(radio);
+
+
+  radio.onclick = function(e){
+    console.log(e.target.value)
+    var  name = e.target.name
+    var fieldsets  = document.getElementsByName(name);
+    fieldsets.forEach(function (fs){
+      if (fs.nodeName == "FIELDSET"){
+        if (fs.id == e.target.value){
+          fs.style.borderColor = "green"
+        }else{
+          fs.style.borderColor = "red"
+        }
+      }
+    })
+  }
+
+
+
   var fieldsetChild = document.createElement("Fieldset")
+  fieldsetChild.setAttribute("id",uuid)
+  fieldsetChild.name = group
   fieldsetNode.appendChild(fieldsetChild);
   var x = document.createElement("LEGEND");
   if (firstChoice == true){ // pour ne pas l'afficher la premiere fois
   // fieldsetNode.appendChild(document.createTextNode("Default Choice"));
+  radio.checked = true
   var t = document.createTextNode("Default Choice");
   firstChoice = false;
+  fieldsetChild.style.borderColor = "green"
 }else{
   var t = document.createTextNode("or");
+  fieldsetChild.style.borderColor = "red"
   //fieldsetNode.appendChild(document.createTextNode("or"));
 }
 x.appendChild(t);
 fieldsetChild.appendChild(x);
+if (e.elemName == undefined){
+  e.elemName = exp.elemName
+}
 processExp(e,fieldsetChild)
 });
 
@@ -612,12 +649,27 @@ function testForm(id) {
   for( var i=0; i<currentFormFields.length; i++ )
   {
     var field = currentFormFields[i]
-    if ((field.nodeName != "FIELDSET") && (field.nodeName != "BUTTON")) {
-      //  console.log(field, field.nodeName)
+
+    var field = currentFormFields[i]
+    var valid = true;
+    if (
+      (field.nodeName == "FIELDSET")  ||
+      (field.nodeName == "BUTTON")    ||
+      ((field.type == "radio") && (field.checked == false))
+    )
+    {
+      valid = false
+    }
+
+    console.log(valid)
+
+    if (valid == true){      //  console.log(field, field.nodeName)
+      console.log(field, field.nodeName, field.type)
       var fieldData = {}
       var fieldName = field.name;
       fieldData.value = field.value;
-      fieldData.type = field.placeholder || "unknown";
+        fieldData.type = field.type;
+      fieldData.format = field.placeholder || "unknown";
       params[fieldName] = fieldData;
 
     }
@@ -652,20 +704,21 @@ function formateData(id){
   //  "@base <https://holacratie.solid.community/public/> ."
   var enregistrements = data[id];
   console.log(enregistrements)
-  var filename = "unknown.ttl"
+  var randomName = '_' + Math.random().toString(36).substr(2, 9);
+  var filename = randomName+".ttl"
   enregistrements.forEach(function(enreg){
     for (let [predicate, object] of Object.entries(enreg)) {
       if (predicate == "http://schema.org/name") {
         filename = object.value+".ttl";
       }
-    //  console.log(predicate, object.value, object.type);
-      ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format :'+object.type+ "\n";
+      //  console.log(predicate, object.value, object.type);
+      ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format :'+object.type+ " "+object.format+ "\n";
     }
   })
 
 
 
-//  console.log(ttlString)
+  //  console.log(ttlString)
   var x = document.createElement("PRE");
   var t = document.createTextNode(ttlString);
   x.appendChild(t);
@@ -681,32 +734,32 @@ function sendData(id, ttlData){
       console.log("Logged in as "+session.webId)
     },
     err => { console.log(err)
-    alert(err)}
+      alert(err)}
+    );
+
+    document.getElementById("result").innerHTML += "**** RESULTAT ************"
+    //var url = "https://holacratie.solid.community/public/Post/post.ttl"
+    //var url = "https://agora.solid.community/public/post.ttl"
+
+    console.log(ttlData)
+    console.log(data)
+    var footprints = data.footprints;
+    console.log("footprints",footprints)
+    var footprintUrl = footprints[id]
+    console.log("footprintUrl",footprintUrl)
+    var footprint = data[footprintUrl]
+    console.log("footprint", footprint)
+    var root = footprint["https://footprint.solid.community/public/root"].value
+    var path = footprint["https://footprint.solid.community/public/path"].value
+    console.log("PATH",path)
+    var url = root+path+"/"+ttlData.filename;
+    //  var url = id+"/"+ttlData.filename;
+    console.log(url)
+    fileClient.createFile(url,ttlData.content).then( fileCreated => {
+      console.log(`Created file ${fileCreated}.`);
+    },
+    err => console.log(err)
   );
-
-  document.getElementById("result").innerHTML += "**** RESULTAT ************"
-  //var url = "https://holacratie.solid.community/public/Post/post.ttl"
-  //var url = "https://agora.solid.community/public/post.ttl"
-
-console.log(ttlData)
-console.log(data)
-var footprints = data.footprints;
-console.log("footprints",footprints)
-var footprintUrl = footprints[id]
-console.log("footprintUrl",footprintUrl)
-var footprint = data[footprintUrl]
-console.log("footprint", footprint)
- var root = footprint["https://footprint.solid.community/public/root"].value
-  var path = footprint["https://footprint.solid.community/public/path"].value
- console.log("PATH",path)
-var url = root+path+"/"+ttlData.filename;
-//  var url = id+"/"+ttlData.filename;
-  console.log(url)
-  fileClient.createFile(url,ttlData.content).then( fileCreated => {
-    console.log(`Created file ${fileCreated}.`);
-  },
-  err => console.log(err)
-);
 
 
 
