@@ -1,5 +1,4 @@
 
-# @ fr Associé
 PREFIX :       <https://holacratie.solid.community/public/>
 PREFIX sx: <http://www.w3.org/ns/shex#>
 PREFIX schema: <http://schema.org/>
@@ -8,20 +7,20 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX hola: <https://holacratie.solid.community/public/>
 PREFIX fp: <https://footprint.solid.community/public/>
 
-START = @<Ratifier>
+START = @<User>
 
-<Ratifier> {
+<User> {
   schema:name          xsd:string  ;
   schema:birthDate     xsd:date?  ;
   schema:gender        [ schema:Male schema:Female ] OR xsd:string ;
-  schema:knows         IRI @<Ratifier>* ;
+  schema:knows         IRI @<User>* ;
 }
 
-<Ratifier_Footprint> {
+<User_Footprint> {
 
 
 ( fp:root      [hola: "current POD" <../Tension> ] OR xsd:string ;
-  fp:path      ["RATIFIER"] OR xsd:string ;
+  fp:path      ["User"] OR xsd:string ;
   fp:filename  ["value of schema:name"] OR xsd:string;
   |  fp:fullpath xsd:string
   ### |

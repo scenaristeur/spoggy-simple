@@ -35,6 +35,8 @@ label {
     <option>https://holacratie.solid.community/public/Schema/circle.shex</option>
     <option>https://holacratie.solid.community/public/Schema/governance.shex</option>
     <option>  OTHER SHEX </option>
+    <option selected>https://holacratie.solid.community/public/Schema/post_simple.shex</option>
+    <option >https://holacratie.solid.community/public/Schema/post.shex</option>
     <option>https://holacratie.solid.community/public/Schema/issue.shex</option>
     <option>https://holacratie.solid.community/public/Schema/example1.shex</option>
     <option>https://jmartin.inrupt.net/public/shapes/book.shex</option>
@@ -136,12 +138,10 @@ shex.Loader.load([shapeUrl], [], [], []).then(function (loaded, err) {
 }
 
 function clear(){
-  var liste = document.getElementById("formlist")
-  liste.innerHTML = "";
-  var dest = document.getElementById("forms")
-  dest.innerHTML = ""
-  var menu = document.getElementById("formMenu")
-  menu.innerHTML = ""
+  document.getElementById("formlist").innerHTML = "";
+  document.getElementById("forms").innerHTML = ""
+  document.getElementById("formMenu").innerHTML = ""
+  document.getElementById("footprintMenu").innerHTML = ""
 }
 
 
@@ -205,27 +205,31 @@ function regularShape(url,constraint, whereMenu){
   var t = document.createTextNode(shapeName);
   x.appendChild(t);
   fieldsetNode.appendChild(x);
-    formulaire.appendChild(fieldsetNode);
+  formulaire.appendChild(fieldsetNode);
 
 
   processExp(constraint,fieldsetNode)
 
-  var submitBtn = document.createElement("BUTTON");
-  var t = document.createTextNode("Submit");
-  submitBtn.appendChild(t);
-  submitBtn.onclick = function(){
-    //  alert('here be dragons');
-    testForm(url);
-    return false;
-  };
-  formulaire.appendChild(submitBtn)
+  if (whereMenu != "footprintMenu"){
+    var submitBtn = document.createElement("BUTTON");
+    var t = document.createTextNode("Submit");
+    submitBtn.appendChild(t);
+    submitBtn.onclick = function(){
+      //  alert('here be dragons');
+      testForm(url);
+      return false;
+    };
+    formulaire.appendChild(submitBtn)
+  }
+
 }
 
 function footprintShape(url,constraint){
   var refersTo = url.substring(0, url.length - 10);
   console.log("FOOTPRINT SHAPE ", url, refersTo, constraint)
-var fp = {url:url, refersTo: refersTo, constraint:constraint}
-
+  //  var fp = {url:url, refersTo: refersTo, constraint:constraint}
+  var fp = { }
+  fp[refersTo] = url
   if (!("footprints" in data)){
     data["footprints"] = [];
   }
@@ -373,10 +377,14 @@ function processNode(exp,parent){
   //var br = document.createElement("br");
   //  parent.appendChild(br.cloneNode());
   //  parent.appendChild(document.createTextNode("NODE "+ JSON.stringify(exp, null, 2)));
-  console.log("NODE "+ JSON.stringify(exp, null, 2))
+  //  console.log("NODE "+ JSON.stringify(exp, null, 2))
+  console.log("NODE ", exp.elemName)
+  console.log("datatype ", exp.datatype)
+  console.log("values ", exp.values)
 
   var elem;
   if(exp.datatype != undefined) {
+    console.log("HAS DATATYPE ",exp.datatype)
     switch(exp.datatype) {
       case "http://www.w3.org/2001/XMLSchema#dateTime":
       case "http://www.w3.org/2001/XMLSchema#date":
@@ -400,10 +408,10 @@ function processNode(exp,parent){
     //  parent.appendChild(br.cloneNode());
   }
   // gestion des contraintes autres proprietes
-  switch (true) {
-    //exemple  <input type="number" name="quantity" min="1" max="5">
-    case (exp.hasOwnProperty("values")):
-    //  console.log("HAS VALUES ",exp.values)
+
+  //exemple  <input type="number" name="quantity" min="1" max="5">
+  if (exp.hasOwnProperty("values")){
+    console.log("HAS VALUES ",exp.values)
     //  parent.appendChild(br.cloneNode())
     elem = document.createElement("select")
     parent.appendChild(elem);
@@ -412,24 +420,27 @@ function processNode(exp,parent){
       optionSet.text = v.value || v;
       elem.add(optionSet);
     });
-    break;
-    case (exp.hasOwnProperty("minlength")):
+  }
+  if (exp.hasOwnProperty("minlength")){
+    console.log("HAS minlength ",exp.minlength)
     elem.setAttribute("minlength", exp.minlength)
-    break;
-    case (exp.hasOwnProperty("nodeKind")):
-
+  }
+  if (exp.hasOwnProperty("nodeKind")){
+    console.log("HAS nodeKind ",exp.nodeKind)
     elem = document.createElement("input")
     elem.setAttribute("placeholder", exp.nodeKind)
 
-    break;
-    case (exp.hasOwnProperty("elemName")):
-    elem.setAttribute("name", exp.elemName)
-    break;
   }
+  if (exp.hasOwnProperty("elemName")){
+    console.log("HAS elemName ",exp.elemName)
+    elem.setAttribute("name", exp.elemName)
+  }
+
+  console.log("NEW NODE",elem)
   parent.appendChild(elem);
-  var expKeys =   Object.keys(exp)
+  //  var expKeys =   Object.keys(exp)
   //  parent.appendChild(document.createTextNode("NODE KEYS"+ JSON.stringify(expKeys, null, 2)));
-  console.log("NODE KEYS"+ JSON.stringify(expKeys, null, 2));
+  //  console.log("NODE KEYS"+ JSON.stringify(expKeys, null, 2));
 }
 
 function processShapeRef(exp, parent){
@@ -509,27 +520,80 @@ function testForm(id) {
   var currentFormLength = document.getElementById(id).elements.length;
   //  console.log( "Found " + currentFormFields.length + " elements in the form "+id);
 
-  var params = '';
+  var params = {};
   for( var i=0; i<currentFormFields.length; i++ )
   {
     var field = currentFormFields[i]
-    //  console.log(field)
-    var fieldName = field.name;
-    var fieldValue = field.value;
-    field.value = ""
-    params += fieldName + '=' + fieldValue + '&';
+    if ((field.nodeName != "FIELDSET") && (field.nodeName != "BUTTON")) {
+      console.log(field, field.nodeName)
+      var fieldName = field.name;
+      var fieldValue = field.value;
+      params[fieldName] = fieldValue;
+      console.log(params)
+    }
   }
   //  console.log("params ",params)
   if (!(id in data)){
     data[id] = [];
   }
   data[id].push(params)
-  //console.log(data)
-  document.getElementById("result").innerHTML = JSON.stringify(data, null, 2)
-  //  console.log ("display",dernierForm )
+
+  var id_footprint = id+"_Footprint"
+  console.log("idfootprint",id_footprint)
+  populateDataFromFootprintForm(id_footprint)
+  sendData(id)
+
   displayForm(dernierForm)
   dernierForm = id;
 }
+
+
+function sendData(id){
+  console.log("Send Data from ",id, data)
+  document.getElementById("result").innerHTML = JSON.stringify(data, null, 2)
+
+
+
+
+
+}
+
+function populateDataFromFootprintForm(id){
+  var currentFormFields = document.getElementById(id).elements
+  var currentFormLength = document.getElementById(id).elements.length;
+  //  console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+
+  var params = {};
+  for( var i=0; i<currentFormFields.length; i++ )
+  {
+    var field = currentFormFields[i]
+    if ((field.nodeName != "FIELDSET") && (field.nodeName != "BUTTON")) {
+      console.log(field, field.nodeName)
+      var fieldName = field.name;
+      var fieldValue = field.value;
+      params[fieldName] = fieldValue;
+      console.log(params)
+    }
+  }
+  //  console.log("params ",params)
+  if (!(id in data)){
+    data[id] = [];
+  }
+  data[id] = params;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function charge(){
   var id = document.getElementById("mySelect").options.selectedIndex;

@@ -1,3 +1,4 @@
+
 PREFIX :       <https://holacratie.solid.community/public/Schema/>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
