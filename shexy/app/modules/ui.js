@@ -3,7 +3,7 @@ import { log } from './story.js'
 const divs = [
   {name : "story-console", status :"done", clearable : false},
   {name : "shape-selector", status :"done", clearable : false},
-//  {name : "shape-loader", status :"todo", clearable : false},
+  //  {name : "shape-loader", status :"todo", clearable : false},
   {name : "shape-adder", status :"todo", clearable : false},
   {name : "shape-menu", status :"todo", clearable : true},
   {name : "footprint-menu", status :"todo", clearable : true},
@@ -21,7 +21,6 @@ function initUI(container){
   d.setAttribute("id", "shexydiv")
   root.appendChild(d)
   appendDivsTo(d)
-
 }
 
 function appendDivsTo(destination){
@@ -39,7 +38,7 @@ function appendDivsTo(destination){
       newdiv.appendChild(t);
     }
   })
-//  log(divs.length+ "divs générés", "initUI")
+  //  log(divs.length+ "divs générés", "initUI")
 }
 
 
@@ -52,5 +51,41 @@ function clearUI(){
   });
 }
 
+function toggleFullScreen(id) {
+  //https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
+  var doc = window.document;
+  var docEl = doc.documentElement;
 
-export { initUI, divs, clearUI };
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+  var changeFullScreen = doc.fullscreenchange || doc.mozfullscreenchange || doc.webkitfullscreenchange || doc.msfullscreenchange;
+
+
+
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    //requestFullScreen.call(docEl);
+    // document.getElementById("main-content").innerHTML = "";
+
+    var canvas = document.getElementById(id);
+    canvas.requestFullscreen();
+
+    /*   document.getElementById("main-content").appendChild(document.getElementById("mynetwork"))*/
+    //  document.getElementById("mynetwork").prepend(document.getElementById("rtl-menu"));
+    /*canvas.addEventListener("cancelFullScreen", function(e) {
+    console.log("change",e)
+  });*/
+}
+else {
+  console.log("cancelFullscreen")
+  //  document.getElementById("main-content").innerHTML = "";
+  //  document.getElementById("main-content").appendChild(document.getElementById("principal"))
+  cancelFullScreen.call(doc);
+  /*  document.getElementById("network-container").appendChild(document.getElementById("mynetwork"))*/
+  // document.getElementById("attachGlobal").prepend(document.getElementById("global"));
+
+}
+}
+
+
+export { initUI, divs, clearUI, toggleFullScreen };

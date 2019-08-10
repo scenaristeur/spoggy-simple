@@ -1,11 +1,19 @@
+import { toggleFullScreen } from './ui.js';
+
 function Story(){
   var s = document.createElement("TEXTAREA");
   s.setAttribute("id", "story")
   s.style.width = "100%"   //s.cols = "80";
   s.rows = "5";
-  var t = document.createTextNode("Use the shape-selector below to select a shape.");
+  var welcome = "Use the shape-selector below to select a shape.\n"
+  +  "// TIP: dble-click here open Story in fullscreen. "
+  var t = document.createTextNode(welcome);
   s.appendChild(t);
   var sc = document.getElementById("story-console")
+  sc.ondblclick = function() {
+    toggleFullScreen("story-console");
+    s.style.height = "100%"
+  }
   sc.appendChild(s);
 }
 

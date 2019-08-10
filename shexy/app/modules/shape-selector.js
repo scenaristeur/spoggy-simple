@@ -2,25 +2,25 @@ import { log } from './story.js'
 
 const options = [
   {value: " CHOOSE AN HOLACRATIE SHEX "},
-  {value: "https://holacratie.solid.community/public/Schema/role.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/tension.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/ratifier.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/accountability.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/capacity.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/circle.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/governance.shex"},
+  {name: "role.shex", value: "https://holacratie.solid.community/public/Schema/role.shex"},
+  {name: "tension.shex", value: "https://holacratie.solid.community/public/Schema/tension.shex"},
+  {name: "ratifier.shex", value: "https://holacratie.solid.community/public/Schema/ratifier.shex"},
+  {name: "accountability.shex", value: "https://holacratie.solid.community/public/Schema/accountability.shex"},
+  {name: "capacity.shex", value: "https://holacratie.solid.community/public/Schema/capacity.shex"},
+  {name: "circle.shex", value: "https://holacratie.solid.community/public/Schema/circle.shex"},
+  {name: "governance.shex", value: "https://holacratie.solid.community/public/Schema/governance.shex"},
   {value: "  OTHER SHEX "},
-  {value: "https://holacratie.solid.community/public/Schema/post_simple.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/post.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/issue.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/example1.shex"},
-  {value: "https://jmartin.inrupt.net/public/shapes/book.shex"},
-  {value: "https://jmartin.inrupt.net/public/shapes/movie.shex"},
-  {value: "https://jmartin.inrupt.net/public/shapes/data-browser.shex"},
-  {value: "https://jmartin.inrupt.net/public/shapes/employee.shex"},
-  {value: "SHEX WITH PROBLEMS"},
-  {value: "https://holacratie.solid.community/public/Schema/purpose.shex"},
-  {value: "https://holacratie.solid.community/public/Schema/domain.shex"},
+  {name: "post_simple.shex <-- basic example, start with this one", value: "https://holacratie.solid.community/public/Schema/post_simple.shex"},
+  {name: "post.shex", value: "https://holacratie.solid.community/public/Schema/post.shex"},
+  {name: "issue.shex", value: "https://holacratie.solid.community/public/Schema/issue.shex"},
+  {name: "example1.shex", value: "https://holacratie.solid.community/public/Schema/example1.shex"},
+  {name: "book.shex", value: "https://jmartin.inrupt.net/public/shapes/book.shex"},
+  {name: "movie.shex", value: "https://jmartin.inrupt.net/public/shapes/movie.shex"},
+  {name: "data-browser.shex", value: "https://jmartin.inrupt.net/public/shapes/data-browser.shex"},
+  {name: "employee.shex", value: "https://jmartin.inrupt.net/public/shapes/employee.shex"},
+  {value: "SHEX WITH PROBLEMS or PROBLEMS with SHEX"},
+  {name: "purpose.shex", value: "https://holacratie.solid.community/public/Schema/purpose.shex"},
+  {name: "domain.shex", value: "https://holacratie.solid.community/public/Schema/domain.shex"},
   {value: " USE YOUR SHEX"},
 ]
 
@@ -42,12 +42,16 @@ function ShapeSelector(callback){
 
 function appendOptionsTo(destination, callback){
   options.forEach(function(o){
-    var value = o.value;
-    var status = o.status;
+    //  var name = o.name || o.value;
+    //  var value = o.value;
+    //  var status = o.status;
     var newopt = document.createElement("OPTION")
-    destination.appendChild(newopt)
-    var t = document.createTextNode(value);
+
+    var t = document.createTextNode(o.name || o.value);
     newopt.appendChild(t);
+    newopt.value = o.value;
+    newopt.title = o.value;
+    destination.appendChild(newopt)
     //  newopt.setAttribute("id", name)
     //  newdiv.setAttribute("name", name)
 

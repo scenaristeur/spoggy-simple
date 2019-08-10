@@ -33,6 +33,7 @@ function loadShex(shapeUrl){
         log(shapeUrl, "schema loaded")
         clearUI();
         Schema(loaded.schema)
+        log("DONE", "schema loaded")
       }
     }, err => {
       log(err, "ERROR loadShex")
