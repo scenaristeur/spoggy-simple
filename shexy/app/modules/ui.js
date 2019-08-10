@@ -1,16 +1,16 @@
 const divs = [
-  "messages-console",
-  "shape-selector",
-  "shape-loader",
-  "shape-adder",
-  "shape-menu",
-  "footprint-menu",
-  "shape-populator",
-  "solid-login",
-  "solid-logout",
-  "formulaire",
-  "footprint",
-  "docs"
+  {name : "messages-console", status :"todo"},
+  {name : "shape-selector", status :"todo"},
+  {name : "shape-loader", status :"todo"},
+  {name : "shape-adder", status :"todo"},
+  {name : "shape-menu", status :"todo"},
+  {name : "footprint-menu", status :"todo"},
+  {name : "shape-populator", status :"todo"},
+  {name : "solid-login", status :"todo"},
+  {name : "solid-logout", status :"todo"},
+  {name : "formulaire", status :"todo"},
+  {name : "footprint", status :"todo"},
+  {name :"docs", status :"done"}
 ]
 
 function initUI(container){
@@ -18,17 +18,23 @@ function initUI(container){
   var d = document.createElement("DIV")
   d.setAttribute("id", "shexydiv")
   root.appendChild(d)
-  appendDivsTo(shexydiv,divs)
+  appendDivsTo(d)
 }
 
-function appendDivsTo(destination, arrayOfIds){
-  arrayOfIds.forEach(function(id){
-    console.log(id)
+function appendDivsTo(destination){
+  divs.forEach(function(div){
+    var name = div.name;
+    var status = div.status;
     var newdiv = document.createElement("DIV")
     destination.appendChild(newdiv)
-    newdiv.setAttribute("id", id)
-    var t = document.createTextNode(id);
-    newdiv.appendChild(t);
+    newdiv.setAttribute("id", name)
+    newdiv.setAttribute("name", name)
+    var text = ""
+    div.status == "done"? text = "" : text = name;
+    if (text.length > 0){
+      var t = document.createTextNode(text);
+      newdiv.appendChild(t);
+    }
   })
 }
 
