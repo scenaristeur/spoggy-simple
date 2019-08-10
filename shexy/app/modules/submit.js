@@ -1,5 +1,6 @@
 import { displayForm } from './ui.js'
 import { log } from './story.js'
+import { localName } from './shape.js'
 
 function Submit (id){
 console.log(id)
@@ -163,16 +164,24 @@ function sendData(id, ttlData){
     console.log("footprintUrl",footprintUrl)
     var footprint = data[footprintUrl]
     console.log("footprint", footprint)
-    var root = footprint["https://footprint.solid.community/public/root"].value
-    var path = footprint["https://footprint.solid.community/public/path"].value
+    var shapeName =  localName(id)
+   console.log(shapeName)
+    var root = footprint["https://footprint.solid.community/public/root"].value || "https://holacratie.solid.community/public/";
+    var path = footprint["https://footprint.solid.community/public/path"].value ||  shapeName
     console.log("PATH",path)
+
+
     var url = root+path+"/"+ttlData.filename;
+    log(url, "Create file")
     //  var url = id+"/"+ttlData.filename;
     console.log(url)
     fileClient.createFile(url,ttlData.content).then( fileCreated => {
       console.log(`Created file ${fileCreated}.`);
+      log (fileCreated, "Created file")
     },
-    err => console.log(err)
+    err => {console.log(err);
+log(err, "ERROR : file create")
+    }
   );
 
 
