@@ -1,6 +1,6 @@
 const divs = [
-  {name : "messages-console", status :"todo"},
-  {name : "shape-selector", status :"todo"},
+  {name : "story-console", status :"done"},
+  {name : "shape-selector", status :"done"},
   {name : "shape-loader", status :"todo"},
   {name : "shape-adder", status :"todo"},
   {name : "shape-menu", status :"todo"},

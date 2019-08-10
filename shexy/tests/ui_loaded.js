@@ -11,6 +11,9 @@ describe('Ui Loaded', function() {
   it('Shape selector', function() {
     var d = document.getElementById("shape-selector")
     should.exist(d);
+    var sel = document.getElementById("shex-selector")
+    should.exist(sel);
+    sel.should.have.lengthOf(21);
   });
 
   it('Shape loader', function() {
@@ -45,9 +48,9 @@ describe('Ui Loaded', function() {
     should.exist(dLogout);
   });
 
-  it("messages-console", function() {
-    var d = document.getElementById("messages-console")
-    should.exist(d);
+  it("log console", function() {
+    var s = document.getElementById("story")
+    should.exist(s);
   });
 
   it('Formulaire', function() {

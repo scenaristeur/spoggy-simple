@@ -8,7 +8,7 @@ const options = [
   {value: "https://holacratie.solid.community/public/Schema/circle.shex"},
   {value: "https://holacratie.solid.community/public/Schema/governance.shex"},
   {value: "  OTHER SHEX "},
-  {value: "https://holacratie.solid.community/public/Schema/post_simple.shex", status :"selected"},
+  {value: "https://holacratie.solid.community/public/Schema/post_simple.shex"},
   {value: "https://holacratie.solid.community/public/Schema/post.shex"},
   {value: "https://holacratie.solid.community/public/Schema/issue.shex"},
   {value: "https://holacratie.solid.community/public/Schema/example1.shex"},
@@ -22,16 +22,21 @@ const options = [
   {value: " USE YOUR SHEX"},
 ]
 
-function ShapeSelector(){
+function ShapeSelector(callback){
   var root = document.getElementById("shape-selector")
   var d = document.createElement("SELECT")
-  d.setAttribute("id", "shape-selector")
-  d.setAttribute("name", "shape-selector")
+  d.setAttribute("id", "shex-selector")
+  d.setAttribute("name", "shex-selector")
   root.appendChild(d)
-  appendOptionsTo(d)
+  appendOptionsTo(d, callback)
+  d.onchange = function(){
+     var selected = document.getElementById("shex-selector").value;
+    callback(selected)
+    return false;
+  };
 }
 
-function appendOptionsTo(destination){
+function appendOptionsTo(destination, callback){
   options.forEach(function(o){
     var value = o.value;
     var status = o.status;
