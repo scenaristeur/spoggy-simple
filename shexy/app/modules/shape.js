@@ -30,7 +30,7 @@ function localName(uri){
 function footprintShape(url,constraint){
   log(localName(url),"footprintShape")
 }
-function regularShape(url,constraint, destination = "shape-menu"){
+function regularShape(url,constraint, whereMenu = "shape-menu"){
   log(localName(url),"regularShape")
 }
 

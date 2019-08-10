@@ -10,9 +10,11 @@ function Story(){
   var t = document.createTextNode(welcome);
   s.appendChild(t);
   var sc = document.getElementById("story-console")
-  sc.ondblclick = function() {
+  sc.ondblclick = function(e) {
+
     toggleFullScreen("story-console");
     s.style.height = "100%"
+    event.preventDefault();
   }
   sc.appendChild(s);
 }

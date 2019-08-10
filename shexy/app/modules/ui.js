@@ -1,5 +1,6 @@
 import { log } from './story.js'
 
+
 const divs = [
   {name : "story-console", status :"done", clearable : false},
   {name : "shape-selector", status :"done", clearable : false},
@@ -86,6 +87,8 @@ else {
 
 }
 }
+
+
 
 
 export { initUI, divs, clearUI, toggleFullScreen };
