@@ -1,7 +1,8 @@
 import { log } from './story.js'
 
 const options = [
-  {value: " CHOOSE AN HOLACRATIE SHEX "},
+    {value: "SHEX-SHAPE-SELECTOR", selected :true},
+  {value: " CHOOSE AN HOLACRATIE SHEX ", disabled :true},
   {name: "role.shex", value: "https://holacratie.solid.community/public/Schema/role.shex"},
   {name: "tension.shex", value: "https://holacratie.solid.community/public/Schema/tension.shex"},
   {name: "ratifier.shex", value: "https://holacratie.solid.community/public/Schema/ratifier.shex"},
@@ -9,7 +10,7 @@ const options = [
   {name: "capacity.shex", value: "https://holacratie.solid.community/public/Schema/capacity.shex"},
   {name: "circle.shex", value: "https://holacratie.solid.community/public/Schema/circle.shex"},
   {name: "governance.shex", value: "https://holacratie.solid.community/public/Schema/governance.shex"},
-  {value: "  OTHER SHEX "},
+  {value: "  OTHER SHEX ", disabled :true},
   {name: "post_simple.shex <-- basic example, start with this one", value: "https://holacratie.solid.community/public/Schema/post_simple.shex"},
   {name: "post.shex", value: "https://holacratie.solid.community/public/Schema/post.shex"},
   {name: "issue.shex", value: "https://holacratie.solid.community/public/Schema/issue.shex"},
@@ -18,10 +19,11 @@ const options = [
   {name: "movie.shex", value: "https://jmartin.inrupt.net/public/shapes/movie.shex"},
   {name: "data-browser.shex", value: "https://jmartin.inrupt.net/public/shapes/data-browser.shex"},
   {name: "employee.shex", value: "https://jmartin.inrupt.net/public/shapes/employee.shex"},
-  {value: "SHEX WITH PROBLEMS or PROBLEMS with SHEX"},
+  {value: "SHEX WITH PROBLEMS or PROBLEMS with SHEX", disabled :true},
   {name: "purpose.shex", value: "https://holacratie.solid.community/public/Schema/purpose.shex"},
   {name: "domain.shex", value: "https://holacratie.solid.community/public/Schema/domain.shex"},
-  {value: " USE YOUR SHEX"},
+  {value: " USE YOUR SHEX", disabled :true}
+
 ]
 
 function ShapeSelector(callback){
@@ -41,6 +43,7 @@ function ShapeSelector(callback){
 }
 
 function appendOptionsTo(destination, callback){
+
   options.forEach(function(o){
     //  var name = o.name || o.value;
     //  var value = o.value;
@@ -51,15 +54,18 @@ function appendOptionsTo(destination, callback){
     newopt.appendChild(t);
     newopt.value = o.value;
     newopt.title = o.value;
-    destination.appendChild(newopt)
-    //  newopt.setAttribute("id", name)
-    //  newdiv.setAttribute("name", name)
+    newopt.disabled = o.disabled;
+      newopt.selected = o.selected;
+    /*  if (o.selected == true){
+    newopt.selected = o.selected;
+    //callback(o.value);
+  }*/
 
-    if (o.status == "selected"){
-      newopt.selected = true;
-    }
+  destination.appendChild(newopt)
+  //  newopt.setAttribute("id", name)
+  //  newdiv.setAttribute("name", name)
 
-  })
+})
 }
 
 

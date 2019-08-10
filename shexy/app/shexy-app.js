@@ -11,6 +11,7 @@ init()
 function init(){
   console.log("init")
   initUI("shexy-app")
+
   initDoc()
   load_libs()
   ShapeSelector(loadShex)

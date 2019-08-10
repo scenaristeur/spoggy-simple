@@ -13,7 +13,7 @@ describe('Ui Loaded', function() {
     should.exist(d);
     var sel = document.getElementById("shex-selector")
     should.exist(sel);
-    sel.should.have.lengthOf(21);
+    sel.should.have.lengthOf(22);
   });
 
 

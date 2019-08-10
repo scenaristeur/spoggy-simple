@@ -5,7 +5,7 @@ function Story(){
   s.setAttribute("id", "story")
   s.style.width = "100%"   //s.cols = "80";
   s.rows = "5";
-  var welcome = "Use the shape-selector below to select a shape.\n"
+  var welcome = "Use the SHEX-SHAPE-SELECTOR below to select a .shex shape.\n"
   +  "// TIP: dble-click here open Story in fullscreen. "
   var t = document.createTextNode(welcome);
   s.appendChild(t);
