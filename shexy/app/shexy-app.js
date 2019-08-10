@@ -22,13 +22,11 @@ function init(){
 function load_libs(){
   shex = ShEx;
   fileClient = SolidFileClient;
-  console.log(shex)
-  console.log(fileClient)
+
 }
 
 function loadShex(shapeUrl){
-  log(shapeUrl, "selected shape")
-  log(shapeUrl, "trying to load schema")
+  log(shapeUrl, "loadShex")
 
   if (shapeUrl.endsWith(".shex")){
     shex.Loader.load([shapeUrl], [], [], []).then(loaded => {
@@ -39,12 +37,12 @@ function loadShex(shapeUrl){
       }
     }
     , err => {
-      log(err, "ERROR when loading schema")
+      log(err, "ERROR loadShex")
     }
   )
 
 }else{
   log("Choose a .shex file in the selector", "CONSEIL")
 }
-  log()
+
 }

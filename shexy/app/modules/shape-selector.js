@@ -1,3 +1,5 @@
+import { log } from './story.js'
+
 const options = [
   {value: " CHOOSE AN HOLACRATIE SHEX "},
   {value: "https://holacratie.solid.community/public/Schema/role.shex"},
@@ -30,7 +32,9 @@ function ShapeSelector(callback){
   root.appendChild(d)
   appendOptionsTo(d, callback)
   d.onchange = function(){
-     var selected = document.getElementById("shex-selector").value;
+    log()
+    var selected = document.getElementById("shex-selector").value;
+    log(selected, "ShapeSelector")
     callback(selected)
     return false;
   };
