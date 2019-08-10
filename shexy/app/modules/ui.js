@@ -1,15 +1,22 @@
-console.log("TEST UI IMPORT")
+const divs = [
+  "messages-console",
+  "shape-selector",
+  "shape-loader",
+  "shape-adder",
+  "shape-menu",
+  "footprint-menu",
+  "shape-populator",
+  "solid-login",
+  "solid-logout",
+  "formulaire",
+  "footprint",
+  "docs"
+]
 
-// module "mon-module.js"
-function cube(x) {
-  return x * x * x;
-}
-const machin = Math.PI + Math.SQRT2;
-
-function initUI(container, main, divs){
+function initUI(container){
   var root = document.getElementById(container)
   var d = document.createElement("DIV")
-  d.setAttribute("id", main)
+  d.setAttribute("id", "shexydiv")
   root.appendChild(d)
   appendDivsTo(shexydiv,divs)
 }
@@ -22,9 +29,8 @@ function appendDivsTo(destination, arrayOfIds){
     newdiv.setAttribute("id", id)
     var t = document.createTextNode(id);
     newdiv.appendChild(t);
-
   })
 }
 
 
-export { initUI, cube, machin };
+export { initUI, divs };
