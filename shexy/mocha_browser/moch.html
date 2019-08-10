@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
 </head>
 <body>
+
+<div id="shexy-app"></div>
+
+
+
   <div id="mocha"></div>
 
   <script src="https://unpkg.com/chai/chai.js"></script>
@@ -25,16 +30,20 @@ mocha.checkLeaks();*/
 mocha.setup('bdd')
 </script>
 
+<!-- SHEXY-APP -->
 
 <script>
 
 var machin = "bidule"
 </script>
-<script src="../app/my-app.js"></script>
+<script src="/dist/shex-browserify.min.js"></script>
+<script src="/dist/solid-file-client.bundle.js"></script>
+<script src="../app/shexy-app.js"></script>
 
-
+<!-- END SHEXY APP -->
+<!-- TESTS -->
 <script src="test.js"></script>
-
+<script src="../tests/ui_loaded.js"></script>
 <script src="../tests/load_libs.js"></script>
 <script src="../tests/load_shapes.js"></script>
 <script src="../tests/test_machin.js"></script>
