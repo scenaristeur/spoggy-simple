@@ -18,6 +18,7 @@ const divs = [
 
 function initUI(container){
   var root = document.getElementById(container)
+  root.innerHTML = "";
   var d = document.createElement("DIV")
   d.setAttribute("id", "shexydiv")
   root.appendChild(d)
@@ -92,7 +93,8 @@ function displayForm(id){
   var tousForms = document.querySelectorAll("form");
   tousForms.forEach(function(f){
     if (f.id == id){
-      f.style.display = "block"
+      f.style.display = "block";
+      f.firstChild.focus();
       dernierForm = id
     }else{
       f.style.display = "none"

@@ -26,11 +26,18 @@
 </head>
 <body>
 
-<div id="shexy-app"></div>
+<div id="shexy-app">
+  <div id="loading">
+    Loading Shexy Shapes & tests...<br>
+    Please wait...
+  </div>
+</div>
 
 
   <a href="../">Return to Spoggy</a><br>
-  <div id="mocha"></div>
+  <div id="mocha">
+
+  </div>
 
   <script src="dist/chai.js"></script>
   <script src="dist/mocha.js"></script>
@@ -55,6 +62,8 @@ var machin = "bidule"
 var shex;
 var fileClient;
 var dernierForm;
+var data = {};
+data.machin = machin;
 </script>
 <script src="dist/shex-browserify.min.js"></script>
 <script src="dist/solid-file-client.bundle.js"></script>
@@ -73,6 +82,8 @@ var dernierForm;
 <script src="test.object.js"></script>
 <script src="test.xhr.js"></script>-->
 <script class="mocha-exec">
+
+
 // execution de mocha.run(); deportée dans shexy/app/init()
 </script>
 

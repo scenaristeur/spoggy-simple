@@ -1,6 +1,7 @@
 import { log } from './story.js'
 import { displayForm } from './ui.js'
 import { Expression } from './expression.js'
+import { Submit } from './submit.js'
 
 function Shape(url, constraint){
   console.log(url)
@@ -23,6 +24,17 @@ function Shape(url, constraint){
 
 function footprintShape(url,constraint){
   log(localName(url),"footprintShape")
+  var refersTo = url.substring(0, url.length - 10);
+  console.log("FOOTPRINT SHAPE ", url, refersTo, constraint)
+  //  var fp = {url:url, refersTo: refersTo, constraint:constraint}
+  var fp = { }
+  fp[refersTo] = url
+  if (!("footprints" in data)){
+    data["footprints"] = {};
+  }
+  console.log(fp)
+  data["footprints"][refersTo] = url
+  console.log(data)
 }
 function regularShape(url,constraint, type = "formulaire"){
   makeMenuItem(url, constraint, type)
@@ -63,27 +75,44 @@ function makeForm(url,constraint,type){
 
   Expression(constraint,group)
 
+  var br = document.createElement("br");
+  fieldsetNode.appendChild(br)
+  fieldsetNode.appendChild(br)
+  var submitBtn = document.createElement("BUTTON");
+  fieldsetNode.appendChild(submitBtn)
+
+
+
   if (type == "footprint"){
     formulaire.style.display = "none";
-  }else{
-      var br = document.createElement("br");
-          fieldsetNode.appendChild(br)
-          fieldsetNode.appendChild(br)
-    var submitBtn = document.createElement("BUTTON");
-    var t = document.createTextNode("Submit");
-    submitBtn.appendChild(t);
+    var refersTo = shapeName.replace('_Footprint', '');
+    var btnText = "Back to "+refersTo;
+
+    var url = url.replace('_Footprint', '');
+    var t = document.createTextNode(btnText);
     submitBtn.onclick = function(){
-      submitForm(url);
+      displayForm(url);
       return false;
     };
-    fieldsetNode.appendChild(submitBtn)
+  }else{
+    var btnText = "Submit "+shapeName;
+    var t = document.createTextNode(btnText);
+    submitBtn.onclick = function(){
+      console.log("sumbit",url,data,Submit)
+
+      submit(url)
+      return false;
+    };
+
   }
+  submitBtn.appendChild(t);
 }
 
-
-function submitForm(url){
-  console.log("SUBMIT",url)
+function submit(url){
+  console.log("submit",url)
+  Submit(url)
 }
+
 
 
 function localName(uri){

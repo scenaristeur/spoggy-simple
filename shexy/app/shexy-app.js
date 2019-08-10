@@ -18,6 +18,7 @@ function init(){
   Story();
 
   mocha.run();
+
 }
 
 function load_libs(){
