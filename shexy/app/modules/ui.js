@@ -3,7 +3,7 @@ import { log } from './story.js'
 const divs = [
   {name : "story-console", status :"done", clearable : false},
   {name : "shape-selector", status :"done", clearable : false},
-  {name : "shape-loader", status :"todo", clearable : false},
+//  {name : "shape-loader", status :"todo", clearable : false},
   {name : "shape-adder", status :"todo", clearable : false},
   {name : "shape-menu", status :"todo", clearable : true},
   {name : "footprint-menu", status :"todo", clearable : true},

@@ -16,10 +16,7 @@ describe('Ui Loaded', function() {
     sel.should.have.lengthOf(21);
   });
 
-  it('Shape loader', function() {
-    var d = document.getElementById("shape-loader")
-    should.exist(d);
-  });
+
 
   it('Shape adder', function() {
     var d = document.getElementById("shape-adder")
