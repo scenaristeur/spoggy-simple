@@ -5,6 +5,7 @@
   <title>Mocha Tests</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+
 </head>
 <body>
 
@@ -35,10 +36,13 @@ mocha.setup('bdd')
 <script>
 
 var machin = "bidule"
+var shex;
+var fileClient;
 </script>
+
 <script src="/dist/shex-browserify.min.js"></script>
 <script src="/dist/solid-file-client.bundle.js"></script>
-<script src="../app/shexy-app.js"></script>
+<script  type="module"  src="../app/shexy-app.js"></script>
 
 <!-- END SHEXY APP -->
 <!-- TESTS -->
@@ -53,7 +57,9 @@ var machin = "bidule"
 <script src="test.object.js"></script>
 <script src="test.xhr.js"></script>-->
 <script class="mocha-exec">
-mocha.run();
+// execution de mocha.run(); deportée dans shexy/app/init()
 </script>
+
+
 </body>
 </html>

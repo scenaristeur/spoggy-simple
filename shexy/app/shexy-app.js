@@ -1,5 +1,13 @@
 console.log(" #SHEXY ")
-var modules = [
+
+import { cube, machin, initUI } from './modules/ui.js';
+
+console.log(cube(3)); // 27
+console.log(machin);
+
+
+
+var divs = [
   "messages-console",
   "shape-selector",
   "shape-loader",
@@ -14,36 +22,19 @@ var modules = [
   "docs"
 ]
 
-
-
 init()
-load_libs()
 
+function init(){
+  console.log("init")
+  initUI("shexy-app", "shexydiv",divs)
+  load_libs()
+//  console.log(cube(3)); // 27
+mocha.run();
+}
 
 function load_libs(){
   shex = ShEx;
   fileClient = SolidFileClient;
-
-}
-
-function init(){
-  console.log("init")
-
-  var root = document.getElementById("shexy-app")
-  var shexydiv = document.createElement("DIV")
-  shexydiv.setAttribute("id", "shexydiv")
-  root.appendChild(shexydiv)
-  appendDivsTo(shexydiv,modules)
-}
-
-function appendDivsTo(destination, arrayOfIds){
-  arrayOfIds.forEach(function(id){
-    console.log(id)
-    var newdiv = document.createElement("DIV")
-    destination.appendChild(newdiv)
-    newdiv.setAttribute("id", id)
-    var t = document.createTextNode(id);
-    newdiv.appendChild(t);
-
-  })
+  console.log(shex)
+  console.log(fileClient)
 }
