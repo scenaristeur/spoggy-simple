@@ -1,4 +1,5 @@
 import { log } from './story.js'
+import { displayForm } from './ui.js'
 
 function Shape(url, constraint){
   console.log(url)
@@ -9,11 +10,12 @@ function Shape(url, constraint){
 
   if (!shapeName.endsWith("_Footprint")){
     dernierForm = url
-  //  console.log("dernierForm ",dernierForm)
+    //  console.log("dernierForm ",dernierForm)
     regularShape(url,constraint)
   }else{
+
+    regularShape(url,constraint, "footprint")
     footprintShape(url,constraint)
-    regularShape(url,constraint, "footprint-menu")
   }
 }
 
@@ -30,11 +32,34 @@ function localName(uri){
 function footprintShape(url,constraint){
   log(localName(url),"footprintShape")
 }
-function regularShape(url,constraint, whereMenu = "shape-menu"){
-  log(localName(url),"regularShape")
+function regularShape(url,constraint, type = "formulaire"){
+  makeMenuItem(url, type)
+  makeForm(url,type)
 }
 
+function makeMenuItem(url,type){
+  var shapeName =localName(url)
+  log(shapeName,"makeMenuItem regularShape")
 
+  var menu = document.getElementById(type+"-menu");
+  var menuitem = document.createElement("BUTTON")
+  menuitem.innerHTML = shapeName
+  menuitem.title = url;
+  menuitem.onclick = function(){
+    displayForm(url);
+    return false;
+  };
+  menu.appendChild(menuitem)
+
+
+
+
+
+}
+
+function makeForm(url,type){
+  var form = document.getElementById(type);
+}
 
 
 

@@ -6,7 +6,7 @@ const divs = [
   {name : "shape-selector", status :"done", clearable : false},
   //  {name : "shape-loader", status :"todo", clearable : false},
   {name : "shape-adder", status :"todo", clearable : false},
-  {name : "shape-menu", status :"todo", clearable : true},
+  {name : "formulaire-menu", status :"todo", clearable : true},
   {name : "footprint-menu", status :"todo", clearable : true},
   {name : "shape-populator", status :"todo", clearable : false},
   {name : "solid-login", status :"todo", clearable : false},
@@ -88,7 +88,11 @@ else {
 }
 }
 
+function displayForm(url){
+  console.log("DISPLAY ",url)
+}
 
 
 
-export { initUI, divs, clearUI, toggleFullScreen };
+
+export { initUI, divs, clearUI, toggleFullScreen , displayForm };

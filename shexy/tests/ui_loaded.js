@@ -23,12 +23,12 @@ describe('Ui Loaded', function() {
     should.exist(d);
   });
 
-  it('Shape form menu', function() {
-    var d = document.getElementById("shape-menu")
+  it('menu for formulaire', function() {
+    var d = document.getElementById("formulaire-menu")
     should.exist(d);
   });
 
-  it('Shape footprintMenu', function() {
+  it('menu for footprint', function() {
     var d = document.getElementById("footprint-menu")
     should.exist(d);
   });

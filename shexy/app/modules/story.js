@@ -29,7 +29,7 @@ function log(what="\n", why = "", logConsoletoo = false){
     what = JSON.stringify(what, null, 2)
   }
   const d = new Date();
-  var now = d.toLocaleTimeString('fr-FR') //+ `.${d.getMilliseconds()}`
+  var now = d.toLocaleTimeString('fr-FR') + `.${d.getMilliseconds()}`
   document.getElementById("story").value = now+" ["+why+"] \t"+what+"\n"+document.getElementById("story").value;
 }
 
