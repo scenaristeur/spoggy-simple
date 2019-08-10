@@ -26,7 +26,7 @@ function load_libs(){
 }
 
 function loadShex(shapeUrl){
-  log(shapeUrl, "loadShex")
+  log(shapeUrl, "Please Wait, Connection to ")
   if (shapeUrl.endsWith(".shex")){
     shex.Loader.load([shapeUrl], [], [], []).then(loaded => {
       if (loaded.schema){

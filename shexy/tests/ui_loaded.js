@@ -17,11 +17,11 @@ describe('Ui Loaded', function() {
   });
 
 
-
+/*
   it('Shape adder', function() {
     var d = document.getElementById("shape-adder")
     should.exist(d);
-  });
+  });*/
 
   it('menu for formulaire', function() {
     var d = document.getElementById("formulaire-menu")
@@ -32,12 +32,12 @@ describe('Ui Loaded', function() {
     var d = document.getElementById("footprint-menu")
     should.exist(d);
   });
-
+/*
   it('form populator', function() {
     var d = document.getElementById("shape-populator")
     should.exist(d);
   });
-
+*/
   it('solid login logout', function() {
     var dLogin = document.getElementById("solid-login")
     var dLogout = document.getElementById("solid-logout")

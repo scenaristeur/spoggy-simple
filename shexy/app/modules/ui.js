@@ -5,10 +5,10 @@ const divs = [
   {name : "story-console", status :"done", clearable : false},
   {name : "shape-selector", status :"done", clearable : false},
   //  {name : "shape-loader", status :"todo", clearable : false},
-  {name : "shape-adder", status :"todo", clearable : false},
+//  {name : "shape-adder", status :"todo", clearable : false},
   {name : "formulaire-menu", status :"todo", clearable : true},
   {name : "footprint-menu", status :"todo", clearable : true},
-  {name : "shape-populator", status :"todo", clearable : false},
+//  {name : "shape-populator", status :"todo", clearable : false},
   {name : "solid-login", status :"todo", clearable : false},
   {name : "solid-logout", status :"todo", clearable : false},
   {name : "formulaire", status :"todo", clearable : true},
@@ -44,7 +44,6 @@ function appendDivsTo(destination){
 
 
 function clearUI(){
-  log("","clearUI")
   divs.forEach(function(div){
     if (div.clearable == true){
       document.getElementById(div.name).innerHTML = ""
@@ -88,8 +87,17 @@ else {
 }
 }
 
-function displayForm(url){
-  console.log("DISPLAY ",url)
+function displayForm(id){
+  console.log("must display",id)
+  var tousForms = document.querySelectorAll("form");
+  tousForms.forEach(function(f){
+    if (f.id == id){
+      f.style.display = "block"
+      dernierForm = id
+    }else{
+      f.style.display = "none"
+    }
+  })
 }
 
 
