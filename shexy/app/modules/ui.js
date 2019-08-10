@@ -1,16 +1,18 @@
+import { log } from './story.js'
+
 const divs = [
-  {name : "story-console", status :"done"},
-  {name : "shape-selector", status :"done"},
-  {name : "shape-loader", status :"todo"},
-  {name : "shape-adder", status :"todo"},
-  {name : "shape-menu", status :"todo"},
-  {name : "footprint-menu", status :"todo"},
-  {name : "shape-populator", status :"todo"},
-  {name : "solid-login", status :"todo"},
-  {name : "solid-logout", status :"todo"},
-  {name : "formulaire", status :"todo"},
-  {name : "footprint", status :"todo"},
-  {name :"docs", status :"done"}
+  {name : "story-console", status :"done", clearable : false},
+  {name : "shape-selector", status :"done", clearable : false},
+  {name : "shape-loader", status :"todo", clearable : false},
+  {name : "shape-adder", status :"todo", clearable : false},
+  {name : "shape-menu", status :"todo", clearable : true},
+  {name : "footprint-menu", status :"todo", clearable : true},
+  {name : "shape-populator", status :"todo", clearable : false},
+  {name : "solid-login", status :"todo", clearable : false},
+  {name : "solid-logout", status :"todo", clearable : false},
+  {name : "formulaire", status :"todo", clearable : true},
+  {name : "footprint", status :"todo", clearable : true},
+  {name :"docs", status :"done", clearable : false}
 ]
 
 function initUI(container){
@@ -19,6 +21,7 @@ function initUI(container){
   d.setAttribute("id", "shexydiv")
   root.appendChild(d)
   appendDivsTo(d)
+
 }
 
 function appendDivsTo(destination){
@@ -36,7 +39,18 @@ function appendDivsTo(destination){
       newdiv.appendChild(t);
     }
   })
+//  log(divs.length+ "divs générés", "initUI")
 }
 
 
-export { initUI, divs };
+function clearUI(){
+  log("","clearUI")
+  divs.forEach(function(div){
+    if (div.clearable == true){
+      document.getElementById(div.name).innerHTML = ""
+    }
+  });
+}
+
+
+export { initUI, divs, clearUI };
