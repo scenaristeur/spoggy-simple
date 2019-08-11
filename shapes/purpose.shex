@@ -18,11 +18,11 @@ hola:Purpose {
   schema:name              xsd:string  ;
   schema:dateCreated       xsd:date?  ;
   schema:creator           @hola:Ratifier ;
-  (   rdfs:subclassOf      @hola:Capacity ;  |
-      rdfs:subclassOf      hola:Potential ;  |
-      rdfs:subclassOf      hola:Goal ;         );
-  (   hola:pursueBy         @hola:Role;      |
-      hola:expressedBy      @hola:Role;        );
+     rdfs:subclassOf      @hola:Capacity ;
+      rdfs:subclassOf      hola:Potential ;
+      rdfs:subclassOf      hola:Goal ;
+     hola:pursueBy         @hola:Role;
+      hola:expressedBy      @hola:Role;
 
 }
 
