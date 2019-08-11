@@ -3,6 +3,7 @@ import { initDoc } from './modules/doc.js'
 import { ShapeSelector } from './modules/shape-selector.js'
 import { Story, log } from './modules/story.js'
 import { Schema} from './modules/schema.js'
+import { solidAuth } from './modules/solid.js'
 
 
 
@@ -12,11 +13,11 @@ function init(){
   console.log("init")
   initUI("shexy-app")
 
-  initDoc()
+  //initDoc()
   load_libs()
   ShapeSelector(loadShex)
   Story();
-
+  solidAuth()
   mocha.run();
 
 }
