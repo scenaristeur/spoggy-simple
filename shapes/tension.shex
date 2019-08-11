@@ -1,5 +1,5 @@
 import <https://holacratie.solid.community/public/Schema/ratifier.shex>
-import <https://holacratie.solid.community/public/Schema/role.shex>
+
 
 PREFIX :       <https://holacratie.solid.community/public/>
 PREFIX sx: <http://www.w3.org/ns/shex#>
@@ -9,23 +9,21 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX hola: <https://holacratie.solid.community/public/>
 PREFIX fp: <https://footprint.solid.community/public/>
 
-start = @<Tension>
+start = hola:Tension
 
-<Tension> {               # A Tension has:
+hola:Tension {               # A Tension has:
   :status                  ["preliminary" "final"]; #   status in this value set
   schema:name              xsd:string  ;
   schema:dateCreated       xsd:date?  ;
-  schema:creator           :Ratifier
-                            OR @<Ratifier>
+  schema:creator           @hola:Ratifier
                             OR IRI
                             OR xsd:string ;
   :subject                 :Organization;
   :whatIs                  LITERAL  ;
   :whatShouldBe            LITERAL  ;
-
 }
 
-<Tension_Footprint> {
+hola:Tension_Footprint {
 
 
 ( fp:root      [hola: "current POD" <../Tension> ] OR xsd:string ;

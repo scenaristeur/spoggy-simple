@@ -8,15 +8,13 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX hola: <https://holacratie.solid.community/public/>
 PREFIX fp: <https://footprint.solid.community/public/>
 
-start = @<Post>
+start = hola:Post
 
-<Post> {               # A Post has:
+hola:Post {               # A Post has:
   :status                  ["preliminary" "final"]; #   status in this value set
   schema:name              xsd:string  ;
   schema:dateCreated       xsd:date?  ;
-  schema:creator           :User
-                            OR <User>
-                            OR @<User>
+  schema:creator           @hola:User
                             OR IRI
                             OR xsd:string ;
   :subject                 :Organization;
@@ -24,7 +22,7 @@ start = @<Post>
   :whatShouldBe            LITERAL  ;
 }
 
-<Post_Footprint> {
+hola:Post_Footprint {
 
 
 ( fp:root      [hola: "current POD" <../Post> ] OR xsd:string ;

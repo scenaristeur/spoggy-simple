@@ -1,21 +1,43 @@
+import <https://holacratie.solid.community/public/Schema/user.shex>
+import <https://holacratie.solid.community/public/Schema/purpose.shex>
+import <https://holacratie.solid.community/public/Schema/accountability.shex>
+import <https://holacratie.solid.community/public/Schema/circle.shex>
+import <https://holacratie.solid.community/public/Schema/governance.shex>
+
 # @fr Cercle
-PREFIX :       <https://holacratie.solid.community/public/Schema/>
+PREFIX :       <https://holacratie.solid.community/public/>
+PREFIX sx: <http://www.w3.org/ns/shex#>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX hola: <https://holacratie.solid.community/public/Schema/>
+PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX fp: <https://footprint.solid.community/public/>
 
-start = @<Circle>
 
-<Circle> {
+start = @hola:Circle
+
+hola:Circle {
   schema:name          xsd:string  ;
   schema:dateCreated     xsd:date?  ;
-  schema:creator         hola:User;
-  hola:purpose          hola:Purpose;
-  hola:enacts           hola:Accountability*;
-  hola:gouvernance       hola:Governance;
-  hola:subCircleOf       hola:AnchorCircle;
-  hola:subCircleOf       hola:Circle;
-  hola:superCircleOf      hola:Circle*;
-  hola:circleLeadRole   hola:Role;
+  schema:creator         @hola:User;
+  hola:purpose           @hola:Purpose;
+  hola:enacts            @hola:Accountability*;
+  hola:gouvernance       @hola:Governance;
+  hola:subCircleOf       hola:AnchorCircle OR  @hola:Circle;
+  hola:superCircleOf     @hola:Circle*;
+  hola:circleLeadRole    @hola:Role;
+}
+
+hola:Circle_Footprint {
+
+
+( fp:root      [hola: "current POD" <../Circle> ] OR xsd:string ;
+  fp:path      ["Circle"] OR xsd:string ;
+  fp:filename  ["value of schema:name"] OR xsd:string;
+  |  fp:fullpath xsd:string
+  ### |
+  ###  (   fp:root      ["POD" <../Circle> hola:]  |   fp:root LITERAL+    );
+  ###  (   fp:path      ["Circle"]                 |   fp:path LITERAL     );
+  ###  (   fp:filename  [schema:name];              |   fp:filename LITERAL );
+  );
 }

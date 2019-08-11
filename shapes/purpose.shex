@@ -1,27 +1,28 @@
+import <https://holacratie.solid.community/public/Schema/ratifier.shex>
+import <https://holacratie.solid.community/public/Schema/role.shex>
+import <https://holacratie.solid.community/public/Schema/capacity.shex>
+
+
 # Purpose ou Raison d'être
-PREFIX :  <>
+PREFIX :       <https://holacratie.solid.community/public/>
+PREFIX sx: <http://www.w3.org/ns/shex#>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX hola: <https://holacratie.solid.community/public/Schema/>
+PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX fp: <https://footprint.solid.community/public/>
 
-start = @<Purpose>
+start = hola:Purpose
 
-<Purpose> {
-  schema:relatedLink "https://github.com/holacracyone/Holacracy-Constitution/blob/master/Holacracy-Constitution.md#article-1-organizational-structure"
-  schema:name          xsd:string  ;
-  schema:dateCreated     xsd:date?  ;
-  schema:creator         hola:User ;
-  (
-    rdfs:subclassOf hola:Capacity ;
-  | rdfs:subclassOf hola:Potential ;
-  | rdfs:subclassOf hola:Goal ;
-  )
-  (
-  hola:pursueBy hola:Role;
-  |
-  hola:expressedBy hola:Role;
-  )
+hola:Purpose {
+  schema:name              xsd:string  ;
+  schema:dateCreated       xsd:date?  ;
+  schema:creator           @hola:Ratifier ;
+  (   rdfs:subclassOf      @hola:Capacity ;  |
+      rdfs:subclassOf      hola:Potential ;  |
+      rdfs:subclassOf      hola:Goal ;         );
+  (   hola:pursueBy         @hola:Role;      |
+      hola:expressedBy      @hola:Role;        );
 
 }
 

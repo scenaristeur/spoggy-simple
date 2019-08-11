@@ -1,21 +1,25 @@
-# holacratie domain
-PREFIX :       <https://holacratie.solid.community/public/Schema/>
+import <https://holacratie.solid.community/public/Schema/user.shex>
+import <https://holacratie.solid.community/public/Schema/role.shex>
+
+PREFIX :       <https://holacratie.solid.community/public/>
+PREFIX sx: <http://www.w3.org/ns/shex#>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX hola: <https://holacratie.solid.community/public/>
+PREFIX fp: <https://footprint.solid.community/public/>
 
-start = @<Domain>
+start = hola:Domain
 
-<Domain> {
+hola:Domain {
   schema:name          xsd:string  ;
   schema:dateCreated     xsd:date?  ;
-  schema:creator         hola:User;
+  schema:creator         @hola:User;
   (
       rdfs:subClassOf       hola:Asset;
       | rdfs:subClassOf     hola:Process;
       | rdfs:subclassOf     hola:ControlledAndRegulatedByARoleThing;
-  )
-  hola:ControlledBy     hola:Role;
+  );
+  hola:ControlledBy     @hola:Role;
 
 }
