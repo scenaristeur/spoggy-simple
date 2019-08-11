@@ -13,9 +13,10 @@ const divs = [
   {name : "solid-login", status :"done", clearable : false},
   {name : "solid-logout", status :"done", clearable : false},
   {name : "solid-session", status :"todo", clearable : false},
+  {name : "solid-result", status :"done", clearable : false},
   {name : "formulaire", status :"done", clearable : true},
   {name : "footprint", status :"done", clearable : true},
- {name :"docs", status :"done", clearable : false}
+  {name :"docs", status :"done", clearable : false}
 ]
 
 function initUI(container){
@@ -106,9 +107,22 @@ function displayForm(id){
 }
 
 
+function updateResult(result){
+  var root =   document.getElementById("solid-result")
+  root.innerHTML = ""
+
+  var status = document.createTextNode(result.status+" -> ");
+    root.appendChild(status);;
+
+  var createA = document.createElement("a")
+  var createAText = document.createTextNode(result.file);
+  createA.setAttribute('href', result.file);
+  createA.setAttribute("target", "_blank");
+  createA.appendChild(createAText);
+  root.appendChild(createA);
+}
 
 
 
 
-
-export { initUI, divs, clearUI, toggleFullScreen , displayForm };
+export { initUI, divs, clearUI, toggleFullScreen , displayForm , updateResult};

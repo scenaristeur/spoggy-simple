@@ -1,6 +1,5 @@
 import { log } from './story.js'
-
-
+import { updateResult } from './ui.js'
 
 
 function login(){
@@ -25,6 +24,7 @@ function logout(){
 }
 
 function solidCheckSession(){
+  // todo move display of elements in ui.js !!
   var not_loggedElements = document.querySelectorAll(".not_logged")
   var loggedElements =  document.querySelectorAll(".logged")
   var sessionDiv =  document.getElementById("solid-session")
@@ -42,7 +42,7 @@ function solidCheckSession(){
         e.style.display = "block"
       })
       sessionDiv.innerHTML = session.webId
-    },
+        },
     err => {
       //  console.log(err)
       console.log( "Aucune session Solid")
@@ -54,17 +54,27 @@ function solidCheckSession(){
       })
       sessionDiv.innerHTML = "Login to send data to a Solid POD"
       //  alert("")
-
+      return false;
     }
   );
 }
 
 function solidCreateFile(url, ttlData){
-  fileClient.createFile(url,ttlData.content, "text/turtle").then( fileCreated => {
+  var result = {status: "init", file: url}
+  console.log(result)
+  updateResult(result)
+  fileClient.createFile(url, ttlData.content, "text/turtle").then( fileCreated => {
+    result.status = "created"
+    result.file = fileCreated
+    updateResult(result)
     console.log(`Created file ${fileCreated}.`);
     log (fileCreated, "Created file")
   },
-  err => {console.log(err);
+  err => {
+    //  result.status = "erreur"
+    updateResult(result)
+    console.log(err);
+    //  alert("erreur ")
     log(err, "ERROR : file create")
   }
 );

@@ -1,4 +1,6 @@
-var links = ["https://github.com/scenaristeur/spoggy-simple/blob/master/shexy/README_SHEX_FORMS.md"]
+var links = ["https://github.com/scenaristeur/spoggy-simple/blob/master/shexy/README_SHEX_FORMS.md",
+"https://otto-aa.github.io/solid-filemanager/?url=https://holacratie.solid.community/public",
+"https://nmalcev.github.io/pod-explorer/"]
 console.log("DOC : ",links)
 
 
