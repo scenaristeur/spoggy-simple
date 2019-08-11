@@ -42,7 +42,7 @@ function solidCheckSession(){
         e.style.display = "block"
       })
       sessionDiv.innerHTML = session.webId
-        },
+    },
     err => {
       //  console.log(err)
       console.log( "Aucune session Solid")
@@ -107,7 +107,46 @@ function solidAuth(){
 }
 
 
+function solidPopulateSelectWithFolder(url,selectId){
+  console.log(url,selectId)
+  var elem = document.getElementById(selectId)
+  fileClient.readFolder(url).then(folder => {
+    console.log(folder)
+    folder.files.forEach(function(f){
+      var optionSet = document.createElement("option");
+      optionSet.text = f.name;
+    //  optionSet.setAttribute("selecType", "file")
+      elem.add(optionSet);
+    });
+
+    folder.folders.forEach(function(f){
+      var optionSet = document.createElement("option");
+      optionSet.text = "|_>"+f.name;
+    //  optionSet.setAttribute("selecType", "folder")
+      elem.add(optionSet);
+    });
 
 
 
-export { solidAuth, solidCheckSession, solidCreateFile }
+  },
+  err =>
+  {
+    console.log(err)
+    if (err.startsWith("404 (Not Found)")){
+      console.log("creation du dossier ",url)
+      fileClient.createFolder(url).then(success => {
+        console.log(`Created folder ${url}.`);
+      }, err => console.log(err) );
+    }
+    //alert("error")
+
+  }
+
+);
+}
+
+
+
+
+
+export { solidAuth, solidCheckSession, solidCreateFile, solidPopulateSelectWithFolder }

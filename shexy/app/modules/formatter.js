@@ -19,16 +19,25 @@ function formateData(id){
       var ttlString = ttlBase
 
       for (let [predicate, object] of Object.entries(enreg)) {
+      if( object.value.length > 0){
         if ((predicate == "http://schema.org/name") &&  (object.value.length > 0)){
           var underName  = object.value.split(' ').join('_');
           filename = underName;
         }
-        //  console.log(predicate, object.value, object.type);
-        ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format :'+object.type+ " "+object.format+ "\n";
+          console.log(predicate, object.value, object.type);
+          switch (object.type) {
+            case "select-one":
+              ttlString += '<>  <'+predicate+'>  '+predicate+"/"+object.value+'.  # Format: '+object.type+ " "+object.format+ "\n";
+              break;
+            default:
+                ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format: '+object.type+ " "+object.format+ "\n";
+          }
+
+      }
       }
 
       const d = new Date();
-      var now = d.toUTCString()+"\n"; 
+      var now = d.toUTCString()+"\n";
 
       ttlString  += "\n\n# shexy made with "+id+"\n";
       ttlString  += "# from "+location.protocol + '//' + location.host + location.pathname+"\n";

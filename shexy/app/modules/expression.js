@@ -1,5 +1,6 @@
 import { localName } from './shape.js'
 import { displayForm } from './ui.js'
+import { solidPopulateSelectWithFolder } from './solid.js'
 
 function Expression (exp, idParent){
   console.log("EXPRESSION",exp,idParent)
@@ -235,18 +236,29 @@ function processShapeRef(exp, idParent){
   var parent = document.getElementById(idParent)
 
   dernierForm = idParent
-  var shapeRefBtn = document.createElement("button")
-  shapeRefBtn.innerHTML = localName(exp.reference);
-  shapeRefBtn.title = exp.reference;
-  shapeRefBtn.onclick = function(){
-    console.log("ID parent",idParent)
-    console.log(exp.reference)
 
-    displayForm(exp.reference)
-    return false;
-  };
+
+  var uuid =  '_' + Math.random().toString(36).substr(2, 9);
+
+  var shapeRefSelect = document.createElement("select")
+  parent.appendChild(shapeRefSelect);
+  shapeRefSelect.setAttribute("name", exp.reference)
   parent.appendChild(shapeRefBtn);
-  console.log(dernierForm)
+  solidPopulateSelectWithFolder(exp.reference,uuid)
+
+
+
+var shapeRefBtn = document.createElement("button")
+shapeRefBtn.innerHTML = "Create new "+localName(exp.reference);
+shapeRefBtn.title = exp.reference;
+shapeRefBtn.onclick = function(){
+  displayForm(exp.reference)
+  return false;
+};
+
+
+
+
 }
 
 

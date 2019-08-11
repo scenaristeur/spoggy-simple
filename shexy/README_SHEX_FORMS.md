@@ -19,3 +19,11 @@
  [ ] make it sequential load lib,
 
   [ ] Confirmation
+
+# cardinality
+
+"+" - one or more
+"*" - zero or more
+"?" - zero or one
+"{m}" - exactly m
+"{m,n}" - at least m, no more than n

@@ -1,7 +1,7 @@
 import { log } from './story.js'
 
 const options = [
-    {value: "SHEX-SHAPE-SELECTOR", selected :true},
+  {value: "SHEX-SHAPE-SELECTOR", selected :true},
   {value: " CHOOSE AN HOLACRATIE SHEX ", disabled :true},
   {name: "role.shex", value: "https://holacratie.solid.community/public/Schema/role.shex"},
   {name: "tension.shex", value: "https://holacratie.solid.community/public/Schema/tension.shex"},
@@ -27,11 +27,15 @@ const options = [
 ]
 
 function ShapeSelector(callback){
+  var br = document.createElement("br");
+
   var root = document.getElementById("shape-selector")
+  root.appendChild(br.cloneNode())
   var d = document.createElement("SELECT")
   d.setAttribute("id", "shex-selector")
   d.setAttribute("name", "shex-selector")
   root.appendChild(d)
+  root.appendChild(br.cloneNode())
   appendOptionsTo(d, callback)
   d.onchange = function(){
     log()
@@ -55,7 +59,7 @@ function appendOptionsTo(destination, callback){
     newopt.value = o.value;
     newopt.title = o.value;
     newopt.disabled = o.disabled;
-      newopt.selected = o.selected;
+    newopt.selected = o.selected;
     /*  if (o.selected == true){
     newopt.selected = o.selected;
     //callback(o.value);
