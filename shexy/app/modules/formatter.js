@@ -24,15 +24,8 @@ function formateData(id){
           var underName  = object.value.split(' ').join('_');
           filename = underName;
         }
-          console.log(predicate, object.value, object.type);
-          switch (object.type) {
-            case "select-one":
-              ttlString += '<>  <'+predicate+'>  '+predicate+"/"+object.value+'.  # Format: '+object.type+ " "+object.format+ "\n";
-              break;
-            default:
-                ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format: '+object.type+ " "+object.format+ "\n";
-          }
-
+          console.log(predicate, object);
+        ttlString += '<>  <'+predicate+'>  "'+object.value+'".  # Format :'+object.type+ " "+object.format+ "\n";
       }
       }
 

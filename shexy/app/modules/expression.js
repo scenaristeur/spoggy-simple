@@ -234,7 +234,6 @@ function processNode(exp,idParent){
 
 function processShapeRef(exp, idParent){
   var parent = document.getElementById(idParent)
-
   dernierForm = idParent
 
 
@@ -243,18 +242,18 @@ function processShapeRef(exp, idParent){
   var shapeRefSelect = document.createElement("select")
   parent.appendChild(shapeRefSelect);
   shapeRefSelect.setAttribute("name", exp.reference)
-  parent.appendChild(shapeRefBtn);
+  shapeRefSelect.setAttribute("id", uuid)
+
   solidPopulateSelectWithFolder(exp.reference,uuid)
 
-
-
-var shapeRefBtn = document.createElement("button")
-shapeRefBtn.innerHTML = "Create new "+localName(exp.reference);
-shapeRefBtn.title = exp.reference;
-shapeRefBtn.onclick = function(){
-  displayForm(exp.reference)
-  return false;
-};
+  var shapeRefBtn = document.createElement("button")
+  parent.appendChild(shapeRefBtn);
+  shapeRefBtn.innerHTML = "Create new "+localName(exp.reference);
+  shapeRefBtn.title = exp.reference;
+  shapeRefBtn.onclick = function(){
+    displayForm(exp.reference)
+    return false;
+  };
 
 
 
