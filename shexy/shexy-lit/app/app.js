@@ -14,13 +14,25 @@ class SimpleGreeting extends LitElement {
   render() {
     return html`
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
+<!--
     <p>Hello, ${this.name}!</p>
-    <div class="card-panel teal lighten-2">simpleG</div>
+    <div class="card-panel teal lighten-2">simpleG</div>-->
 
-    <shape-selector name="Selector"></shape-selector>
+    <shape-selector
+    name="Selector"
+     onClick="(e) => console.log(e.target)"
+    @my-event="${(e) => { console.log(e.detail.message) }}"
+    @shape-selected="${(e) => { this.shapeChanged(e) }}"
+    ></shape-selector>
     `;
   }
+
+
+shapeChanged(e){
+  console.log(e.detail)
+}
+
+
 }
 
 customElements.define('simple-greeting', SimpleGreeting);
