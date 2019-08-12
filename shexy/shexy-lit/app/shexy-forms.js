@@ -8,65 +8,116 @@ class ShexyForms extends LitElement {
         hasChanged(newVal, oldVal) {
         console.log(newVal, oldVal)
       }*/
-    }
+    },
+    shapes: { type: Array},
+    footprint_shapes: { type: Array}
   };
 }
 
 constructor() {
   super();
   this.name = 'World';
+  this.shapes = [];
+  this.footprint_shapes = [];
 }
 
 render() {
   return html`
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
-  <p>Hello, ${this.name}!</p>
-  <div class="card-panel teal lighten-2">shexy forms</div>
+  <div  id="forms" class="card-panel teal lighten-2">shexy forms</div>
 
+  <div class="section">
+  <h5>Formulaires</h5>
   <div class="row">
-    <div class="col s12"><p>s12</p></div>
-    <div class="col s12 m4 l2"><p>s12 m4</p></div>
-    <div class="col s12 m4 l8"><p>s12 m4</p></div>
-    <div class="col s12 m4 l2"><p>s12 m4</p></div>
-  </div>
-  <div class="row">
-    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
-    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
-    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
-    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
-  </div>
+
+  ${this.shapes.map(i => html`
+    <div   class="card-panel col s12 m6 l3 teal lighten-2">
+    <p title=${i.url}>
+    ${this.localName(i.url)}</p>
+
+    </div>
+    `)}
+
+    </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+    <h5>Footprints</h5>
+    <div class="row">
+
+    ${this.footprint_shapes.map(i => html`
+      <div  class="card-panel col s12 m6 l3 blue lighten-8">
+      <p title=${i.url}>
+      ${this.localName(i.url)}</p>
+
+      </div>
+      `)}
+      </div>
+      </div>
 
 
 
+      `;
+    }
 
-  `;
-}
+    shouldUpdate(changedProperties) {
+      changedProperties.forEach((oldValue, propName) => {
+        //  console.log(`${propName} changed. oldValue: ${oldValue}`);
+      });
+      if (changedProperties.has('schema')){
+        this.processShapes()
+      }
+      return changedProperties.has('schema');
+    }
 
-shouldUpdate(changedProperties) {
-  changedProperties.forEach((oldValue, propName) => {
-  //  console.log(`${propName} changed. oldValue: ${oldValue}`);
-  });
-  if (changedProperties.has('schema')){
-    this.processShapes()
-  }
-  return changedProperties.has('schema');
-}
+    processShapes(){
+      var app = this;
+      var schema = JSON.parse(this.schema)
+      console.log(schema)
+      console.log(schema.start)
+      var shapes = schema.shapes
+      this.shapes = []
+      this.footprint_shapes = []
+      console.log(this.shapes)
 
-processShapes(){
-  var schema = JSON.parse(this.schema)
-  console.log(schema)
-  console.log(schema.start)
-}
+      for (let [url, constraint] of Object.entries(shapes)) {
+        console.log(url)
+        var shap = {}
+        shap.url = url;
+        shap.constraint = constraint
+        if(url.endsWith("_Footprint")){
+          app.footprint_shapes = [...app.footprint_shapes, shap]
+        }else{
+          app.shapes = [...app.shapes, shap]
+        }
 
-/*
-var shapes = this.schema.shapes;
-var start = this.schema.start;
-console.log("START",start)
-for (let [url, constraint] of Object.entries(shapes)) {
-console.log(url)
-//  Shape(url,constraint)
-}*/
+      }
+      console.log("SHSHSHSHS",app.shapes)
+    }
+
+
+    localName(uri){
+      var ln = uri;
+      if (uri.lastIndexOf("#") != -1) {
+        ln = uri.substr(uri.lastIndexOf("#")).substr(1)
+      }else{
+        ln = uri.substr(uri.lastIndexOf("/")).substr(1)
+      }
+      return ln
+    }
+
+
+    /*
+    var shapes = this.schema.shapes;
+    var start = this.schema.start;
+    console.log("START",start)
+    for (let [url, constraint] of Object.entries(shapes)) {
+    console.log(url)
+    //  Shape(url,constraint)
+  }*/
 }
 
 customElements.define('shexy-forms', ShexyForms);

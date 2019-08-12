@@ -48,13 +48,14 @@ class SimpleGreeting extends LitElement {
     </div>
 
 
+    <shexy-forms
+    schema=${this.schema}
+    ></shexy-forms>
 
     <div class="divider"></div>
     <div class="section">
     <h5>ShexyForms</h5>
-    <shexy-forms
-    .schema=${this.schema}
-    ></shexy-forms>
+
     </div>
     <div class="divider"></div>
 
