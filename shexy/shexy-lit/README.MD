@@ -1,5 +1,6 @@
 # lit-html for webcomponent & templating
 https://lit-html.polymer-project.org/guide
+https://github.com/LarsDenBakker/lit-html-workshop/blob/master/2-lit-element/solutions/8-polymer-components.html
 
 # materializecss for style
 https://materializecss.com
