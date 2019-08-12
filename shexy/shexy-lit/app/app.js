@@ -1,10 +1,24 @@
-import {html, render} from 'https://unpkg.com/lit-html?module';
+import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
 
-// Import lit-html
-//import {html, render} from 'lit-html';
 
-// Define a template
-const myTemplate = (name) => html`<p>Hello ${name}</p>`;
+class SimpleGreeting extends LitElement {
+  static get properties() {
+    return { name: { type: String } };
+  }
 
-// Render the template to the document
-render(myTemplate('World'), document.body);
+  constructor() {
+    super();
+    this.name = 'World';
+  }
+
+  render() {
+    return html`
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+    <p>Hello, ${this.name}!</p>
+    <div class="card-panel teal lighten-2">simpleG</div>
+    `;
+  }
+}
+
+customElements.define('simple-greeting', SimpleGreeting);
