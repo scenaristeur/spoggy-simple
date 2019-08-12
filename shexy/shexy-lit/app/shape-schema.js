@@ -1,11 +1,11 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
 
 
-class ShapeForms extends LitElement {
+class ShapeSchema extends LitElement {
   static get properties() {
     return {
       name: { type: String },
-      schemaString: { type: String },
+      shapeUrl: { type: String },
       schema: {type: Object }
     };
   }
@@ -13,8 +13,9 @@ class ShapeForms extends LitElement {
   constructor() {
     super();
     this.name = 'World';
-    this.schemaString = '';
+    this.shapeUrl = '';
     this.schema = {};
+    this.shex = ShEx;
   }
 
   render() {
@@ -32,10 +33,10 @@ class ShapeForms extends LitElement {
       console.log(`${propName} changed. oldValue: ${oldValue}`);
     //  console.log(this.schema)
     });
-    if(changedProperties.has('schemaString')){
-      this.update(JSON.parse(this.schemaString))
+    if(changedProperties.has('shapeUrl') && this.shapeUrl.length > 0){
+      this.loadSchema(this.shapeUrl)
     }
-    return changedProperties.has('schemaString');
+    return changedProperties.has('shapeUrl');
   }
 
   update(schema){
@@ -44,6 +45,28 @@ class ShapeForms extends LitElement {
     var start = schema.start;
     console.log("start",start)
   }
+
+
+
+  loadSchema(shapeUrl){
+    var app = this
+    this.shex.Loader.load([shapeUrl], [], [], []).then(loaded => {
+      if (loaded.schema){
+        console.log("LOADED",loaded.schema)
+      //  app.schema = JSON.stringify(loaded.schema);
+        let   loadedSchema = new CustomEvent('schema-loaded', {
+          detail: {
+            schema: loaded.schema
+          }
+        });
+        this.dispatchEvent(loadedSchema);
+      }
+    }, err => {
+      //  log(err, "ERROR loadShex")
+      console.log("erreur ",err)
+    }
+  );
+}
 
   /*schema(){
   //log(shapeUrl, "schema loaded")
@@ -63,4 +86,4 @@ class ShapeForms extends LitElement {
 
 }
 
-customElements.define('shape-forms', ShapeForms);
+customElements.define('shape-schema', ShapeSchema);

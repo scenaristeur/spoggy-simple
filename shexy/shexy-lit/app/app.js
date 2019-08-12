@@ -1,13 +1,12 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
 import './shape-selector.js'
-import './shape-forms.js'
+import './shape-schema.js'
 
 class SimpleGreeting extends LitElement {
   static get properties() {
     return {
       name: { type: String },
-      shapeUrl: { type: String },
-      schema: { type: String}
+      shapeUrl: { type: String }
     };
   }
 
@@ -15,8 +14,6 @@ class SimpleGreeting extends LitElement {
     super();
     this.name = 'World';
     this.shapeUrl = "";
-    this.schema = "";
-    this.shex = ShEx;
     this.fileClient = SolidFileClient;
   }
 
@@ -33,11 +30,13 @@ class SimpleGreeting extends LitElement {
     name="Selector"
     jsonShapeList="./data/shapesList.json"
     onClick="(e) => console.log(e.target)"
-    @my-event="${(e) => { console.log(e.detail.message) }}"
     @shape-selected="${(e) => { this.shapeChanged(e) }}"
     ></shape-selector>
 
-    <shape-forms schemaString=${this.schema}></shape-forms>
+    <shape-schema
+    shapeUrl=${this.shapeUrl}
+    @schema-loaded="${(e) => { this.schemaLoaded(e) }}"
+    ></shape-schema>
     `;
   }
 
@@ -45,28 +44,26 @@ class SimpleGreeting extends LitElement {
     changedProperties.forEach((oldValue, propName) => {
       console.log(`${propName} changed. oldValue: ${oldValue}`);
     });
-    return changedProperties.has('shapeUrl') || changedProperties.has('schema');
+    return changedProperties.has('shapeUrl') ;
   }
 
   shapeChanged(e){
     this.shapeUrl = e.detail.shapeUrl
     console.log("shapeChanged",this.shapeUrl)
-    this.loadSchema(this.shapeUrl)
+    //  this.loadSchema(this.shapeUrl)
+  }
+  schemaLoaded(e){
+    console.log(e)
+    let schema = e.detail.schema
+    var shapes = schema.shapes;
+    var start = schema.start;
+    for (let [url, constraint] of Object.entries(shapes)) {
+      console.log(url)
+      //  Shape(url,constraint)
+    }
   }
 
-  loadSchema(shapeUrl){
-    var app = this
-    this.shex.Loader.load([shapeUrl], [], [], []).then(loaded => {
-      if (loaded.schema){
-        console.log("LOADED",loaded.schema)
-        app.schema = JSON.stringify(loaded.schema);
-      }
-    }, err => {
-      //  log(err, "ERROR loadShex")
-      console.log("erreur ",err)
-    }
-  );
-}
+
 
 
 
