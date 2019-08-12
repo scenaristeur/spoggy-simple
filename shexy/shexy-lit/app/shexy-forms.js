@@ -31,14 +31,15 @@ render() {
   <div class="row center-align">
 
   ${this.shapes.map(i => html`
-    <div   class=" col s12 m6 l3">
-    <!--<p title=${i.url} @click="${(e) =>this.panelClicked(i.url)}">
-    ${this.localName(i.url)}</p>-->
-    <!-- Modal Trigger -->
-    <paper-button class="waves-effect waves-light btn modal-trigger" raised @click=${(e) =>this.panelClicked(i)}>${this.localName(i.url)}</paper-button>
-    <!--<a class="waves-effect waves-light btn modal-trigger" href="#modal_${this.localName(i.url)}">${this.localName(i.url)}</a>-->
+    <div   class="card-panel hoverable col s12 m6 l3 teal lighten-2">
+    <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
+    ${this.localName(i.url)}</p>
 
-
+    <!--  <paper-button
+    class="waves-effect waves-light btn modal-trigger"
+    raised @click=${(e) =>this.panelClicked(i)}
+    title=${i.url}
+    >${this.localName(i.url)}</paper-button>-->
     </div>
     `)}
 
@@ -67,7 +68,7 @@ render() {
       <div class="row center-align">
 
       ${this.footprint_shapes.map(i => html`
-        <div  class="card-panel hoverable col s12 m6 l3 blue lighten-8">
+        <div  class="card-panel hoverable col s12 m6 l3 teal lighten-4">
         <p title=${i.url}>
         ${this.localName(i.url)}</p>
 
