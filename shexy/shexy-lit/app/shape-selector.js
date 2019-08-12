@@ -24,7 +24,7 @@ render() {
 
   return html`
   <div class="input-field col s12">
-    <label>Shape Select</label>
+  <!--  <label>Shape Select</label>-->
   <select @change=${this.selectorChange}>
   <option value="" disabled selected>1 - CHOOSE A GOOD SHEX</option>
   ${this.liste.map(i => html`<option value="${i.value}" ?disabled=${this.disabled(i)} >${this.optionName(i)}</option>`)}

@@ -39,7 +39,7 @@ class SimpleGreeting extends LitElement {
 
 
     <div class="section">
-    <h5>Selector</h5>
+    <h5>Shape Selector</h5>
     <shape-selector
     name="Selector"
     jsonShapeList="./data/shapesList.json"
@@ -47,24 +47,9 @@ class SimpleGreeting extends LitElement {
     ></shape-selector>
     </div>
 
-
     <shexy-forms
     schema=${this.schema}
     ></shexy-forms>
-
-    <div class="divider"></div>
-    <div class="section">
-    <h5>ShexyForms</h5>
-
-    </div>
-    <div class="divider"></div>
-
-    <div class="divider"></div>
-    <div class="section">
-    <h5>What ?</h5>
-    <p> one para </p>
-    </div>
-
 
     <shex-schema
     shapeUrl=${this.shapeUrl}
@@ -72,7 +57,7 @@ class SimpleGreeting extends LitElement {
     ></shex-schema>
 
 
-
+<!--
 
 
 
@@ -88,7 +73,7 @@ class SimpleGreeting extends LitElement {
     <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
     <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
     </div>
-
+-->
 
     </div>
 

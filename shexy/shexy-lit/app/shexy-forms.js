@@ -24,15 +24,12 @@ constructor() {
 render() {
   return html`
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
-  <div  id="forms" class="card-panel teal lighten-2">shexy forms</div>
-
   <div class="section">
-  <h5>Formulaires</h5>
-  <div class="row">
+  <h5>Forms</h5>
+  <div class="row center-align">
 
   ${this.shapes.map(i => html`
-    <div   class="card-panel col s12 m6 l3 teal lighten-2">
+    <div   class="card-panel hoverable col s12 m6 l3 teal lighten-2">
     <p title=${i.url}>
     ${this.localName(i.url)}</p>
 
@@ -42,14 +39,19 @@ render() {
     </div>
     </div>
 
+<div id="currentForm">
+currentForm
+</div>
+
+
     <div class="divider"></div>
 
     <div class="section">
     <h5>Footprints</h5>
-    <div class="row">
+    <div class="row center-align">
 
     ${this.footprint_shapes.map(i => html`
-      <div  class="card-panel col s12 m6 l3 blue lighten-8">
+      <div  class="card-panel hoverable col s12 m6 l3 blue lighten-8">
       <p title=${i.url}>
       ${this.localName(i.url)}</p>
 
