@@ -1,5 +1,5 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
-import './shape-selector.js'
+
 
 class SimpleGreeting extends LitElement {
   static get properties() {
@@ -17,8 +17,6 @@ class SimpleGreeting extends LitElement {
 
     <p>Hello, ${this.name}!</p>
     <div class="card-panel teal lighten-2">simpleG</div>
-
-    <shape-selector name="Selector"></shape-selector>
     `;
   }
 }
