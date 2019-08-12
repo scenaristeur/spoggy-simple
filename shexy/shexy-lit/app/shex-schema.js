@@ -1,7 +1,7 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
 
 
-class ShapeSchema extends LitElement {
+class ShexSchema extends LitElement {
   static get properties() {
     return {
       name: { type: String },
@@ -86,4 +86,4 @@ class ShapeSchema extends LitElement {
 
 }
 
-customElements.define('shape-schema', ShapeSchema);
+customElements.define('shex-schema', ShexSchema);

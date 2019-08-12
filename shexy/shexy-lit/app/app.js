@@ -1,12 +1,14 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
 import './shape-selector.js'
-import './shape-schema.js'
+import './shex-schema.js'
+import './shexy-forms.js'
 
 class SimpleGreeting extends LitElement {
   static get properties() {
     return {
       name: { type: String },
-      shapeUrl: { type: String }
+      shapeUrl: { type: String },
+      schema: {type: String}
     };
   }
 
@@ -14,6 +16,7 @@ class SimpleGreeting extends LitElement {
     super();
     this.name = 'World';
     this.shapeUrl = "";
+    this.schema = {};
     this.fileClient = SolidFileClient;
   }
 
@@ -29,14 +32,20 @@ class SimpleGreeting extends LitElement {
     <shape-selector
     name="Selector"
     jsonShapeList="./data/shapesList.json"
-    onClick="(e) => console.log(e.target)"
     @shape-selected="${(e) => { this.shapeChanged(e) }}"
     ></shape-selector>
 
-    <shape-schema
+    <shex-schema
     shapeUrl=${this.shapeUrl}
     @schema-loaded="${(e) => { this.schemaLoaded(e) }}"
-    ></shape-schema>
+    ></shex-schema>
+
+    <shexy-forms
+    schema=${this.schema}
+    ></shexy-forms>
+
+
+
     `;
   }
 
@@ -44,7 +53,7 @@ class SimpleGreeting extends LitElement {
     changedProperties.forEach((oldValue, propName) => {
       console.log(`${propName} changed. oldValue: ${oldValue}`);
     });
-    return changedProperties.has('shapeUrl') ;
+    return changedProperties.has('shapeUrl') || changedProperties.has('schema') ;
   }
 
   shapeChanged(e){
@@ -54,13 +63,7 @@ class SimpleGreeting extends LitElement {
   }
   schemaLoaded(e){
     console.log(e)
-    let schema = e.detail.schema
-    var shapes = schema.shapes;
-    var start = schema.start;
-    for (let [url, constraint] of Object.entries(shapes)) {
-      console.log(url)
-      //  Shape(url,constraint)
-    }
+    this.schema = JSON.stringify(e.detail.schema)  
   }
 
 
