@@ -69,7 +69,7 @@ selectorChange(e) {
   // console.log(e.bubbles);
   let   shapeSelected = new CustomEvent('shape-selected', {
     detail: {
-      shape: e.currentTarget.value
+      shapeUrl: e.currentTarget.value
     }
   });
   this.dispatchEvent(shapeSelected);
