@@ -27,25 +27,72 @@ class SimpleGreeting extends LitElement {
     <p>Hello, ${this.name}!</p>
     <div class="card-panel teal lighten-2">simpleG</div>-->
 
-    <a href="${this.shapeUrl}" target="blank">${this.shapeUrl}</a>
 
+
+
+    <div class="card-panel teal lighten-2">head</div>
+
+
+    <div class="container">
+
+
+
+
+    <div class="section">
+    <h5>Selector</h5>
     <shape-selector
     name="Selector"
     jsonShapeList="./data/shapesList.json"
     @shape-selected="${(e) => { this.shapeChanged(e) }}"
     ></shape-selector>
+    </div>
+
+
+
+    <div class="divider"></div>
+    <div class="section">
+    <h5>ShexyForms</h5>
+    <shexy-forms
+    .schema=${this.schema}
+    ></shexy-forms>
+    </div>
+    <div class="divider"></div>
+
+    <div class="divider"></div>
+    <div class="section">
+    <h5>What ?</h5>
+    <p> one para </p>
+    </div>
+
 
     <shex-schema
     shapeUrl=${this.shapeUrl}
     @schema-loaded="${(e) => { this.schemaLoaded(e) }}"
     ></shex-schema>
 
-    <shexy-forms
-    schema=${this.schema}
-    ></shexy-forms>
 
 
 
+
+
+    <div class="row">
+    <div class="col s12"><p>s12</p></div>
+    <div class="col s12 m4 l2"><p>s12 m4</p></div>
+    <div class="col s12 m4 l8"><p>s12 m4</p></div>
+    <div class="col s12 m4 l2"><p>s12 m4</p></div>
+    </div>
+    <div class="row">
+    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+    <div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+    </div>
+
+
+    </div>
+
+
+    <div class="card-panel teal lighten-2">footer</div>
     `;
   }
 
@@ -63,7 +110,7 @@ class SimpleGreeting extends LitElement {
   }
   schemaLoaded(e){
     console.log(e)
-    this.schema = JSON.stringify(e.detail.schema)  
+    this.schema = JSON.stringify(e.detail.schema)
   }
 
 
