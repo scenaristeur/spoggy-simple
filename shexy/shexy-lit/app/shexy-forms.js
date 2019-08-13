@@ -41,7 +41,6 @@ render() {
 
 
   const getShape = (shape) => html `
-  ${this.isHidden(shape.url)}
   <div  id ="${shape.url}" ?hidden=${this.isHidden(shape.url)}>
 
   <fieldset>

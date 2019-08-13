@@ -1,7 +1,4 @@
-import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
-import './shape-selector.js'
-import './shex-schema.js'
-import './shexy-forms.js'
+
 
 class ShexyApp extends LitElement {
   static get properties() {
@@ -9,7 +6,8 @@ class ShexyApp extends LitElement {
       name: { type: String },
       shapeUrl: { type: String },
       schema: {type: String},
-      jsonList: {type: String}
+      jsonList: {type: String},
+      loading: {type: Boolean}
     };
   }
 
@@ -20,6 +18,7 @@ class ShexyApp extends LitElement {
     this.schema = {};
     this.fileClient = SolidFileClient;
     this.jsonList = "./data/shapesList.json"
+    this.loading = false;
   }
 
   render() {
@@ -56,7 +55,7 @@ class ShexyApp extends LitElement {
     ></shape-selector>
     </div>
 
-
+<!--
     ${this.loading
       ? html `  <div class="preloader-wrapper small active">
       <div class="spinner-layer spinner-green-only">
@@ -70,6 +69,7 @@ class ShexyApp extends LitElement {
       </div>
       </div>`
       : html  ``}
+      -->
 
 
       <shexy-forms
@@ -139,5 +139,10 @@ class ShexyApp extends LitElement {
 
 
   }
+
+  import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
+  import './shape-selector.js'
+  import './shex-schema.js'
+  import './shexy-forms.js'
 
   customElements.define('shexy-app', ShexyApp);
