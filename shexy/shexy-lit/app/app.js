@@ -45,7 +45,7 @@ class ShexyApp extends LitElement {
     <div class="container">
 
     <div class="section">
-    <h5>Shape Selector </h5>
+    <h5>Select a shape to generate a Form</h5>
     <a href="${this.jsonList}" target="blank"><i class="material-icons right">visibility</i></a>
 
     <shape-selector
@@ -55,9 +55,14 @@ class ShexyApp extends LitElement {
     ></shape-selector>
     </div>
 
-<!--
+
     ${this.loading
-      ? html `  <div class="preloader-wrapper small active">
+      ? html `
+      <div class="progress">
+      <div class="indeterminate"></div>
+      </div>
+
+      <!-- <div class="preloader-wrapper small active">
       <div class="spinner-layer spinner-green-only">
       <div class="circle-clipper left">
       <div class="circle"></div>
@@ -67,9 +72,10 @@ class ShexyApp extends LitElement {
       <div class="circle"></div>
       </div>
       </div>
-      </div>`
+      </div>-->
+      `
       : html  ``}
-      -->
+
 
 
       <shexy-forms

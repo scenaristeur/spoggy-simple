@@ -185,7 +185,7 @@ ${constraint.values
   <h5>Forms</h5>
   <div class="row center-align">
   ${this.shapes.map(i => html`
-    <div   class="card-panel hoverable col s12 m6 l3 teal lighten-2">
+    <div   class="card-panel hoverable col s6 m3 l2 teal lighten-2">
     <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
     ${this.localName(i.url)}</p>
     </div>`
@@ -208,6 +208,7 @@ ${constraint.values
 
     <div class="section">
     <h5>Footprints</h5>
+    <p> To change the default location of storage for this data, use the "_Footprint" buttons below </p>
     <div class="row center-align">
     ${this.footprint_shapes.map(i => html`
       <div  class="card-panel hoverable col s12 m6 l3 teal lighten-4">
@@ -255,6 +256,7 @@ ${constraint.values
         app.shapes = [...app.shapes, shap]
       }
       this.currentShape = app.shapes[0]
+    //  this.focus();
     }
     console.log("SHSHSHSHS",app.shapes)
   }
@@ -273,6 +275,12 @@ ${constraint.values
   panelClicked(shape){
     console.log(shape)
     this.currentShape = shape
+    this.focus()
+  }
+  focus(){
+    var focusDiv = this.shadowRoot.getElementById(this.currentShape.url)
+    console.log(focus)
+    focusDiv.focus()
   }
 
   isNotCurrent(shape){
