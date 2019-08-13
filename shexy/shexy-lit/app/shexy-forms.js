@@ -44,25 +44,69 @@ render() {
   ${constraint.expression
     ? html`
     ~~~~~~~Expression : <br>
-    ${this.toText(constraint.expression)}
+    ${this.toText(constraint.expression)}<br>
     ${getConstraint(constraint.expression)}
     <br>
     `
-    : html` None<br>`
+    : html`~~~~~~~Expression : None<br>`
   }
-
-
-
   ${constraint.expressions
     ? html`~~~~~~~Expressions : <br>
     ${this.toText(constraint.expressions)}
     <br>
     ${constraint.expressions.map(i => html`*********DEBUT LISTE<br> ${getConstraint(i)}<br>+++++++++++++Fin liste`)}
-
-
     `
-    : html` None<br>`
+    : html`~~~~~~~Expressions : None<br>`
   }
+
+
+  ${constraint.predicate
+    ? html`~~~~~~~Predicate :${constraint.predicate}
+    <br>
+    `
+    : html`~~~~~~~Predicate : None<br>`
+  }
+
+
+  ${constraint.valueExpr
+    ? html`~~~~~~~valueExpr :
+    ${this.toText(constraint.expression)}<br>
+    ${getConstraint(constraint.valueExpr)}
+    <br>
+    `
+    : html`~~~~~~~valueExpr : None<br>`
+  }
+
+  ${constraint.datatype
+    ? html`~~~~~~~datatype :
+    ${this.toText(constraint.datatype)}<br>
+    ${getConstraint(constraint.datatype)}
+    <br>
+    `
+    : html`~~~~~~~datatype : None<br>`
+  }
+
+  ${constraint.nodeKind
+    ? html`~~~~~~~nodeKind :
+    ${this.toText(constraint.nodeKind)}<br>
+    ${getConstraint(constraint.nodeKind)}
+    <br>
+    `
+    : html`~~~~~~~nodeKind : None<br>`
+  }
+
+  ${constraint.reference
+    ? html`~~~~~~~reference :
+    ${this.toText(constraint.reference)}<br>
+    ${getConstraint(constraint.reference)}
+    <br>
+    `
+    : html`~~~~~~~reference : None<br>`
+  }
+
+
+
+
 
   ________________________<br>
   `
@@ -215,8 +259,14 @@ render() {
       }
 
       toText(json){
-        console.log("ANALYSE DE TYPE ", json.type, "url :",json.url, "DATA :",json)
-        return JSON.stringify(json, null, 2)
+        if (json != undefined){
+          console.log("ANALYSE DE TYPE ", json.type, "url :",json.url, "DATA :",json)
+          return JSON.stringify(json, null, 2)
+        }
+        else {
+          console.log("json undefined");
+          return undefined}
+
       }
 
     }
