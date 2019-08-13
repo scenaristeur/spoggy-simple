@@ -77,9 +77,6 @@ render() {
   }
 
 
-last predicate : ${this.getLastPredicate()}
-
-
   ${constraint.expression
     ? html`
     <span title="Expression ${this.toText(constraint.expression)}"> ? </span>
@@ -207,201 +204,208 @@ ${constraint.values
   <h5>Forms</h5>
   <div class="row center-align">
   ${this.shapes.map(i => html`
-    <div   class="card-panel hoverable col s6 m3 l2 teal lighten-2">
+    ${i.style == "regular"
+    ? html `  <div   class="card-panel hoverable col s6 m3 l2 teal lighten-2">
     <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
     ${this.localName(i.url)}</p>
     </div>`
-  )}
-  </div>
-  </div>
+    :html ``
+  }`
+)}
+</div>
+</div>
 
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  <div id="currentShape">
-  ${this.currentShape.url}
-  </div>
+<div id="currentShape">
+${this.currentShape.url}
+</div>
 
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  ${this.shapes.map(shape => html`
-    ${getShape(shape)}
+${this.shapes.map(shape => html`
+  ${getShape(shape)}
 
-    `)}
+  `)}
 
-    <div class="section">
-    <h5>Footprints</h5>
-    <p>To change the storage location of this data, use the "_Footprint" before submitting</p>
-    <div class="row center-align">
-    ${this.footprint_shapes.map(i => html`
-      <div  class="card-panel hoverable col s12 m6 l3 teal lighten-4">
-      <p title=${i.url}>
-      ${this.localName(i.url)}</p>
-      </div>`
-    )}
-    </div>
-    </div>
-    `;
+  <div class="section">
+  <h5>Footprints</h5>
+  <p>To change the storage location of this data, use the "_Footprint" before submitting</p>
+  <div class="row center-align">
+  ${this.shapes.map(i => html`
+    ${i.style == "footprint"
+    ? html `
+    <div  class="card-panel hoverable col s12 m6 l3 teal lighten-4">
+    <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
+    ${this.localName(i.url)}</p>
+    </div>`
+    : html ``
+  }`
+)}
+</div>
+</div>
+`;
+}
+
+
+
+
+shouldUpdate(changedProperties) {
+  changedProperties.forEach((oldValue, propName) => {
+    console.log(`${propName} changed. oldValue: ${oldValue}`);
+  });
+  if (changedProperties.has('schema')){
+    this.processShapes()
+  }
+  return changedProperties.has('schema') || changedProperties.has('currentShape');
+}
+
+processShapes(){
+  var app = this;
+  var schema = JSON.parse(this.schema)
+  console.log(schema)
+  console.log(schema.start)
+  var shapes = schema.shapes
+  this.shapes = []
+  this.counter = 0;
+  this.footprint_shapes = []
+  console.log(this.shapes)
+
+  for (let [url, constraint] of Object.entries(shapes)) {
+    console.log(url)
+    var shap = {}
+    shap.url = url;
+    shap.constraint = constraint
+    shap.style = "regular"
+    if(url.endsWith("_Footprint")){
+      shap.style = "footprint"
+    }
+    app.shapes = [...app.shapes, shap]
+    this.currentShape = app.shapes[0]
+    //  this.focus();
+  }
+  console.log("SHSHSHSHS",app.shapes)
+}
+
+
+localName(uri){
+  var ln = uri;
+  if (uri.lastIndexOf("#") != -1) {
+    ln = uri.substr(uri.lastIndexOf("#")).substr(1)
+  }else{
+    ln = uri.substr(uri.lastIndexOf("/")).substr(1)
+  }
+  return ln
+}
+
+panelClicked(shape){
+  console.log(shape)
+  this.currentShape = shape
+  this.focus()
+}
+focus(){
+  var focusDiv = this.shadowRoot.getElementById(this.currentShape.url)
+  console.log(focus)
+  focusDiv.focus()
+}
+
+isNotCurrent(shape){
+  if (shape.url == this.currentShape.url){
+    return false
+  }else{
+    return true
+  }
+}
+
+toText(json){
+  if (json != undefined){
+    //  console.log("ANALYSE DE TYPE ", json.type, "url :",json.url, "DATA :",json)
+    return JSON.stringify(json, null, 2)
+  }
+  else {
+    console.log("json undefined");
+    return undefined}
+
+  }
+  incremente(){
+    console.log(this.counter)
+    this.counter = this.counter+1
+
+    return this.counter
+  }
+  displayForm(id){
+    console.log("displayForm",id)
   }
 
+  isFieldset(shapeType){
 
-
-
-  shouldUpdate(changedProperties) {
-    changedProperties.forEach((oldValue, propName) => {
-      console.log(`${propName} changed. oldValue: ${oldValue}`);
-    });
-    if (changedProperties.has('schema')){
-      this.processShapes()
-    }
-    return changedProperties.has('schema') || changedProperties.has('currentShape');
+    return shapeType != "Shape" && shapeType != "TripleConstraint" && shapeType != "NodeConstraint" && shapeType != "EachOf" && shapeType != "ShapeRef"
+  }
+  isHidden(url){
+    return url != this.currentShape.url
   }
 
-  processShapes(){
-    var app = this;
-    var schema = JSON.parse(this.schema)
-    console.log(schema)
-    console.log(schema.start)
-    var shapes = schema.shapes
-    this.shapes = []
-    this.counter = 0;
-    this.footprint_shapes = []
-    console.log(this.shapes)
-
-    for (let [url, constraint] of Object.entries(shapes)) {
-      console.log(url)
-      var shap = {}
-      shap.url = url;
-      shap.constraint = constraint
-      if(url.endsWith("_Footprint")){
-        app.footprint_shapes = [...app.footprint_shapes, shap]
-      }else{
-        app.shapes = [...app.shapes, shap]
-      }
-      this.currentShape = app.shapes[0]
-      //  this.focus();
-    }
-    console.log("SHSHSHSHS",app.shapes)
+  setLastPredicate(p){
+    this.lastPredicate = p;
+    return p
   }
 
-
-  localName(uri){
-    var ln = uri;
-    if (uri.lastIndexOf("#") != -1) {
-      ln = uri.substr(uri.lastIndexOf("#")).substr(1)
-    }else{
-      ln = uri.substr(uri.lastIndexOf("/")).substr(1)
-    }
-    return ln
+  getLastPredicate(){
+    return this.lastPredicate
   }
 
-  panelClicked(shape){
-    console.log(shape)
-    this.currentShape = shape
-    this.focus()
-  }
-  focus(){
-    var focusDiv = this.shadowRoot.getElementById(this.currentShape.url)
-    console.log(focus)
-    focusDiv.focus()
-  }
-
-  isNotCurrent(shape){
-    if (shape.url == this.currentShape.url){
-      return false
-    }else{
-      return true
-    }
-  }
-
-  toText(json){
-    if (json != undefined){
-      //  console.log("ANALYSE DE TYPE ", json.type, "url :",json.url, "DATA :",json)
-      return JSON.stringify(json, null, 2)
-    }
-    else {
-      console.log("json undefined");
-      return undefined}
-
-    }
-    incremente(){
-      console.log(this.counter)
-      this.counter = this.counter+1
-
-      return this.counter
-    }
-    displayForm(id){
-      console.log("displayForm",id)
-    }
-
-    isFieldset(shapeType){
-
-      return shapeType != "Shape" && shapeType != "TripleConstraint" && shapeType != "NodeConstraint" && shapeType != "EachOf" && shapeType != "ShapeRef"
-    }
-    isHidden(url){
-      return url != this.currentShape.url
-    }
-
-    setLastPredicate(p){
-      this.lastPredicate = p;
-      return p
-    }
-
-    getLastPredicate(){
-      return this.lastPredicate
-    }
-
-    submitForm(){
-      var data = [];
-      var id = this.currentShape.url
-      console.log(id)
-      var currentFormFields = this.shadowRoot.getElementById(id).elements
-      var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
-      console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+  submitForm(){
+    var data = [];
+    var id = this.currentShape.url
+    console.log(id)
+    var currentFormFields = this.shadowRoot.getElementById(id).elements
+    var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
+    console.log( "Found " + currentFormFields.length + " elements in the form "+id);
 
 
-      var params = {};
-      for( var i=0; i<currentFormFields.length; i++ )
+    var params = {};
+    for( var i=0; i<currentFormFields.length; i++ )
+    {
+      var field = currentFormFields[i]
+
+      var field = currentFormFields[i]
+      var valid = true;
+      if (
+        (field.nodeName == "FIELDSET")  ||
+        (field.nodeName == "BUTTON")    ||
+        ((field.type == "radio") && (field.checked == false))
+      )
       {
-        var field = currentFormFields[i]
-
-        var field = currentFormFields[i]
-        var valid = true;
-        if (
-          (field.nodeName == "FIELDSET")  ||
-          (field.nodeName == "BUTTON")    ||
-          ((field.type == "radio") && (field.checked == false))
-        )
-        {
-          valid = false
-        }
-
-        console.log(valid)
-
-        if (valid == true){      //  console.log(field, field.nodeName)
-          console.log(field, field.nodeName, field.type)
-          var fieldData = {}
-          var fieldName = field.name;
-          fieldData.value = field.value;
-          fieldData.type = field.type;
-          fieldData.format = field.placeholder || "unknown";
-          params[fieldName] = fieldData;
-
-        }
+        valid = false
       }
-      //  console.log("params ",params)
-      if (!(id in data)){
-        data[id] = [];
+
+      console.log(valid)
+
+      if (valid == true){      //  console.log(field, field.nodeName)
+        console.log(field, field.nodeName, field.type)
+        var fieldData = {}
+        var fieldName = field.name;
+        fieldData.value = field.value;
+        fieldData.type = field.type;
+        fieldData.format = field.placeholder || "unknown";
+        params[fieldName] = fieldData;
+
       }
-      data[id].push(params)
-      console.log("DATA -------- ",data)
-
-
-
     }
-
+    //  console.log("params ",params)
+    if (!(id in data)){
+      data[id] = [];
+    }
+    data[id].push(params)
+    console.log("DATA -------- ",data)
 
 
 
   }
 
-  customElements.define('shexy-forms', ShexyForms);
+
+
+
+}
+
+customElements.define('shexy-forms', ShexyForms);
