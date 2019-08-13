@@ -29,36 +29,35 @@ constructor() {
 render() {
 
   const getShape = (shape) => html `
-  ${this.incremente()} -------------------SHAPE ${this.localName(shape.url)}; <br>
+  <fieldset>
+  <legend>  ${this.incremente()} -------------------SHAPE ${this.localName(shape.url)}; <br></legend>
   <!--  ${this.toText(shape)}-->
   </br>
   ${getConstraint(shape.constraint)}
-  _______________________<br>
+  </fieldset>
   `
 
   const getConstraint = (constraint) => html`
-  ${this.incremente()} =================CONSTRAINT<br>
-  ${this.counter} Constraint Type :${constraint.type}
+  <fieldset>
+  <legend>${this.incremente()} Constraint Type :${constraint.type} <span title="${this.toText(constraint)}">?</span></legend>
   <br>
-  ${this.toText(constraint)}
+
   <br>
 
   ${constraint.expression
     ? html`
-    ${this.counter} ~~~~~~~Expression : <br>
-    ${this.counter} ${this.toText(constraint.expression)}<br>
-    ${this.counter} ${getConstraint(constraint.expression)}
+    ${this.counter} ~~~~~~~Expression : <span title="${this.toText(constraint.expression)}"> ? </span><br>
+    ${getConstraint(constraint.expression)}
     <br>
     `
     : html``
   }
   ${constraint.expressions
-    ? html`${this.counter} ~~~~~~~Expressions : <br>
-    ${this.counter} ${this.toText(constraint.expressions)}
-    <br>
+    ? html`${this.counter} ~~~~~~~Expressions :  <span title="${this.toText(constraint.expressions)}"> ? </span><br>
+
     ${constraint.expressions.map(i => html`
       <br>${this.counter} *********DEBUT LISTE<br>
-      ${this.counter} ${getConstraint(i)}<br>
+      ${getConstraint(i)}<br>
       ${this.counter} +++++++++++++Fin liste
       <br>`)}
       `
@@ -75,9 +74,8 @@ render() {
 
 
     ${constraint.valueExpr
-      ? html`${this.counter} ~~~~~~~valueExpr :
-      ${this.toText(constraint.expression)}<br>
-      ${this.counter} ${getConstraint(constraint.valueExpr)}
+      ? html`${this.counter} ~~~~~~~valueExpr : <span title="${this.toText(constraint.valueExpr)}"> ? </span><br>
+      ${getConstraint(constraint.valueExpr)}
       <br>
       `
       : html``
@@ -85,10 +83,13 @@ render() {
 
     ${constraint.datatype
       ? html`${this.counter}
-      <input placeholder="${constraint.datatype}"></input>
-
-      ${this.toText(constraint.datatype)}<br>
-      ${this.counter} ${getConstraint(constraint.datatype)}
+      <div class="input-field col s6">
+      <input
+      type="text" class="validate"
+      placeholder="${constraint.datatype}"
+      ></input>
+      <span title="${this.toText(constraint.datatype)}"> ? </span>
+      </div>
       <br>
       `
       : html``
@@ -96,9 +97,8 @@ render() {
 
 
     ${constraint.shapeExprs
-      ? html`${this.counter} ~~~~~~~shapeExprs :
-      ${this.toText(constraint.shapeExprs)}<br>
-      ${this.counter} ${getConstraint(constraint.shapeExprs)}
+      ? html`${this.counter} ~~~~~~~shapeExprs : <span title="${this.toText(constraint.shapeExprs)}"> ? </span><br>
+      ${getConstraint(constraint.shapeExprs)}
       <br>
       `
       : html``
@@ -106,41 +106,47 @@ render() {
 
 
     ${constraint.nodeKind
-      ? html`${this.counter} ~~~~~~~nodeKind :
-      ${this.toText(constraint.nodeKind)}<br>
-      ${this.counter} ${getConstraint(constraint.nodeKind)}
+      ? html`${this.counter} ~~~~~~~nodeKind : <span title="${this.toText(constraint.nodeKind)}"> ? </span><br>
+      ${getConstraint(constraint.nodeKind)}
       <br>
       `
       : html``
     }
 
     ${constraint.reference
-      ? html`${this.counter} ~~~~~~~reference :
-      ${this.toText(constraint.reference)}
-      <paper-button raised>${constraint.reference}</paper-button><br>
-      ${this.counter} ${getConstraint(constraint.reference)}
-      <br>
+      ? html` <paper-button   class="waves-effect waves-light btn modal-trigger"  @click="${(e) =>this.displayForm(constraint.reference)}" raised>${constraint.reference}</paper-button><br>
       `
       : html``
     }
 
     ${constraint.min
-      ? html`${this.counter} ~~~~~~~min :
-      ${this.toText(constraint.min)}<br>
-
+      ? html`${this.counter} ~~~~~~~min <span title="${this.toText(constraint.min)}"> ? </span> : ${constraint.min}
       `
       : html``
     }
 
     ${constraint.max
-      ? html`${this.counter} ~~~~~~~max :
-      ${this.toText(constraint.max)}<br>
-      ${getConstraint(constraint.max)}
+      ? html`${this.counter} ~~~~~~~max <span title="${this.toText(constraint.max)}"> ? </span> : ${constraint.max}
       <br>
       `
       : html``
     }
-  <br>
+
+    ${constraint.values
+      ? html`${this.counter} ~~~~~~~values <span title="${this.toText(constraint.values)}"> ? </span> : <br>
+      ${constraint.values}
+    ${this.toText(constraint.values)}
+      ${getConstraint(constraint.values)}
+
+      `
+      : html``
+    }
+
+
+
+
+    <br>
+    </fieldset>
     `
 
 
@@ -243,6 +249,7 @@ render() {
           console.log(schema.start)
           var shapes = schema.shapes
           this.shapes = []
+          this.counter = 0;
           this.footprint_shapes = []
           console.log(this.shapes)
 
@@ -300,6 +307,17 @@ render() {
             this.counter = this.counter+1
 
             return this.counter
+          }
+          displayForm(id){
+            console.log("displayForm",id)
+          }
+          domSelector(values){
+            console.log(values);
+            console.log(typeof values)
+            var valeurs = JSON.parse(values)
+            valeurs.forEach(function(v){
+              console.log(v)
+            })
           }
 
         }
