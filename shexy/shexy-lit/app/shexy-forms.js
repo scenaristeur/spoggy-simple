@@ -13,7 +13,7 @@ class ShexyForms extends LitElement {
     },
     shapes: { type: Array},
     footprint_shapes: { type: Array},
-    currentShape: {type: String},
+    currentShape: {type: Object},
     counter: {type: Number},
     setLastPredicate: {type: String}
   };
@@ -21,7 +21,7 @@ class ShexyForms extends LitElement {
 
 constructor() {
   super();
-  this.currentShape = 'World';
+  this.currentShape = {};
   this.shapes = [];
   this.footprint_shapes = [];
   this.counter = 0;
@@ -265,7 +265,7 @@ ${constraint.values
 
 <div class="divider"></div>
 
-<div id="currentShape">
+<div id="currentShapeDiv">
 ${this.currentShape.url}
 </div>
 
@@ -383,6 +383,11 @@ toText(json){
   }
   displayForm(id){
     console.log("displayForm",id)
+    var fictiveShape = {}
+    fictiveShape.url = id
+
+    this.currentShape = fictiveShape
+
   }
 
   isFieldset(shapeType){
