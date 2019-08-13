@@ -14,7 +14,8 @@ class ShexyForms extends LitElement {
     shapes: { type: Array},
     footprint_shapes: { type: Array},
     currentShape: {type: String},
-    counter: {type: Number}
+    counter: {type: Number},
+    setLastPredicate: {type: String}
   };
 }
 
@@ -23,7 +24,8 @@ constructor() {
   this.currentShape = 'World';
   this.shapes = [];
   this.footprint_shapes = [];
-  this.counter = 0
+  this.counter = 0;
+  this.lastPredicate = ""
 }
 
 render() {
@@ -41,16 +43,23 @@ render() {
 
 
   const getShape = (shape) => html `
-  <div  id ="${shape.url}" ?hidden=${this.isHidden(shape.url)}>
+  <form  id ="${shape.url}" ?hidden=${this.isHidden(shape.url)}>
 
   <fieldset>
   <legend>  ${this.localName(shape.url)}</legend>
   <!--  ${this.toText(shape)}-->
   </br>
   ${getConstraint(shape.constraint)}
-  <paper-button class="waves-effect waves-light btn-large modal-trigger" type="submit" raised >Submit ${this.localName(shape.url)} <i class="material-icons right">send</i></paper-button>
+  <paper-button
+  class="waves-effect waves-light btn-large modal-trigger"
+  type="submit"
+  @click="${(e) =>this.submitForm()}"
+  raised >
+  Submit ${this.localName(shape.url)}
+  <i class="material-icons right">send</i>
+  </paper-button>
   </fieldset>
-  </div>
+  </form>
   `
 
   const getConstraint = (constraint) => html`
@@ -67,6 +76,10 @@ render() {
     :html ``
   }
 
+
+last predicate : ${this.getLastPredicate()}
+
+
   ${constraint.expression
     ? html`
     <span title="Expression ${this.toText(constraint.expression)}"> ? </span>
@@ -82,7 +95,7 @@ render() {
   }
 
   ${constraint.predicate
-    ? html`<br><span title="${this.toText(constraint)}">${constraint.predicate} :<br></span>`
+    ? html`<br><span title="${this.toText(constraint)}">${this.setLastPredicate(constraint.predicate)} :<br></span>`
     : html``
   }
 
@@ -100,12 +113,14 @@ render() {
     <input type="date" class="teal lighten-2"
     placeholder="${constraint.datatype}"
     title="${constraint.datatype}"
+    name="${this.getLastPredicate()}"
     ></input>`
     : html `
     <input type="text" class="validate teal lighten-2"
     placeholder="${constraint.datatype}"
     title="${constraint.datatype}"
     label="${constraint.datatype}"
+    name="${this.getLastPredicate()}"
     ></input>`
   }`
   : html``
@@ -133,6 +148,7 @@ ${constraint.nodeKind
   type="text" class="validate teal lighten-2"
   title="${constraint.nodeKind}"
   placeholder="${constraint.nodeKind}"
+  name="${this.getLastPredicate()}"
   ></input>
   ${getMinMax(constraint)}`
   : html``
@@ -140,10 +156,16 @@ ${constraint.nodeKind
 
 ${constraint.reference
   ? html`
+  <input type="text" class="validate teal lighten-2"
+  placeholder="${constraint.reference}"
+  title="${constraint.reference}"
+  label="${constraint.reference}"
+  name="${this.getLastPredicate()}"
+  ></input>
   <paper-button class="waves-effect waves-light btn modal-trigger"
   @click="${(e) =>this.displayForm(constraint.reference)}"
   raised>
-  ${constraint.reference}
+  Select or create a ${constraint.reference}
   </paper-button>`
   : html``
 }
@@ -208,7 +230,7 @@ ${constraint.values
 
     <div class="section">
     <h5>Footprints</h5>
-    <p> To change the default location of storage for this data, use the "_Footprint" buttons below </p>
+    <p>To change the storage location of this data, use the "_Footprint" before submitting</p>
     <div class="row center-align">
     ${this.footprint_shapes.map(i => html`
       <div  class="card-panel hoverable col s12 m6 l3 teal lighten-4">
@@ -256,7 +278,7 @@ ${constraint.values
         app.shapes = [...app.shapes, shap]
       }
       this.currentShape = app.shapes[0]
-    //  this.focus();
+      //  this.focus();
     }
     console.log("SHSHSHSHS",app.shapes)
   }
@@ -318,6 +340,67 @@ ${constraint.values
     isHidden(url){
       return url != this.currentShape.url
     }
+
+    setLastPredicate(p){
+      this.lastPredicate = p;
+      return p
+    }
+
+    getLastPredicate(){
+      return this.lastPredicate
+    }
+
+    submitForm(){
+      var data = [];
+      var id = this.currentShape.url
+      console.log(id)
+      var currentFormFields = this.shadowRoot.getElementById(id).elements
+      var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
+      console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+
+
+      var params = {};
+      for( var i=0; i<currentFormFields.length; i++ )
+      {
+        var field = currentFormFields[i]
+
+        var field = currentFormFields[i]
+        var valid = true;
+        if (
+          (field.nodeName == "FIELDSET")  ||
+          (field.nodeName == "BUTTON")    ||
+          ((field.type == "radio") && (field.checked == false))
+        )
+        {
+          valid = false
+        }
+
+        console.log(valid)
+
+        if (valid == true){      //  console.log(field, field.nodeName)
+          console.log(field, field.nodeName, field.type)
+          var fieldData = {}
+          var fieldName = field.name;
+          fieldData.value = field.value;
+          fieldData.type = field.type;
+          fieldData.format = field.placeholder || "unknown";
+          params[fieldName] = fieldData;
+
+        }
+      }
+      //  console.log("params ",params)
+      if (!(id in data)){
+        data[id] = [];
+      }
+      data[id].push(params)
+      console.log("DATA -------- ",data)
+
+
+
+    }
+
+
+
 
   }
 
