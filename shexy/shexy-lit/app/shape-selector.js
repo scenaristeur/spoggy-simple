@@ -24,16 +24,18 @@ render() {
 
   return html`
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <div class="input-field">
+
   <!--  <label>Shape Select</label>-->
   <select @change=${this.selectorChange}>
   <option value="" disabled selected>1 - CHOOSE A GOOD SHEX</option>
   ${this.liste.map(i => html`<option value="${i.value}" title="${i.value}" ?disabled=${this.disabled(i)} >${this.optionName(i)}</option>`)}
   </select>
-
-
+  <!--<div class="input-field">
+  <input ></input><paper-button raised disabled>Use your shex shape</paper-button> ?
+  </div>-->
   <a href="${this.shapeUrl}" target="blank">${this.shapeUrl}</a>
-  </div>
+
+
   `;
 
 }
@@ -66,7 +68,7 @@ shouldUpdate(changedProperties) {
   changedProperties.forEach((oldValue, propName) => {
     console.log(`${propName} changed. oldValue: ${oldValue}`);
   });
-  return changedProperties.has('liste');
+  return changedProperties.has('liste') || changedProperties.has('shapeUrl');
 }
 
 selectorChange(e) {
@@ -77,6 +79,7 @@ selectorChange(e) {
     }
   });
   this.dispatchEvent(shapeSelected);
+  this.shapeUrl = e.currentTarget.value
 }
 
 optionName(shape){

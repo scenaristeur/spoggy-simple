@@ -208,8 +208,9 @@ ${constraint.reference
   ></input>
   <paper-button class="waves-effect waves-light btn modal-trigger"
   @click="${(e) =>this.displayForm(constraint.reference)}"
+  title="Select or create a ${constraint.reference}"
   raised>
-  Select or create a ${constraint.reference}
+  Select or create a ${this.localName(constraint.reference)}
   </paper-button>`
   : html``
 }
