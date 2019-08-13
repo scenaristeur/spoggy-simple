@@ -24,6 +24,55 @@ constructor() {
 }
 
 render() {
+
+  const getShape = (shape) => html `
+  -------------------SHAPE ${this.localName(shape.url)}; <br>
+  <!--  ${this.toText(shape)}-->
+  </br>
+  ${getConstraint(shape.constraint)}
+  _______________________<br>
+  `
+
+  const getConstraint = (constraint) => html`
+  =================CONSTRAINT<br>
+  Constraint Type :${constraint.type}
+  <br>
+  <!--${this.toText(constraint)}-->
+  <br>
+
+  Constraint Expression (s) : <br>
+  ${constraint.expression
+    ? html`
+    ~~~~~~~Expression : <br>
+    ${this.toText(constraint.expression)}
+    ${getConstraint(constraint.expression)}
+    <br>
+    `
+    : html` None<br>`
+  }
+
+
+
+  ${constraint.expressions
+    ? html`~~~~~~~Expressions : <br>
+    ${this.toText(constraint.expressions)}
+    <br>
+    ${constraint.expressions.map(i => html`*********DEBUT LISTE<br> ${getConstraint(i)}<br>+++++++++++++Fin liste`)}
+
+
+    `
+    : html` None<br>`
+  }
+
+  ________________________<br>
+  `
+
+
+
+
+
+
+
   return html`
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
   <div class="section">
@@ -52,13 +101,34 @@ render() {
     </div>
     <div class="divider"></div>
 
+    <div class="section">
+    <h5>DATA</h5>
+    <div class="row center-align">
+
+    </div>
+    </div>
+
+
+
+    <div class="divider"></div>
+
     ${this.shapes.map(shape => html`
+
+      ${getShape(shape)}
+      <br>
       <shexy-formulaire
       .url=${shape.url}
       .constraint = ${shape.constraint}
       .currentUrl = ${this.currentShape.url}
       ?hidden=${this.isNotCurrent(shape)}
       ></shexy-formulaire>
+
+      <paper-button
+      class="waves-effect waves-light btn modal-trigger"
+      raised
+
+      >Submit</paper-button>
+      <br>
       `)}
       </ul>
 
@@ -81,6 +151,9 @@ render() {
 
         `;
       }
+
+
+
 
       shouldUpdate(changedProperties) {
         changedProperties.forEach((oldValue, propName) => {
@@ -139,6 +212,11 @@ render() {
         }else{
           return true
         }
+      }
+
+      toText(json){
+        console.log("ANALYSE DE TYPE ", json.type, "url :",json.url, "DATA :",json)
+        return JSON.stringify(json, null, 2)
       }
 
     }

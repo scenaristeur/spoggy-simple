@@ -1,7 +1,7 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
 //import 'https://unpkg.com/@polymer/paper-button/paper-button.js?module';
 //import 'https://unpkg.com/@polymer/paper-input/paper-input.js?module';
-
+//import './shexy-shape.js'
 
 class ShexyFormulaire extends LitElement {
   static get properties() {
@@ -30,6 +30,13 @@ render() {
   ${this.constraint}
   </div>
 
+<!--
+  <shexy-shape
+  .url=${this.url}
+  .constraint=${this.constraint}></shexy-shape>
+-->
+
+
 
 
   `;
@@ -55,6 +62,7 @@ localName(uri){
   }else{
     ln = uri.substr(uri.lastIndexOf("/")).substr(1)
   }
+  console.log(uri)
   return ln
 }
 
