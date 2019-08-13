@@ -23,14 +23,16 @@ constructor() {
 render() {
 
   return html`
-  <div class="input-field col s12">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <div class="input-field">
   <!--  <label>Shape Select</label>-->
   <select @change=${this.selectorChange}>
   <option value="" disabled selected>1 - CHOOSE A GOOD SHEX</option>
-  ${this.liste.map(i => html`<option value="${i.value}" ?disabled=${this.disabled(i)} >${this.optionName(i)}</option>`)}
+  ${this.liste.map(i => html`<option value="${i.value}" title="${i.value}" ?disabled=${this.disabled(i)} >${this.optionName(i)}</option>`)}
   </select>
 
-      <a href="${this.shapeUrl}" target="blank">${this.shapeUrl}</a>
+
+  <a href="${this.shapeUrl}" target="blank">${this.shapeUrl}</a>
   </div>
   `;
 

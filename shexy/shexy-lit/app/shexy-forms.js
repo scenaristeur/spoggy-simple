@@ -41,13 +41,17 @@ render() {
 
 
   const getShape = (shape) => html `
+  ${this.isHidden(shape.url)}
+  <div  id ="${shape.url}" ?hidden=${this.isHidden(shape.url)}>
+
   <fieldset>
-  <legend>  ${this.incremente()} -------------------SHAPE ${this.localName(shape.url)}</legend>
+  <legend>  ${this.localName(shape.url)}</legend>
   <!--  ${this.toText(shape)}-->
   </br>
   ${getConstraint(shape.constraint)}
   <paper-button class="waves-effect waves-light btn-large modal-trigger" type="submit" raised >Submit ${this.localName(shape.url)} <i class="material-icons right">send</i></paper-button>
   </fieldset>
+  </div>
   `
 
   const getConstraint = (constraint) => html`
@@ -251,7 +255,7 @@ ${constraint.values
       }else{
         app.shapes = [...app.shapes, shap]
       }
-      this.currentForm = app.shapes[0]
+      this.currentShape = app.shapes[0]
     }
     console.log("SHSHSHSHS",app.shapes)
   }
@@ -282,7 +286,7 @@ ${constraint.values
 
   toText(json){
     if (json != undefined){
-    //  console.log("ANALYSE DE TYPE ", json.type, "url :",json.url, "DATA :",json)
+      //  console.log("ANALYSE DE TYPE ", json.type, "url :",json.url, "DATA :",json)
       return JSON.stringify(json, null, 2)
     }
     else {
@@ -303,6 +307,9 @@ ${constraint.values
     isFieldset(shapeType){
 
       return shapeType != "Shape" && shapeType != "TripleConstraint" && shapeType != "NodeConstraint" && shapeType != "EachOf" && shapeType != "ShapeRef"
+    }
+    isHidden(url){
+      return url != this.currentShape.url
     }
 
   }
