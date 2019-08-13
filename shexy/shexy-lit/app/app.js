@@ -46,7 +46,7 @@ class ShexyApp extends LitElement {
 
     <div class="section">
     <h5>Select shape to generate Form</h5>
-    <a href="${this.jsonList}" target="blank"><i class="material-icons right">visibility</i></a>
+    <a href="${this.jsonList}" title="${this.jsonList}" target="blank"><i class="material-icons right">visibility</i></a>
 
     <shape-selector
     name="Selector"

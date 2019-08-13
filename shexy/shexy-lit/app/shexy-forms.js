@@ -48,8 +48,10 @@ render() {
   <fieldset>
   <legend>  ${this.localName(shape.url)}</legend>
   <!--  ${this.toText(shape)}-->
-  </br>
+  <br>
   ${getConstraint(shape.constraint)}
+
+
   <paper-button
   class="waves-effect waves-light btn-large modal-trigger"
   type="submit"
@@ -58,8 +60,54 @@ render() {
   Submit ${this.localName(shape.url)}
   <i class="material-icons right">send</i>
   </paper-button>
+
+<!--
+  <paper-button
+  class="waves-effect waves-light btn-small modal-trigger"
+  type="submit"
+  @click="${(e) =>this.displayForm(shape.url+"_Footprint")}"
+  raised >
+  Verify ${this.localName(shape.url+"_Footprint")}
+  <i class="material-icons right">send</i>
+  </paper-button>
+  <paper-button
+  id="jsonBtn"
+  class="waves-effect waves-light btn-small modal-trigger"
+  type="submit"
+  @click="${(e) =>this.submitForm()}"
+  raised
+  disabled>
+  <i class="material-icons left">file_download</i>
+  json data
+  </paper-button>
+  <paper-button
+  id="ttlBtn"
+  class="waves-effect waves-light btn-small modal-trigger"
+  type="submit"
+  @click="${(e) =>this.submitForm()}"
+  raised
+  disabled>
+  <i class="material-icons left">file_download</i>
+  ttl data
+  </paper-button>
+
+  <paper-button
+  id="extraBtn"
+  class="waves-effect waves-light btn-small modal-trigger"
+  type="submit"
+  @click="${(e) =>this.submitForm()}"
+  raised
+  disabled>
+  add extra data : context, location, mood, personnal field...
+  </paper-button>
+-->
   </fieldset>
   </form>
+
+
+
+
+
   `
 
   const getConstraint = (constraint) => html`
@@ -71,7 +119,7 @@ render() {
   ${this.isFieldset(constraint.type)
     ? html `
     <fieldset>
-    <legend>Constraint Type :${constraint.type} <span title="${this.toText(constraint)}">?</span></legend>
+    <legend><span title="${this.toText(constraint)}">${constraint.type}</span></legend>
     `
     :html ``
   }
@@ -79,26 +127,25 @@ render() {
 
   ${constraint.expression
     ? html`
-    <span title="Expression ${this.toText(constraint.expression)}"> ? </span>
+    <small><span title="Expression ${this.toText(constraint.expression)}">Expression</span></small>
     ${getConstraint(constraint.expression)}
     `
     : html``
   }
 
   ${constraint.expressions
-    ? html` <span title="Expressions ${this.toText(constraint.expressions)}"> ? </span>
+    ? html` <small><span title="Expressions ${this.toText(constraint.expressions)}">Expressions</span></small>
     ${constraint.expressions.map(i => html`${getConstraint(i)}`)}`
     : html``
   }
 
   ${constraint.predicate
-    ? html`<br><span title="${this.toText(constraint)}">${this.setLastPredicate(constraint.predicate)} :<br></span>`
+    ? html`<br><span title="${this.toText(constraint)}">${this.setLastPredicate(constraint.predicate)} :</span>`
     : html``
   }
 
   ${constraint.valueExpr
     ? html`
-    <span title="${this.toText(constraint.valueExpr)}"> ? </span>
     ${getConstraint(constraint.valueExpr)}`
     : html``
   }
@@ -107,13 +154,13 @@ render() {
     ? html`
     ${constraint.datatype.endsWith("date")
     ? html `
-    <input type="date" class="teal lighten-2"
+    <input type="date" class="teal lighten-5"
     placeholder="${constraint.datatype}"
     title="${constraint.datatype}"
     name="${this.getLastPredicate()}"
     ></input>`
     : html `
-    <input type="text" class="validate teal lighten-2"
+    <input type="text" class="validate teal lighten-5"
     placeholder="${constraint.datatype}"
     title="${constraint.datatype}"
     label="${constraint.datatype}"
@@ -142,7 +189,7 @@ ${constraint.shapeExprs
 ${constraint.nodeKind
   ? html`
   <input
-  type="text" class="validate teal lighten-2"
+  type="text" class="validate teal lighten-5"
   title="${constraint.nodeKind}"
   placeholder="${constraint.nodeKind}"
   name="${this.getLastPredicate()}"
@@ -153,7 +200,7 @@ ${constraint.nodeKind
 
 ${constraint.reference
   ? html`
-  <input type="text" class="validate teal lighten-2"
+  <input type="text" class="validate teal lighten-5"
   placeholder="${constraint.reference}"
   title="${constraint.reference}"
   label="${constraint.reference}"
@@ -170,7 +217,7 @@ ${constraint.reference
 
 ${constraint.values
   ? html`
-  <select class="teal lighten-2"
+  <select class="teal lighten-5"
   @change=${this.selectorChange}
   title="${this.toText(constraint)}">
   ${constraint.values.map(i => html`
@@ -347,7 +394,7 @@ toText(json){
 
   setLastPredicate(p){
     this.lastPredicate = p;
-    return p
+    return this.localName(p)
   }
 
   getLastPredicate(){
@@ -355,6 +402,10 @@ toText(json){
   }
 
   submitForm(){
+    this.jsonFromForm()
+  }
+
+  jsonFromForm(){
     var data = [];
     var id = this.currentShape.url
     console.log(id)
@@ -398,9 +449,7 @@ toText(json){
     }
     data[id].push(params)
     console.log("DATA -------- ",data)
-
-
-
+  //  this.shadowRoot.getElementById("jsonBtn").disabled = false;
   }
 
 
