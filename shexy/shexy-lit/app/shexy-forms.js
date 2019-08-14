@@ -2,6 +2,7 @@ import { LitElement, html, property, customElement }  from 'https://unpkg.com/li
 import 'https://unpkg.com/@polymer/paper-button/paper-button.js?module';
 //import 'https://unpkg.com/@polymer/paper-input/paper-input.js?module'; NOT SUPPORTED
 import './shexy-formatter.js'
+import './shexy-solid.js'
 
 class ShexyForms extends LitElement {
   static get properties() {
@@ -183,6 +184,19 @@ ${constraint.reference
   label="${constraint.reference}"
   name="${this.getLastPredicate()}"
   ></input>
+
+  folders :
+
+
+  <solid-folders url="${constraint.reference}"></solid-folders>
+
+  <select class="teal lighten-4"
+  @change=${this.referenceSelectorChange}
+  title="${constraint.reference}">
+
+  </select>
+
+
   <paper-button class="waves-effect waves-light btn modal-trigger"
   @click="${(e) =>this.displayForm(constraint.reference)}"
   title="Select or create a ${constraint.reference}"
