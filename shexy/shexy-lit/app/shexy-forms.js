@@ -16,8 +16,7 @@ class ShexyForms extends LitElement {
     currentShape: {type: Object},
     counter: {type: Number},
     setLastPredicate: {type: String},
-    data :{type : Object},
-    dataString: {type : String}
+    data :{type : Object}
   };
 }
 
@@ -28,8 +27,7 @@ constructor() {
   this.footprint_shapes = [];
   this.counter = 0;
   this.lastPredicate = "";
-    this.data = {};
-    this.dataString = {}
+  this.data = {}
 }
 
 render() {
@@ -297,7 +295,7 @@ shouldUpdate(changedProperties) {
   if (changedProperties.has('schema')){
     this.processShapes()
   }
-  return changedProperties.has('schema') || changedProperties.has('currentShape');
+  return changedProperties.has('schema') || changedProperties.has('currentShape') || changedProperties.has('data');
 }
 
 processShapes(){
@@ -449,7 +447,10 @@ toText(json){
     console.log("DATA -------- ",data)
     this.data = data
     //  this.shadowRoot.getElementById("jsonBtn").disabled = false;
+    console.log(this.data)
   }
+
+
 
 
 
