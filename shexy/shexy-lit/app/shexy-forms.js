@@ -190,15 +190,14 @@ ${constraint.reference
 
   <solid-folders
   url="${constraint.reference}"
-    @change=${this.selectorChange}
-  @select-event="${(e) => { this.changeValue(e) }}" >
-
-<select slot="mySelect"
   @change=${this.selectorChange}
->A heading</select>
-<span slot="title">A heading</span>
-<span slot="title2">A heading</span>
-Shadow DOM
+  @select-event="${(e) => { this.changeValue(e, "mySelect") }}" >
+
+  <select id="mySelect" slot="mySelect"
+  name="${this.getLastPredicate()}"
+  @change=${this.selectorChange}>
+  </select>
+
 
   </solid-folders>
 
@@ -217,7 +216,8 @@ ${constraint.values
   ? html`
   <select class="teal lighten-4"
   @change=${this.selectorChange}
-  title="${this.toText(constraint)}">
+  title="${this.toText(constraint)}"
+  name="${this.getLastPredicate()}">
   ${constraint.values.map(i => html`
     <option value="${i.value}"  >${i.value || i}</option>
     `)}
@@ -324,8 +324,8 @@ ${this.shapes.map(shape => html`
 
 
 selectorChange(e) {
-   console.log(e);
-   console.log(e.bubbles);
+  console.log(e);
+  console.log(e.bubbles);
 }
 
 shouldUpdate(changedProperties) {
@@ -458,6 +458,7 @@ toText(json){
     console.log(id)
     if (this.shadowRoot.getElementById(id) != null){
       var currentFormFields = this.shadowRoot.getElementById(id).elements
+      console.log(currentFormFields)
       var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
       console.log( "Found " + currentFormFields.length + " elements in the form "+id);
 
@@ -478,18 +479,55 @@ toText(json){
           valid = false
         }
 
+
+        if (field.nodeName == "SELECT")
+        {
+          //  RECUPERATION DE LA VALEUR DU SLOT
+          console.log(field)
+          console.log(field.options)
+          if (field.options.length> 0){
+            console.log(field.options[ field.selectedIndex ])
+            console.log(field.options[ field.selectedIndex ].text)
+
+            var fieldData = {}
+            var fieldName = field.name || "unknown";
+            fieldData.value =  field.options[ field.selectedIndex ].text || "unknown";
+            fieldData.type = field.type || "unknown";
+            fieldData.format = field.placeholder || "unknown";
+            console.log(fieldData)
+            params[fieldName] = fieldData;
+          }else{
+            console.log("pas d'option")
+            console.log("SLOT VALUE",field.slotvalue)
+            var fieldData = {}
+            var fieldName = field.name || "unknown";
+            fieldData.value = field.slotvalue || "unknown";
+            //  fieldData.type = field.type || "unknown";
+            //    fieldData.format = field.placeholder || "unknown";
+            console.log(fieldData)
+            params[fieldName] = fieldData;
+          }
+
+
+          //  field.selectedOptions[0].value || field.selectedOptions[0].text ;
+        }
         //  console.log(valid)
 
         if (valid == true){      //  console.log(field, field.nodeName)
-          //    console.log(field, field.nodeName, field.type)
+
           var fieldData = {}
           var fieldName = field.name;
-          fieldData.value = field.value;
+          fieldData.value = field.value
           fieldData.type = field.type;
           fieldData.format = field.placeholder || "unknown";
+          console.log(fieldData)
           params[fieldName] = fieldData;
-
         }
+
+        /*  var x = document.getElementsByName("solid-folders");
+        console.log(x)
+        */
+
       }
       //  console.log("params ",params)
       /*if (!(id in data)){
@@ -506,12 +544,21 @@ toText(json){
 
 }
 
-changeValue(e){
+changeValue(e, destination){
   console.log(e)
   console.log(e.target)
+  console.log(e.detail.value)
+  this.shadowRoot.getElementById(destination).slotvalue = e.detail.value
 }
 
-
+firstUpdated(){
+  super.firstUpdated();
+  const slot = this.shadowRoot.querySelector('#mySelect');
+  console.log("SLOT",slot)
+  slot.addEventListener('slotchange', e => {
+    console.log('light dom children changed!');
+  });
+}
 
 
 }
