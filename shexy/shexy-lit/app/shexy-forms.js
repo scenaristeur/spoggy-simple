@@ -1,7 +1,7 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
 import 'https://unpkg.com/@polymer/paper-button/paper-button.js?module';
 //import 'https://unpkg.com/@polymer/paper-input/paper-input.js?module'; NOT SUPPORTED
-//import './shexy-formulaire.js'
+import './shexy-formatter.js'
 
 class ShexyForms extends LitElement {
   static get properties() {
@@ -15,7 +15,9 @@ class ShexyForms extends LitElement {
     footprint_shapes: { type: Array},
     currentShape: {type: Object},
     counter: {type: Number},
-    setLastPredicate: {type: String}
+    setLastPredicate: {type: String},
+    data :{type : Object},
+    dataString: {type : String}
   };
 }
 
@@ -25,7 +27,9 @@ constructor() {
   this.shapes = [];
   this.footprint_shapes = [];
   this.counter = 0;
-  this.lastPredicate = ""
+  this.lastPredicate = "";
+    this.data = {};
+    this.dataString = {}
 }
 
 render() {
@@ -60,47 +64,6 @@ render() {
   Submit ${this.localName(shape.url)}
   <i class="material-icons right">send</i>
   </paper-button>
-
-<!--
-  <paper-button
-  class="waves-effect waves-light btn-small modal-trigger"
-  type="submit"
-  @click="${(e) =>this.displayForm(shape.url+"_Footprint")}"
-  raised >
-  Verify ${this.localName(shape.url+"_Footprint")}
-  <i class="material-icons right">send</i>
-  </paper-button>
-  <paper-button
-  id="jsonBtn"
-  class="waves-effect waves-light btn-small modal-trigger"
-  type="submit"
-  @click="${(e) =>this.submitForm()}"
-  raised
-  disabled>
-  <i class="material-icons left">file_download</i>
-  json data
-  </paper-button>
-  <paper-button
-  id="ttlBtn"
-  class="waves-effect waves-light btn-small modal-trigger"
-  type="submit"
-  @click="${(e) =>this.submitForm()}"
-  raised
-  disabled>
-  <i class="material-icons left">file_download</i>
-  ttl data
-  </paper-button>
-
-  <paper-button
-  id="extraBtn"
-  class="waves-effect waves-light btn-small modal-trigger"
-  type="submit"
-  @click="${(e) =>this.submitForm()}"
-  raised
-  disabled>
-  add extra data : context, location, mood, personnal field...
-  </paper-button>
--->
   </fieldset>
   </form>
 
@@ -154,13 +117,13 @@ render() {
     ? html`
     ${constraint.datatype.endsWith("date")
     ? html `
-    <input type="date" class="teal lighten-5"
+    <input type="date" class="teal lighten-4"
     placeholder="${constraint.datatype}"
     title="${constraint.datatype}"
     name="${this.getLastPredicate()}"
     ></input>`
     : html `
-    <input type="text" class="validate teal lighten-5"
+    <input type="text" class="validate teal lighten-4"
     placeholder="${constraint.datatype}"
     title="${constraint.datatype}"
     label="${constraint.datatype}"
@@ -189,7 +152,7 @@ ${constraint.shapeExprs
 ${constraint.nodeKind
   ? html`
   <input
-  type="text" class="validate teal lighten-5"
+  type="text" class="validate teal lighten-4"
   title="${constraint.nodeKind}"
   placeholder="${constraint.nodeKind}"
   name="${this.getLastPredicate()}"
@@ -200,7 +163,7 @@ ${constraint.nodeKind
 
 ${constraint.reference
   ? html`
-  <input type="text" class="validate teal lighten-5"
+  <input type="text" class="validate teal lighten-4"
   placeholder="${constraint.reference}"
   title="${constraint.reference}"
   label="${constraint.reference}"
@@ -218,7 +181,7 @@ ${constraint.reference
 
 ${constraint.values
   ? html`
-  <select class="teal lighten-5"
+  <select class="teal lighten-4"
   @change=${this.selectorChange}
   title="${this.toText(constraint)}">
   ${constraint.values.map(i => html`
@@ -245,6 +208,28 @@ ${constraint.values
   select {
     display: block; # obligé car materializecss n'arrive pas à initilaiser les selects
   }
+  /* Style Placeholders */
+  ::-webkit-input-placeholder {
+    color: #2e7582;
+    opacity: 1; /* Firefox */
+    text-align: right;
+  }
+  ::-moz-placeholder {
+    color: #2e7582;
+    text-align: right;
+  }
+  :-ms-input-placeholder {
+    color: #2e7582;
+    text-align: right;
+  }
+  ::-ms-input-placeholder {
+    color: #2e7582;
+    text-align: right;
+  }
+  ::placeholder {
+    color: #2e7582;
+    text-align: right;
+  }
   </style>
 
 
@@ -269,12 +254,19 @@ ${constraint.values
 ${this.currentShape.url}
 </div>
 
-<div class="divider"></div>
+
 
 ${this.shapes.map(shape => html`
   ${getShape(shape)}
-
   `)}
+
+  <shexy-formatter
+  name="${this.currentShape}"
+  .shape="${this.currentShape}"
+  .formData="${this.data}"
+  ></shexy-formatter>
+
+  <div class="divider"></div>
 
   <div class="section">
   <h5>Footprints</h5>
@@ -436,10 +428,10 @@ toText(json){
         valid = false
       }
 
-      console.log(valid)
+      //  console.log(valid)
 
       if (valid == true){      //  console.log(field, field.nodeName)
-        console.log(field, field.nodeName, field.type)
+        //    console.log(field, field.nodeName, field.type)
         var fieldData = {}
         var fieldName = field.name;
         fieldData.value = field.value;
@@ -455,7 +447,8 @@ toText(json){
     }
     data[id].push(params)
     console.log("DATA -------- ",data)
-  //  this.shadowRoot.getElementById("jsonBtn").disabled = false;
+    this.data = data
+    //  this.shadowRoot.getElementById("jsonBtn").disabled = false;
   }
 
 

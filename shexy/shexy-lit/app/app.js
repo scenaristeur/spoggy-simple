@@ -39,42 +39,35 @@ class ShexyApp extends LitElement {
     <li><a href="badges.html">Components</a></li>
     <li><a href="collapsible.html">JavaScript</a></li>
     </ul>
-    </div>
-    </nav>
-
-    <div class="container">
-
-    <div class="section">
-    <h5>Select shape to generate Form</h5>
-    <a href="${this.jsonList}" title="${this.jsonList}" target="blank"><i class="material-icons right">visibility</i></a>
-
-    <shape-selector
-    name="Selector"
-    jsonShapeList="${this.jsonList}"
-    @shape-selected="${(e) => { this.shapeChanged(e) }}"
-    ></shape-selector>
-    </div>
-
-
     ${this.loading
       ? html `
       <div class="progress">
       <div class="indeterminate"></div>
       </div>
-
-      <!-- <div class="preloader-wrapper small active">
-      <div class="spinner-layer spinner-green-only">
-      <div class="circle-clipper left">
-      <div class="circle"></div>
-      </div><div class="gap-patch">
-      <div class="circle"></div>
-      </div><div class="circle-clipper right">
-      <div class="circle"></div>
-      </div>
-      </div>
-      </div>-->
       `
       : html  ``}
+    </div>
+
+    </nav>
+
+
+
+
+      <div class="container">
+
+      <div class="section">
+      <h5>Select shape to generate Form</h5>
+      <a href="${this.jsonList}" title="${this.jsonList}" target="blank"><i class="material-icons right">visibility</i></a>
+
+      <shape-selector
+      name="Selector"
+      jsonShapeList="${this.jsonList}"
+      @shape-selected="${(e) => { this.shapeChanged(e) }}"
+      ></shape-selector>
+      </div>
+
+
+
 
 
 

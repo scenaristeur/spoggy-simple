@@ -7,6 +7,8 @@ https://materializecss.com
 
 # are they both needed
 
+# color palette
+
 
 
 <div class="row">
