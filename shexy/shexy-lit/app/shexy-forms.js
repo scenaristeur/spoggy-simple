@@ -188,13 +188,19 @@ ${constraint.reference
   folders :
 
 
-  <solid-folders url="${constraint.reference}"></solid-folders>
+  <solid-folders
+  url="${constraint.reference}"
+    @change=${this.selectorChange}
+  @select-event="${(e) => { this.changeValue(e) }}" >
 
-  <select class="teal lighten-4"
-  @change=${this.referenceSelectorChange}
-  title="${constraint.reference}">
+<select slot="mySelect"
+  @change=${this.selectorChange}
+>A heading</select>
+<span slot="title">A heading</span>
+<span slot="title2">A heading</span>
+Shadow DOM
 
-  </select>
+  </solid-folders>
 
 
   <paper-button class="waves-effect waves-light btn modal-trigger"
@@ -317,7 +323,10 @@ ${this.shapes.map(shape => html`
 }
 
 
-
+selectorChange(e) {
+   console.log(e);
+   console.log(e.bubbles);
+}
 
 shouldUpdate(changedProperties) {
   changedProperties.forEach((oldValue, propName) => {
@@ -497,7 +506,10 @@ toText(json){
 
 }
 
-
+changeValue(e){
+  console.log(e)
+  console.log(e.target)
+}
 
 
 

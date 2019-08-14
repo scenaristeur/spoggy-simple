@@ -190,27 +190,64 @@ class SolidFolders extends LitElement {
   render() {
     return html`
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <style>
+    select {
+      display: block; # obligé car materializecss n'arrive pas à initilaiser les selects
+    }
+    /* Style Placeholders */
+    ::-webkit-input-placeholder {
+      color: #2e7582;
+      opacity: 1; /* Firefox */
+      text-align: right;
+    }
+    ::-moz-placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    :-ms-input-placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    ::-ms-input-placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    ::placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    </style>
 
-    <p>Hello, ${this.url}!</p>
 
-
-    NAME : ${this.folder.name},  ${this.folder.files.length}
     <select class="teal lighten-4"
+    title="${this.url}"
+    @change=${this.selectorChange}>
+    <slot name="mySelect">
 
-    title="${this.folder.name}">
-    <option value="onr"  >fd</option>
+      <option value="" disabled selected>${this.url}</option>
+        <option value="" ></option>
     ${this.folder.files.map(i => html`
-      <option value="${i.name}"  >${i.name || i}</option>
+      <option value="${i.url}"  >${i.label || i.name}</option>
       `)}
+      </slot>
       </select>
-
-
-      <div class="card-panel teal lighten-2">shexy solid folder</div>
       `;
     }
 
 
+    selectorChange(e) {
 
+      console.log(e);
+
+      console.log(e.bubbles);
+      let   selectedEvent = new CustomEvent('select-event', {
+        detail: {
+          value: e.currentTarget.value
+        }
+      });
+      this.dispatchEvent(selectedEvent);
+      console.log("event",selectedEvent)
+    }
 
     shouldUpdate(changedProperties) {
       changedProperties.forEach((oldValue, propName) => {
