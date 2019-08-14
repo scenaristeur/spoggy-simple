@@ -14,7 +14,9 @@ class ShexyFormatter extends LitElement {
       */},
       ttlBase: {type: String},
       anonyme: {type: Boolean},
-      newFiles: {type: Array}
+      ttl: {type: Array},
+      prop4: {type: Array},
+      prop5: {type: Object}
 
     };
   }
@@ -25,14 +27,16 @@ class ShexyFormatter extends LitElement {
     this.shape = {url:"testurl"};
     this.formData = {url:"testurl"};
     this.anonyme = true
-    this.newFiles = [];
+    this.ttl = [];
     this.ttlBase = "@prefix : <https://holacratie.solid.community/public/> .\n"
     +  "@prefix owl: <http://www.w3.org/2002/07/owl#> .\n"
     +  "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
     +  "@prefix xml: <http://www.w3.org/XML/1998/namespace> .\n"
     +  "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n"
     +  "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n"
-    +  "@base <https://holacratie.solid.community/public/> .\n\n\n"
+    +  "@base <https://holacratie.solid.community/public/> .\n\n\n";
+    this.prop4 = ['one','two'];
+    this.prop5 = {id:'pop',swing:'flok'}
 
   }
 
@@ -92,14 +96,34 @@ class ShexyFormatter extends LitElement {
     </paper-button>
 
 
-    <shexy-solid new-files=${this.newFiles}>
+    <paper-button @click="${(e) =>this.add()}"
+    raised>Add</paper-button>
 
+
+    <shexy-solid
+    .ttl=${this.ttl}
+    .shape=${this.shape}
+    prop1="test prop1"
+    prop2="8"
+    prop3="true"
+    .prop4="${this.prop4}"
+    .prop5="${this.prop5}">
     </shexy-solid>
 
 
     `;
   }
-
+  add(){
+    console.log("prop4",this.prop4)
+    console.log("prop5",this.prop5)
+    var randy = "miok"
+    const d = new Date();
+    var now = d.toUTCString()+"\n";
+    this.prop4 = [...this.prop4, now];
+    this.prop5 = Object.assign({}, this.prop5, {[now]: randy});
+    console.log("prop4",this.prop4)
+    console.log("prop5",this.prop5)
+  }
 
   shouldUpdate(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {
@@ -108,7 +132,7 @@ class ShexyFormatter extends LitElement {
     if (changedProperties.has('formData')){
       this.processsformString()
     }
-    return changedProperties.has('schema') || changedProperties.has('currentShape') || changedProperties.has('formData');
+    return changedProperties.has('schema') || changedProperties.has('currentShape') || changedProperties.has('ttl') || changedProperties.has('formData') || changedProperties.has('prop4')  || changedProperties.has('prop5');
   }
 
   localName(uri){
@@ -123,14 +147,14 @@ class ShexyFormatter extends LitElement {
 
   processsformString(){
     var app = this
-    var newFiles = []
+    var ttl = []
     //  jsonData = JSON.parse(this.formData)
     console.log(this.formData)
     console.log("id" , this.shape.url)
     var id = this.shape.url
     this.formData[id].forEach(function(enreg){
       if (enreg.submitted == undefined) {
-        console.log("newfile")
+        console.log("newfile ttl")
         var randomName = '_' + Math.random().toString(36).substr(2, 9);
         var filename = randomName
         var ttlString = app.ttlBase
@@ -158,13 +182,15 @@ class ShexyFormatter extends LitElement {
         }
         console.log(ttlString)
         enreg.submitted = filename
-        newFiles.push({ filename: filename , content: ttlString})
+        //ttl.push({ filename: filename , content: ttlString})
+        app.ttl = [...app.ttl, { filename: filename , content: ttlString}];
       }
 
     })
-    console.log("new files ", newFiles)
+    /*console.log("new files ", newFiles)
     //return newFiles;
     this.newFiles = newFiles
+    this.ttl = newFiles*/
   }
 
 
