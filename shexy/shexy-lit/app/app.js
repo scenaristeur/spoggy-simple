@@ -16,9 +16,10 @@ class ShexyApp extends LitElement {
     this.name = 'World';
     this.shapeUrl = "";
     this.schema = {};
-    this.fileClient = SolidFileClient;
+
     this.jsonList = "./data/shapesList.json"
     this.loading = false;
+
   }
 
   render() {
@@ -46,9 +47,9 @@ class ShexyApp extends LitElement {
       </div>
       `
       : html  ``}
-    </div>
+      </div>
 
-    </nav>
+      </nav>
 
 
 
