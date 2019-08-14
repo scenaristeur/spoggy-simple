@@ -1,18 +1,20 @@
 import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
-
+import './shexy-solid.js'
 
 class ShexyFormatter extends LitElement {
   static get properties() {
     return {
       name: { type: String },
       shape: {type: Object} ,
-      data: {type: Object}
+      data: {type: Object},
+      ttl: { type: Object}
     }
   }
 
   constructor() {
     super();
     this.name = 'World';
+    this.ttl = {}
   }
 
   render() {
@@ -23,9 +25,19 @@ class ShexyFormatter extends LitElement {
     <p>Shape : ${this.shape.url}</p>
     <p>Data:
     ${Object.keys(this.data).map(item =>
-      html`<span>${item}: ${this.data[item]}&nbsp;</span>`)}
+      html`<span>
+      ${item}: ${this.data[item]}&nbsp;<br>
+      form: ${this.data[item].form}<br>
+
+
+
+      </span>`)}
       </p>
       <div class="card-panel teal lighten-2">shexy formatter</div>
+      <shexy-solid
+        .ttl="${this.ttl}"
+      >
+      Solid</shexy-solid>
       `;
     }
 
@@ -36,8 +48,9 @@ class ShexyFormatter extends LitElement {
       });
       if (changedProperties.has('data')){
         this.processData()
+
       }
-      return  changedProperties.has('data');
+      return  changedProperties.has('data') || changedProperties.has('ttl');
     }
 
     processData(){
@@ -86,10 +99,16 @@ class ShexyFormatter extends LitElement {
         /*if (app.anonyme == false){
         ttlString  += "# by "+this.shadowRoot.getElementById("solid-session").textContent+"\n";
       }*/
-      console.log(ttlString)
-      ttlFile = { filename: filename , content: ttlString}
+    //  console.log(ttlString)
+
+
+
+      ttlFile = { filename: filename , content: ttlString, footprint: data.footprint, shape: this.shape}
 
       console.log("TTLFILE",ttlFile)
+      console.log("TODO : Process footprint")
+      this.ttl=ttlFile
+      console.log(this.ttl)
       //  enreg.submitted = filename
       //ttl.push({ filename: filename , content: ttlString})
       //  app.ttl = [...app.ttl, { filename: filename , content: ttlString}];
