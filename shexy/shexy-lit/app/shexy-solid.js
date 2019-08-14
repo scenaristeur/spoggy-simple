@@ -129,12 +129,14 @@ console.log(fileUrl)
         result.file = fileCreated
         updateResult(result)*/
         console.log(`Created file ${fileCreated}.`);
+        alert(`Created file ${fileCreated}.`)
       //  log (fileCreated, "Created file")
       },
       err => {
         //  result.status = "erreur"
       //  updateResult(result)
         console.log(err);
+        alert("ERREUR",err)
         //  alert("erreur ")
       //  log(err, "ERROR : file create")
       }

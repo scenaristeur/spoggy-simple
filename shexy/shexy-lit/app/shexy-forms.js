@@ -45,6 +45,7 @@ render() {
 
 
   const getShape = (shape) => html `
+
   <form  id ="${shape.url}" ?hidden=${this.isHidden(shape.url)}>
 
   <fieldset>
@@ -54,6 +55,8 @@ render() {
   ${getConstraint(shape.constraint)}
 
 
+  ${shape.style == "regular"
+  ? html `
   <paper-button
   class="waves-effect waves-light btn-large modal-trigger"
   type="submit"
@@ -62,6 +65,19 @@ render() {
   Submit ${this.localName(shape.url)}
   <i class="material-icons right">send</i>
   </paper-button>
+  `
+  : html `
+  <paper-button
+  class="waves-effect waves-light btn-large modal-trigger"
+  type="submit"
+  @click="${(e) =>this.displayForm(shape.url.replace('_Footprint', ''))}"
+  raised >
+  <i class="material-icons left">arrow_back</i>
+  Back to ${this.localName(shape.url.replace('_Footprint', ''))} Form
+
+  </paper-button>
+  `}
+
   </fieldset>
   </form>
 
@@ -233,7 +249,7 @@ ${constraint.values
 
   <div class="section">
   <h5>Forms</h5>
-  <div class="row center-align">
+  <div id="topForm" class="row center-align">
   ${this.shapes.map(i => html`
     ${i.style == "regular"
     ? html `  <div   class="card-panel hoverable col s6 m3 l2 teal lighten-2">
@@ -343,9 +359,8 @@ panelClicked(shape){
   this.focus()
 }
 focus(){
-  var focusDiv = this.shadowRoot.getElementById(this.currentShape.url)
-  console.log(focus)
-  focusDiv.focus()
+  var focusDiv = this.shadowRoot.getElementById("topForm")
+  focusDiv.scrollIntoView();
 }
 
 isNotCurrent(shape){
@@ -376,9 +391,8 @@ toText(json){
     console.log("displayForm",id)
     var fictiveShape = {}
     fictiveShape.url = id
-
     this.currentShape = fictiveShape
-
+    this.focus()
   }
 
   isFieldset(shapeType){
