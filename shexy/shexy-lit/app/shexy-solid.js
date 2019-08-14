@@ -144,20 +144,6 @@ makeFile(){
 }
 
 
-folderAtUri(url){
-  console.log("FOLDER AT URI",uri)
-  /*var result = {}
-  var files = []
-  files */
-  return {files:[{value:"one"}, {value:"two"}, {value:"tri"}]}
-}
-
-
-
-
-
-
-
 localName(uri){
   var ln = uri;
   if (uri.lastIndexOf("#") != -1) {
@@ -186,50 +172,86 @@ customElements.define('shexy-solid', ShexySolid);
 /////////////
 class SolidFolders extends LitElement {
   static get properties() {
-    return { url: { type: String },
+    return {
+      url: { type: String },
+      folder: {type: Object}
 
-  };
-}
-
-constructor() {
-  super();
-  this.url = 'World';
-  this.fileClient = SolidFileClient;
-}
-
-render() {
-  return html`
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
-  <p>Hello, ${this.url}!</p>
-
-  <div class="card-panel teal lighten-2">shexy solid folder</div>
-  `;
-}
-
-
-
-
-shouldUpdate(changedProperties) {
-  changedProperties.forEach((oldValue, propName) => {
-    console.log(`${propName} changed. oldValue: ${oldValue}`);
-  });
-  if (changedProperties.has('url')){
-    //this.processsTtl()
+    };
   }
-  return changedProperties.has('url') ;
-}
+
+  constructor() {
+    super();
+    this.url = 'World';
+    this.fileClient = SolidFileClient;
+    this.folder = {}
+    this.folder.name = "test folder name"
+  }
+
+  render() {
+    return html`
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+    <p>Hello, ${this.url}!</p>
+
+
+    NAME : ${this.folder.name},  ${this.folder.files.length}
+    <select class="teal lighten-4"
+
+    title="${this.folder.name}">
+    <option value="onr"  >fd</option>
+    ${this.folder.files.map(i => html`
+      <option value="${i.name}"  >${i.name || i}</option>
+      `)}
+      </select>
+
+
+      <div class="card-panel teal lighten-2">shexy solid folder</div>
+      `;
+    }
 
 
 
-folderAtUri(url){
-  console.log("FOLDER AT URI",uri)
-  /*var result = {}
-  var files = []
-  files */
-  return {files:[{value:"one"}, {value:"two"}, {value:"tri"}]}
-}
 
+    shouldUpdate(changedProperties) {
+      changedProperties.forEach((oldValue, propName) => {
+        console.log(`${propName} changed. oldValue: ${oldValue}`);
+      });
+      if (changedProperties.has('url')){
+        //this.processsTtl()
+        this.populateSelectWithFolder(this.url)
+      }
+      return changedProperties.has('url') || changedProperties.has('folder');
+    }
+
+
+
+    populateSelectWithFolder(url){
+      console.log(url)
+
+      var result =  {}
+      this.folder = {}
+
+      this.fileClient.readFolder(url).then(folder => {
+        console.log(folder)
+        this.folder = folder
+        //  return  html`NAME : ${folder.name}`
+      },
+      err =>
+      {
+        console.log(err)
+        if (err.startsWith("404 (Not Found)")){
+          console.log("creation du dossier ",url)
+          this.fileClient.createFolder(url).then(success => {
+            console.log(`Created folder ${url}.`);
+          }, err => console.log(err) );
+        }
+        //alert("error")
+      }
+
+
+
+    );
+  }
 
 
 
