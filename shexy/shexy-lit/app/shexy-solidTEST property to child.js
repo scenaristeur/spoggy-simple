@@ -101,6 +101,10 @@ class ShexySolid extends LitElement {
               console.log("SOLID prop5",this.prop5)
               console.log("SHAPE",this.shape)
               console.log("SOLID TTL",this.ttl)
+              this.ttl.forEach(function (f){
+                console.log(f)
+              //  this.sendData(id, f)
+              })
             }
 
 

@@ -258,10 +258,11 @@ ${this.shapes.map(shape => html`
   ${getShape(shape)}
   `)}
 
+
   <shexy-formatter
   name="${this.currentShape}"
   .shape="${this.currentShape}"
-  .formData="${this.data}"
+  .data="${this.data}"
   ></shexy-formatter>
 
   <div class="divider"></div>
@@ -398,57 +399,75 @@ toText(json){
   }
 
   submitForm(){
-    this.jsonFromForm()
+    var id = this.currentShape.url
+    var formData =   this.jsonFromForm(id)
+    console.log("fdata",formData)
+    var id_footprint = id+"_Footprint"
+    console.log("idfootprint",id_footprint)
+    var footprintData = this.jsonFromForm(id_footprint)
+    console.log("fpdata",footprintData)
+    this.data = {}
+    var data = {}
+    data[id] = {}
+    data[id].form = formData
+    data[id].footprint = footprintData
+    this.data = data
+    console.log(this.data)
   }
 
-  jsonFromForm(){
-    var data = [];
-    var id = this.currentShape.url
+
+  jsonFromForm(id){
+
     console.log(id)
-    var currentFormFields = this.shadowRoot.getElementById(id).elements
-    var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
-    console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+    if (this.shadowRoot.getElementById(id) != null){
+      var currentFormFields = this.shadowRoot.getElementById(id).elements
+      var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
+      console.log( "Found " + currentFormFields.length + " elements in the form "+id);
 
 
-    var params = {};
-    for( var i=0; i<currentFormFields.length; i++ )
-    {
-      var field = currentFormFields[i]
-
-      var field = currentFormFields[i]
-      var valid = true;
-      if (
-        (field.nodeName == "FIELDSET")  ||
-        (field.nodeName == "BUTTON")    ||
-        ((field.type == "radio") && (field.checked == false))
-      )
+      var params = {};
+      for( var i=0; i<currentFormFields.length; i++ )
       {
-        valid = false
+        var field = currentFormFields[i]
+
+        var field = currentFormFields[i]
+        var valid = true;
+        if (
+          (field.nodeName == "FIELDSET")  ||
+          (field.nodeName == "BUTTON")    ||
+          ((field.type == "radio") && (field.checked == false))
+        )
+        {
+          valid = false
+        }
+
+        //  console.log(valid)
+
+        if (valid == true){      //  console.log(field, field.nodeName)
+          //    console.log(field, field.nodeName, field.type)
+          var fieldData = {}
+          var fieldName = field.name;
+          fieldData.value = field.value;
+          fieldData.type = field.type;
+          fieldData.format = field.placeholder || "unknown";
+          params[fieldName] = fieldData;
+
+        }
       }
-
-      //  console.log(valid)
-
-      if (valid == true){      //  console.log(field, field.nodeName)
-        //    console.log(field, field.nodeName, field.type)
-        var fieldData = {}
-        var fieldName = field.name;
-        fieldData.value = field.value;
-        fieldData.type = field.type;
-        fieldData.format = field.placeholder || "unknown";
-        params[fieldName] = fieldData;
-
-      }
-    }
-    //  console.log("params ",params)
-    if (!(id in data)){
+      //  console.log("params ",params)
+      /*if (!(id in data)){
       data[id] = [];
     }
     data[id].push(params)
-    console.log("DATA -------- ",data)
-    this.data = data
-    //  this.shadowRoot.getElementById("jsonBtn").disabled = false;
-    console.log(this.data)
+    console.log("DATA -------- ",data)*/
+    return params
+  }else{
+    console.log("pas de footprint")
   }
+
+  //  this.shadowRoot.getElementById("jsonBtn").disabled = false;
+
+}
 
 
 
