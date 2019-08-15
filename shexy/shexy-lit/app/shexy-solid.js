@@ -331,7 +331,7 @@ class SolidLogin extends LitElement {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <div >
-    <a href="#" title="LOGIN" @click="${(e) =>this.toggleLogin()}">
+    <a href="#" title="LOGIN" @click="${(e) =>this.solidCheckSession()}">
     <i class="material-icons medium right teal-text text-darken-4" alt="Login_icon">person</i></a>
 
     <br> ${this.logged} ${this.webId}
@@ -339,19 +339,61 @@ class SolidLogin extends LitElement {
     `;
   }
 
-  toggleLogin(){
-    console.log("log")
+
+  solidCheckSession(){
+    this.fileClient.checkSession().then(
+      session => {
+        console.log("Logged in as "+session.webId)
+        this.logout()
+      },
+      err => {
+        //  console.log(err)
+        console.log( "Aucune session Solid")
+        this.login();
+        return false;
+      }
+    );
   }
-  shouldUpdate(changedProperties) {
-    changedProperties.forEach((oldValue, propName) => {
-      console.log(`${propName} changed. oldValue: ${oldValue}`);
-    });
-    if (changedProperties.has('fileClient')){
-      //this.processsTtl()
-      //this.populateSelectWithFolder(this.url)
+
+
+  login(){
+    this.fileClient.popupLogin().then( webId => {
+      console.log( `Logged in as ${webId}.`)
+      alert("Logged in as ", webId)
+      this.webId = webId
+    }, err => {
+      console.log(err)
+      alert("erreur : ",err)
     }
-    return changedProperties.has('fileClient') ;
+  );
+}
+
+logout(){
+  this.fileClient.logout().then( out =>
+    {
+      this.webId = ""
+      console.log("OUT",out)
+      console.log( `Bye now!` )
+      alert("BYE")
+    }
+  );
+}
+
+
+
+
+
+
+shouldUpdate(changedProperties) {
+  changedProperties.forEach((oldValue, propName) => {
+    console.log(`${propName} changed. oldValue: ${oldValue}`);
+  });
+  if (changedProperties.has('fileClient')){
+    //this.processsTtl()
+    //this.populateSelectWithFolder(this.url)
   }
+  return changedProperties.has('fileClient') ;
+}
 }
 
 customElements.define('solid-login', SolidLogin);
