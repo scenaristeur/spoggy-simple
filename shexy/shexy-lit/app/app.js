@@ -1,3 +1,7 @@
+import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
+import './shape-selector.js'
+import './shex-schema.js'
+import './shexy-forms.js'
 import './shexy-solid.js'
 
 class ShexyApp extends LitElement {
@@ -147,9 +151,17 @@ class ShexyApp extends LitElement {
 
   }
 
-  import { LitElement, html, property, customElement }  from 'https://unpkg.com/lit-element?module';
-  import './shape-selector.js'
-  import './shex-schema.js'
-  import './shexy-forms.js'
+
 
   customElements.define('shexy-app', ShexyApp);
+
+
+  (function(h,o,t,j,a,r){
+    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+    h._hjSettings={hjid:1445522,hjsv:6};
+    a=o.getElementsByTagName('head')[0];
+    r=o.createElement('script');r.async=1;
+    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+    a.appendChild(r);
+    console.log("HOTJAR LOADED",h,o,t,j,a,r)
+  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
