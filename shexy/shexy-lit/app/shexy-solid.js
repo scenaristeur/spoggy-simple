@@ -323,49 +323,51 @@ class SolidLogin extends LitElement {
     super();
     this.fileClient = SolidFileClient;
     this.logged = false;
-    this.webId = "inco"
+    this.webId = ""
   }
 
   render() {
     return html`
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-    <div >
+    <div class="right">
     <a href="#" title="LOGIN" @click="${(e) =>this.solidCheckSession()}">
-    <i class="material-icons medium right teal-text text-darken-4" alt="Login_icon">person</i></a>
-
-    <br> ${this.logged} ${this.webId}
-    </div>
-    `;
+    ${this.webId == ""
+    ? html `<div class="teal-text text-darken-4 right">Not logged<i class="material-icons medium right teal-text text-darken-4" alt="Login_icon">person</i></div>`
+    : html `<div class="teal-text text-darken-4 right">${this.webId}<i class="material-icons medium right teal-text text-darken-4" alt="Logout_icon">highlight_off</i></iv>`
   }
+  </a>
+  </div>
+  `;
+}
 
 
-  solidCheckSession(){
-    this.fileClient.checkSession().then(
-      session => {
-        console.log("Logged in as "+session.webId)
-        this.logout()
-      },
-      err => {
-        //  console.log(err)
-        console.log( "Aucune session Solid")
-        this.login();
-        return false;
-      }
-    );
-  }
-
-
-  login(){
-    this.fileClient.popupLogin().then( webId => {
-      console.log( `Logged in as ${webId}.`)
-      alert("Logged in as ", webId)
-      this.webId = webId
-    }, err => {
-      console.log(err)
-      alert("erreur : ",err)
+solidCheckSession(){
+  this.fileClient.checkSession().then(
+    session => {
+      console.log("Logged in as "+session.webId)
+      this.logout()
+    },
+    err => {
+      //  console.log(err)
+      console.log( "Aucune session Solid")
+      this.login();
+      return false;
     }
   );
+}
+
+
+login(){
+  this.fileClient.popupLogin().then( webId => {
+    console.log( `Logged in as ${webId}.`)
+  //  alert("Logged in as ", webId)
+    this.webId = webId
+  }, err => {
+    console.log(err)
+    alert("erreur : ",err)
+  }
+);
 }
 
 logout(){
@@ -374,26 +376,36 @@ logout(){
       this.webId = ""
       console.log("OUT",out)
       console.log( `Bye now!` )
-      alert("BYE")
+    //  alert("BYE")
     }
   );
 }
-
-
-
-
-
 
 shouldUpdate(changedProperties) {
   changedProperties.forEach((oldValue, propName) => {
     console.log(`${propName} changed. oldValue: ${oldValue}`);
   });
   if (changedProperties.has('fileClient')){
-    //this.processsTtl()
-    //this.populateSelectWithFolder(this.url)
+  //  this.solidCheckSession()
   }
-  return changedProperties.has('fileClient') ;
+  return changedProperties.has('fileClient') || changedProperties.has('webId') ;
 }
+
+firstUpdated(){
+  this.fileClient.checkSession().then(
+    session => {
+      console.log("Logged in as "+session.webId)
+      this.wedId = session.webId
+    },
+    err => {
+      //  console.log(err)
+      console.log( "Aucune session Solid")
+      return false;
+    }
+  );
+}
+
+
 }
 
 customElements.define('solid-login', SolidLogin);
