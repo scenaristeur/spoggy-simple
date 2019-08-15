@@ -332,42 +332,52 @@ class SolidLogin extends LitElement {
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <div class="right">
     <a href="#" title="LOGIN" @click="${(e) =>this.solidCheckSession()}">
-    ${this.webId == ""
-    ? html `<div class="teal-text text-darken-4 right">Not logged<i class="material-icons medium right teal-text text-darken-4" alt="Login_icon">person</i></div>`
-    : html `<div class="teal-text text-darken-4 right">${this.webId}<i class="material-icons medium right teal-text text-darken-4" alt="Logout_icon">highlight_off</i></iv>`
+    ${this.webId.length> 0
+      ? html `
+      <span class=" new badge">${this.webId}       <i class="material-icons medium right teal-text text-darken-4" alt="Logout_icon">highlight_off</i></span>
+
+      <!--      <div class="teal-text text-darken-4 right">${this.webId}</div>-->
+      `
+      : html `
+      <span class="new badge " data-badge-caption="not logged"><i class="material-icons medium right teal-text text-darken-4" alt="Login_icon">person</i></span>
+
+      <!--  <div class="teal-text text-darken-4 right">Not logged</div>-->
+
+      `
+
+    }
+    </a>
+    </div>
+    `;
   }
-  </a>
-  </div>
-  `;
-}
 
 
-solidCheckSession(){
-  this.fileClient.checkSession().then(
-    session => {
-      console.log("Logged in as "+session.webId)
-      this.logout()
-    },
-    err => {
-      //  console.log(err)
-      console.log( "Aucune session Solid")
-      this.login();
-      return false;
+  solidCheckSession(){
+    this.fileClient.checkSession().then(
+      session => {
+        console.log("Logged in as "+session.webId)
+        this.logout()
+      },
+      err => {
+        //  console.log(err)
+        console.log( "Aucune session Solid")
+        this.login();
+        return false;
+      }
+    );
+  }
+
+
+  login(){
+    this.fileClient.popupLogin().then( webId => {
+      console.log( `Logged in as ${webId}.`)
+      //  alert("Logged in as ", webId)
+      this.webId = webId
+    }, err => {
+      console.log(err)
+      alert("erreur : ",err)
     }
   );
-}
-
-
-login(){
-  this.fileClient.popupLogin().then( webId => {
-    console.log( `Logged in as ${webId}.`)
-  //  alert("Logged in as ", webId)
-    this.webId = webId
-  }, err => {
-    console.log(err)
-    alert("erreur : ",err)
-  }
-);
 }
 
 logout(){
@@ -376,7 +386,7 @@ logout(){
       this.webId = ""
       console.log("OUT",out)
       console.log( `Bye now!` )
-    //  alert("BYE")
+      //  alert("BYE")
     }
   );
 }
@@ -386,23 +396,27 @@ shouldUpdate(changedProperties) {
     console.log(`${propName} changed. oldValue: ${oldValue}`);
   });
   if (changedProperties.has('fileClient')){
-  //  this.solidCheckSession()
+    this.firstUpdated()
   }
   return changedProperties.has('fileClient') || changedProperties.has('webId') ;
 }
 
 firstUpdated(){
+
   this.fileClient.checkSession().then(
     session => {
       console.log("Logged in as "+session.webId)
-      this.wedId = session.webId
+      this.webId = session.webId
+
     },
     err => {
       //  console.log(err)
       console.log( "Aucune session Solid")
       return false;
+      this.webId = ""
     }
   );
+
 }
 
 

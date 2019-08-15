@@ -37,9 +37,8 @@ class ShexyApp extends LitElement {
 
     <a href="#" class="brand-logo">Shexy</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-    <li><a href="sass.html">Sass</a></li>
-    <li><a href="badges.html">Components</a></li>
-    <li><a href="collapsible.html">JavaScript</a></li>
+    <li><a href="https://scenaristeur.github.io/spoggy-simple/">Spoggy</a></li>
+    <!--    <li><a href="collapsible.html">JavaScript</a></li>-->
     </ul>
     <solid-login></solid-login>
 
@@ -99,23 +98,23 @@ class ShexyApp extends LitElement {
       <div class="container">
       <div class="row">
       <div class="col l6 s12">
-      <h5 class="white-text">Footer Content</h5>
-      <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+      <h5 class="white-text">Shexy</h5>
+      <p class="grey-text text-lighten-4">Shexy allows you to generate forms from linked data.</p>
       </div>
       <div class="col l4 offset-l2 s12">
       <h5 class="white-text">Links</h5>
       <ul>
-      <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-      <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-      <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-      <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+      <li><a class="grey-text text-lighten-3" href="https://ruben.verborgh.org/blog/2019/06/17/shaping-linked-data-apps/">Ruben's blog post about shapes</a></li>
+      <li><a class="grey-text text-lighten-3" href="https://forum.solidproject.org/t/im-too-shexy-for-my-pod-experiments-on-shapes-to-forms/2027/15">Latest News on Forum : <i>I'm too shexy for my POD</i></a></li>
+      <li><a class="grey-text text-lighten-3" href="https://scenaristeur.github.io/spoggy-simple/">Spoggy</a></li>
+      <li><a class="grey-text text-lighten-3" href="https://github.com/scenaristeur/spoggy-simple/tree/master/shexy/shexy-lit">Source Code</a></li>
       </ul>
       </div>
       </div>
       </div>
       <div class="footer-copyright">
       <div class="container">
-      © 2014 Copyright Text
+      © 2019 Smag0
       <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
       </div>
       </div>
