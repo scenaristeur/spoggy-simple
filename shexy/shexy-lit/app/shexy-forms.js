@@ -49,8 +49,10 @@ render() {
   const getShape = (shape) => html `
   <form  id ="${shape.url}" class="flow-text" ?hidden=${this.isHidden(shape.url)}>
   <fieldset>
-
   <legend> <h2> ${this.localName(shape.url)} </h2></legend>
+  <p id="currentShapeDiv" class="teal-text text-darken-2">
+  ${shape.url}
+  </p>
   ${getConstraint(shape.constraint)}
 
   ${shape.style == "regular"
@@ -146,9 +148,17 @@ ${constraint.shapeExprs
       html`${key == "type"
       ? html `<!--<span>${key}: ${shapeExp[key]}<br></span>-->`
       : html `
+
+      <p>
+      <label class="flow-text">
+      <input name="group1" type="radio" checked />
+      <span class="flow-text teal lighten-5 darken-3-text">Red ${key}</span>
       <input class="with-gap teal lighten-5" title="${shapeExp}" name="${this.getLastPredicate()}" type="radio"  />
-      <label class="flow-text teal lighten-5"> ${key}</label>
       ${getConstraint(shapeExp)}
+      </label>
+      </p>
+
+
       `
     }
     `
@@ -260,11 +270,11 @@ ${constraint.values
 
   <div class="section" id="forms_section">
   <h5>Forms</h5>
-  <div  class="row center-align">
+  <div  class="row center-align flow-text">
   ${this.shapes.map(i => html`
     ${i.style == "regular"
-    ? html `  <div   class="card-panel hoverable col s6 m3 l2 teal lighten-2">
-    <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
+    ? html `  <div   class=" flow-text card-panel hoverable col s6 m3 l2 teal lighten-2">
+    <p class=" flow-text" title=${i.url} @click="${(e) =>this.panelClicked(i)}">
     ${this.localName(i.url)}</p>
     </div>`
     :html ``
@@ -276,13 +286,11 @@ ${constraint.values
 
 <div class="divider" id="top_Form"></div>
 <div >
-<paper-button raised class="waves-effect waves-light" @click="${(e) =>this.focus("forms_section")}">Forms</paper-button>
-<paper-button raised class="waves-effect waves-light" @click="${(e) =>this.focus("footprints_section")}" >Footprints</paper-button>
+<paper-button raised class="waves-effect waves-light teal lighten" @click="${(e) =>this.focus("forms_section")}">Forms</paper-button>
+<paper-button raised class="waves-effect waves-light teal lighten" @click="${(e) =>this.focus("footprints_section")}" >Footprints</paper-button>
 </div>
 
-<div id="currentShapeDiv">
-${this.currentShape.url}
-</div>
+
 
 
 

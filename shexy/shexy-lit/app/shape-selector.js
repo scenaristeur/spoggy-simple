@@ -32,7 +32,7 @@ render() {
   </style>
 
   <!--  <label>Shape Select</label>-->
-  <select class="teal lighten-5" @change=${this.selectorChange}>
+  <select class=" flow-text teal lighten-5" @change=${this.selectorChange}>
   <option value="" disabled selected>1 - CHOOSE A GOOD SHEX</option>
   ${this.liste.map(i => html`<option value="${i.value}" title="${i.value}" ?disabled=${this.disabled(i)} >${this.optionName(i)}</option>`)}
   </select>
