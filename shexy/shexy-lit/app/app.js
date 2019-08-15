@@ -1,4 +1,4 @@
-
+import './shexy-solid.js'
 
 class ShexyApp extends LitElement {
   static get properties() {
@@ -34,12 +34,15 @@ class ShexyApp extends LitElement {
 
     <nav class="teal lighten-2">
     <div class="nav-wrapper">
+
     <a href="#" class="brand-logo">Shexy</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
     <li><a href="sass.html">Sass</a></li>
     <li><a href="badges.html">Components</a></li>
     <li><a href="collapsible.html">JavaScript</a></li>
     </ul>
+    <solid-login></solid-login>
+
     ${this.loading
       ? html `
       <div class="progress">
@@ -50,6 +53,11 @@ class ShexyApp extends LitElement {
       </div>
 
       </nav>
+
+
+
+
+
 
 
 

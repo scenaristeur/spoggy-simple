@@ -208,8 +208,16 @@ ${constraint.reference
 
   </solid-folders>
 
-  <a href="${constraint.reference}" title="See existing ${this.localName(constraint.reference)} at ${constraint.reference}" target="blank"><i class="material-icons left teal-text lighten-5">visibility</i></a>
-  <a href="#" title="Create a ${constraint.reference}" @click="${(e) =>this.displayForm(constraint.reference)}"><i class="material-icons left teal-text lighten-5">create</i>
+  <a href="${constraint.reference}"
+  title="See existing ${this.localName(constraint.reference)} at ${constraint.reference}"
+  target="blank">
+  <i class="material-icons left teal-text lighten-5">visibility</i>
+  </a>
+  <a href="#"
+  title="Create a ${constraint.reference}"
+  @click="${(e) =>this.displayForm(constraint.reference)}">
+  <i class="material-icons left teal-text lighten-5">create</i>
+  </a>
   <br>  `
   : html``
 }

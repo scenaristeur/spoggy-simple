@@ -306,3 +306,52 @@ class SolidFolders extends LitElement {
 }
 
 customElements.define('solid-folders', SolidFolders);
+
+
+
+/////////////
+class SolidLogin extends LitElement {
+  static get properties() {
+    return {
+      fileClient: {type: Object},
+      logged : {type: String},
+      webId: { type: String}
+    };
+  }
+
+  constructor() {
+    super();
+    this.fileClient = SolidFileClient;
+    this.logged = false;
+    this.webId = "inco"
+  }
+
+  render() {
+    return html`
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <div >
+    <a href="#" title="LOGIN" @click="${(e) =>this.toggleLogin()}">
+    <i class="material-icons medium right teal-text text-darken-4" alt="Login_icon">person</i></a>
+
+    <br> ${this.logged} ${this.webId}
+    </div>
+    `;
+  }
+
+  toggleLogin(){
+    console.log("log")
+  }
+  shouldUpdate(changedProperties) {
+    changedProperties.forEach((oldValue, propName) => {
+      console.log(`${propName} changed. oldValue: ${oldValue}`);
+    });
+    if (changedProperties.has('fileClient')){
+      //this.processsTtl()
+      //this.populateSelectWithFolder(this.url)
+    }
+    return changedProperties.has('fileClient') ;
+  }
+}
+
+customElements.define('solid-login', SolidLogin);
