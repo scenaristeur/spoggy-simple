@@ -16,7 +16,7 @@ class ShexyForms extends LitElement {
     footprint_shapes: { type: Array},
     currentShape: {type: Object},
     counter: {type: Number},
-    setLastPredicate: {type: String},
+    lastPredicate: {type: String},
     data :{type : Object}
   };
 }
@@ -27,76 +27,67 @@ constructor() {
   this.shapes = [];
   this.footprint_shapes = [];
   this.counter = 0;
-  this.lastPredicate = "";
+  this.lastPredicate = "unknown";
   this.data = {}
 }
 
 render() {
 
   const getMinMax = (constraint) => html `
+  <label><small>
   ${constraint.min
     ? html `min: ${constraint.min},`
     : html ``
   }
   ${constraint.max
-    ? html ` max: ${constraint.max},`
+    ? html ` max: ${constraint.max}`
     : html ``
   }
-  <br>`
+  </small></label><br>`
 
 
   const getShape = (shape) => html `
-
-  <form  id ="${shape.url}" ?hidden=${this.isHidden(shape.url)}>
-
+  <form  id ="${shape.url}" class="flow-text" ?hidden=${this.isHidden(shape.url)}>
   <fieldset>
-  <legend>  ${this.localName(shape.url)}</legend>
-  <!--  ${this.toText(shape)}-->
-  <br>
+
+  <legend> <h2> ${this.localName(shape.url)} </h2></legend>
   ${getConstraint(shape.constraint)}
 
-
   ${shape.style == "regular"
-  ? html `
-  <paper-button
+
+  ? html `<br><paper-button
   class="waves-effect waves-light btn-large modal-trigger"
   type="submit"
   @click="${(e) =>this.submitForm()}"
   raised >
   Submit ${this.localName(shape.url)}
   <i class="material-icons right">send</i>
-  </paper-button>
-  `
-  : html `
-  <paper-button
+  </paper-button>`
+
+  : html `<br><paper-button
   class="waves-effect waves-light btn-large modal-trigger"
   type="submit"
   @click="${(e) =>this.displayForm(shape.url.replace('_Footprint', ''))}"
   raised >
   <i class="material-icons left">arrow_back</i>
-  Back to ${this.localName(shape.url.replace('_Footprint', ''))} Form
-
-  </paper-button>
-  `}
+  Back to ${this.localName(shape.url.replace('_Footprint', ''))} Form</paper-button>`}
 
   </fieldset>
   </form>
-
-
-
-
-
   `
+
+
+
 
   const getConstraint = (constraint) => html`
   ${constraint.type ?
-    html ``:html`type non défini : ${this.toText(constraint)}<br>`
+    html ``
+    :html`type non défini : ${this.toText(constraint)}`
   }
 
 
   ${this.isFieldset(constraint.type)
-    ? html `
-    <fieldset>
+    ? html `<fieldset>
     <legend><span title="${this.toText(constraint)}">${constraint.type}</span></legend>
     `
     :html ``
@@ -105,34 +96,31 @@ render() {
 
   ${constraint.expression
     ? html`
-    <small><span title="Expression ${this.toText(constraint.expression)}">Expression</span></small>
+    <!--  <small><span title="Expression ${this.toText(constraint.expression)}">Expression</span></small> -->
     ${getConstraint(constraint.expression)}
     `
     : html``
   }
 
   ${constraint.expressions
-    ? html` <small><span title="Expressions ${this.toText(constraint.expressions)}">Expressions</span></small>
+    ? html` <!--<small><span title="Expressions ${this.toText(constraint.expressions)}">Expressions</span></small>-->
     ${constraint.expressions.map(i => html`${getConstraint(i)}`)}`
     : html``
   }
 
   ${constraint.predicate
-    ? html`<br><span title="${this.toText(constraint)}">${this.setLastPredicate(constraint.predicate)} :</span>`
+    ? html`<label class="flow-text" title="${this.toText(constraint)}">${this.setLastPredicate(constraint.predicate)} : </label>`
     : html``
   }
 
   ${constraint.valueExpr
-    ? html`
-    ${getConstraint(constraint.valueExpr)}`
+    ? html`${getConstraint(constraint.valueExpr)}`
     : html``
   }
 
   ${constraint.datatype
-    ? html`
-    ${constraint.datatype.endsWith("date")
-    ? html `
-    <input type="date" class="teal lighten-4"
+    ? html`${constraint.datatype.endsWith("date")
+    ? html `<input type="date" class="teal lighten-4"
     placeholder="${constraint.datatype}"
     title="${constraint.datatype}"
     name="${this.getLastPredicate()}"
@@ -149,177 +137,178 @@ render() {
 }
 
 ${constraint.shapeExprs
-  ? html`
-  <div title="${this.toText(constraint)}">
-  ${constraint.shapeExprs.map(
-    i => html`
-    ${getConstraint(i)}
-    ${constraint.type == "ShapeOr"
-    ? html ` OR `
-    : html ``
-  }`
-)}
-</div>`
-: html``
-}
-
-
-${constraint.nodeKind
-  ? html`
-  <input
-  type="text" class="validate teal lighten-4"
-  title="${constraint.nodeKind}"
-  placeholder="${constraint.nodeKind}"
-  name="${this.getLastPredicate()}"
-  ></input>
-  ${getMinMax(constraint)}`
-  : html``
-}
-
-${constraint.reference
-  ? html`
-  <input type="text" class="validate teal lighten-4"
-  placeholder="${constraint.reference}"
-  title="${constraint.reference}"
-  label="${constraint.reference}"
-  name="${this.getLastPredicate()}"
-  ></input>
-
-  folders :
-
-
-  <solid-folders
-  url="${constraint.reference}"
-  @change=${this.selectorChange}
-  @select-event="${(e) => { this.changeValue(e, "mySelect") }}" >
-
-  <select id="mySelect" slot="mySelect"
-  name="${this.getLastPredicate()}"
-  @change=${this.selectorChange}>
-  </select>
-
-
-  </solid-folders>
-
-
-  <paper-button class="waves-effect waves-light btn modal-trigger"
-  @click="${(e) =>this.displayForm(constraint.reference)}"
-  title="Select or create a ${constraint.reference}"
-  raised>
-  Select or create a ${this.localName(constraint.reference)}
-  </paper-button>`
-  : html``
-}
-
-
-${constraint.values
-  ? html`
-  <select class="teal lighten-4"
-  @change=${this.selectorChange}
-  title="${this.toText(constraint)}"
-  name="${this.getLastPredicate()}">
-  ${constraint.values.map(i => html`
-    <option value="${i.value}"  >${i.value || i}</option>
-    `)}
-    </select>`
+  ? html`<div title="${this.toText(constraint)}">
+  ${constraint.type == "ShapeOr"
+  ?html `${constraint.shapeExprs.map(
+    shapeExp => html`<p>
+    ${Object.keys(shapeExp).map(key =>
+      html`${key == "type"
+            ? html `<!--<span>${key}: ${shapeExp[key]}<br></span>-->`
+      : html `<p>
+      <label>
+      <input class="with-gap teal lighten-4" title="${shapeExp}" name="${this.getLastPredicate()}" type="radio"  />
+      <span> ${key}  </span>
+      </label>
+      </p>
+      ${getConstraint(shapeExp)}`}`)}
+      </p>`)}
+    `
+    : html `${constraint.shapeExprs.map(
+      shapeExp => html`${getConstraint(shapeExp)}`
+      )}`}
+    </div>`
     : html``
   }
 
-  ${getMinMax(constraint)}
 
-  ${this.isFieldset(constraint.type)
-    ? html `</fieldset> `
-    :html ``
+  ${constraint.nodeKind
+    ? html`<input
+    type="text" class="validate teal lighten-4"
+    title="${constraint.nodeKind}"
+    placeholder="${constraint.nodeKind}"
+    name="${this.getLastPredicate()}"
+    ></input>${getMinMax(constraint)}`
+    : html``
   }
-  `
+
+  ${constraint.reference
+    ? html`
+    <input type="text" class="validate teal lighten-4"
+    placeholder="${constraint.reference}"
+    title="${constraint.reference}"
+    label="${constraint.reference}"
+    name="${this.getLastPredicate()}"
+    ></input>
 
 
-  return html`
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <solid-folders
+    url="${constraint.reference}"
+    @change=${this.selectorChange}
+    @select-event="${(e) => { this.changeValue(e, "mySelect") }}" >
 
-  <style>
-  select {
-    display: block; # obligé car materializecss n'arrive pas à initilaiser les selects
+    <select id="mySelect" slot="mySelect"
+    name="${this.getLastPredicate()}"
+    @change=${this.selectorChange}>
+    </select>
+
+    </solid-folders>
+
+
+    <paper-button class="waves-effect waves-light btn modal-trigger"
+    @click="${(e) =>this.displayForm(constraint.reference)}"
+    title="create a ${constraint.reference}"
+    raised>
+    ${this.localName(constraint.reference)}
+    <i class="material-icons right">create</i>
+    </paper-button><br>`
+    : html``
   }
-  /* Style Placeholders */
-  ::-webkit-input-placeholder {
-    color: #2e7582;
-    opacity: 1; /* Firefox */
-    text-align: right;
-  }
-  ::-moz-placeholder {
-    color: #2e7582;
-    text-align: right;
-  }
-  :-ms-input-placeholder {
-    color: #2e7582;
-    text-align: right;
-  }
-  ::-ms-input-placeholder {
-    color: #2e7582;
-    text-align: right;
-  }
-  ::placeholder {
-    color: #2e7582;
-    text-align: right;
-  }
-  </style>
 
 
-  <div class="section">
-  <h5>Forms</h5>
-  <div id="topForm" class="row center-align">
-  ${this.shapes.map(i => html`
-    ${i.style == "regular"
-    ? html `  <div   class="card-panel hoverable col s6 m3 l2 teal lighten-2">
-    <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
-    ${this.localName(i.url)}</p>
-    </div>`
-    :html ``
-  }`
-)}
-</div>
-</div>
-
-<div class="divider"></div>
-
-<div id="currentShapeDiv">
-${this.currentShape.url}
-</div>
+  ${constraint.values
+    ? html`<select class="teal lighten-4"
+    @change=${this.selectorChange}
+    title="${this.toText(constraint)}"
+    name="${this.getLastPredicate()}">
+    ${constraint.values.map(i => html`
+      <option value="${i.value}"  >${i.value || i}</option>
+      `)}
+      </select>${getMinMax(constraint)}`
+      : html``
+    }
+    ${this.isFieldset(constraint.type)
+      ? html `</fieldset>`
+      :html ``
+    }
+    `
 
 
+    return html`
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
-${this.shapes.map(shape => html`
-  ${getShape(shape)}
-  `)}
+    <style>
+    select {
+      display: block; # obligé car materializecss n'arrive pas à initilaiser les selects
+    }
+    /* Style Placeholders */
+    ::-webkit-input-placeholder {
+      color: #2e7582;
+      opacity: 1; /* Firefox */
+      text-align: right;
+    }
+    ::-moz-placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    :-ms-input-placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    ::-ms-input-placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    ::placeholder {
+      color: #2e7582;
+      text-align: right;
+    }
+    </style>
 
 
-  <shexy-formatter
-  name="${this.currentShape}"
-  .shape="${this.currentShape}"
-  .data="${this.data}"
-  ></shexy-formatter>
+    <div class="section">
+    <h5>Forms</h5>
+    <div id="topForm" class="row center-align">
+    ${this.shapes.map(i => html`
+      ${i.style == "regular"
+      ? html `  <div   class="card-panel hoverable col s6 m3 l2 teal lighten-2">
+      <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
+      ${this.localName(i.url)}</p>
+      </div>`
+      :html ``
+    }`
+  )}
+  </div>
+  </div>
 
   <div class="divider"></div>
 
-  <div class="section">
-  <h5>Footprints</h5>
-  <p>To change the storage location of this data, use the "_Footprint" before submitting</p>
-  <div class="row center-align">
-  ${this.shapes.map(i => html`
-    ${i.style == "footprint"
-    ? html `
-    <div  class="card-panel hoverable col s12 m6 l3 teal lighten-4">
-    <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
-    ${this.localName(i.url)}</p>
-    </div>`
-    : html ``
-  }`
-)}
-</div>
-</div>
-`;
+  <div id="currentShapeDiv">
+  ${this.currentShape.url}
+  </div>
+
+
+
+  ${this.shapes.map(shape => html`
+    ${getShape(shape)}
+    `)}
+
+
+    <shexy-formatter
+    name="${this.currentShape}"
+    .shape="${this.currentShape}"
+    .data="${this.data}"
+    ></shexy-formatter>
+
+    <div class="divider"></div>
+
+    <div class="section">
+    <h5>Footprints</h5>
+    <p>To change the storage location of this data, use the "_Footprint" before submitting</p>
+    <div class="row center-align">
+    ${this.shapes.map(i => html`
+      ${i.style == "footprint"
+      ? html `
+      <div  class="card-panel hoverable col s12 m6 l3 teal lighten-4">
+      <p title=${i.url} @click="${(e) =>this.panelClicked(i)}">
+      ${this.localName(i.url)}</p>
+      </div>`
+      : html ``
+    }`
+  )}
+  </div>
+  </div>
+  `;
 }
 
 
@@ -420,7 +409,7 @@ toText(json){
 
   isFieldset(shapeType){
 
-    return shapeType != "Shape" && shapeType != "TripleConstraint" && shapeType != "NodeConstraint" && shapeType != "EachOf" && shapeType != "ShapeRef"
+    return shapeType != "Shape" && shapeType != "TripleConstraint" && shapeType != "NodeConstraint" && shapeType != "EachOf" && shapeType != "ShapeRef" && shapeType != "ShapeOr"
   }
   isHidden(url){
     return url != this.currentShape.url

@@ -224,8 +224,8 @@ class SolidFolders extends LitElement {
     @change=${this.selectorChange}>
     <slot name="mySelect">
 
-      <option value="" disabled selected>${this.url}</option>
-        <option value="" ></option>
+    <option value="" disabled selected>${this.url}</option>
+    <option value="" ></option>
     ${this.folder.files.map(i => html`
       <option value="${i.url}"  >${i.label || i.name}</option>
       `)}
