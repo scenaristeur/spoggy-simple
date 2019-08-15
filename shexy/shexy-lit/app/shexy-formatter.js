@@ -13,30 +13,12 @@ class ShexyFormatter extends LitElement {
 
   constructor() {
     super();
-    this.name = 'World';
     this.ttl = {}
   }
 
   render() {
     return html`
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
-    <p>Hello, ${this.name}!</p>
-    <p>Shape : ${this.shape.url}</p>
-    <p>Data:
-    ${Object.keys(this.data).map(item =>
-      html`<span>
-      ${item}: ${this.data[item]}&nbsp;<br>
-      form: ${this.data[item].form}<br>
-
-
-
-      </span>`)}
-      </p>
-      <div class="card-panel teal lighten-2">shexy formatter</div>
-      <shexy-solid
-        .ttl="${this.ttl}"
-      >
+      <shexy-solid .ttl="${this.ttl}">
       Solid</shexy-solid>
       `;
     }

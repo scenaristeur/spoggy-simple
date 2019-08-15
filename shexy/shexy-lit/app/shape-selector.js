@@ -23,10 +23,16 @@ constructor() {
 render() {
 
   return html`
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <style>
+  select {
+    display: block; # obligé car materializecss n'arrive pas à initilaiser les selects
+  }
+  </style>
 
   <!--  <label>Shape Select</label>-->
-  <select @change=${this.selectorChange}>
+  <select class="teal lighten-5" @change=${this.selectorChange}>
   <option value="" disabled selected>1 - CHOOSE A GOOD SHEX</option>
   ${this.liste.map(i => html`<option value="${i.value}" title="${i.value}" ?disabled=${this.disabled(i)} >${this.optionName(i)}</option>`)}
   </select>
