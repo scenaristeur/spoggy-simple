@@ -224,7 +224,7 @@ class SolidFolders extends LitElement {
     @change=${this.selectorChange}>
     <slot name="mySelect">
 
-    <option value="" disabled selected>${this.url}</option>
+    <option value="" disabled selected>${this.localName(this.url)}</option>
     <option value="" ></option>
     ${this.folder.files.map(i => html`
       <option value="${i.url}"  >${i.label || i.name}</option>
@@ -291,7 +291,15 @@ class SolidFolders extends LitElement {
   }
 
 
-
+  localName(uri){
+    var ln = uri;
+    if (uri.lastIndexOf("#") != -1) {
+      ln = uri.substr(uri.lastIndexOf("#")).substr(1)
+    }else{
+      ln = uri.substr(uri.lastIndexOf("/")).substr(1)
+    }
+    return ln
+  }
 
 
 

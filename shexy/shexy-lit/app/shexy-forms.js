@@ -151,7 +151,7 @@ ${constraint.shapeExprs
       <p>
       <label class="flow-text">
       <input name="group1" type="radio" checked />
-      <span class="flow-text teal lighten-5 darken-3-text">Red ${key}</span>
+      <span class="flow-text teal lighten-5 darken-3-text">${key}</span>
       <input class="with-gap teal lighten-5" title="${shapeExp}" name="${this.getLastPredicate()}" type="radio"  />
       ${getConstraint(shapeExp)}
       </label>
@@ -208,7 +208,7 @@ ${constraint.reference
 
   </solid-folders>
 
-  <a href="${constraint.reference}" title="${constraint.reference}" target="blank"><i class="material-icons left teal-text lighten-5">visibility</i></a>
+  <a href="${constraint.reference}" title="See existing ${this.localName(constraint.reference)} at ${constraint.reference}" target="blank"><i class="material-icons left teal-text lighten-5">visibility</i></a>
   <a href="#" title="Create a ${constraint.reference}" @click="${(e) =>this.displayForm(constraint.reference)}"><i class="material-icons left teal-text lighten-5">create</i>
   <br>  `
   : html``
@@ -291,7 +291,6 @@ ${constraint.values
 <div id="currentShapeDiv" class="teal-text text-darken-2">
 ${this.currentShape.url}
 </div>
-
 </div>
 
 
