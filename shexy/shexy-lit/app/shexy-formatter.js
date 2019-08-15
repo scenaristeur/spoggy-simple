@@ -81,9 +81,9 @@ class ShexyFormatter extends LitElement {
         /*if (app.anonyme == false){
         ttlString  += "# by "+this.shadowRoot.getElementById("solid-session").textContent+"\n";
       }*/
-    //  console.log(ttlString)
+      console.log(ttlString)
 
-
+break;
 
       ttlFile = { filename: filename , content: ttlString, footprint: data.footprint, shape: this.shape}
 
@@ -91,16 +91,9 @@ class ShexyFormatter extends LitElement {
       console.log("TODO : Process footprint")
       this.ttl=ttlFile
       console.log(this.ttl)
-      //  enreg.submitted = filename
-      //ttl.push({ filename: filename , content: ttlString})
-      //  app.ttl = [...app.ttl, { filename: filename , content: ttlString}];
+
     }
 
-    //  })
-    /*console.log("new files ", newFiles)
-    //return newFiles;
-    this.newFiles = newFiles
-    this.ttl = newFiles*/
   }
 
 

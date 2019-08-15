@@ -489,7 +489,88 @@ toText(json){
   }
 
 
+  jsonFromRadio(f){
+    var result = {}
+    if(f.checked == true){
+      result.type = f.type
+      result.format = f.getAttribute("format")
+      var span = f.nextElementSibling
+      var elem = span.nextElementSibling
+      console.log(elem)
+      console.log(elem.type)
+      switch (elem.type) {
+        case "select":
+        result.value =this.getselectedValue(elem)
+        break;
+        default:
+        result.value = elem.value;
+      }
+
+      console.log("Radio :",result)
+      return result
+    }
+  }
+
+  getselectedValue(element){
+    var value = "test selectValue"
+    return value;
+  }
+
   jsonFromForm(id){
+    console.log("--------------",id)
+    this.params = {}
+    if (this.shadowRoot.getElementById(id) == null){
+      console.log("PAS DE FOOTPRINT ou element non trouvé")
+    }else{
+      var currentFormFields = this.shadowRoot.getElementById(id).elements
+      //    console.log(currentFormFields)
+      var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
+      //  console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+      for( var i=0; i<currentFormFields.length; i++ )
+      {
+        //  var valid = true
+        var field = currentFormFields[i]
+        //  var fieldName = field.name
+        //  console.log(fieldName,field)
+        //        console.log("elements",field.elements)
+        //  console.log("")
+        console.log(field)
+        this.analyseField(field)
+        console.log(this.params)
+      }
+
+    }
+
+    console.log("|||||||||||||||||||\nPARAMS",this.params)
+
+    //  return params
+  }
+
+  analyseField(field){
+    switch (field.type) {
+      case "text":
+      case "date":
+      this.jsonFromInput(field)
+      break;
+      case "radio":
+      this.jsonFromRadio(field)
+      break;
+      case "select-one":
+      this.jsonFromSelect(field)
+
+      break;
+
+      case "fieldset":
+      default:
+      console.log(field.type, "non traité")
+
+    }
+
+  }
+
+
+
+  jsonFromForm1(id){
 
     console.log(id)
     if (this.shadowRoot.getElementById(id) != null){
@@ -570,10 +651,6 @@ toText(json){
           //  field.selectedOptions[0].value || field.selectedOptions[0].text ;
         }
 
-
-
-
-
         //  console.log(valid)
 
         if (valid == true){      //  console.log(field, field.nodeName)
@@ -606,6 +683,64 @@ toText(json){
   //  this.shadowRoot.getElementById("jsonBtn").disabled = false;
 
 }
+
+jsonFromInput(field){
+  //  console.log("TYPE : ",field.type, field.value)
+  var fieldData = {}
+  var fieldName = field.name
+  fieldData.value = field.value
+  fieldData.type = field.type;
+  fieldData.format = field.format || field.placeholder || "unknown";
+  console.log(fieldData)
+
+  this.params[fieldName] = fieldData
+
+}
+
+jsonFromSelect(field){
+  console.log("SELECT",field.type, field.value)
+  var fieldData = {}
+  if (field.options.length> 0){
+    console.log(field.options[ field.selectedIndex ])
+    console.log(field.options[ field.selectedIndex ].text)
+    fieldData.value =  field.options[ field.selectedIndex ].text || "unknown";
+    fieldData.type = field.type || "unknown";
+    fieldData.format = field.placeholder || "unknown";
+  }else{
+    console.log("pas d'option")
+    console.log("SLOT VALUE",field.slotvalue)
+    fieldData.value = field.slotvalue || "unknown";
+    //  fieldData.type = field.type || "unknown";
+    //    fieldData.format = field.placeholder || "unknown";
+  }
+  console.log(fieldData)
+  var fieldName = field.name
+  this.params[fieldName] = fieldData
+
+}
+
+jsonFromRadio(field){
+
+  console.log(field)
+  if (field.checked){
+    console.log("OK RADIO",field.type, "checked:",field.checked,field.value)
+    var fieldData = {}
+    fieldData = field.getAttribute("format") || field.format
+    console.log("format", fieldData.format)
+    var span = field.nextElementSibling
+    var elem = span.nextElementSibling
+    var fieldVirtuel = elem;
+    console.log("--> devient ",fieldVirtuel.type, fieldVirtuel)
+
+    //  this.analyseField(field)
+    var fieldName = field.name
+    this.params[fieldName] = fieldData
+
+  }else{
+    console.log("OUT RADIO",field.type, "checked:",field.checked,field.value)
+  }
+}
+
 
 changeValue(e, destination){
   console.log(e)
