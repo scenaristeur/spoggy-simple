@@ -47,12 +47,11 @@ render() {
 
 
   const getShape = (shape) => html `
+
   <form  id ="${shape.url}" class="flow-text" ?hidden=${this.isHidden(shape.url)}>
   <fieldset>
   <legend> <h2> ${this.localName(shape.url)} </h2></legend>
-  <p id="currentShapeDiv" class="teal-text text-darken-2">
-  ${shape.url}
-  </p>
+
   ${getConstraint(shape.constraint)}
 
   ${shape.style == "regular"
@@ -288,7 +287,13 @@ ${constraint.values
 <div >
 <paper-button raised class="waves-effect waves-light teal lighten" @click="${(e) =>this.focus("forms_section")}">Forms</paper-button>
 <paper-button raised class="waves-effect waves-light teal lighten" @click="${(e) =>this.focus("footprints_section")}" >Footprints</paper-button>
+<div class="divider"></div>
+<div id="currentShapeDiv" class="teal-text text-darken-2">
+${this.currentShape.url}
 </div>
+
+</div>
+
 
 
 
