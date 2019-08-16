@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body class="teal">
+
+  <div id="menuDiv" onclick="show(this)">menu</div>
+
+
+  <div id="todoDiv"   onchange="shapeChanged(event)">TODODIV</div>
+
+
+
+Les changements du select dans todo et du menu sont repercutés sur la page d'accueil
+
+
+  <hr>
+  <div id="welcome">welcome</div>
+  <div id="selectDiv">select</div>
+
+  <div id="testBtnFromMenu"></div>
+
+
+  <div id="app"></div>
+  <div id="appListe"></div>
+  <div id="time"></div>
+
+
+  <div id="compteur">Compteur</div>
+  <div id="compteur2">Compteur</div>
+  <div id="compteur3">Compteur</div>
+  <div id="select">select</div>
+
+  <div id="time"></div>
+
+
+
+
+  <!--
+  <nav>
+  <div class="nav-wrapper">
+  <div class="col s12">
+  <a href="#!" class="breadcrumb">First</a>
+  <a href="#!" class="breadcrumb">Second</a>
+  <a href="#!" class="breadcrumb">Third</a>
+</div>
+</div>
+</nav>
+
+<div class="container">
+
+
+
+
+
+
+<ul class="collapsible">
+<li>
+<div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+</li>
+<li>
+<div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+</li>
+<li>
+<div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+</li>
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="fixed-action-btn">
+<a class="btn-floating btn-large red">
+<i class="large material-icons">mode_edit</i>
+</a>
+<ul>
+<li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+<li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+<li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+<li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+</ul>
+</div>
+-->
+
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="lib/materialize/js/materialize.min.js" async></script>
+<script src="http://unpkg.com/hyperhtml@latest/min.js"></script>
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!--<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">-->
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.yellow-green.min.css" />
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+
+
+<script type="module"  src="app/shexy-app.js"></script>
+<script type="text/javascript"  src="app/counter.js"></script>
+<script type="module"  src="app/my-component.js"></script>
+
+
+<script>
+
+
+
+
+document.getElementById("app").innerHTML +=
+'<my-component name="First Component"></my-component>';
+
+document.getElementById("app").innerHTML +=
+'<shexy-app name="App Shexy"></shexy-app>';
+
+
+/*document.getElementById("app").innerHTML +=
+'<my-link></my-link>';*/
+//<my-element></my-element>'
+
+
+</script>
+
+
+<script>
+
+/*
+const mcount = new Counter;
+mcount.setAttribute(8);
+document.body.getElementById("compteur").appendChild(mcount); */
+
+
+//hyper(document.getElementById('compteur'))`${new Counter(0)}`;   //https://viperhtml.js.org/hyperhtml/documentation/#essentials-11
+//  hyper(document.body)`${new Counter(0)}`;
+//hyper(document.getElementById('compteur2'))`${new Counter(12)}`;
+
+const singleWire = hyperHTML.wire()`
+
+<li>node</li>`;
+
+
+
+const multiWire = hyperHTML.wire()`
+
+<li>a</li>
+
+<li>b</li>
+
+<li>c</li>`;
+
+
+hyperHTML.bind(document.getElementById('appListe'))`
+
+<ul>
+
+${singleWire}
+
+${multiWire}
+
+</ul>`;
+
+
+
+
+function tick(render) {
+
+  // implicit invoke through template literals
+
+  render`
+
+  <div>
+
+  <p>It is ${new Date().toLocaleTimeString()}.</p>
+
+  </div>
+
+  `;
+
+}
+
+
+
+// update the time each second
+
+setInterval(tick, 1000,
+
+  hyperHTML.bind(document.getElementById('time'))
+
+);
+
+</script>
+
+<script>
+M.AutoInit();
+function change( event) {
+  console.log(event)
+  const {key} = event.currentTarget.dataset;
+  console.log(key)
+  console.log(event.currentTarget.value)
+}
+
+function shapeChanged(event){
+//  console.log("shapeUrl value is : " + event.detail.shapeUrl);
+  console.log("IN INDEX",event)
+  var selector = event.target
+  console.log("value", selector.options[selector.selectedIndex].value);
+}
+
+function show(event){
+  console.log("event from child ", event)
+
+}
+
+document.addEventListener("shape-selected", function(event) { // (1)
+  // Hello from H1
+  console.log("SELECTION IN CHILD with custom event from, shapeUrl value is : " + event.detail.shapeUrl)
+  alert("Hello from " + event.target.tagName+ "shapeUrl value is : " + event.detail.shapeUrl);
+});
+
+
+
+</script>
+</body>
+</html>
