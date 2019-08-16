@@ -1,6 +1,6 @@
 import {render, html} from 'http://unpkg.com/lighterhtml?module';
 // direct import (script module, deno)
-import dialogPolyfill  from '/node_modules/dialog-polyfill/index.js';
+//import dialogPolyfill  from '/node_modules/dialog-polyfill/index.js';
 
 
 customElements.define('my-ce', class extends HTMLElement {
