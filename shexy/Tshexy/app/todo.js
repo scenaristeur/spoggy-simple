@@ -1,4 +1,4 @@
-import {render, html} from 'http://unpkg.com/lighterhtml?module';
+import {render, html} from 'https://unpkg.com/lighterhtml?module';
 
 document.body.appendChild(
   // as unkeyed one-off content, right away 🎉

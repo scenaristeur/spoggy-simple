@@ -3,7 +3,7 @@ import './counter.js'
 import './todo.js'
 import './my-ce.js'
 import './h-welcome.js'
-import './select.js'
+//import './select.js'
 import './material-lite-menu.js'
 //import './my-link.js'
 
@@ -28,7 +28,19 @@ class ShexyApp extends HTMLElement {
 
     <h-welcome user=${{ name: 'Edite' }} />
 <hr>
-
+<div class="input-field col s12">
+<select data-key=yup  onchange=${change} >
+<optgroup label="team 1">
+<option value="option1">CHANGE TO FIRE CUSTOM EVENT TO INDEX</option>
+<option value="option2">Option 2</option>
+</optgroup>
+<optgroup label="team 2">
+<option value="option31">Option 3</option>
+<option value="option4">Option 4</option>
+</optgroup>
+</select>
+<label>OSELECT in SHEXY-APP</label>
+</div>
 
     `;
 

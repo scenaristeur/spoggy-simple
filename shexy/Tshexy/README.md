@@ -4,6 +4,7 @@
 lighterhtml component : voir my-ce.js
 
 # USE
+| customElement | https://developers.google.com/web/fundamentals/web-components/customelements | |
 | materializecss | https://materializecss.com/getting-started.html | https://openclassrooms.com/fr/courses/3936801-composez-des-interfaces-utilisateurs-en-material-design/4392371-utilisez-le-framework-materialize-css |
 | lighterhtml | https://github.com/WebReflection/lighterhtml | |
 

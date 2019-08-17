@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="lib/materialize/js/materialize.min.js" async></script>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+
+
+  <shexy-app>
+
+    <div class="card-panel teal lighten-2"><div>Loading...</div>
+    <div class="progress">
+      <div class="indeterminate"></div>
+    </div>
+    <!--
+    <div class="preloader-wrapper small active">
+    <div class="spinner-layer spinner-green-only">
+    <div class="circle-clipper left">
+    <div class="circle"></div>
+  </div><div class="gap-patch">
+  <div class="circle"></div>
+</div><div class="circle-clipper right">
+<div class="circle"></div>
+</div>
+</div>
+</div>
+
+</div>-->
+</shexy-app>
+
+
+
+
+<script src="http://unpkg.com/hyperhtml@latest/min.js"></script>
+
+
+
+<script type="module"  src="app/shexy-app.js"></script>
+
+<script>
+M.AutoInit();
+function change( event) {
+  console.log(event)
+  const {key} = event.currentTarget.dataset;
+  console.log(key)
+  console.log(event.currentTarget.value)
+}
+
+function shapeChanged(event){
+//  console.log("shapeUrl value is : " + event.detail.shapeUrl);
+  console.log("IN INDEX",event)
+  var selector = event.target
+  console.log("value", selector.options[selector.selectedIndex].value);
+}
+
+function show(event){
+  console.log("event from child ", event)
+
+}
+
+document.addEventListener("shape-selected", function(event) { // (1)
+  // Hello from H1
+  console.log("SELECTION IN CHILD with custom event from, shapeUrl value is : " + event.detail.shapeUrl)
+  alert("Hello from " + event.target.tagName+ "shapeUrl value is : " + event.detail.shapeUrl);
+});
+
+
+
+</script>
+</body>
+</html>
