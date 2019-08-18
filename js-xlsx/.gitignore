@@ -9,7 +9,7 @@ tmp
 *.prn
 *.slk
 *.socialcalc
-*.xls
+.xls
 *.xlsb
 *.xlsm
 *.xlsx
