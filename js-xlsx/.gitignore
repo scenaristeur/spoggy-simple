@@ -16,12 +16,12 @@ tmp
 *.xlsm
 *.xlsb
 *.xml
-*.htm
-*.html
+//*.htm
+//*.html
 *.sheetjs
 
 lab/
-test_files
+//test_files
 example.js
 example2.js
 .idea
