@@ -1,5 +1,4 @@
 import <https://holacratie.solid.community/public/Schema/ratifier.shex>
-import <https://holacratie.solid.community/public/Schema/organization.shex>
 
 
 PREFIX :       <https://holacratie.solid.community/public/>
@@ -10,30 +9,26 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX hola: <https://holacratie.solid.community/public/>
 PREFIX fp: <https://footprint.solid.community/public/>
 
-start = hola:Tension
+start = hola:Organization
 
-hola:Tension {               # A Tension has:
-  :status                  ["preliminary" "final"]; #   status in this value set
+hola:Organization {               # An Organization has:
   schema:name              xsd:string  ;
   schema:dateCreated       xsd:date?  ;
   schema:creator           @hola:Ratifier
                             OR IRI
                             OR xsd:string ;
-  :subject                 @hola:Organization;
-  :whatIs                  LITERAL  ;
-  :whatShouldBe            LITERAL  ;
 }
 
-hola:Tension_Footprint {
+hola:Organization_Footprint {
 
 
-( fp:root      [hola: "current POD" <../Tension> ] OR xsd:string ;
-  fp:path      ["Tension"] OR xsd:string ;
+( fp:root      [hola: "current POD" <../Organization> ] OR xsd:string ;
+  fp:path      ["Organization"] OR xsd:string ;
   fp:filename  ["value of schema:name"] OR xsd:string;
   |  fp:fullpath xsd:string
   ### |
-  ###  (   fp:root      ["POD" <../Tension> hola:]  |   fp:root LITERAL+    );
-  ###  (   fp:path      ["Tension"]                 |   fp:path LITERAL     );
+  ###  (   fp:root      ["POD" <../Organization> hola:]  |   fp:root LITERAL+    );
+  ###  (   fp:path      ["Organization"]                 |   fp:path LITERAL     );
   ###  (   fp:filename  [schema:name];              |   fp:filename LITERAL );
   );
 }

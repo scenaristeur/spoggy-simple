@@ -64,6 +64,7 @@ class ShexSchema extends LitElement {
     }, err => {
       //  log(err, "ERROR loadShex")
       console.log("erreur ",err)
+      alert(err.message)
     }
   );
 }
