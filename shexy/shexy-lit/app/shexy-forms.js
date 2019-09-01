@@ -121,22 +121,23 @@ render() {
 
   ${constraint.datatype
     ? html`${constraint.datatype.endsWith("date")
-    ? html `<input type="date" class="teal lighten-5"
-    placeholder="${constraint.datatype}"
+    ? html `<!--<small>${constraint.datatype}</small><br>-->
+    <input type="date" class="teal lighten-5"
     title="${constraint.datatype}"
     name="${this.getLastPredicate()}"
     valueof="${this.getUuid()}"
     @click="${this.changeRadio}"
     ></input>`
     : html `
+    <!--<small>${constraint.datatype}</small><br>-->
     <input type="text" class="validate teal lighten-5"
-    placeholder="${constraint.datatype}"
-    title="${constraint.datatype}"
+  title="${constraint.datatype}"
     label="${constraint.datatype}"
     name="${this.getLastPredicate()}"
     valueof="${this.getUuid()}"
     @click="${this.changeRadio}"
-    ></input>`
+    ></input>
+    `
   }`
   : html``
 }
@@ -195,7 +196,7 @@ ${constraint.nodeKind
 
 ${constraint.reference
   ? html`
-  <input type="text" class="validate teal lighten-5"
+<!--1  <input type="text" class="validate teal lighten-5"
   placeholder="${constraint.reference}"
   title="${constraint.reference}"
   label="${constraint.reference}"
@@ -204,7 +205,7 @@ ${constraint.reference
   @click="${this.changeRadio}"
   ></input>
 
-
+2-->
   <solid-folders
   url="${constraint.reference}"
   @change=${this.selectorChange}
@@ -415,7 +416,7 @@ localName(uri){
 panelClicked(shape){
   console.log(shape)
   this.currentShape = shape
-  this.focus("top_Form")
+  this.focus("currentShapeDiv")
 }
 focus(id){
   var focusDiv = this.shadowRoot.getElementById(id)

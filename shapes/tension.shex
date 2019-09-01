@@ -16,9 +16,9 @@ hola:Tension {               # A Tension has:
   :status                  ["preliminary" "final"]; #   status in this value set
   schema:name              xsd:string  ;
   schema:dateCreated       xsd:date?  ;
-  schema:creator           @hola:Ratifier
-                            OR IRI
-                            OR xsd:string ;
+  schema:creator           @hola:Ratifier ;
+                      ###      OR IRI
+                      ###      OR xsd:string ;
   :subject                 @hola:Organization;
   :whatIs                  LITERAL  ;
   :whatShouldBe            LITERAL  ;
