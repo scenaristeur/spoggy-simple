@@ -20,6 +20,6 @@
   {"name": "movie.shex", "value": "https://jmartin.inrupt.net/public/shapes/movie.shex"},
   {"name": "data-browser.shex", "value": "https://jmartin.inrupt.net/public/shapes/data-browser.shex"},
   {"name": "employee.shex", "value": "https://jmartin.inrupt.net/public/shapes/employee.shex"},
-  {"name": "expression.shex", "value": "https://expression.solid.community/public/expression.shex"},
-{"value": "---- USE YOUR SHEX", "disabled" :true}
+  {"name": "expression.shex", "value": "https://expression.solid.community/public/Schema/expression.shex"},
+  {"value": "---- USE YOUR SHEX", "disabled" :true}
 ]
