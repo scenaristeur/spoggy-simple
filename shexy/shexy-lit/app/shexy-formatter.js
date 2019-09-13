@@ -84,7 +84,7 @@ class ShexyFormatter extends LitElement {
       console.log(ttlString)
 
 
-
+/* commenter POUR DEBUG */
       ttlFile = { filename: filename , content: ttlString, footprint: data.footprint, shape: this.shape}
 
       console.log("TTLFILE",ttlFile)

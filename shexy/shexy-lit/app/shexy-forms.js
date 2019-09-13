@@ -131,7 +131,7 @@ render() {
     : html `
     <!--<small>${constraint.datatype}</small><br>-->
     <input type="text" class="validate teal lighten-5"
-  title="${constraint.datatype}"
+    title="${constraint.datatype}"
     label="${constraint.datatype}"
     name="${this.getLastPredicate()}"
     valueof="${this.getUuid()}"
@@ -196,7 +196,7 @@ ${constraint.nodeKind
 
 ${constraint.reference
   ? html`
-<!--1  <input type="text" class="validate teal lighten-5"
+  <!--1  <input type="text" class="validate teal lighten-5"
   placeholder="${constraint.reference}"
   title="${constraint.reference}"
   label="${constraint.reference}"
@@ -205,7 +205,7 @@ ${constraint.reference
   @click="${this.changeRadio}"
   ></input>
 
-2-->
+  2-->
   <solid-folders
   url="${constraint.reference}"
   @change=${this.selectorChange}
@@ -490,102 +490,201 @@ toText(json){
   }
 
 
-  jsonFromForm(id){
-
+  jsonFromFormNEW(id){
     console.log(id)
     if (this.shadowRoot.getElementById(id) != null){
       var currentFormFields = this.shadowRoot.getElementById(id).elements
       console.log(currentFormFields)
       var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
       console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+      this.params = {};
+      for( var i=0; i<currentFormFields.length; i++ ) {
+        var f = currentFormFields[i]
+        this.processField(f)
+      }
+      console.log("PARAMS : ", this.params)
+    }
+  }
+
+  processField(f){
+    //console.log("nodename ",f.nodeName, f.tagName)
+    //console.log("INPUT, type : "f.type)
+    switch(f.nodeName) {
+      case "FIELDSET":
+      //  console.log("omis", f)
+      break;
+      case "SELECT":
+      this.processSelect(f)
+      break;
+      case "INPUT":
+      this.processInput(f)
+      break;
+      default:
+      console.log("NON TRAITE ", f.nodeName, f)
+    }
+  }
 
 
-      var params = {};
-      for( var i=0; i<currentFormFields.length; i++ )
-      {
-        var field = currentFormFields[i]
-        //  console.log(field.name,"----------------",field)
-        var valid = true;
-        //  console.log("field type",field.type)
-        if (field.type == "radio"){
-          console.log("############################RADIO")
-          console.log(field.checked)
-          if (field.checked == false){
-            //  console.log("pas coché")
-            valid = false
-          }
-          else{
-            console.log("coché",field)
-            console.log("Format",field.getAttribute("format"))
-            console.log("nextsibling",field.nextElementSibling)
-            var span = field.nextElementSibling
-            var elem = span.nextElementSibling
-            console.log("nextsibling",elem.type, elem)
-            if (elem.type == "input"){
-              console.log(elem.value)
-            }
-            field = elem
+  processInput(f){
+    //  console.log("INPUT type : ",f.type, " Name : ",f.name)
+    switch(f.type) {
+      case "text":
+      case "date":
+      this.processInputText(f)
+      break;
+      case "radio":
+      this.processInputRadio(f)
+      break;
+      /*
+      this.processInputDate(f)
+      break;*/
+      default:
+      console.log("NON TRAITE ", f.nodeName, f.type)
+    }
+  }
 
-            console.log("nextsibling",elem.nextElementSibling)
-          }
-          console.log("FIN ############################RADIO")
-        }
+  processSelect(f){
+    console.log("SELECT type : ",f.type, " Name : ",f.name, " ID : ", f.id, f)
+  }
 
-        if (
-          (field.nodeName == "FIELDSET")  ||
-          (field.nodeName == "BUTTON") ||
-          ((field.type == "radio") && (field.checked == false))
-        )
-        {
+
+  processInputText(f){
+    console.log("INPUT type : ",f.type, " Name : ",f.name, "ValueOf ",f.getAttribute("valueof"), f)
+    var valueof = f.getAttribute("valueof");
+    console.log("ok si egalite ", valueof,this.currentRadioId)
+  //  console.log("et si egalite ", f.name,this.currentFieldName)
+    var fieldData = {}
+    var fieldName = f.name;
+    fieldData.value = f.value
+    fieldData.type = f.type;
+    fieldData.format = f.placeholder || "unknown";
+    console.log(fieldName, ": ",fieldData)
+    this.params[fieldName] = fieldData;
+  }
+
+  processInputRadio(f){
+    console.log("RADIO type : ",f.type, " Name : ",f.name, "Checked : ",f.checked, "ID :",f.id, f)
+    if(f.checked == true){
+      this.currentRadioId = f.id;
+    //  this.currentFieldName = f.name;
+    }
+  }
+  /*
+  processInputDate(f){
+  console.log("DATE type : ",f.type, " Name : ",f.name, "ValueOf ",f.getAttribute("valueof"), f)
+}*/
+
+
+
+
+
+
+
+jsonFromForm(id){
+
+  console.log(id)
+  if (this.shadowRoot.getElementById(id) != null){
+    var currentFormFields = this.shadowRoot.getElementById(id).elements
+    console.log(currentFormFields)
+    var currentFormLength = this.shadowRoot.getElementById(id).elements.length;
+    console.log( "Found " + currentFormFields.length + " elements in the form "+id);
+
+
+    var params = {};
+    for( var i=0; i<currentFormFields.length; i++ )
+    {
+      var field = currentFormFields[i]
+      //  console.log(field.name,"----------------",field)
+      var valid = true;
+      //  console.log("field type",field.type)
+      if (field.type == "radio"){
+        console.log("############################RADIO")
+        console.log(field.checked)
+        if (field.checked == false){
+          //  console.log("pas coché")
           valid = false
         }
-
-
-        if (field.nodeName == "SELECT")
-        {
-          //  RECUPERATION DE LA VALEUR DU SLOT
-          console.log(field)
-          console.log(field.options)
-          if (field.options.length> 0){
-            console.log(field.options[ field.selectedIndex ])
-            console.log(field.options[ field.selectedIndex ].text)
-
-            var fieldData = {}
-            var fieldName = field.name || "unknown";
-            fieldData.value =  field.options[ field.selectedIndex ].text || "unknown";
-            fieldData.type = field.type || "unknown";
-            fieldData.format = field.placeholder || "unknown";
-            console.log(fieldData)
-            params[fieldName] = fieldData;
-          }else{
-            console.log("pas d'option")
-            console.log("SLOT VALUE",field.slotvalue)
-            var fieldData = {}
-            var fieldName = field.name || "unknown";
-            fieldData.value = field.slotvalue || "unknown";
-            //  fieldData.type = field.type || "unknown";
-            //    fieldData.format = field.placeholder || "unknown";
-            console.log(fieldData)
-            params[fieldName] = fieldData;
+        else{
+          console.log("coché",field)
+          console.log("Format",field.getAttribute("format"))
+          console.log("nextsibling",field.nextElementSibling)
+          var span = field.nextElementSibling
+          var elem = span.nextElementSibling
+          console.log("nextsibling",elem.type, elem)
+          if (elem.type == "input"){
+            console.log(elem.value)
           }
-          //  field.selectedOptions[0].value || field.selectedOptions[0].text ;
+          field = elem
+
+          console.log("nextsibling",elem.nextElementSibling)
         }
+        console.log("FIN ############################RADIO")
+      }
+
+      if (
+        (field.nodeName == "FIELDSET")  ||
+        (field.nodeName == "BUTTON") ||
+        ((field.type == "radio") && (field.checked == false))
+      )
+      {
+        valid = false
+      }
+
+
+      if (field.nodeName == "SELECT")
+      {
+        //  RECUPERATION DE LA VALEUR DU SLOT
+        console.log(field)
+        console.log(field.options)
+        if (field.options.length> 0){
+          console.log(field.options[ field.selectedIndex ])
+          console.log(field.options[ field.selectedIndex ].text)
+
+          var fieldData = {}
+          var fieldName = field.name || "unknown";
+          fieldData.value =  field.options[ field.selectedIndex ].text || "unknown";
+          fieldData.type = field.type || "unknown";
+          fieldData.format = field.placeholder || "unknown";
+          console.log(fieldData)
+          params[fieldName] = fieldData;
+        }else{
+          console.log("pas d'option")
+          console.log("SLOT VALUE",field.slotvalue)
+          var fieldData = {}
+          var fieldName = field.name || "unknown";
+          fieldData.value = field.slotvalue || "unknown";
+          //  fieldData.type = field.type || "unknown";
+          //    fieldData.format = field.placeholder || "unknown";
+          console.log(fieldData)
+          params[fieldName] = fieldData;
+          console.log("##############PARAMS:",params)
+        }
+        //  field.selectedOptions[0].value || field.selectedOptions[0].text ;
+      }
 
 
 
 
 
-        //  console.log(valid)
+      //  console.log(valid)
 
-        if (valid == true){      //  console.log(field, field.nodeName)
-          console.log("88888888888888888 ON TRAITE", field)
+      if (valid == true ){      //  console.log(field, field.nodeName)
+        console.log("88888888888888888 ON TRAITE", field)
+        if (field.valueof != undefined){
+          console.log("VALUE OF",field.valueof)
+          var lab_span = field.previousSibling;
+          var selec = lab_span.previousSibling;
+          console.log("TEST IF CHECKED",selec)
+        }else
+
+        {
           var fieldData = {}
           var fieldName = field.name;
           fieldData.value = field.value
           fieldData.type = field.type;
           fieldData.format = field.placeholder || "unknown";
           console.log(fieldData)
-          params[fieldName] = fieldData;
+          params[fieldName] = fieldData;}
         }
 
         /*  var x = document.getElementsByName("solid-folders");
