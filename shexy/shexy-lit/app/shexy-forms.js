@@ -490,7 +490,7 @@ toText(json){
   }
 
 
-  jsonFromFormNEW(id){
+  jsonFromFormTEST_NON_CONCLUANT(id){
     console.log(id)
     if (this.shadowRoot.getElementById(id) != null){
       var currentFormFields = this.shadowRoot.getElementById(id).elements
@@ -545,14 +545,52 @@ toText(json){
 
   processSelect(f){
     console.log("SELECT type : ",f.type, " Name : ",f.name, " ID : ", f.id, f)
+    console.log(f.options)
+    if (f.options.length> 0){
+      console.log(f.options[ f.selectedIndex ])
+      console.log(f.options[ f.selectedIndex ].text)
+
+      var fieldData = {}
+      var fieldName = f.name || "unknown";
+      fieldData.value =  f.options[ f.selectedIndex ].text || "unknown";
+      fieldData.type = f.type || "unknown";
+      fieldData.format = f.placeholder || "unknown";
+      console.log(fieldData)
+      this.params[fieldName] = fieldData;
+    }else{
+      console.log("pas d'option")
+      console.log("SLOT VALUE",f.slotvalue)
+      var fieldData = {}
+      var fieldName = f.name || "unknown";
+      fieldData.value = f.slotvalue || "unknown";
+      //  fieldData.type = f.type || "unknown";
+      //    fieldData.format = f.placeholder || "unknown";
+      console.log(fieldData)
+      this.params[fieldName] = fieldData;
+      console.log("##############PARAMS:",this.params)
+    }
   }
 
 
   processInputText(f){
     console.log("INPUT type : ",f.type, " Name : ",f.name, "ValueOf ",f.getAttribute("valueof"), f)
     var valueof = f.getAttribute("valueof");
-    console.log("ok si egalite ", valueof,this.currentRadioId)
-  //  console.log("et si egalite ", f.name,this.currentFieldName)
+    if (valueof != "undefined"){
+      if (valueof == this.currentRadioId){
+        this.processInputTextValue(f)
+        console.log("ok si egalite ", valueof,this.currentRadioId)
+        this.currentRadioId = undefined
+      }{
+        console.log("n'est pas selectionné")
+      }
+
+    }else{
+      this.processInputTextValue(f)
+    }
+
+  }
+
+  processInputTextValue(f){
     var fieldData = {}
     var fieldName = f.name;
     fieldData.value = f.value
@@ -566,7 +604,7 @@ toText(json){
     console.log("RADIO type : ",f.type, " Name : ",f.name, "Checked : ",f.checked, "ID :",f.id, f)
     if(f.checked == true){
       this.currentRadioId = f.id;
-    //  this.currentFieldName = f.name;
+      //  this.currentFieldName = f.name;
     }
   }
   /*
