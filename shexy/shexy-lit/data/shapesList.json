@@ -1,6 +1,8 @@
 [
   {"value": "---- HOLACRATIE SHEX ", "disabled" :true},
   {"name": "role.shex", "value": "https://holacratie.solid.community/public/Schema/role.shex"},
+  {"name": "project.shex", "value": "https://holacratie.solid.community/public/Schema/project.shex"},
+  {"name": "action.shex", "value": "https://holacratie.solid.community/public/Schema/action.shex"},
   {"name": "tension.shex", "value": "https://holacratie.solid.community/public/Schema/tension.shex"},
   {"name": "organization.shex", "value": "https://holacratie.solid.community/public/Schema/organization.shex"},
   {"name": "ratifier.shex", "value": "https://holacratie.solid.community/public/Schema/ratifier.shex"},
