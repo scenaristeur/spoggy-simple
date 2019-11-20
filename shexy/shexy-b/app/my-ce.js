@@ -1,5 +1,6 @@
 //const {render, html} = lighterhtml;
 import {render, html} from 'http://unpkg.com/lighterhtml?module';
+//import {render, html} from '/node_modules/lighterhtml/min.js';
 customElements.define('my-ce', class extends HTMLElement {
   constructor() {
     super();

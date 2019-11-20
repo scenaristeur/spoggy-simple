@@ -1,0 +1,33 @@
+A. How to take notes with spoggy-simple ?
+
+1 open Spoggy-Simple at https://scenaristeur.github.io/spoggy-simple/
+2 You can use Spoggy-Simple in "Fullscreen mode" by clicking "Utiliser Spoggy en plein ecran"
+   & return in normal with "escape key" or "close icon" 
+2 click on the Keyboard Button
+3 type your triples as a group of three words
+ -> with double quotes when there is a space in the node or edge 
+ -> that ends with an "End Character" that could be :
+		- a dot 		. 	if you want to clear all the input
+		- a semicolon 	;	if you want to keep the subject and property and clear the object of triplet
+		- a coma		,	if you want to keep the subject and clear property and object
+		- a hyphen      -   if you want to to the object as the subject for the next triple
+
+With no "End Character" the triple is not registered. I have forgotten !!!! GRRRR !!!!
+You can edit Nodes & Edges with the appropriate buttons.
+And in theory you can export to your POD ... in Progress !!!
+
+
+B. How to browse a POD with spoggy-simple ?
+(a little buggy for the moment, but you can test the functionality)
+1 & 2 : steps 1 & 2 are the same as above ;-)
+3 click the "universal browser" button
+4 click the "Se connecter sur un POD" button
+5 login
+6 click another time the "universal browser" button
+7 copy & paste the path (here is a little bug) 
+8 click "importer" button and close with "Fermer" button
+
+Then you can explore a POD and expand folders & ttl files
+
+
+
