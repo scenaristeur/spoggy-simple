@@ -65,7 +65,8 @@ function handleFileSelected(evt, callback){
 function importer(params,callback){
   var url = params.source;
   if(isFile(url)){
-    var extension = url.split('.').pop();
+    var urlWithoutHash = url.split("#")[0]
+    var extension = urlWithoutHash.split('.').pop();
     switch (extension) {
       case 'json':
       fetchJson(params,callback)
