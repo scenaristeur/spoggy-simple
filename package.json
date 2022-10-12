@@ -21,6 +21,6 @@
     "express": "^4.17.1",
     "hyperhtml": "^2.32.2",
     "hyperhtml-element": "^3.12.3",
-    "shex": "^0.9.2"
+    "shex": "^1.0.0-alpha.24"
   }
 }
